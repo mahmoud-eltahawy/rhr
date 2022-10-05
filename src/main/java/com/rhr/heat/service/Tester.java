@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.rhr.heat.dao.AtmsShiftStatusRepo;
 import com.rhr.heat.dao.DrayersShiftStatusRepo;
 import com.rhr.heat.dao.EmployeeRepo;
@@ -36,6 +38,7 @@ public class Tester {
 	private final WorkdayRepo workdayRepo;
 	
 	public void insertday() {
+
 		ProblemDetail pd1 = new ProblemDetail(null, Problem.p1, 2.5);
 		ProblemDetail pd2 = new ProblemDetail(null, Problem.p2, 1.5);
 		ProblemDetail pd3 = new ProblemDetail(null, Problem.p3, 0.5);
@@ -153,5 +156,9 @@ public class Tester {
 		workDay.setDate(new Date());
 		
 		workdayRepo.save(workDay);
+	}
+
+	public List<WorkDay> getAllDays() {
+		return workdayRepo.findAll();
 	}
 }
