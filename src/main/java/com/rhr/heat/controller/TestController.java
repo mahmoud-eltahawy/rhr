@@ -25,4 +25,10 @@ public class TestController {
 	public List<WorkDay> test1() {
 		return tester.getAllDays();
 	}
+	
+	@GetMapping("/test2")
+	public String test2() {
+		tester.exportAllDaysToLocalFile();
+		return "exported";
+	}
 }

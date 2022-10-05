@@ -1,5 +1,8 @@
 package com.rhr.heat.service;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -172,4 +175,19 @@ public class Tester {
 	public List<WorkDay> getAllDays() {
 		return workdayRepo.findAll();
 	}
+	
+	public void exportAllDaysToLocalFile() {
+		try {
+			File file = new File(System
+					.getProperty("user.home")+ File.separator+"rhrData.json");
+			FileWriter fw = new FileWriter(file);
+			new GsonBuilder().create().toJson(workdayRepo.findAll(),fw);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
+
+
+
+
