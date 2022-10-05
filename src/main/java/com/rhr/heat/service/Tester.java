@@ -15,7 +15,9 @@ import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.KilensShiftStatusRepo;
 import com.rhr.heat.dao.ProblemDetailsRepo;
 import com.rhr.heat.dao.ShiftRepo;
+import com.rhr.heat.dao.TotalFlowRepo;
 import com.rhr.heat.dao.WorkdayRepo;
+import com.rhr.heat.model.AtmsCase;
 import com.rhr.heat.model.AtmsShiftStatus;
 import com.rhr.heat.model.DrayersShiftStatus;
 import com.rhr.heat.model.Employee;
@@ -24,6 +26,7 @@ import com.rhr.heat.model.KilensShiftStatus;
 import com.rhr.heat.model.Problem;
 import com.rhr.heat.model.ProblemDetail;
 import com.rhr.heat.model.Shift;
+import com.rhr.heat.model.TotalFlow;
 import com.rhr.heat.model.WorkDay;
 
 import lombok.RequiredArgsConstructor;
@@ -38,6 +41,7 @@ public class Tester {
 	private final EmployeeRepo employeeRepo;
 	private final ShiftRepo shiftRepo;
 	private final WorkdayRepo workdayRepo;
+	private final TotalFlowRepo totalFlowRepo;
 	
 	public void insertWeek() {
 
@@ -80,6 +84,32 @@ public class Tester {
 		problemDetailsRepo.save(pd17);
 		problemDetailsRepo.save(pd18);
 		problemDetailsRepo.save(pd19);
+		
+		TotalFlow tf1 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,75,95,8.0);
+		TotalFlow tf2 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,40,49,8.0);
+		TotalFlow tf3 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,45,55,8.0);
+		TotalFlow tf4 = new TotalFlow(null,AtmsCase.NONE,11,22,8.0);
+		TotalFlow tf5 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,75,95,4.0);
+		TotalFlow tf6 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,40,49,4.0);
+		TotalFlow tf7 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,45,55,4.0);
+		TotalFlow tf8 = new TotalFlow(null,AtmsCase.NONE,11,22,4.0);
+		TotalFlow tf9 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,75,95,2.0);
+		TotalFlow tf10 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,40,49,2.0);
+		TotalFlow tf11 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,45,55,2.0);
+		TotalFlow tf12 = new TotalFlow(null,AtmsCase.NONE,11,22,2.0);
+		
+		totalFlowRepo.save(tf1);
+		totalFlowRepo.save(tf2);
+		totalFlowRepo.save(tf3);
+		totalFlowRepo.save(tf4);
+		totalFlowRepo.save(tf5);
+		totalFlowRepo.save(tf6);
+		totalFlowRepo.save(tf7);
+		totalFlowRepo.save(tf8);
+		totalFlowRepo.save(tf9);
+		totalFlowRepo.save(tf10);
+		totalFlowRepo.save(tf11);
+		totalFlowRepo.save(tf12);
 		
 		Employee emp1 = new Employee(null,"mahmoud","sabry","mohammed",EmployeePosition.Engineer);
 		Employee emp2 = new Employee(null,"mahmoud","gamal","mohammed",EmployeePosition.worker);
@@ -171,6 +201,7 @@ public class Tester {
 		shift1.setAtms(atms1);
 		shift1.setEmployees(List.of(emp3));
 		shift1.setProject(List.of(pd4));
+		shift1.setTotalFlowAverage(List.of(tf1));
 		shift1.setMinTemperature(170);
 		shift1.setMaxTemperature(210);
 		
@@ -180,6 +211,7 @@ public class Tester {
 		shift2.setAtms(atms3);
 		shift2.setEmployees(List.of(emp4));
 		shift2.setProject(List.of(pd4));
+		shift2.setTotalFlowAverage(List.of(tf2));
 		shift2.setMinTemperature(179);
 		shift2.setMaxTemperature(204);
 		
@@ -189,6 +221,7 @@ public class Tester {
 		shift3.setAtms(atms3);
 		shift3.setEmployees(List.of(emp2));
 		shift3.setProject(List.of(pd4));
+		shift3.setTotalFlowAverage(List.of(tf3));
 		shift3.setMinTemperature(190);
 		shift3.setMaxTemperature(200);
 		
@@ -282,6 +315,7 @@ public class Tester {
 		shift1.setAtms(atms1);
 		shift1.setEmployees(List.of(emp3,emp5));
 		shift1.setProject(List.of(pd4));
+		shift1.setTotalFlowAverage(List.of(tf4));
 		shift1.setMinTemperature(175);
 		shift1.setMaxTemperature(202);
 		
@@ -291,6 +325,7 @@ public class Tester {
 		shift2.setAtms(atms3);
 		shift2.setEmployees(List.of(emp4));
 		shift2.setProject(List.of(pd4));
+		shift2.setTotalFlowAverage(List.of(tf5,tf6));
 		shift2.setMinTemperature(182);
 		shift2.setMaxTemperature(201);
 		
@@ -300,6 +335,7 @@ public class Tester {
 		shift3.setAtms(atms3);
 		shift3.setEmployees(List.of(emp2));
 		shift3.setProject(List.of(pd4));
+		shift3.setTotalFlowAverage(List.of(tf5,tf7));
 		shift3.setMinTemperature(191);
 		shift3.setMaxTemperature(200);
 		
@@ -393,6 +429,7 @@ public class Tester {
 		shift1.setAtms(atms1);
 		shift1.setEmployees(List.of(emp5));
 		shift1.setProject(List.of(pd4));
+		shift1.setTotalFlowAverage(List.of(tf5,tf8));
 		shift1.setMinTemperature(190);
 		shift1.setMaxTemperature(205);
 		
@@ -402,6 +439,7 @@ public class Tester {
 		shift2.setAtms(atms3);
 		shift2.setEmployees(List.of(emp4));
 		shift2.setProject(List.of(pd4));
+		shift2.setTotalFlowAverage(List.of(tf6,tf7));
 		shift2.setMinTemperature(186);
 		shift2.setMaxTemperature(207);
 		
@@ -411,6 +449,7 @@ public class Tester {
 		shift3.setAtms(atms3);
 		shift3.setEmployees(List.of(emp2));
 		shift3.setProject(List.of(pd4));
+		shift3.setTotalFlowAverage(List.of(tf6,tf8));
 		shift3.setMinTemperature(193);
 		shift3.setMaxTemperature(202);
 		
@@ -504,6 +543,7 @@ public class Tester {
 		shift1.setAtms(atms1);
 		shift1.setEmployees(List.of(emp3));
 		shift1.setProject(List.of(pd4));
+		shift1.setTotalFlowAverage(List.of(tf7,tf8));
 		shift1.setMinTemperature(177);
 		shift1.setMaxTemperature(203);
 		
@@ -513,6 +553,7 @@ public class Tester {
 		shift2.setAtms(atms3);
 		shift2.setEmployees(List.of(emp4));
 		shift2.setProject(List.of(pd4));
+		shift2.setTotalFlowAverage(List.of(tf5,tf9,tf10));
 		shift2.setMinTemperature(188);
 		shift2.setMaxTemperature(202);
 		
@@ -522,6 +563,7 @@ public class Tester {
 		shift3.setAtms(atms3);
 		shift3.setEmployees(List.of(emp2));
 		shift3.setProject(List.of(pd4));
+		shift3.setTotalFlowAverage(List.of(tf5,tf9,tf11));
 		shift3.setMinTemperature(191);
 		shift3.setMaxTemperature(201);
 		
@@ -615,6 +657,7 @@ public class Tester {
 		shift1.setAtms(atms1);
 		shift1.setEmployees(List.of(emp3));
 		shift1.setProject(List.of(pd4));
+		shift1.setTotalFlowAverage(List.of(tf5,tf9,tf12));
 		shift1.setMinTemperature(180);
 		shift1.setMaxTemperature(215);
 		
@@ -624,6 +667,7 @@ public class Tester {
 		shift2.setAtms(atms3);
 		shift2.setEmployees(List.of(emp4,emp5));
 		shift2.setProject(List.of(pd4));
+		shift2.setTotalFlowAverage(List.of(tf5,tf10,tf11));
 		shift2.setMinTemperature(189);
 		shift2.setMaxTemperature(202);
 		
@@ -633,6 +677,7 @@ public class Tester {
 		shift3.setAtms(atms3);
 		shift3.setEmployees(List.of(emp2));
 		shift3.setProject(List.of(pd4));
+		shift3.setTotalFlowAverage(List.of(tf5,tf10,tf12));
 		shift3.setMinTemperature(191);
 		shift3.setMaxTemperature(201);
 		
@@ -726,6 +771,7 @@ public class Tester {
 		shift1.setAtms(atms1);
 		shift1.setEmployees(List.of(emp3));
 		shift1.setProject(List.of(pd4));
+		shift1.setTotalFlowAverage(List.of(tf5,tf11,tf12));
 		shift1.setMinTemperature(178);
 		shift1.setMaxTemperature(208);
 		
@@ -735,6 +781,7 @@ public class Tester {
 		shift2.setAtms(atms3);
 		shift2.setEmployees(List.of(emp4));
 		shift2.setProject(List.of(pd4));
+		shift2.setTotalFlowAverage(List.of(tf6,tf11,tf12));
 		shift2.setMinTemperature(189);
 		shift2.setMaxTemperature(209);
 		
@@ -744,6 +791,7 @@ public class Tester {
 		shift3.setAtms(atms3);
 		shift3.setEmployees(List.of(emp5));
 		shift3.setProject(List.of(pd4));
+		shift3.setTotalFlowAverage(List.of(tf7,tf11,tf12));
 		shift3.setMinTemperature(194);
 		shift3.setMaxTemperature(204);
 		
@@ -837,6 +885,7 @@ public class Tester {
 		shift1.setAtms(atms1);
 		shift1.setEmployees(List.of(emp3));
 		shift1.setProject(List.of(pd4));
+		shift1.setTotalFlowAverage(List.of(tf8,tf11,tf12));
 		shift1.setMinTemperature(187);
 		shift1.setMaxTemperature(217);
 		
@@ -846,6 +895,7 @@ public class Tester {
 		shift2.setAtms(atms3);
 		shift2.setEmployees(List.of(emp4));
 		shift2.setProject(List.of(pd4));
+		shift2.setTotalFlowAverage(List.of(tf8,tf9,tf10));
 		shift2.setMinTemperature(179);
 		shift2.setMaxTemperature(222);
 		
@@ -855,6 +905,7 @@ public class Tester {
 		shift3.setAtms(atms3);
 		shift3.setEmployees(List.of(emp2,emp5));
 		shift3.setProject(List.of(pd4));
+		shift3.setTotalFlowAverage(List.of(tf8,tf9,tf11));
 		shift3.setMinTemperature(193);
 		shift3.setMaxTemperature(203);
 		

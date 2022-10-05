@@ -55,8 +55,6 @@ public class Shift {
 			inverseJoinColumns = 
 			@JoinColumn(name = "problem_id",referencedColumnName = "problem_id"))
 	private List<ProblemDetail> project;
-	private Integer minTemperature;
-	private Integer maxTemperature;
 	@OneToMany
 	@JoinTable(
 			name = "shift_employees",
@@ -65,5 +63,15 @@ public class Shift {
 			inverseJoinColumns = 
 			@JoinColumn(name = "employee_id",referencedColumnName = "employee_id"))
 	private List<Employee> employees;
+	@OneToMany
+	@JoinTable(
+			name = "shift_total_flow",
+			joinColumns = 
+			@JoinColumn(name = "shift_id",referencedColumnName = "shift_id"),
+			inverseJoinColumns = 
+			@JoinColumn(name = "flow_id",referencedColumnName = "flow_id"))
+	private List<TotalFlow> totalFlowAverage;
 	private String exceptionalNote;
+	private Integer minTemperature;
+	private Integer maxTemperature;
 }
