@@ -25,8 +25,8 @@ public class Shift {
 	private DrayersShiftStatus drayers;
 	@OneToOne
 	private AtmsShiftStatus atms;
-	@OneToOne
-	private MachineStatus project;
+	@OneToMany
+	private List<ProblemDetail> project;
 	private Integer minTemperature;
 	private Integer maxTemperature;
 	@OneToMany

@@ -1,9 +1,11 @@
 package com.rhr.heat.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,8 +18,8 @@ import lombok.NoArgsConstructor;
 public class AtmsShiftStatus {
 	@Id @GeneratedValue
 	private Long id;
-	@OneToOne
-	private MachineStatus atm1;
-	@OneToOne
-	private MachineStatus atm2;
+	@OneToMany
+	private List<ProblemDetail> atm1;
+	@OneToMany
+	private List<ProblemDetail> atm2;
 }
