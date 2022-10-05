@@ -3,6 +3,7 @@ package com.rhr.heat.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,9 +13,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProblemDetail {
+public class AtmsShiftStatus {
 	@Id @GeneratedValue
 	private Long id;
-	private Problem problem;
-	private Double pauseTimeInHours;
+	@OneToOne
+	private MachineStatus atm1;
+	@OneToOne
+	private MachineStatus atm2;
 }
