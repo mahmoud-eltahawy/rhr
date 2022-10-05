@@ -42,10 +42,12 @@ public class Tester {
 		ProblemDetail pd1 = new ProblemDetail(null, Problem.p1, 2.5);
 		ProblemDetail pd2 = new ProblemDetail(null, Problem.p2, 1.5);
 		ProblemDetail pd3 = new ProblemDetail(null, Problem.p3, 0.5);
+		ProblemDetail pd4 = new ProblemDetail(null, Problem.p4, 2.0);
 		
 		problemDetailsRepo.save(pd1);
 		problemDetailsRepo.save(pd2);
 		problemDetailsRepo.save(pd3);
+		problemDetailsRepo.save(pd4);
 		
 		Employee emp1 = new Employee(null,"taha","mohammed","ismaail",EmployeePosition.worker);
 		Employee emp2 = new Employee(null,"mohammed","gomaa","ali",EmployeePosition.worker);
@@ -132,18 +134,27 @@ public class Tester {
 		shift1.setDrayers(drayers1);
 		shift1.setAtms(atms1);
 		shift1.setEmployees(List.of(emp1));
+		shift1.setProject(List.of(pd4));
+		shift1.setMinTemperature(170);
+		shift1.setMaxTemperature(210);
 		
 		Shift shift2 = new Shift();
 		shift2.setKilens(kilens3);
 		shift2.setDrayers(drayers3);
 		shift2.setAtms(atms3);
 		shift2.setEmployees(List.of(emp2));
+		shift2.setProject(List.of(pd4));
+		shift2.setMinTemperature(179);
+		shift2.setMaxTemperature(204);
 		
 		Shift shift3 = new Shift();
 		shift3.setKilens(kilens3);
 		shift3.setDrayers(drayers3);
 		shift3.setAtms(atms3);
 		shift3.setEmployees(List.of(emp3));
+		shift3.setProject(List.of(pd4));
+		shift3.setMinTemperature(190);
+		shift3.setMaxTemperature(200);
 		
 		shiftRepo.save(shift1);
 		shiftRepo.save(shift2);
