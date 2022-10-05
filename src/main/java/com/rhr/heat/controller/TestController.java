@@ -17,7 +17,7 @@ public class TestController {
 	
 	@GetMapping("/test0")
 	public String test0() {
-		tester.insertday();
+		tester.insertWeek();
 		return "sucess";
 	}
 	
