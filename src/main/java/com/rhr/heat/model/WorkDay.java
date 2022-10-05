@@ -1,11 +1,10 @@
 package com.rhr.heat.model;
 
-import java.util.List;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
@@ -16,20 +15,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Shift {
+public class WorkDay {
 	@Id @GeneratedValue
 	private Long id;
+	private Date date;
 	@OneToOne
-	private KilensShiftStatus kilens;
+	private Shift shift1;
 	@OneToOne
-	private DrayersShiftStatus drayers;
+	private Shift shift2;
 	@OneToOne
-	private AtmsShiftStatus atms;
-	@OneToOne
-	private MachineStatus project;
-	private Integer minTemperature;
-	private Integer maxTemperature;
-	@OneToMany
-	private List<Employee> employees;
-	private String exceptionalNote;
+	private Shift shift3;
 }
