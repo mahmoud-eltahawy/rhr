@@ -181,7 +181,8 @@ public class Tester {
 			File file = new File(System
 					.getProperty("user.home")+ File.separator+"rhrData.json");
 			FileWriter fw = new FileWriter(file);
-			new GsonBuilder().create().toJson(workdayRepo.findAll(),fw);
+			new Gson().toJson(getAllDays(),fw);
+			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
