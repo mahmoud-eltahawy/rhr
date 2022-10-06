@@ -1,4 +1,4 @@
-package com.rhr.heat.dao;
+package com.rhr.heat.enums;
 
 public enum ShiftType {
 	First,
