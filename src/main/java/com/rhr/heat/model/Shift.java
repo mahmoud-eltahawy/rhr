@@ -28,7 +28,7 @@ public class Shift {
 			@JoinColumn(name = "shift_id",referencedColumnName = "shift_id"),
 			inverseJoinColumns = 
 			@JoinColumn(name = "problem_id",referencedColumnName = "problem_id"))
-	List<ProblemDetail> problems;
+	private List<ProblemDetail> problems;
 	@OneToMany
 	@JoinTable(
 			name = "shift_employees",
