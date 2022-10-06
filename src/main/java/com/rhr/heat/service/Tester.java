@@ -278,6 +278,10 @@ public class Tester {
 		shiftRepo.save(shift2);
 		shiftRepo.save(shift3);
 	}
+
+	public List<Shift> getAllData(){
+		return shiftRepo.findAll();
+	}
 }
 
 
