@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.ProblemDetailsRepo;
 import com.rhr.heat.dao.ShiftRepo;
@@ -23,6 +24,9 @@ import com.rhr.heat.model.ProblemDetail;
 import com.rhr.heat.model.Shift;
 import com.rhr.heat.model.ShiftId;
 import com.rhr.heat.model.TotalFlow;
+import com.rhr.heat.customs.LocalDateSerializer;
+import com.rhr.heat.customs.LocalDateDeserializer;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -290,7 +294,10 @@ public class Tester {
 		try {
 			FileWriter fw = new FileWriter(new File(System
 					.getProperty("user.home")+File.separator+"rhrData.json"));
-			new Gson().toJson(getAllData(),fw);
+			GsonBuilder builder = new GsonBuilder();
+			builder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
+			builder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
+			builder.create().toJson(getAllData(),fw);
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
