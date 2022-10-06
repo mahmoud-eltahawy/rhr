@@ -25,4 +25,10 @@ public class TestController {
 	public List<Shift> getAll() {
 		return tester.getAllData();
 	}
+	
+	@RequestMapping("/exp")
+	public String exportToFile() {
+		tester.exportAllToFile();
+		return "exported";
+	}
 }

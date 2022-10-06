@@ -1,11 +1,14 @@
 package com.rhr.heat.service;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.ProblemDetailsRepo;
 import com.rhr.heat.dao.ShiftRepo;
@@ -281,6 +284,17 @@ public class Tester {
 
 	public List<Shift> getAllData(){
 		return shiftRepo.findAll();
+	}
+	
+	public void exportAllToFile() {
+		try {
+			FileWriter fw = new FileWriter(new File(System
+					.getProperty("user.home")+File.separator+"rhrData.json"));
+			new Gson().toJson(getAllData(),fw);
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
 
