@@ -286,68 +286,25 @@ public class Tester {
 	}
 	
 	public void exportAllToFile() {
-		File rhrData = new File(System.getProperty
-				("user.home")+File.separator+"rhrData");
-		rhrData.mkdir();
 		try {
-			
-			FileWriter fw = new FileWriter(new File
-					(rhrData.getAbsolutePath()+File.separator+"emp.json"));
-			new Gson().toJson(employeeRepo.findAll(),fw);
+			FileWriter fw = new FileWriter(new File(System
+					.getProperty("user.home")+File.separator+"rhrData.json"));
+			new Gson().toJson(getAllData(),fw);
 			fw.close();
-			
-			fw = new FileWriter(new File
-					(rhrData.getAbsolutePath()+File.separator+"prob.json"));
-			new Gson().toJson(problemDetailsRepo.findAll(),fw);
-			fw.close();
-
-			fw = new FileWriter(new File
-					(rhrData.getAbsolutePath()+File.separator+"flow.json"));
-			new Gson().toJson(totalFlowRepo.findAll(),fw);
-			fw.close();
-			
-			fw = new FileWriter(new File
-					(rhrData.getAbsolutePath()+File.separator+"shift.json"));
-			new Gson().toJson(shiftRepo.findAll(),fw);
-			fw.close();
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public void importFromFile() {
-		List<Employee> emps = null;
-		List<ProblemDetail> pds = null;
-		List<TotalFlow> tfs = null;
-		List<Shift> shifts = null;
 		try {
-			String home = System.getProperty("user.home")+File.separator+"rhrData";
-			
-			FileReader er = new FileReader(new File(home+File.separator+"emp.json"));
-			emps = new Gson().fromJson(er,
-					new TypeToken<List<Employee>>() {}.getType());
-			er.close();
-			
-			FileReader pr = new FileReader(new File(home+File.separator+"prob.json"));
-			pds = new Gson().fromJson(pr,
-					new TypeToken<List<ProblemDetail>>() {}.getType());
-			pr.close();
-			
-			FileReader fr = new FileReader(new File(home+File.separator+"flow.json"));
-			tfs = new Gson().fromJson(fr,
-					new TypeToken<List<TotalFlow>>() {}.getType());
+			FileReader fr = new FileReader(new File(System
+					.getProperty("user.home")+File.separator+"rhrData.json"));
+			List<Shift> shifts = new Gson().fromJson(fr,new TypeToken<List<Shift>>() {}.getType());
+			shifts.forEach(s -> {
+				System.out.println(s.toString());
+			});
 			fr.close();
-			
-			FileReader sr = new FileReader(new File(home+File.separator+"shift.json"));
-			shifts = new Gson().fromJson(sr,
-					new TypeToken<List<Shift>>() {}.getType());
-			sr.close();
-
-			employeeRepo.saveAll(emps);
-			problemDetailsRepo.saveAll(pds);
-			totalFlowRepo.saveAll(tfs);
-			shiftRepo.saveAll(shifts);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
