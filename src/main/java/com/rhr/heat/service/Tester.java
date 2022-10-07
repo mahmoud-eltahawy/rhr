@@ -301,7 +301,10 @@ public class Tester {
 		try {
 			FileReader fr = new FileReader(new File(System
 					.getProperty("user.home")+File.separator+"rhrData.json"));
-			new Gson().fromJson(fr,new TypeToken<List<Shift>>() {}.getType());
+			List<Shift> shifts = new Gson().fromJson(fr,new TypeToken<List<Shift>>() {}.getType());
+			shifts.forEach(s -> {
+				System.out.println(s.toString());
+			});
 			fr.close();
 		} catch (IOException e) {
 			e.printStackTrace();
