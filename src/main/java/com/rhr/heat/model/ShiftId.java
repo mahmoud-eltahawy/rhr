@@ -1,11 +1,12 @@
 package com.rhr.heat.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+
+import org.joda.time.LocalDate;
 
 import com.rhr.heat.enums.ShiftType;
 

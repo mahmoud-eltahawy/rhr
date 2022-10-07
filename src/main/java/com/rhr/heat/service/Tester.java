@@ -3,13 +3,13 @@ package com.rhr.heat.service;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.ProblemDetailsRepo;
 import com.rhr.heat.dao.ShiftRepo;
@@ -97,33 +97,33 @@ public class Tester {
 		totalFlowRepo.save(tf6);
 		totalFlowRepo.save(tf7);
 		
-		ShiftId shiftId11 = new ShiftId(LocalDate.parse("2022-10-05"), ShiftType.First);
-		ShiftId shiftId12 = new ShiftId(LocalDate.parse("2022-10-05"), ShiftType.Second);
-		ShiftId shiftId13 = new ShiftId(LocalDate.parse("2022-10-05"), ShiftType.Third);
+		ShiftId shiftId11 = new ShiftId(new LocalDate(2022,10,5), ShiftType.First);
+		ShiftId shiftId12 = new ShiftId(new LocalDate(2022,10,5), ShiftType.Second);
+		ShiftId shiftId13 = new ShiftId(new LocalDate(2022,10,5), ShiftType.Third);
 		
-		ShiftId shiftId21 = new ShiftId(LocalDate.parse("2022-10-06"), ShiftType.First);
-		ShiftId shiftId22 = new ShiftId(LocalDate.parse("2022-10-06"), ShiftType.Second);
-		ShiftId shiftId23 = new ShiftId(LocalDate.parse("2022-10-06"), ShiftType.Third);
+		ShiftId shiftId21 = new ShiftId(new LocalDate(2022,10,6), ShiftType.First);
+		ShiftId shiftId22 = new ShiftId(new LocalDate(2022,10,6), ShiftType.Second);
+		ShiftId shiftId23 = new ShiftId(new LocalDate(2022,10,6), ShiftType.Third);
 		
-		ShiftId shiftId31 = new ShiftId(LocalDate.parse("2022-10-07"), ShiftType.First);
-		ShiftId shiftId32 = new ShiftId(LocalDate.parse("2022-10-07"), ShiftType.Second);
-		ShiftId shiftId33 = new ShiftId(LocalDate.parse("2022-10-07"), ShiftType.Third);
+		ShiftId shiftId31 = new ShiftId(new LocalDate(2022,10,7), ShiftType.First);
+		ShiftId shiftId32 = new ShiftId(new LocalDate(2022,10,7), ShiftType.Second);
+		ShiftId shiftId33 = new ShiftId(new LocalDate(2022,10,7), ShiftType.Third);
 		
-		ShiftId shiftId41 = new ShiftId(LocalDate.parse("2022-10-08"), ShiftType.First);
-		ShiftId shiftId42 = new ShiftId(LocalDate.parse("2022-10-08"), ShiftType.Second);
-		ShiftId shiftId43 = new ShiftId(LocalDate.parse("2022-10-08"), ShiftType.Third);
+		ShiftId shiftId41 = new ShiftId(new LocalDate(2022,10,8), ShiftType.First);
+		ShiftId shiftId42 = new ShiftId(new LocalDate(2022,10,8), ShiftType.Second);
+		ShiftId shiftId43 = new ShiftId(new LocalDate(2022,10,8), ShiftType.Third);
 		
-		ShiftId shiftId51 = new ShiftId(LocalDate.parse("2022-10-09"), ShiftType.First);
-		ShiftId shiftId52 = new ShiftId(LocalDate.parse("2022-10-09"), ShiftType.Second);
-		ShiftId shiftId53 = new ShiftId(LocalDate.parse("2022-10-09"), ShiftType.Third);
+		ShiftId shiftId51 = new ShiftId(new LocalDate(2022,10,9), ShiftType.First);
+		ShiftId shiftId52 = new ShiftId(new LocalDate(2022,10,9), ShiftType.Second);
+		ShiftId shiftId53 = new ShiftId(new LocalDate(2022,10,9), ShiftType.Third);
 		
-		ShiftId shiftId61 = new ShiftId(LocalDate.parse("2022-10-10"), ShiftType.First);
-		ShiftId shiftId62 = new ShiftId(LocalDate.parse("2022-10-10"), ShiftType.Second);
-		ShiftId shiftId63 = new ShiftId(LocalDate.parse("2022-10-10"), ShiftType.Third);
+		ShiftId shiftId61 = new ShiftId(new LocalDate(2022,10,10), ShiftType.First);
+		ShiftId shiftId62 = new ShiftId(new LocalDate(2022,10,10), ShiftType.Second);
+		ShiftId shiftId63 = new ShiftId(new LocalDate(2022,10,10), ShiftType.Third);
 		
-		ShiftId shiftId71 = new ShiftId(LocalDate.parse("2022-10-11"), ShiftType.First);
-		ShiftId shiftId72 = new ShiftId(LocalDate.parse("2022-10-11"), ShiftType.Second);
-		ShiftId shiftId73 = new ShiftId(LocalDate.parse("2022-10-11"), ShiftType.Third);
+		ShiftId shiftId71 = new ShiftId(new LocalDate(2022,10,11), ShiftType.First);
+		ShiftId shiftId72 = new ShiftId(new LocalDate(2022,10,11), ShiftType.Second);
+		ShiftId shiftId73 = new ShiftId(new LocalDate(2022,10,11), ShiftType.Third);
 		
 		Shift shift1 = new Shift(shiftId11,
 				List.of(pd1,pd2),
@@ -290,10 +290,7 @@ public class Tester {
 		try {
 			FileWriter fw = new FileWriter(new File(System
 					.getProperty("user.home")+File.separator+"rhrData.json"));
-			GsonBuilder builder = new GsonBuilder();
-			builder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
-			builder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
-			builder.create().toJson(getAllData(),fw);
+			new Gson().toJson(getAllData(),fw);
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
