@@ -298,17 +298,28 @@ public class Tester {
 	}
 	
 	public void importFromFile() {
+		List<Employee> emps = null;
+		List<ProblemDetail> pds = null;
+		List<TotalFlow> tfs = null;
+		List<Shift> shifts = null;
 		try {
 			FileReader fr = new FileReader(new File(System
 					.getProperty("user.home")+File.separator+"rhrData.json"));
-			List<Shift> shifts = new Gson().fromJson(fr,new TypeToken<List<Shift>>() {}.getType());
-			shifts.forEach(s -> {
-				System.out.println(s.toString());
-			});
+			emps = new Gson().fromJson(fr,
+					new TypeToken<List<Employee>>() {}.getType());
+			pds = new Gson().fromJson(fr,
+					new TypeToken<List<ProblemDetail>>() {}.getType());
+			tfs = new Gson().fromJson(fr,
+					new TypeToken<List<TotalFlow>>() {}.getType());
+			shifts = new Gson().fromJson(fr,
+					new TypeToken<List<Shift>>() {}.getType());
 			fr.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		employeeRepo.saveAll(emps);
+		problemDetailsRepo.saveAll(pds);
+		totalFlowRepo.saveAll(tfs);
+		shiftRepo.saveAll(shifts);
 	}
-	
 }
