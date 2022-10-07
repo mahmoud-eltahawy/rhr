@@ -81,13 +81,13 @@ public class Tester {
 		problemDetailsRepo.save(pd13);
 		problemDetailsRepo.save(pd14);
 		
-		TotalFlow tf1 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,2.0);
-		TotalFlow tf2 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,2.3);
-		TotalFlow tf3 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,77,92,2.4);
-		TotalFlow tf4 = new TotalFlow(null,AtmsCase.NONE,77,92,2.0);
-		TotalFlow tf5 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,3.0);
-		TotalFlow tf6 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,4.0);
-		TotalFlow tf7 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,77,92,2.5);
+		TotalFlow tf1 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,new LocalTime(2,15),new LocalTime(4,25));
+		TotalFlow tf2 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,new LocalTime(2,15),new LocalTime(4,35));
+		TotalFlow tf3 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,77,92,new LocalTime(3,15),new LocalTime(5,25));
+		TotalFlow tf4 = new TotalFlow(null,AtmsCase.NONE,77,92,new LocalTime(2,15),new LocalTime(4,25));
+		TotalFlow tf5 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,new LocalTime(2,15),new LocalTime(4,25));
+		TotalFlow tf6 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,new LocalTime(3,15),new LocalTime(4,25));
+		TotalFlow tf7 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,77,92,new LocalTime(2,15),new LocalTime(4,25));
 		
 		totalFlowRepo.save(tf1);
 		totalFlowRepo.save(tf2);
@@ -280,9 +280,11 @@ public class Tester {
 		shiftRepo.save(shift3);
 	}
 
+	
 	public List<Shift> getAllData(){
 		return shiftRepo.findAll();
 	}
+	
 	
 	public void exportAllToFile() {
 		try {

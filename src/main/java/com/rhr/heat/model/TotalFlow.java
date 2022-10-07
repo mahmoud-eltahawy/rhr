@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.joda.time.LocalTime;
+
 import com.rhr.heat.enums.AtmsCase;
 
 import lombok.AllArgsConstructor;
@@ -22,5 +24,6 @@ public class TotalFlow {
 	private AtmsCase atmsCase;
 	private Integer minFlow;
 	private Integer maxFlow;
-	private Double caseTimeInHours;
+	private LocalTime caseBeginTime;
+	private LocalTime caseEndTime;
 }
