@@ -11,10 +11,12 @@ import com.rhr.heat.enums.ShiftType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Embeddable
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ShiftId implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Column(name = "date")
