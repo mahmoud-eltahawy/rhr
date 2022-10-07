@@ -35,6 +35,6 @@ public class TestController {
 	@RequestMapping("/imp")
 	public String importFromFile() {
 		tester.importFromFile();
-		return "exported";
+		return "imported";
 	}
 }

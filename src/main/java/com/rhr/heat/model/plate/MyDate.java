@@ -1,4 +1,4 @@
-package com.rhr.heat.model;
+package com.rhr.heat.model.plate;
 
 import java.io.Serializable;
 
@@ -6,20 +6,19 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 
-import com.rhr.heat.enums.ShiftType;
-import com.rhr.heat.model.plate.MyDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+@IdClass(MyDate.class)
 @Entity
-@IdClass(ShiftId.class)
 @Data
 @AllArgsConstructor
-public class ShiftId implements Serializable {
+public class MyDate implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
-	private MyDate date;
+	private Integer year;
 	@Id
-	private ShiftType shift;
+	private Integer Month;
+	@Id
+	private Integer day;
 }

@@ -1,14 +1,16 @@
 package com.rhr.heat.model;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import org.joda.time.LocalTime;
-
 import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.Problem;
+import com.rhr.heat.model.plate.MyTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +25,17 @@ public class ProblemDetail {
 	@Column(name = "problem_id")
 	private Long id;
 	private Problem problem;
-	private LocalTime beginTime;
-	private LocalTime endTime;
+	@AttributeOverrides({
+		@AttributeOverride(name = "hour" , column = @Column(name = "begin_hour")),
+		@AttributeOverride(name = "minute" , column = @Column(name = "begin_minute"))
+	})
+	@Embedded
+	private MyTime beginTime;
+	@AttributeOverrides({
+		@AttributeOverride(name = "hour" , column = @Column(name = "end_hour")),
+		@AttributeOverride(name = "minute" , column = @Column(name = "end_minute"))
+	})
+	@Embedded
+	private MyTime endTime;
 	private Machine machine;
 }

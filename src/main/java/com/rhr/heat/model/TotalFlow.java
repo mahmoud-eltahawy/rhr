@@ -1,13 +1,15 @@
 package com.rhr.heat.model;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import org.joda.time.LocalTime;
-
 import com.rhr.heat.enums.AtmsCase;
+import com.rhr.heat.model.plate.MyTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +26,16 @@ public class TotalFlow {
 	private AtmsCase atmsCase;
 	private Integer minFlow;
 	private Integer maxFlow;
-	private LocalTime caseBeginTime;
-	private LocalTime caseEndTime;
+	@AttributeOverrides({
+		@AttributeOverride(name = "hour" , column = @Column(name = "begin_hour")),
+		@AttributeOverride(name = "minute" , column = @Column(name = "begin_minute"))
+	})
+	@Embedded
+	private MyTime caseBeginTime;
+	@AttributeOverrides({
+		@AttributeOverride(name = "hour" , column = @Column(name = "end_hour")),
+		@AttributeOverride(name = "minute" , column = @Column(name = "end_minute"))
+	})
+	@Embedded
+	private MyTime caseEndTime;
 }

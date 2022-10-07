@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
@@ -26,7 +26,8 @@ import com.rhr.heat.model.ProblemDetail;
 import com.rhr.heat.model.Shift;
 import com.rhr.heat.model.ShiftId;
 import com.rhr.heat.model.TotalFlow;
-
+import com.rhr.heat.model.plate.MyDate;
+import com.rhr.heat.model.plate.MyTime;
 
 import lombok.RequiredArgsConstructor;
 
@@ -51,20 +52,20 @@ public class Tester {
 		employeeRepo.save(emp4);
 		employeeRepo.save(emp5);
 		
-		ProblemDetail pd1  = new ProblemDetail(null, Problem.p1,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Atm1);
-		ProblemDetail pd2  = new ProblemDetail(null, Problem.p2,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Atm2);
-		ProblemDetail pd3  = new ProblemDetail(null, Problem.p3,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Drayer1);
-		ProblemDetail pd4  = new ProblemDetail(null, Problem.p4,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Drayer2);
-		ProblemDetail pd5  = new ProblemDetail(null, Problem.p5,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Drayer3);
-		ProblemDetail pd6  = new ProblemDetail(null, Problem.p6,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Drayer4);
-		ProblemDetail pd7  = new ProblemDetail(null, Problem.p7,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Drayer5);
-		ProblemDetail pd8  = new ProblemDetail(null, Problem.p8,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Drayer6);
-		ProblemDetail pd9  = new ProblemDetail(null, Problem.p9,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Drayer7);
-		ProblemDetail pd10 = new ProblemDetail(null, Problem.p1,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Kilen1);
-		ProblemDetail pd11 = new ProblemDetail(null, Problem.p1,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Kilen2);
-		ProblemDetail pd12 = new ProblemDetail(null, Problem.p2,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Kilen3);
-		ProblemDetail pd13 = new ProblemDetail(null, Problem.p3,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Kilen4);
-		ProblemDetail pd14 = new ProblemDetail(null, Problem.p4,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Kilen5);
+		ProblemDetail pd1  = new ProblemDetail(null, Problem.p1,new MyTime(0, 30),new MyTime(0, 30),Machine.Atm1);
+		ProblemDetail pd2  = new ProblemDetail(null, Problem.p2,new MyTime(0, 30),new MyTime(0, 30),Machine.Atm2);
+		ProblemDetail pd3  = new ProblemDetail(null, Problem.p3,new MyTime(0, 30),new MyTime(0, 30),Machine.Drayer1);
+		ProblemDetail pd4  = new ProblemDetail(null, Problem.p4,new MyTime(0, 30),new MyTime(0, 30),Machine.Drayer2);
+		ProblemDetail pd5  = new ProblemDetail(null, Problem.p5,new MyTime(0, 30),new MyTime(0, 30),Machine.Drayer3);
+		ProblemDetail pd6  = new ProblemDetail(null, Problem.p6,new MyTime(0, 30),new MyTime(0, 30),Machine.Drayer4);
+		ProblemDetail pd7  = new ProblemDetail(null, Problem.p7,new MyTime(0, 30),new MyTime(0, 30),Machine.Drayer5);
+		ProblemDetail pd8  = new ProblemDetail(null, Problem.p8,new MyTime(0, 30),new MyTime(0, 30),Machine.Drayer6);
+		ProblemDetail pd9  = new ProblemDetail(null, Problem.p9,new MyTime(0, 30),new MyTime(0, 30),Machine.Drayer7);
+		ProblemDetail pd10 = new ProblemDetail(null, Problem.p1,new MyTime(0, 30),new MyTime(0, 30),Machine.Kilen1);
+		ProblemDetail pd11 = new ProblemDetail(null, Problem.p1,new MyTime(0, 30),new MyTime(0, 30),Machine.Kilen2);
+		ProblemDetail pd12 = new ProblemDetail(null, Problem.p2,new MyTime(0, 30),new MyTime(0, 30),Machine.Kilen3);
+		ProblemDetail pd13 = new ProblemDetail(null, Problem.p3,new MyTime(0, 30),new MyTime(0, 30),Machine.Kilen4);
+		ProblemDetail pd14 = new ProblemDetail(null, Problem.p4,new MyTime(0, 30),new MyTime(0, 30),Machine.Kilen5);
 		
 		problemDetailsRepo.save(pd1);
 		problemDetailsRepo.save(pd2);
@@ -81,13 +82,13 @@ public class Tester {
 		problemDetailsRepo.save(pd13);
 		problemDetailsRepo.save(pd14);
 		
-		TotalFlow tf1 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,new LocalTime(2,15),new LocalTime(4,25));
-		TotalFlow tf2 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,new LocalTime(2,15),new LocalTime(4,35));
-		TotalFlow tf3 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,77,92,new LocalTime(3,15),new LocalTime(5,25));
-		TotalFlow tf4 = new TotalFlow(null,AtmsCase.NONE,77,92,new LocalTime(2,15),new LocalTime(4,25));
-		TotalFlow tf5 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,new LocalTime(2,15),new LocalTime(4,25));
-		TotalFlow tf6 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,new LocalTime(3,15),new LocalTime(4,25));
-		TotalFlow tf7 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,77,92,new LocalTime(2,15),new LocalTime(4,25));
+		TotalFlow tf1 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,new MyTime(2,15),new MyTime(4,25));
+		TotalFlow tf2 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,new MyTime(2,15),new MyTime(4,35));
+		TotalFlow tf3 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,77,92,new MyTime(3,15),new MyTime(5,25));
+		TotalFlow tf4 = new TotalFlow(null,AtmsCase.NONE,77,92,new MyTime(2,15),new MyTime(4,25));
+		TotalFlow tf5 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,new MyTime(2,15),new MyTime(4,25));
+		TotalFlow tf6 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,new MyTime(3,15),new MyTime(4,25));
+		TotalFlow tf7 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,77,92,new MyTime(2,15),new MyTime(4,25));
 		
 		totalFlowRepo.save(tf1);
 		totalFlowRepo.save(tf2);
@@ -97,33 +98,33 @@ public class Tester {
 		totalFlowRepo.save(tf6);
 		totalFlowRepo.save(tf7);
 		
-		ShiftId shiftId11 = new ShiftId(new LocalDate(2022,10,5), ShiftType.First);
-		ShiftId shiftId12 = new ShiftId(new LocalDate(2022,10,5), ShiftType.Second);
-		ShiftId shiftId13 = new ShiftId(new LocalDate(2022,10,5), ShiftType.Third);
+		ShiftId shiftId11 = new ShiftId(new MyDate(2022,10,5), ShiftType.First);
+		ShiftId shiftId12 = new ShiftId(new MyDate(2022,10,5), ShiftType.Second);
+		ShiftId shiftId13 = new ShiftId(new MyDate(2022,10,5), ShiftType.Third);
 		
-		ShiftId shiftId21 = new ShiftId(new LocalDate(2022,10,6), ShiftType.First);
-		ShiftId shiftId22 = new ShiftId(new LocalDate(2022,10,6), ShiftType.Second);
-		ShiftId shiftId23 = new ShiftId(new LocalDate(2022,10,6), ShiftType.Third);
+		ShiftId shiftId21 = new ShiftId(new MyDate(2022,10,6), ShiftType.First);
+		ShiftId shiftId22 = new ShiftId(new MyDate(2022,10,6), ShiftType.Second);
+		ShiftId shiftId23 = new ShiftId(new MyDate(2022,10,6), ShiftType.Third);
 		
-		ShiftId shiftId31 = new ShiftId(new LocalDate(2022,10,7), ShiftType.First);
-		ShiftId shiftId32 = new ShiftId(new LocalDate(2022,10,7), ShiftType.Second);
-		ShiftId shiftId33 = new ShiftId(new LocalDate(2022,10,7), ShiftType.Third);
+		ShiftId shiftId31 = new ShiftId(new MyDate(2022,10,7), ShiftType.First);
+		ShiftId shiftId32 = new ShiftId(new MyDate(2022,10,7), ShiftType.Second);
+		ShiftId shiftId33 = new ShiftId(new MyDate(2022,10,7), ShiftType.Third);
 		
-		ShiftId shiftId41 = new ShiftId(new LocalDate(2022,10,8), ShiftType.First);
-		ShiftId shiftId42 = new ShiftId(new LocalDate(2022,10,8), ShiftType.Second);
-		ShiftId shiftId43 = new ShiftId(new LocalDate(2022,10,8), ShiftType.Third);
+		ShiftId shiftId41 = new ShiftId(new MyDate(2022,10,8), ShiftType.First);
+		ShiftId shiftId42 = new ShiftId(new MyDate(2022,10,8), ShiftType.Second);
+		ShiftId shiftId43 = new ShiftId(new MyDate(2022,10,8), ShiftType.Third);
 		
-		ShiftId shiftId51 = new ShiftId(new LocalDate(2022,10,9), ShiftType.First);
-		ShiftId shiftId52 = new ShiftId(new LocalDate(2022,10,9), ShiftType.Second);
-		ShiftId shiftId53 = new ShiftId(new LocalDate(2022,10,9), ShiftType.Third);
+		ShiftId shiftId51 = new ShiftId(new MyDate(2022,10,9), ShiftType.First);
+		ShiftId shiftId52 = new ShiftId(new MyDate(2022,10,9), ShiftType.Second);
+		ShiftId shiftId53 = new ShiftId(new MyDate(2022,10,9), ShiftType.Third);
 		
-		ShiftId shiftId61 = new ShiftId(new LocalDate(2022,10,10), ShiftType.First);
-		ShiftId shiftId62 = new ShiftId(new LocalDate(2022,10,10), ShiftType.Second);
-		ShiftId shiftId63 = new ShiftId(new LocalDate(2022,10,10), ShiftType.Third);
+		ShiftId shiftId61 = new ShiftId(new MyDate(2022,10,10), ShiftType.First);
+		ShiftId shiftId62 = new ShiftId(new MyDate(2022,10,10), ShiftType.Second);
+		ShiftId shiftId63 = new ShiftId(new MyDate(2022,10,10), ShiftType.Third);
 		
-		ShiftId shiftId71 = new ShiftId(new LocalDate(2022,10,11), ShiftType.First);
-		ShiftId shiftId72 = new ShiftId(new LocalDate(2022,10,11), ShiftType.Second);
-		ShiftId shiftId73 = new ShiftId(new LocalDate(2022,10,11), ShiftType.Third);
+		ShiftId shiftId71 = new ShiftId(new MyDate(2022,10,11), ShiftType.First);
+		ShiftId shiftId72 = new ShiftId(new MyDate(2022,10,11), ShiftType.Second);
+		ShiftId shiftId73 = new ShiftId(new MyDate(2022,10,11), ShiftType.Third);
 		
 		Shift shift1 = new Shift(shiftId11,
 				List.of(pd1,pd2),
@@ -287,9 +288,13 @@ public class Tester {
 	
 	public void exportAllToFile() {
 		try {
-			FileWriter fw = new FileWriter(new File(System
-					.getProperty("user.home")+File.separator+"rhrData.json"));
-			new Gson().toJson(getAllData(),fw);
+			File home = new File(System.getProperty("user.home")+File.separator+"rhrData");
+			home.mkdir();
+			FileWriter fw = new FileWriter(new File(home.getAbsolutePath()+File.separator+"allData.json"));
+			new Gson().toJson(shiftRepo.findAll(),fw);
+			fw.close();
+			fw = new FileWriter(new File(home.getAbsolutePath()+File.separator+"empData.json"));
+			new Gson().toJson(employeeRepo.findAll(),fw);
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -298,13 +303,25 @@ public class Tester {
 	
 	public void importFromFile() {
 		try {
-			FileReader fr = new FileReader(new File(System
-					.getProperty("user.home")+File.separator+"rhrData.json"));
-			List<Shift> shifts = new Gson().fromJson(fr,new TypeToken<List<Shift>>() {}.getType());
+			String home = System.getProperty("user.home")+File.separator+"rhrData";
+			
+			FileReader er = new FileReader(new File(home+File.separator+"empData.json"));
+			List<Employee> emps = new Gson().fromJson(er,
+					new TypeToken<List<Employee>>() {}.getType());
+			employeeRepo.saveAll(emps);
+			
+			FileReader ar = new FileReader(new File(home+File.separator+"allData.json"));
+			List<Shift> shifts = new Gson().fromJson(ar,
+					new TypeToken<List<Shift>>() {}.getType());
 			shifts.forEach(s -> {
-				System.out.println(s.toString());
+				problemDetailsRepo.saveAll(s.getProblems());
+				totalFlowRepo.saveAll(s.getTotalFlowAverage());
 			});
-			fr.close();
+			shiftRepo.saveAll(shifts);
+			
+			ar.close();
+			er.close();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
