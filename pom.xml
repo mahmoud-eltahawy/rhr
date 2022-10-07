@@ -51,6 +51,15 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.10</version>
+		</dependency>
+		<dependency>
+			 <groupId>com.fasterxml.jackson.datatype</groupId>
+			 <artifactId>jackson-datatype-joda</artifactId>
+		</dependency>    
 	</dependencies>
 
 	<build>

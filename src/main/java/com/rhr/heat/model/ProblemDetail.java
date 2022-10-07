@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.joda.time.LocalTime;
+
 import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.Problem;
 
@@ -21,6 +23,7 @@ public class ProblemDetail {
 	@Column(name = "problem_id")
 	private Long id;
 	private Problem problem;
-	private Double pauseTimeInHours;
+	private LocalTime beginTime;
+	private LocalTime endTime;
 	private Machine machine;
 }

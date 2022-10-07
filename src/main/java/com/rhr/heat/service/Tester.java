@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.joda.time.LocalTime;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.ProblemDetailsRepo;
@@ -51,23 +51,20 @@ public class Tester {
 		employeeRepo.save(emp4);
 		employeeRepo.save(emp5);
 		
-		ProblemDetail pd1 = new ProblemDetail(null, Problem.p1, 2.5,Machine.Atm1);
-		ProblemDetail pd2 = new ProblemDetail(null, Problem.p2, 1.5,Machine.Atm2);
-		ProblemDetail pd3 = new ProblemDetail(null, Problem.p3, 0.5,Machine.Drayer1);
-		ProblemDetail pd4 = new ProblemDetail(null, Problem.p4, 2.0,Machine.Drayer2);
-		ProblemDetail pd5 = new ProblemDetail(null, Problem.p5, 4.0,Machine.Drayer3);
-		ProblemDetail pd6 = new ProblemDetail(null, Problem.p6, 5.0,Machine.Drayer4);
-		ProblemDetail pd7 = new ProblemDetail(null, Problem.p7, 3.0,Machine.Drayer5);
-		ProblemDetail pd8 = new ProblemDetail(null, Problem.p8, 3.5,Machine.Drayer6);
-		ProblemDetail pd9 = new ProblemDetail(null, Problem.p9, 4.5,Machine.Drayer7);
-		ProblemDetail pd10 = new ProblemDetail(null, Problem.p1, 0.3,Machine.Kilen1);
-		ProblemDetail pd11 = new ProblemDetail(null, Problem.p1, 1.4,Machine.Kilen2);
-		ProblemDetail pd12 = new ProblemDetail(null, Problem.p2, 2.1,Machine.Kilen3);
-		ProblemDetail pd13 = new ProblemDetail(null, Problem.p3, 1.9,Machine.Kilen4);
-		ProblemDetail pd14 = new ProblemDetail(null, Problem.p4, 2.0,Machine.Kilen5);
-		ProblemDetail pd15 = new ProblemDetail(null, Problem.p2, 3.5,Machine.Atm1);
-		ProblemDetail pd16 = new ProblemDetail(null, Problem.p3, 1.3,Machine.Kilen1);
-		ProblemDetail pd17 = new ProblemDetail(null, Problem.p5, 1.4,Machine.Kilen2);
+		ProblemDetail pd1  = new ProblemDetail(null, Problem.p1,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Atm1);
+		ProblemDetail pd2  = new ProblemDetail(null, Problem.p2,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Atm2);
+		ProblemDetail pd3  = new ProblemDetail(null, Problem.p3,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Drayer1);
+		ProblemDetail pd4  = new ProblemDetail(null, Problem.p4,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Drayer2);
+		ProblemDetail pd5  = new ProblemDetail(null, Problem.p5,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Drayer3);
+		ProblemDetail pd6  = new ProblemDetail(null, Problem.p6,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Drayer4);
+		ProblemDetail pd7  = new ProblemDetail(null, Problem.p7,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Drayer5);
+		ProblemDetail pd8  = new ProblemDetail(null, Problem.p8,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Drayer6);
+		ProblemDetail pd9  = new ProblemDetail(null, Problem.p9,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Drayer7);
+		ProblemDetail pd10 = new ProblemDetail(null, Problem.p1,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Kilen1);
+		ProblemDetail pd11 = new ProblemDetail(null, Problem.p1,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Kilen2);
+		ProblemDetail pd12 = new ProblemDetail(null, Problem.p2,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Kilen3);
+		ProblemDetail pd13 = new ProblemDetail(null, Problem.p3,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Kilen4);
+		ProblemDetail pd14 = new ProblemDetail(null, Problem.p4,new LocalTime(0, 30),new LocalTime(0, 30),Machine.Kilen5);
 		
 		problemDetailsRepo.save(pd1);
 		problemDetailsRepo.save(pd2);
@@ -83,9 +80,6 @@ public class Tester {
 		problemDetailsRepo.save(pd12);
 		problemDetailsRepo.save(pd13);
 		problemDetailsRepo.save(pd14);
-		problemDetailsRepo.save(pd15);
-		problemDetailsRepo.save(pd16);
-		problemDetailsRepo.save(pd17);
 		
 		TotalFlow tf1 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,2.0);
 		TotalFlow tf2 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,2.3);
@@ -242,7 +236,7 @@ public class Tester {
 		shiftRepo.save(shift3);
 		
 		shift1 = new Shift(shiftId61,
-				List.of(pd16,pd15),
+				List.of(pd13,pd12),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
@@ -264,7 +258,7 @@ public class Tester {
 		shiftRepo.save(shift3);
 		
 		shift1 = new Shift(shiftId71,
-				List.of(pd16,pd15),
+				List.of(pd12,pd11),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
@@ -276,7 +270,7 @@ public class Tester {
 				"mohammed greeting", 192, 202);
 		
 		shift3 = new Shift(shiftId73,
-				List.of(pd17,pd12),
+				List.of(pd12,pd13),
 				List.of(emp2,emp5),
 				List.of(tf7,tf5),
 				"mahmoud and ehab greeting", 173, 195);
@@ -304,7 +298,3 @@ public class Tester {
 		}
 	}
 }
-
-
-
-
