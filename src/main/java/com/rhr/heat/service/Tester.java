@@ -290,25 +290,27 @@ public class Tester {
 				("user.home")+File.separator+"rhrData");
 		rhrData.mkdir();
 		try {
-			System.out.println(rhrData.getAbsolutePath()+File.separator+"emp.json");
-			FileWriter ew = new FileWriter(new File
+			
+			FileWriter fw = new FileWriter(new File
 					(rhrData.getAbsolutePath()+File.separator+"emp.json"));
-			FileWriter pw = new FileWriter(new File
+			new Gson().toJson(employeeRepo.findAll(),fw);
+			fw.close();
+			
+			fw = new FileWriter(new File
 					(rhrData.getAbsolutePath()+File.separator+"prob.json"));
-			FileWriter tw = new FileWriter(new File
+			new Gson().toJson(problemDetailsRepo.findAll(),fw);
+			fw.close();
+
+			fw = new FileWriter(new File
 					(rhrData.getAbsolutePath()+File.separator+"flow.json"));
-			FileWriter sw = new FileWriter(new File
+			new Gson().toJson(totalFlowRepo.findAll(),fw);
+			fw.close();
+			
+			fw = new FileWriter(new File
 					(rhrData.getAbsolutePath()+File.separator+"shift.json"));
+			new Gson().toJson(shiftRepo.findAll(),fw);
+			fw.close();
 			
-			new Gson().toJson(employeeRepo.findAll(),ew);
-			new Gson().toJson(problemDetailsRepo.findAll(),pw);
-			new Gson().toJson(totalFlowRepo.findAll(),tw);
-			new Gson().toJson(shiftRepo.findAll(),sw);
-			
-			ew.close();
-			pw.close();
-			tw.close();
-			sw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
