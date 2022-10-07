@@ -1,6 +1,7 @@
 package com.rhr.heat.service;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.joda.time.LocalTime;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.ProblemDetailsRepo;
 import com.rhr.heat.dao.ShiftRepo;
@@ -294,4 +296,16 @@ public class Tester {
 			e.printStackTrace();
 		}
 	}
+	
+	public void importFromFile() {
+		try {
+			FileReader fr = new FileReader(new File(System
+					.getProperty("user.home")+File.separator+"rhrData.json"));
+			new Gson().fromJson(fr,new TypeToken<List<Shift>>() {}.getType());
+			fr.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
