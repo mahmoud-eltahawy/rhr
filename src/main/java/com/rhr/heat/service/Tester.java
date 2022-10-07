@@ -285,13 +285,30 @@ public class Tester {
 		return shiftRepo.findAll();
 	}
 	
-	
 	public void exportAllToFile() {
+		File rhrData = new File(System.getProperty
+				("user.home")+File.separator+"rhrData");
+		rhrData.mkdir();
 		try {
-			FileWriter fw = new FileWriter(new File(System
-					.getProperty("user.home")+File.separator+"rhrData.json"));
-			new Gson().toJson(getAllData(),fw);
-			fw.close();
+			System.out.println(rhrData.getAbsolutePath()+File.separator+"emp.json");
+			FileWriter ew = new FileWriter(new File
+					(rhrData.getAbsolutePath()+File.separator+"emp.json"));
+			FileWriter pw = new FileWriter(new File
+					(rhrData.getAbsolutePath()+File.separator+"prob.json"));
+			FileWriter tw = new FileWriter(new File
+					(rhrData.getAbsolutePath()+File.separator+"flow.json"));
+			FileWriter sw = new FileWriter(new File
+					(rhrData.getAbsolutePath()+File.separator+"shift.json"));
+			
+			new Gson().toJson(employeeRepo.findAll(),ew);
+			new Gson().toJson(problemDetailsRepo.findAll(),pw);
+			new Gson().toJson(totalFlowRepo.findAll(),tw);
+			new Gson().toJson(shiftRepo.findAll(),sw);
+			
+			ew.close();
+			pw.close();
+			tw.close();
+			sw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -307,19 +324,19 @@ public class Tester {
 					.getProperty("user.home")+File.separator+"rhrData.json"));
 			emps = new Gson().fromJson(fr,
 					new TypeToken<List<Employee>>() {}.getType());
+			employeeRepo.saveAll(emps);
 			pds = new Gson().fromJson(fr,
 					new TypeToken<List<ProblemDetail>>() {}.getType());
+			problemDetailsRepo.saveAll(pds);
 			tfs = new Gson().fromJson(fr,
 					new TypeToken<List<TotalFlow>>() {}.getType());
+			totalFlowRepo.saveAll(tfs);
 			shifts = new Gson().fromJson(fr,
 					new TypeToken<List<Shift>>() {}.getType());
+			shiftRepo.saveAll(shifts);
 			fr.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		employeeRepo.saveAll(emps);
-		problemDetailsRepo.saveAll(pds);
-		totalFlowRepo.saveAll(tfs);
-		shiftRepo.saveAll(shifts);
 	}
 }
