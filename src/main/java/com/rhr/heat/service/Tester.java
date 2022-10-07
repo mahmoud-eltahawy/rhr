@@ -322,21 +322,32 @@ public class Tester {
 		List<TotalFlow> tfs = null;
 		List<Shift> shifts = null;
 		try {
-			FileReader fr = new FileReader(new File(System
-					.getProperty("user.home")+File.separator+"rhrData.json"));
-			emps = new Gson().fromJson(fr,
+			String home = System.getProperty("user.home")+File.separator+"rhrData";
+			
+			FileReader er = new FileReader(new File(home+File.separator+"emp.json"));
+			emps = new Gson().fromJson(er,
 					new TypeToken<List<Employee>>() {}.getType());
-			employeeRepo.saveAll(emps);
-			pds = new Gson().fromJson(fr,
+			er.close();
+			
+			FileReader pr = new FileReader(new File(home+File.separator+"prob.json"));
+			pds = new Gson().fromJson(pr,
 					new TypeToken<List<ProblemDetail>>() {}.getType());
-			problemDetailsRepo.saveAll(pds);
+			pr.close();
+			
+			FileReader fr = new FileReader(new File(home+File.separator+"flow.json"));
 			tfs = new Gson().fromJson(fr,
 					new TypeToken<List<TotalFlow>>() {}.getType());
-			totalFlowRepo.saveAll(tfs);
-			shifts = new Gson().fromJson(fr,
-					new TypeToken<List<Shift>>() {}.getType());
-			shiftRepo.saveAll(shifts);
 			fr.close();
+			
+			FileReader sr = new FileReader(new File(home+File.separator+"shift.json"));
+			shifts = new Gson().fromJson(sr,
+					new TypeToken<List<Shift>>() {}.getType());
+			sr.close();
+
+			employeeRepo.saveAll(emps);
+			problemDetailsRepo.saveAll(pds);
+			totalFlowRepo.saveAll(tfs);
+			shiftRepo.saveAll(shifts);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
