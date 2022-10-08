@@ -5,6 +5,8 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -23,6 +25,7 @@ public class TotalFlow {
 	@Id @GeneratedValue
 	@Column(name = "flow_id")
 	private Long id;
+	@Enumerated(EnumType.STRING)
 	private AtmsCase atmsCase;
 	private Integer minFlow;
 	private Integer maxFlow;

@@ -2,6 +2,8 @@ package com.rhr.heat.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -22,5 +24,6 @@ public class Employee {
 	private String firstName;
 	private String middleName;
 	private String lastName;
+	@Enumerated(EnumType.STRING)
 	private EmployeePosition position;
 }

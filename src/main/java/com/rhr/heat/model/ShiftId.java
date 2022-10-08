@@ -3,6 +3,8 @@ package com.rhr.heat.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 
@@ -21,5 +23,6 @@ public class ShiftId implements Serializable {
 	@Id
 	private MyDate date;
 	@Id
+	@Enumerated(EnumType.STRING)
 	private ShiftType shift;
 }

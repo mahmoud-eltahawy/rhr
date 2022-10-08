@@ -5,6 +5,8 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -24,6 +26,7 @@ public class ProblemDetail {
 	@Id @GeneratedValue
 	@Column(name = "problem_id")
 	private Long id;
+	@Enumerated(EnumType.STRING)
 	private Problem problem;
 	@AttributeOverrides({
 		@AttributeOverride(name = "hour" , column = @Column(name = "begin_hour")),
@@ -37,5 +40,6 @@ public class ProblemDetail {
 	})
 	@Embedded
 	private MyTime endTime;
+	@Enumerated(EnumType.STRING)
 	private Machine machine;
 }

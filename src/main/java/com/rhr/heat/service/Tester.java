@@ -1,15 +1,9 @@
 package com.rhr.heat.service;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.ProblemDetailsRepo;
 import com.rhr.heat.dao.ShiftRepo;
