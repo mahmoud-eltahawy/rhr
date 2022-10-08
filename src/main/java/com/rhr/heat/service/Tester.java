@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -284,56 +282,5 @@ public class Tester {
 	
 	public List<Shift> getAllData(){
 		return shiftRepo.findAll();
-	}
-	
-	public void exportAllToFile() {
-		try {
-			File home = new File(System.getProperty("user.home")+File.separator+"rhrData");
-			home.mkdir();
-			FileWriter fw = new FileWriter(new File(home.getAbsolutePath()+File.separator+"allData.json"));
-			new Gson().toJson(shiftRepo.findAll(),fw);
-			fw.close();
-			fw = new FileWriter(new File(home.getAbsolutePath()+File.separator+"empData.json"));
-			new Gson().toJson(employeeRepo.findAll(),fw);
-			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void importFromFile() {
-		try {
-			String home = System.getProperty("user.home")+File.separator+"rhrData";
-			
-			FileReader er = new FileReader(new File(home+File.separator+"empData.json"));
-			List<Employee> emps = new Gson().fromJson(er,
-					new TypeToken<List<Employee>>() {}.getType());
-			emps.forEach(e -> {
-				e.setId(null);
-			});
-			
-			employeeRepo.saveAll(emps);
-			
-			FileReader ar = new FileReader(new File(home+File.separator+"allData.json"));
-			List<Shift> shifts = new Gson().fromJson(ar,
-					new TypeToken<List<Shift>>() {}.getType());
-			shifts.forEach(s -> {
-				s.getProblems().forEach(p -> {
-					p.setId(null);
-				});
-				problemDetailsRepo.saveAll(s.getProblems());
-				s.getTotalFlowAverage().forEach(t -> {
-					t.setId(null);
-				});
-				totalFlowRepo.saveAll(s.getTotalFlowAverage());
-			});
-			shiftRepo.saveAll(shifts);
-			
-			ar.close();
-			er.close();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }
