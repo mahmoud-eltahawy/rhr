@@ -7,14 +7,14 @@ CREATE TABLE employee (
 );
 
 CREATE TABLE total_flow (
-    id           BIGSERIAL   NOT NULL PRIMARY KEY,
-    atms_case    varchar(20) NOT NULL,
-    begin_hour   INTEGER     NOT NULL,
-    begin_minute INTEGER     NOT NULL,
-    end_hour     INTEGER     NOT NULL,
-    end_minute   INTEGER     NOT NULL,
-    min_flow     INTEGER     NOT NULL,
-    max_flow     INTEGER     NOT NULL
+    id             BIGSERIAL   NOT NULL PRIMARY KEY,
+    consumers_case varchar(20) NOT NULL,
+    begin_hour     INTEGER     NOT NULL,
+    begin_minute   INTEGER     NOT NULL,
+    end_hour       INTEGER     NOT NULL,
+    end_minute     INTEGER     NOT NULL,
+    min_flow       INTEGER     NOT NULL,
+    max_flow       INTEGER     NOT NULL
 );
 
 CREATE TABLE problem_detail (
