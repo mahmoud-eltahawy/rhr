@@ -2,8 +2,11 @@ package com.rhr.heat.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.rhr.heat.model.TotalFlow;
 
+@Repository
 public class TotalFlowRepo {
 
 	public void saveAll(List<TotalFlow> totalFlowAverage) {
