@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.rhr.heat.dao.rowMappers.EmployeeRowMapper;
 import com.rhr.heat.model.Employee;
 
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,8 @@ public class EmployeeRepo{
 	private final JdbcTemplate jdbcTemplate;
 	
 	public List<Employee> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT * FROM employee";
+		return jdbcTemplate.query(sql, new EmployeeRowMapper());
 	}
 
 	public void saveAll(List<Employee> emps) {

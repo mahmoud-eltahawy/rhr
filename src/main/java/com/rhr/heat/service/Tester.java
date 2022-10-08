@@ -250,6 +250,8 @@ public class Tester {
 	}
 	
 	public void emp() {
-		employeeRepo.save(new Employee(null,"ahmed","gamal","mohammed",EmployeePosition.Engineer));
+		employeeRepo.findAll().forEach(e -> {
+			System.out.println(e.toString());
+		});
 	}
 }
