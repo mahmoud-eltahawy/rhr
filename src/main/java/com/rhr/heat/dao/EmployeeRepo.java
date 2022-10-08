@@ -1,6 +1,7 @@
 package com.rhr.heat.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,12 @@ public class EmployeeRepo{
 	public List<Employee> findAll() {
 		String sql = "SELECT * FROM employee";
 		return jdbcTemplate.query(sql, new EmployeeRowMapper());
+	}
+	
+	public Optional<Employee> findById(Long id) {
+		String sql = "SELECT * FROM employee where id = ?";
+		List<Employee> emps = jdbcTemplate.query(sql, new EmployeeRowMapper(), id);
+		return emps.stream().findFirst();
 	}
 
 	public void saveAll(List<Employee> emps) {

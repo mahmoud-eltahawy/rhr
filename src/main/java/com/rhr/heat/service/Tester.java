@@ -250,8 +250,7 @@ public class Tester {
 	}
 	
 	public void emp() {
-		employeeRepo.findAll().forEach(e -> {
-			System.out.println(e.toString());
-		});
+		System.out.println(
+		employeeRepo.findById(1L).get().toString());
 	}
 }
