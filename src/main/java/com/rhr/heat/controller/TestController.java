@@ -21,6 +21,12 @@ public class TestController {
 		return "inserted";
 	}
 	
+	@RequestMapping("/emp")
+	public String insertEmp() {
+		tester.emp();
+		return "inserted";
+	}
+	
 	@RequestMapping("/get")
 	public List<Shift> getAll() {
 		return tester.getAllData();

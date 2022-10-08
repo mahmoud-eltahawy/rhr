@@ -245,8 +245,11 @@ public class Tester {
 		shiftRepo.save(shift3);
 	}
 
-	
 	public List<Shift> getAllData(){
 		return shiftRepo.findAll();
+	}
+	
+	public void emp() {
+		employeeRepo.save(new Employee(null,"ahmed","gamal","mohammed",EmployeePosition.Engineer));
 	}
 }
