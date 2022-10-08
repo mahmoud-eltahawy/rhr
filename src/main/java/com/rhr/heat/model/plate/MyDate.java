@@ -1,24 +1,14 @@
 package com.rhr.heat.model.plate;
 
-import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@IdClass(MyDate.class)
-@Entity
 @Data
 @AllArgsConstructor
-public class MyDate implements Serializable {
-	private static final long serialVersionUID = 1L;
-	@Id
+@NoArgsConstructor
+public class MyDate {
 	private Integer year;
-	@Id
 	private Integer Month;
-	@Id
 	private Integer day;
 }

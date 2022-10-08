@@ -16,7 +16,6 @@ import com.rhr.heat.enums.ShiftType;
 import com.rhr.heat.model.Employee;
 import com.rhr.heat.model.ProblemDetail;
 import com.rhr.heat.model.Shift;
-import com.rhr.heat.model.ShiftId;
 import com.rhr.heat.model.TotalFlow;
 import com.rhr.heat.model.plate.MyDate;
 import com.rhr.heat.model.plate.MyTime;
@@ -90,47 +89,20 @@ public class Tester {
 		totalFlowRepo.save(tf6);
 		totalFlowRepo.save(tf7);
 		
-		ShiftId shiftId11 = new ShiftId(new MyDate(2022,10,5), ShiftType.First);
-		ShiftId shiftId12 = new ShiftId(new MyDate(2022,10,5), ShiftType.Second);
-		ShiftId shiftId13 = new ShiftId(new MyDate(2022,10,5), ShiftType.Third);
 		
-		ShiftId shiftId21 = new ShiftId(new MyDate(2022,10,6), ShiftType.First);
-		ShiftId shiftId22 = new ShiftId(new MyDate(2022,10,6), ShiftType.Second);
-		ShiftId shiftId23 = new ShiftId(new MyDate(2022,10,6), ShiftType.Third);
-		
-		ShiftId shiftId31 = new ShiftId(new MyDate(2022,10,7), ShiftType.First);
-		ShiftId shiftId32 = new ShiftId(new MyDate(2022,10,7), ShiftType.Second);
-		ShiftId shiftId33 = new ShiftId(new MyDate(2022,10,7), ShiftType.Third);
-		
-		ShiftId shiftId41 = new ShiftId(new MyDate(2022,10,8), ShiftType.First);
-		ShiftId shiftId42 = new ShiftId(new MyDate(2022,10,8), ShiftType.Second);
-		ShiftId shiftId43 = new ShiftId(new MyDate(2022,10,8), ShiftType.Third);
-		
-		ShiftId shiftId51 = new ShiftId(new MyDate(2022,10,9), ShiftType.First);
-		ShiftId shiftId52 = new ShiftId(new MyDate(2022,10,9), ShiftType.Second);
-		ShiftId shiftId53 = new ShiftId(new MyDate(2022,10,9), ShiftType.Third);
-		
-		ShiftId shiftId61 = new ShiftId(new MyDate(2022,10,10), ShiftType.First);
-		ShiftId shiftId62 = new ShiftId(new MyDate(2022,10,10), ShiftType.Second);
-		ShiftId shiftId63 = new ShiftId(new MyDate(2022,10,10), ShiftType.Third);
-		
-		ShiftId shiftId71 = new ShiftId(new MyDate(2022,10,11), ShiftType.First);
-		ShiftId shiftId72 = new ShiftId(new MyDate(2022,10,11), ShiftType.Second);
-		ShiftId shiftId73 = new ShiftId(new MyDate(2022,10,11), ShiftType.Third);
-		
-		Shift shift1 = new Shift(shiftId11,
+		Shift shift1 = new Shift(new MyDate(2202,10,5),ShiftType.First,
 				List.of(pd1,pd2),
 				List.of(emp3),
 				List.of(tf1,tf2),
 				"taha greeting", 175, 195);
 		
-		Shift shift2 = new Shift(shiftId12,
+		Shift shift2 = new Shift(new MyDate(2202,10,5),ShiftType.First,
 				List.of(pd3,pd4),
 				List.of(emp4),
 				List.of(tf1,tf2),
 				"mohammed greeting", 175, 195);
 		
-		Shift shift3 = new Shift(shiftId13,
+		Shift shift3 = new Shift(new MyDate(2202,10,5),ShiftType.First,
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf1,tf2),
@@ -140,19 +112,19 @@ public class Tester {
 		shiftRepo.save(shift2);
 		shiftRepo.save(shift3);
 		
-		shift1 = new Shift(shiftId21,
+		shift1 = new Shift(new MyDate(2202,10,6),ShiftType.First,
 				List.of(pd2,pd3),
 				List.of(emp3,emp5),
 				List.of(tf4,tf3),
 				"taha and ehab greeting", 185, 205);
 		
-		shift2 = new Shift(shiftId22,
+		shift2 = new Shift(new MyDate(2202,10,6),ShiftType.First,
 				List.of(pd3,pd4),
 				List.of(emp4),
 				List.of(tf1,tf2),
 				"mohammed greeting", 195, 205);
 		
-		shift3 = new Shift(shiftId23,
+		shift3 = new Shift(new MyDate(2202,10,6),ShiftType.First,
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
@@ -162,19 +134,19 @@ public class Tester {
 		shiftRepo.save(shift2);
 		shiftRepo.save(shift3);
 		
-		shift1 = new Shift(shiftId31,
+		shift1 = new Shift(new MyDate(2202,10,7),ShiftType.First,
 				List.of(pd2,pd3),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"ehab greeting", 188, 206);
 		
-		shift2 = new Shift(shiftId32,
+		shift2 = new Shift(new MyDate(2202,10,7),ShiftType.First,
 				List.of(pd3,pd4),
 				List.of(emp4),
 				List.of(tf1,tf2),
 				"mohammed greeting", 196, 206);
 		
-		shift3 = new Shift(shiftId33,
+		shift3 = new Shift(new MyDate(2202,10,7),ShiftType.First,
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
@@ -184,19 +156,19 @@ public class Tester {
 		shiftRepo.save(shift2);
 		shiftRepo.save(shift3);
 		
-		shift1 = new Shift(shiftId41,
+		shift1 = new Shift(new MyDate(2202,10,8),ShiftType.First,
 				List.of(pd2,pd3),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		shift2 = new Shift(shiftId42,
+		shift2 = new Shift(new MyDate(2202,10,8),ShiftType.First,
 				List.of(pd3,pd4),
 				List.of(emp5),
 				List.of(tf1,tf2),
 				"ehab greeting", 192, 202);
 		
-		shift3 = new Shift(shiftId43,
+		shift3 = new Shift(new MyDate(2202,10,8),ShiftType.First,
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
@@ -206,19 +178,19 @@ public class Tester {
 		shiftRepo.save(shift2);
 		shiftRepo.save(shift3);
 		
-		shift1 = new Shift(shiftId51,
+		shift1 = new Shift(new MyDate(2202,10,9),ShiftType.First,
 				List.of(pd10,pd9),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		shift2 = new Shift(shiftId52,
+		shift2 = new Shift(new MyDate(2202,10,9),ShiftType.First,
 				List.of(pd7,pd8),
 				List.of(emp4,emp5),
 				List.of(tf1,tf2),
 				"ehab and mohammed greeting", 192, 202);
 		
-		shift3 = new Shift(shiftId53,
+		shift3 = new Shift(new MyDate(2202,10,9),ShiftType.First,
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
@@ -228,19 +200,19 @@ public class Tester {
 		shiftRepo.save(shift2);
 		shiftRepo.save(shift3);
 		
-		shift1 = new Shift(shiftId61,
+		shift1 = new Shift(new MyDate(2202,10,10),ShiftType.First,
 				List.of(pd13,pd12),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		shift2 = new Shift(shiftId62,
+		shift2 = new Shift(new MyDate(2202,10,10),ShiftType.First,
 				List.of(pd13,pd14),
 				List.of(emp4),
 				List.of(tf1,tf2),
 				"mohammed greeting", 192, 202);
 		
-		shift3 = new Shift(shiftId63,
+		shift3 = new Shift(new MyDate(2202,10,10),ShiftType.First,
 				List.of(pd11,pd12),
 				List.of(emp5),
 				List.of(tf4,tf5),
@@ -250,19 +222,19 @@ public class Tester {
 		shiftRepo.save(shift2);
 		shiftRepo.save(shift3);
 		
-		shift1 = new Shift(shiftId71,
+		shift1 = new Shift(new MyDate(2202,10,11),ShiftType.First,
 				List.of(pd12,pd11),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		shift2 = new Shift(shiftId72,
+		shift2 = new Shift(new MyDate(2202,10,11),ShiftType.First,
 				List.of(pd13,pd14),
 				List.of(emp4),
 				List.of(tf5,tf3),
 				"mohammed greeting", 192, 202);
 		
-		shift3 = new Shift(shiftId73,
+		shift3 = new Shift(new MyDate(2202,10,11),ShiftType.First,
 				List.of(pd12,pd13),
 				List.of(emp2,emp5),
 				List.of(tf7,tf5),
