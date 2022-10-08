@@ -23,8 +23,13 @@ public class EmployeeRepo{
 	
 	public Optional<Employee> findById(Long id) {
 		String sql = "SELECT * FROM employee where id = ?";
-		List<Employee> emps = jdbcTemplate.query(sql, new EmployeeRowMapper(), id);
-		return emps.stream().findFirst();
+		return jdbcTemplate.query(sql,
+				new EmployeeRowMapper(), id).stream().findFirst();
+	}
+	
+	public int deleteById(Long id) {
+		String sql = "DELETE FROM employee where id =?";
+		return jdbcTemplate.update(sql, id);
 	}
 
 	public void saveAll(List<Employee> emps) {

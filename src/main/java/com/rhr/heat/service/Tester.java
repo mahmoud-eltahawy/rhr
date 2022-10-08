@@ -251,6 +251,6 @@ public class Tester {
 	
 	public void emp() {
 		System.out.println(
-		employeeRepo.findById(1L).get().toString());
+		employeeRepo.deleteById(1L));
 	}
 }
