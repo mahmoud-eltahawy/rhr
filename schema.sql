@@ -1,8 +1,8 @@
 CREATE TABLE employee (
     id BIGSERIAL NOT NULL PRIMARY KEY,
 	first_name VARCHAR(40) NOT NULL,
-	second_name VARCHAR(40) NOT NULL,
-	third_name VARCHAR(40) NOT NULL,
+	middle_name VARCHAR(40) NOT NULL,
+	last_name VARCHAR(40) NOT NULL,
     emp_position INTEGER NOT NULL
 )
 
@@ -11,6 +11,7 @@ CREATE TABLE total_flow (
     atms_case INTEGER NOT NULL,
     begin_time TIME NOT NULL,
     end_time TIME NOT NULL,
+    min_flow INTEGER NOT NULL
     max_flow INTEGER NOT NULL
 )
 
@@ -27,7 +28,7 @@ CREATE TABLE shift (
     shift_order INTEGER NOT NULL,
     max_temp INTEGER NOT NULL,
     min_temp INTEGER NOT NULL,
-    notes VARCHAR,
+    notes VARCHAR(255),
     PRIMARY KEY(shift_date,shift_order)
 )
 
