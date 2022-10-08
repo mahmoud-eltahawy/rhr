@@ -33,8 +33,7 @@ public class EmployeeRepo{
 	}
 
 	public void saveAll(List<Employee> emps) {
-		// TODO Auto-generated method stub
-		
+		emps.forEach(e -> save(e) );
 	}
 
 	public void save(Employee emp) {

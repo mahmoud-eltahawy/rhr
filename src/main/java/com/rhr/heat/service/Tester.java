@@ -43,20 +43,20 @@ public class Tester {
 		employeeRepo.save(emp4);
 		employeeRepo.save(emp5);
 		
-		ProblemDetail pd1  = new ProblemDetail(null, Problem.p1,new MyTime(0, 30),new MyTime(0, 30),Machine.Atm1);
-		ProblemDetail pd2  = new ProblemDetail(null, Problem.p2,new MyTime(0, 30),new MyTime(0, 30),Machine.Atm2);
-		ProblemDetail pd3  = new ProblemDetail(null, Problem.p3,new MyTime(0, 30),new MyTime(0, 30),Machine.Drayer1);
-		ProblemDetail pd4  = new ProblemDetail(null, Problem.p4,new MyTime(0, 30),new MyTime(0, 30),Machine.Drayer2);
-		ProblemDetail pd5  = new ProblemDetail(null, Problem.p5,new MyTime(0, 30),new MyTime(0, 30),Machine.Drayer3);
-		ProblemDetail pd6  = new ProblemDetail(null, Problem.p6,new MyTime(0, 30),new MyTime(0, 30),Machine.Drayer4);
-		ProblemDetail pd7  = new ProblemDetail(null, Problem.p7,new MyTime(0, 30),new MyTime(0, 30),Machine.Drayer5);
-		ProblemDetail pd8  = new ProblemDetail(null, Problem.p8,new MyTime(0, 30),new MyTime(0, 30),Machine.Drayer6);
-		ProblemDetail pd9  = new ProblemDetail(null, Problem.p9,new MyTime(0, 30),new MyTime(0, 30),Machine.Drayer7);
-		ProblemDetail pd10 = new ProblemDetail(null, Problem.p1,new MyTime(0, 30),new MyTime(0, 30),Machine.Kilen1);
-		ProblemDetail pd11 = new ProblemDetail(null, Problem.p1,new MyTime(0, 30),new MyTime(0, 30),Machine.Kilen2);
-		ProblemDetail pd12 = new ProblemDetail(null, Problem.p2,new MyTime(0, 30),new MyTime(0, 30),Machine.Kilen3);
-		ProblemDetail pd13 = new ProblemDetail(null, Problem.p3,new MyTime(0, 30),new MyTime(0, 30),Machine.Kilen4);
-		ProblemDetail pd14 = new ProblemDetail(null, Problem.p4,new MyTime(0, 30),new MyTime(0, 30),Machine.Kilen5);
+		ProblemDetail pd1  = new ProblemDetail(null, Problem.p1,Machine.Atm1,new MyTime(0, 30),new MyTime(0, 30));
+		ProblemDetail pd2  = new ProblemDetail(null, Problem.p2,Machine.Atm2,new MyTime(0, 30),new MyTime(0, 30));
+		ProblemDetail pd3  = new ProblemDetail(null, Problem.p3,Machine.Drayer1,new MyTime(0, 30),new MyTime(0, 30));
+		ProblemDetail pd4  = new ProblemDetail(null, Problem.p4,Machine.Drayer2,new MyTime(0, 30),new MyTime(0, 30));
+		ProblemDetail pd5  = new ProblemDetail(null, Problem.p5,Machine.Drayer3,new MyTime(0, 30),new MyTime(0, 30));
+		ProblemDetail pd6  = new ProblemDetail(null, Problem.p6,Machine.Drayer4,new MyTime(0, 30),new MyTime(0, 30));
+		ProblemDetail pd7  = new ProblemDetail(null, Problem.p7,Machine.Drayer5,new MyTime(0, 30),new MyTime(0, 30));
+		ProblemDetail pd8  = new ProblemDetail(null, Problem.p8,Machine.Drayer6,new MyTime(0, 30),new MyTime(0, 30));
+		ProblemDetail pd9  = new ProblemDetail(null, Problem.p9,Machine.Drayer7,new MyTime(0, 30),new MyTime(0, 30));
+		ProblemDetail pd10 = new ProblemDetail(null, Problem.p1,Machine.Kilen1,new MyTime(0, 30),new MyTime(0, 30));
+		ProblemDetail pd11 = new ProblemDetail(null, Problem.p1,Machine.Kilen2,new MyTime(0, 30),new MyTime(0, 30));
+		ProblemDetail pd12 = new ProblemDetail(null, Problem.p2,Machine.Kilen3,new MyTime(0, 30),new MyTime(0, 30));
+		ProblemDetail pd13 = new ProblemDetail(null, Problem.p3,Machine.Kilen4,new MyTime(0, 30),new MyTime(0, 30));
+		ProblemDetail pd14 = new ProblemDetail(null, Problem.p4,Machine.Kilen5,new MyTime(0, 30),new MyTime(0, 30));
 		
 		problemDetailsRepo.save(pd1);
 		problemDetailsRepo.save(pd2);
@@ -251,6 +251,6 @@ public class Tester {
 	
 	public void emp() {
 		System.out.println(
-		employeeRepo.deleteById(1L));
+		problemDetailsRepo.findById(3L).get().toString());
 	}
 }
