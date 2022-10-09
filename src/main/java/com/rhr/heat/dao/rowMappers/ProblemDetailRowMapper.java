@@ -14,8 +14,7 @@ public class ProblemDetailRowMapper implements RowMapper<ProblemDetail> {
 
 	@Override
 	public ProblemDetail mapRow(ResultSet rs, int rowNum) throws SQLException {
-		return new ProblemDetail(rs.getLong("id"),
-				Problem.valueOf(rs.getString("problem")),
+		return new ProblemDetail(Problem.valueOf(rs.getString("problem")),
 				Machine.valueOf(rs.getString("machine")),
 				new MyTime(rs.getInt("begin_hour"),rs.getInt("Begin_minute")),
 				new MyTime(rs.getInt("begin_hour"),rs.getInt("Begin_minute")));

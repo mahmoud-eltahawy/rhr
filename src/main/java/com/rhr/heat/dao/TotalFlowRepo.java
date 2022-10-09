@@ -1,7 +1,6 @@
 package com.rhr.heat.dao;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -21,18 +20,11 @@ public class TotalFlowRepo {
 		return jdbcTemplate.query(sql, new TotalFlowRowMapper());
 	}
 	
-	public Optional<TotalFlow> findById(Long id){
-		String sql = "SELECT * FROM total_flow WHERE id = ?";
-		return jdbcTemplate.query(sql,
-				new TotalFlowRowMapper(),id)
-				.stream().findFirst();
-	}
-	
 	public void saveAll(List<TotalFlow> totalFlowAverage) {
 		totalFlowAverage.forEach(t -> save(t));
 	}
 
-	public void save(TotalFlow tf2) {
+	public Long save(TotalFlow tf) {
 		String sql = "INSERT INTO total_flow"
 				+ "(consumers_case,"
 				+ "begin_hour,begin_minute,"
@@ -40,12 +32,13 @@ public class TotalFlowRepo {
 				+ "min_flow,max_flow) "
 				+ "VALUES(?,?,?,?,?,?,?)";
 		jdbcTemplate.update(sql,
-				tf2.getConsumersCase().toString(),
-				tf2.getCaseBeginTime().getHour(),
-				tf2.getCaseBeginTime().getMinute(),
-				tf2.getCaseEndTime().getHour(),
-				tf2.getCaseEndTime().getMinute(),
-				tf2.getMinFlow(),
-				tf2.getMaxFlow());
+				tf.getConsumersCase().toString(),
+				tf.getCaseBeginTime().getHour(),
+				tf.getCaseBeginTime().getMinute(),
+				tf.getCaseEndTime().getHour(),
+				tf.getCaseEndTime().getMinute(),
+				tf.getMinFlow(),
+				tf.getMaxFlow());
+		return (long) tf.hashCode();
 	}
 }
