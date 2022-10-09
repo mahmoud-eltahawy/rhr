@@ -28,7 +28,7 @@ CREATE TABLE problem_detail (
 );
 
 CREATE TABLE shift_id (
-    id          BIGINT     PRIMARY KEY,
+    id          BIGSERIAL     PRIMARY KEY,
     shift_order varchar(20)   NOT NULL,
     my_year     INTEGER       NOT NULL,
     my_month    INTEGER       NOT NULL,
