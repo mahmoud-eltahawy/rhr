@@ -8,7 +8,7 @@ import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.ProblemDetailsRepo;
 import com.rhr.heat.dao.ShiftRepo;
 import com.rhr.heat.dao.TotalFlowRepo;
-import com.rhr.heat.enums.ConsumersCase;
+import com.rhr.heat.enums.AtmsCase;
 import com.rhr.heat.enums.EmployeePosition;
 import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.Problem;
@@ -73,13 +73,13 @@ public class Tester {
 		problemDetailsRepo.save(pd13);
 		problemDetailsRepo.save(pd14);
 		
-		TotalFlow tf1 = new TotalFlow(null,ConsumersCase.ATM1_AND_ATM2,77,92,new MyTime(2,15),new MyTime(4,25));
-		TotalFlow tf2 = new TotalFlow(null,ConsumersCase.ATM_ONE_ONLY,77,92,new MyTime(2,15),new MyTime(4,35));
-		TotalFlow tf3 = new TotalFlow(null,ConsumersCase.ATM_Two_ONLY,77,92,new MyTime(3,15),new MyTime(5,25));
-		TotalFlow tf4 = new TotalFlow(null,ConsumersCase.NONE,77,92,new MyTime(2,15),new MyTime(4,25));
-		TotalFlow tf5 = new TotalFlow(null,ConsumersCase.ATM1_AND_ATM2,77,92,new MyTime(2,15),new MyTime(4,25));
-		TotalFlow tf6 = new TotalFlow(null,ConsumersCase.ATM_ONE_ONLY,77,92,new MyTime(3,15),new MyTime(4,25));
-		TotalFlow tf7 = new TotalFlow(null,ConsumersCase.ATM_Two_ONLY,77,92,new MyTime(2,15),new MyTime(4,25));
+		TotalFlow tf1 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,new MyTime(2,15),new MyTime(4,25));
+		TotalFlow tf2 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,new MyTime(2,15),new MyTime(4,35));
+		TotalFlow tf3 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,77,92,new MyTime(3,15),new MyTime(5,25));
+		TotalFlow tf4 = new TotalFlow(null,AtmsCase.NONE,77,92,new MyTime(2,15),new MyTime(4,25));
+		TotalFlow tf5 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,new MyTime(2,15),new MyTime(4,25));
+		TotalFlow tf6 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,new MyTime(3,15),new MyTime(4,25));
+		TotalFlow tf7 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,77,92,new MyTime(2,15),new MyTime(4,25));
 		
 		totalFlowRepo.save(tf1);
 		totalFlowRepo.save(tf2);
@@ -251,6 +251,6 @@ public class Tester {
 	
 	public void emp() {
 		System.out.println(
-		totalFlowRepo.findById(2L));
+		problemDetailsRepo.findById(3L).get().toString());
 	}
 }
