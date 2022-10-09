@@ -27,15 +27,25 @@ CREATE TABLE problem_detail (
     end_minute   INTEGER     NOT NULL
 );
 
+CREATE TABLE shift_id (
+    id          BIGSERIAL     PRIMARY KEY,
+    shift_order varchar(20)   NOT NULL,
+    my_year     INTEGER       NOT NULL,
+    my_month    INTEGER       NOT NULL,
+    my_day      INTEGER       NOT NULL,
+    CONSTRAINT shift_identity UNIQUE(shift_order,my_year,my_month,my_day)
+);
+
 CREATE TABLE shift (
-    id varchar(20)  PRIMARY KEY,
+    id       BIGINT       PRIMARY KEY,
     max_temp INTEGER      NOT NULL,
     min_temp INTEGER      NOT NULL,
-    notes    VARCHAR(255)
+    notes    VARCHAR(255),
+    FOREIGN KEY(id) REFERENCES shift_id(id) ON DELETE CASCADE
 );
 
 CREATE TABLE shift_problem (
-    shift_id   varchar(20)   NOT NULL,
+    shift_id   BIGINT        NOT NULL,
     problem_id BIGINT        NOT NULL,
     PRIMARY KEY(shift_id,problem_id),
     FOREIGN KEY(shift_id)    REFERENCES shift(id)          ON DELETE CASCADE,
@@ -43,7 +53,7 @@ CREATE TABLE shift_problem (
 );
 
 CREATE TABLE shift_total_flow (
-    shift_id varchar(20)   NOT NULL,
+    shift_id BIGINT        NOT NULL,
     flow_id  BIGINT        NOT NULL,
     PRIMARY  KEY(shift_id,flow_id),
     FOREIGN  KEY(shift_id) REFERENCES shift(id)       ON DELETE CASCADE,
@@ -51,7 +61,7 @@ CREATE TABLE shift_total_flow (
 );
 
 CREATE TABLE shift_employee (
-    shift_id varchar(20)   NOT NULL,
+    shift_id BIGINT        NOT NULL,
     emp_id   BIGINT        NOT NULL,
     PRIMARY  KEY(shift_id,emp_id),
     FOREIGN  KEY(shift_id) REFERENCES shift(id)    ON DELETE CASCADE,
