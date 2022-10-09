@@ -13,7 +13,8 @@ public class TotalFlowRowMapper implements RowMapper<TotalFlow> {
 
 	@Override
 	public TotalFlow mapRow(ResultSet rs, int rowNum) throws SQLException {
-		return new TotalFlow(ConsumersCase.valueOf(rs.getString("consumers_case")),
+		return new TotalFlow(rs.getLong("id"),
+				ConsumersCase.valueOf(rs.getString("consumers_case")),
 				rs.getInt("min_flow"),
 				rs.getInt("max_flow"),
 				new MyTime(rs.getInt("begin_hour"),rs.getInt("end_minute")),

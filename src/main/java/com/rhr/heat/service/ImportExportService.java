@@ -49,6 +49,9 @@ public class ImportExportService {
 			FileReader er = new FileReader(new File(home+File.separator+"empData.json"));
 			List<Employee> emps = new Gson().fromJson(er,
 					new TypeToken<List<Employee>>() {}.getType());
+			emps.forEach(e -> {
+				e.setId(null);
+			});
 			
 			employeeRepo.saveAll(emps);
 			
@@ -56,7 +59,13 @@ public class ImportExportService {
 			List<Shift> shifts = new Gson().fromJson(ar,
 					new TypeToken<List<Shift>>() {}.getType());
 			shifts.forEach(s -> {
+				s.getProblems().forEach(p -> {
+					p.setId(null);
+				});
 				problemDetailsRepo.saveAll(s.getProblems());
+				s.getTotalFlowAverage().forEach(t -> {
+					t.setId(null);
+				});
 				totalFlowRepo.saveAll(s.getTotalFlowAverage());
 			});
 			shiftRepo.saveAll(shifts);
@@ -68,4 +77,6 @@ public class ImportExportService {
 			e.printStackTrace();
 		}
 	}
+
+
 }

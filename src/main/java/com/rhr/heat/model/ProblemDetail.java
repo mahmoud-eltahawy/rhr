@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProblemDetail {
+	private Long id;
 	private Problem problem;
 	private Machine machine;
 	private MyTime beginTime;

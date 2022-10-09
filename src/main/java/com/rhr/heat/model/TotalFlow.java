@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TotalFlow {
+	private Long id;
 	private ConsumersCase consumersCase;
 	private Integer minFlow;
 	private Integer maxFlow;

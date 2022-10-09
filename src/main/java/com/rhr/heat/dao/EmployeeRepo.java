@@ -27,25 +27,20 @@ public class EmployeeRepo{
 				new EmployeeRowMapper(), id).stream().findFirst();
 	}
 	
-	public int delete(Employee employee) {
+	public int deleteById(Long id) {
 		String sql = "DELETE FROM employee where id =?";
-		return jdbcTemplate.update(sql,(long) employee.hashCode());
+		return jdbcTemplate.update(sql, id);
 	}
 
 	public void saveAll(List<Employee> emps) {
 		emps.forEach(e -> save(e) );
 	}
 
-	public Long save(Employee emp) {
+	public void save(Employee emp) {
 		String sql = "INSERT INTO employee"
-				+ "(id,first_name,middle_name,last_name,emp_position)"
-				+ "VALUES(?,?,?,?,?)";
-		jdbcTemplate.update(sql,
-				(long) emp.hashCode(),
-				emp.getFirstName(),
-				emp.getMiddleName(),
-				emp.getLastName(),
-				emp.getPosition().toString());
-		return (long) emp.hashCode();
+				+ "(first_name,middle_name,last_name,emp_position)"
+				+ "VALUES(?,?,?,?)";
+		jdbcTemplate.update(sql,emp.getFirstName(),emp.getMiddleName()
+				,emp.getLastName(),emp.getPosition().toString());
 	}
 }
