@@ -33,7 +33,7 @@ public class ProblemDetailsRepo {
 		jdbcTemplate.update(sql,
 				pd.getProblem().toString(),
 				pd.getMachine().toString(),
-				pd.getBeginTime().form(),
-				pd.getBeginTime().form());
+				pd.getBeginTime(),
+				pd.getEndTime());
 	}
 }

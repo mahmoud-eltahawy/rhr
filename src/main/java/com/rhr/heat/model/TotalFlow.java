@@ -1,7 +1,8 @@
 package com.rhr.heat.model;
 
+import java.sql.Time;
+
 import com.rhr.heat.enums.AtmsCase;
-import com.rhr.heat.model.plate.MyTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,6 @@ public class TotalFlow {
 	private AtmsCase atmsCase;
 	private Integer minFlow;
 	private Integer maxFlow;
-	private MyTime caseBeginTime;
-	private MyTime caseEndTime;
+	private Time caseBeginTime;
+	private Time caseEndTime;
 }
