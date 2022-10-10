@@ -8,10 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.rhr.heat.dao.EmployeeRepo;
-import com.rhr.heat.dao.ProblemDetailsRepo;
-import com.rhr.heat.dao.ShiftIdRepo;
 import com.rhr.heat.dao.ShiftRepo;
-import com.rhr.heat.dao.TotalFlowRepo;
 import com.rhr.heat.enums.ConsumersCase;
 import com.rhr.heat.enums.EmployeePosition;
 import com.rhr.heat.enums.Machine;
@@ -29,9 +26,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Tester {
 	private final EmployeeRepo employeeRepo;
-	private final ProblemDetailsRepo problemDetailsRepo;
-	private final TotalFlowRepo totalFlowRepo;
-	private final ShiftIdRepo shiftIdRepo;
 	private final ShiftRepo shiftRepo;
 	
 	public void insertData() {
@@ -41,11 +35,11 @@ public class Tester {
 		Employee emp4 = new Employee(null,"mohammed","gomaa","mohammed",EmployeePosition.worker);
 		Employee emp5 = new Employee(null,"ehab","hagag","saad",EmployeePosition.worker);
 		
-		employeeRepo.save(emp1);
-		employeeRepo.save(emp2);
-		employeeRepo.save(emp3);
-		employeeRepo.save(emp4);
-		employeeRepo.save(emp5);
+		emp1.setId(employeeRepo.save(emp1));
+		emp2.setId(employeeRepo.save(emp2));
+		emp3.setId(employeeRepo.save(emp3));
+		emp4.setId(employeeRepo.save(emp4));
+		emp5.setId(employeeRepo.save(emp5));
 		
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.HOUR, 3);
@@ -68,20 +62,6 @@ public class Tester {
 		ProblemDetail pd13 = new ProblemDetail(null, Problem.p3,Machine.Kilen4,new Time(cal.getTime().getTime()),new Time(cal.getTime().getTime()));
 		ProblemDetail pd14 = new ProblemDetail(null, Problem.p4,Machine.Kilen5,new Time(cal.getTime().getTime()),new Time(cal.getTime().getTime()));
 		
-		problemDetailsRepo.save(pd1);
-		problemDetailsRepo.save(pd2);
-		problemDetailsRepo.save(pd3);
-		problemDetailsRepo.save(pd4);
-		problemDetailsRepo.save(pd5);
-		problemDetailsRepo.save(pd6);
-		problemDetailsRepo.save(pd7);
-		problemDetailsRepo.save(pd8);
-		problemDetailsRepo.save(pd9);
-		problemDetailsRepo.save(pd10);
-		problemDetailsRepo.save(pd11);
-		problemDetailsRepo.save(pd12);
-		problemDetailsRepo.save(pd13);
-		problemDetailsRepo.save(pd14);
 		
 		TotalFlow tf1 = new TotalFlow(null,ConsumersCase.ATM1_AND_ATM2,77,92,new Time(cal.getTime().getTime()),new Time(cal.getTime().getTime()));
 		TotalFlow tf2 = new TotalFlow(null,ConsumersCase.ATM_ONE_ONLY,77,92,new Time(cal.getTime().getTime()),new Time(cal.getTime().getTime()));
@@ -91,13 +71,6 @@ public class Tester {
 		TotalFlow tf6 = new TotalFlow(null,ConsumersCase.ATM_ONE_ONLY,77,92,new Time(cal.getTime().getTime()),new Time(cal.getTime().getTime()));
 		TotalFlow tf7 = new TotalFlow(null,ConsumersCase.ATM_Two_ONLY,77,92,new Time(cal.getTime().getTime()),new Time(cal.getTime().getTime()));
 		
-		totalFlowRepo.save(tf1);
-		totalFlowRepo.save(tf2);
-		totalFlowRepo.save(tf3);
-		totalFlowRepo.save(tf4);
-		totalFlowRepo.save(tf5);
-		totalFlowRepo.save(tf6);
-		totalFlowRepo.save(tf7);
 		
 		cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, 2022);
@@ -105,159 +78,157 @@ public class Tester {
 		cal.set(Calendar.DAY_OF_MONTH, 5);
 		Date d = new Date(cal.getTime().getTime());
 		
-		Shift shift1 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift11 = new Shift(new ShiftId(null,d,ShiftOrder.First),
 				List.of(pd1,pd2),
 				List.of(emp3),
 				List.of(tf1,tf2),
 				"taha greeting", 175, 195);
 		
-		Shift shift2 = new Shift(new ShiftId(null,d,ShiftOrder.First),
-				List.of(pd3,pd4),
+		Shift shift12 = new Shift(new ShiftId(null,d,ShiftOrder.Second),
+				List.of(pd6,pd4),
 				List.of(emp4),
-				List.of(tf1,tf2),
+				List.of(tf6,tf2),
 				"mohammed greeting", 175, 195);
 		
-		Shift shift3 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift13 = new Shift(new ShiftId(null,d,ShiftOrder.Third),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf1,tf2),
 				"mahmoud greeting", 175, 195);
 		
-		shiftRepo.save(shift1);
-		shiftRepo.save(shift2);
-		shiftRepo.save(shift3);
+		cal.set(Calendar.DAY_OF_MONTH, 6);
+		d = new Date(cal.getTime().getTime());
 		
-		shift1 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift21 = new Shift(new ShiftId(null,d,ShiftOrder.First),
 				List.of(pd2,pd3),
 				List.of(emp3,emp5),
 				List.of(tf4,tf3),
 				"taha and ehab greeting", 185, 205);
 		
-		shift2 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift22 = new Shift(new ShiftId(null,d,ShiftOrder.Second),
 				List.of(pd3,pd4),
 				List.of(emp4),
 				List.of(tf1,tf2),
 				"mohammed greeting", 195, 205);
 		
-		shift3 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift23 = new Shift(new ShiftId(null,d,ShiftOrder.Third),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
 				"mahmoud greeting", 177, 197);
 		
-		shiftRepo.save(shift1);
-		shiftRepo.save(shift2);
-		shiftRepo.save(shift3);
+		cal.set(Calendar.DAY_OF_MONTH, 7);
+		d = new Date(cal.getTime().getTime());
 		
-		shift1 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift31 = new Shift(new ShiftId(null,d,ShiftOrder.First),
 				List.of(pd2,pd3),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"ehab greeting", 188, 206);
 		
-		shift2 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift32 = new Shift(new ShiftId(null,d,ShiftOrder.Second),
 				List.of(pd3,pd4),
 				List.of(emp4),
 				List.of(tf1,tf2),
 				"mohammed greeting", 196, 206);
 		
-		shift3 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift33 = new Shift(new ShiftId(null,d,ShiftOrder.Third),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
 				"mahmoud greeting", 171, 193);
 		
-		shiftRepo.save(shift1);
-		shiftRepo.save(shift2);
-		shiftRepo.save(shift3);
+		cal.set(Calendar.DAY_OF_MONTH, 8);
+		d = new Date(cal.getTime().getTime());
 		
-		shift1 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift41 = new Shift(new ShiftId(null,d,ShiftOrder.First),
 				List.of(pd2,pd3),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		shift2 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift42 = new Shift(new ShiftId(null,d,ShiftOrder.Second),
 				List.of(pd3,pd4),
 				List.of(emp5),
 				List.of(tf1,tf2),
 				"ehab greeting", 192, 202);
 		
-		shift3 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift43 = new Shift(new ShiftId(null,d,ShiftOrder.Third),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
 				"mahmoud greeting", 173, 195);
 		
-		shiftRepo.save(shift1);
-		shiftRepo.save(shift2);
-		shiftRepo.save(shift3);
+		cal.set(Calendar.DAY_OF_MONTH, 9);
+		d = new Date(cal.getTime().getTime());
 		
-		shift1 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift51 = new Shift(new ShiftId(null,d,ShiftOrder.First),
 				List.of(pd10,pd9),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		shift2 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift52 = new Shift(new ShiftId(null,d,ShiftOrder.Second),
 				List.of(pd7,pd8),
 				List.of(emp4,emp5),
 				List.of(tf1,tf2),
 				"ehab and mohammed greeting", 192, 202);
 		
-		shift3 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift53 = new Shift(new ShiftId(null,d,ShiftOrder.Third),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
 				"mahmoud greeting", 173, 195);
 		
-		shiftRepo.save(shift1);
-		shiftRepo.save(shift2);
-		shiftRepo.save(shift3);
+		cal.set(Calendar.DAY_OF_MONTH, 10);
+		d = new Date(cal.getTime().getTime());
 		
-		shift1 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift61 = new Shift(new ShiftId(null,d,ShiftOrder.First),
 				List.of(pd13,pd12),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		shift2 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift62 = new Shift(new ShiftId(null,d,ShiftOrder.Second),
 				List.of(pd13,pd14),
 				List.of(emp4),
 				List.of(tf1,tf2),
 				"mohammed greeting", 192, 202);
 		
-		shift3 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift63 = new Shift(new ShiftId(null,d,ShiftOrder.Third),
 				List.of(pd11,pd12),
 				List.of(emp5),
 				List.of(tf4,tf5),
 				"ehab greeting", 173, 195);
 		
-		shiftRepo.save(shift1);
-		shiftRepo.save(shift2);
-		shiftRepo.save(shift3);
+		cal.set(Calendar.DAY_OF_MONTH, 11);
+		d = new Date(cal.getTime().getTime());
 		
-		shift1 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift71 = new Shift(new ShiftId(null,d,ShiftOrder.First),
 				List.of(pd12,pd11),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		shift2 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift72 = new Shift(new ShiftId(null,d,ShiftOrder.Second),
 				List.of(pd13,pd14),
 				List.of(emp4),
 				List.of(tf5,tf3),
 				"mohammed greeting", 192, 202);
 		
-		shift3 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift73 = new Shift(new ShiftId(null,d,ShiftOrder.Third),
 				List.of(pd12,pd13),
 				List.of(emp2,emp5),
 				List.of(tf7,tf5),
 				"mahmoud and ehab greeting", 173, 195);
 		
-		shiftRepo.save(shift1);
-		shiftRepo.save(shift2);
-		shiftRepo.save(shift3);
+		shiftRepo.saveAll(List.of(shift11,shift12,shift13,
+				shift21,shift22,shift23,
+				shift31,shift32,shift33,
+				shift41,shift42,shift43,
+				shift51,shift52,shift53,
+				shift61,shift62,shift63,
+				shift71,shift72,shift73));
 	}
 
 	public List<Shift> getAllData(){
@@ -265,6 +236,5 @@ public class Tester {
 	}
 	
 	public void emp() {
-		System.out.println(shiftIdRepo.deleteById(13L));
 	}
 }
