@@ -251,7 +251,16 @@ public class Tester {
 	}
 	
 	public void emp() {
-		System.out.println(
-		problemDetailsRepo.findById(35L));
+		TotalFlow tf2 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,new Time(2,15,56),new Time(4,25,35));
+		TotalFlow tf3 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,77,92,new Time(2,15,56),new Time(4,25,35));
+		TotalFlow tf4 = new TotalFlow(null,AtmsCase.NONE,77,92,new Time(2,15,56),new Time(4,25,35));
+		TotalFlow tf5 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,new Time(2,15,56),new Time(4,25,35));
+		totalFlowRepo
+		.saveAll(List.of(tf2,tf3,tf4,tf5))
+		.forEach(t -> System.out.println("from saveAll: "+ t));
+		System.out.println("find all method");
+		totalFlowRepo.findAll().forEach(t -> System.out.println(t.toString()));
+		System.out.println("find by id method: "+
+		totalFlowRepo.findById(4L));
 	}
 }

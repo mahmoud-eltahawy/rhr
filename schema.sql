@@ -7,12 +7,12 @@ CREATE TABLE IF NOT EXISTS employee (
 );
 
 CREATE TABLE IF NOT EXISTS total_flow (
-    id           BIGSERIAL   NOT NULL PRIMARY KEY,
-    atms_case    VARCHAR(20) NOT NULL,
-    begin_time   TIME        NOT NULL,
-    end_time     TIME        NOT NULL,
-    min_flow     INTEGER     NOT NULL,
-    max_flow     INTEGER     NOT NULL
+    id             BIGSERIAL   NOT NULL PRIMARY KEY,
+    consumers_case VARCHAR(20) NOT NULL,
+    begin_time     TIME        NOT NULL,
+    end_time       TIME        NOT NULL,
+    min_flow       INTEGER     NOT NULL,
+    max_flow       INTEGER     NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS problem_detail (
