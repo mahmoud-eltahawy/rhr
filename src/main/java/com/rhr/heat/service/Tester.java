@@ -78,19 +78,19 @@ public class Tester {
 		cal.set(Calendar.DAY_OF_MONTH, 5);
 		Date d = new Date(cal.getTime().getTime());
 		
-		Shift shift11 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift11 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
 				List.of(pd1,pd2),
 				List.of(emp3),
 				List.of(tf1,tf2),
 				"taha greeting", 175, 195);
 		
-		Shift shift12 = new Shift(new ShiftId(null,d,ShiftOrder.Second),
+		Shift shift12 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd6,pd4),
 				List.of(emp4),
 				List.of(tf6,tf2),
 				"mohammed greeting", 175, 195);
 		
-		Shift shift13 = new Shift(new ShiftId(null,d,ShiftOrder.Third),
+		Shift shift13 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf1,tf2),
@@ -99,19 +99,19 @@ public class Tester {
 		cal.set(Calendar.DAY_OF_MONTH, 6);
 		d = new Date(cal.getTime().getTime());
 		
-		Shift shift21 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift21 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
 				List.of(pd2,pd3),
 				List.of(emp3,emp5),
 				List.of(tf4,tf3),
 				"taha and ehab greeting", 185, 205);
 		
-		Shift shift22 = new Shift(new ShiftId(null,d,ShiftOrder.Second),
+		Shift shift22 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd3,pd4),
 				List.of(emp4),
 				List.of(tf1,tf2),
 				"mohammed greeting", 195, 205);
 		
-		Shift shift23 = new Shift(new ShiftId(null,d,ShiftOrder.Third),
+		Shift shift23 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
@@ -120,19 +120,19 @@ public class Tester {
 		cal.set(Calendar.DAY_OF_MONTH, 7);
 		d = new Date(cal.getTime().getTime());
 		
-		Shift shift31 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift31 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
 				List.of(pd2,pd3),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"ehab greeting", 188, 206);
 		
-		Shift shift32 = new Shift(new ShiftId(null,d,ShiftOrder.Second),
+		Shift shift32 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd3,pd4),
 				List.of(emp4),
 				List.of(tf1,tf2),
 				"mohammed greeting", 196, 206);
 		
-		Shift shift33 = new Shift(new ShiftId(null,d,ShiftOrder.Third),
+		Shift shift33 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
@@ -141,19 +141,19 @@ public class Tester {
 		cal.set(Calendar.DAY_OF_MONTH, 8);
 		d = new Date(cal.getTime().getTime());
 		
-		Shift shift41 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift41 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
 				List.of(pd2,pd3),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		Shift shift42 = new Shift(new ShiftId(null,d,ShiftOrder.Second),
+		Shift shift42 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd3,pd4),
 				List.of(emp5),
 				List.of(tf1,tf2),
 				"ehab greeting", 192, 202);
 		
-		Shift shift43 = new Shift(new ShiftId(null,d,ShiftOrder.Third),
+		Shift shift43 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
@@ -162,19 +162,19 @@ public class Tester {
 		cal.set(Calendar.DAY_OF_MONTH, 9);
 		d = new Date(cal.getTime().getTime());
 		
-		Shift shift51 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift51 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
 				List.of(pd10,pd9),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		Shift shift52 = new Shift(new ShiftId(null,d,ShiftOrder.Second),
+		Shift shift52 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd7,pd8),
 				List.of(emp4,emp5),
 				List.of(tf1,tf2),
 				"ehab and mohammed greeting", 192, 202);
 		
-		Shift shift53 = new Shift(new ShiftId(null,d,ShiftOrder.Third),
+		Shift shift53 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
@@ -183,19 +183,19 @@ public class Tester {
 		cal.set(Calendar.DAY_OF_MONTH, 10);
 		d = new Date(cal.getTime().getTime());
 		
-		Shift shift61 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift61 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
 				List.of(pd13,pd12),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		Shift shift62 = new Shift(new ShiftId(null,d,ShiftOrder.Second),
+		Shift shift62 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd13,pd14),
 				List.of(emp4),
 				List.of(tf1,tf2),
 				"mohammed greeting", 192, 202);
 		
-		Shift shift63 = new Shift(new ShiftId(null,d,ShiftOrder.Third),
+		Shift shift63 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd11,pd12),
 				List.of(emp5),
 				List.of(tf4,tf5),
@@ -204,19 +204,19 @@ public class Tester {
 		cal.set(Calendar.DAY_OF_MONTH, 11);
 		d = new Date(cal.getTime().getTime());
 		
-		Shift shift71 = new Shift(new ShiftId(null,d,ShiftOrder.First),
+		Shift shift71 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
 				List.of(pd12,pd11),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		Shift shift72 = new Shift(new ShiftId(null,d,ShiftOrder.Second),
+		Shift shift72 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd13,pd14),
 				List.of(emp4),
 				List.of(tf5,tf3),
 				"mohammed greeting", 192, 202);
 		
-		Shift shift73 = new Shift(new ShiftId(null,d,ShiftOrder.Third),
+		Shift shift73 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd12,pd13),
 				List.of(emp2,emp5),
 				List.of(tf7,tf5),

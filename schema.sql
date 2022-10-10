@@ -25,9 +25,13 @@ CREATE TABLE IF NOT EXISTS problem_detail (
 
 CREATE TABLE IF NOT EXISTS shift_id (
     id          BIGSERIAL     PRIMARY KEY,
-    shift_order VARCHAR(20)   NOT NULL,
+    shift_order VARCHAR(7)    NOT NULL,
     shift_date  DATE          NOT NULL,
-    CONSTRAINT shift_identity UNIQUE(shift_order,shift_date)
+    CONSTRAINT shift_identity UNIQUE(shift_order,shift_date),
+    CONSTRAINT shift_order_values
+    CHECK(shift_order = 'FIRST' OR
+    shift_order = 'SECOND' OR
+    shift_order = 'THIRD')
 );
 
 CREATE TABLE IF NOT EXISTS shift (
