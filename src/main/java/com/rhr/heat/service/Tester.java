@@ -10,11 +10,11 @@ import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.ProblemDetailsRepo;
 import com.rhr.heat.dao.ShiftRepo;
 import com.rhr.heat.dao.TotalFlowRepo;
-import com.rhr.heat.enums.AtmsCase;
+import com.rhr.heat.enums.ConsumersCase;
 import com.rhr.heat.enums.EmployeePosition;
 import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.Problem;
-import com.rhr.heat.enums.ShiftType;
+import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.model.Employee;
 import com.rhr.heat.model.ProblemDetail;
 import com.rhr.heat.model.Shift;
@@ -74,13 +74,13 @@ public class Tester {
 		problemDetailsRepo.save(pd13);
 		problemDetailsRepo.save(pd14);
 		
-		TotalFlow tf1 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,new Time(2,15,56),new Time(4,25,35));
-		TotalFlow tf2 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,new Time(2,15,56),new Time(4,25,35));
-		TotalFlow tf3 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,77,92,new Time(2,15,56),new Time(4,25,35));
-		TotalFlow tf4 = new TotalFlow(null,AtmsCase.NONE,77,92,new Time(2,15,56),new Time(4,25,35));
-		TotalFlow tf5 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,new Time(2,15,56),new Time(4,25,35));
-		TotalFlow tf6 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,new Time(2,15,56),new Time(4,25,35));
-		TotalFlow tf7 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,77,92,new Time(2,15,56),new Time(4,25,35));
+		TotalFlow tf1 = new TotalFlow(null,ConsumersCase.ATM1_AND_ATM2,77,92,new Time(2,15,56),new Time(4,25,35));
+		TotalFlow tf2 = new TotalFlow(null,ConsumersCase.ATM_ONE_ONLY,77,92,new Time(2,15,56),new Time(4,25,35));
+		TotalFlow tf3 = new TotalFlow(null,ConsumersCase.ATM_Two_ONLY,77,92,new Time(2,15,56),new Time(4,25,35));
+		TotalFlow tf4 = new TotalFlow(null,ConsumersCase.NONE,77,92,new Time(2,15,56),new Time(4,25,35));
+		TotalFlow tf5 = new TotalFlow(null,ConsumersCase.ATM1_AND_ATM2,77,92,new Time(2,15,56),new Time(4,25,35));
+		TotalFlow tf6 = new TotalFlow(null,ConsumersCase.ATM_ONE_ONLY,77,92,new Time(2,15,56),new Time(4,25,35));
+		TotalFlow tf7 = new TotalFlow(null,ConsumersCase.ATM_Two_ONLY,77,92,new Time(2,15,56),new Time(4,25,35));
 		
 		totalFlowRepo.save(tf1);
 		totalFlowRepo.save(tf2);
@@ -91,19 +91,19 @@ public class Tester {
 		totalFlowRepo.save(tf7);
 		
 		
-		Shift shift1 = new Shift(new Date(2202,10,5),ShiftType.First,
+		Shift shift1 = new Shift(new Date(2202,10,5),ShiftOrder.First,
 				List.of(pd1,pd2),
 				List.of(emp3),
 				List.of(tf1,tf2),
 				"taha greeting", 175, 195);
 		
-		Shift shift2 = new Shift(new Date(2202,10,5),ShiftType.First,
+		Shift shift2 = new Shift(new Date(2202,10,5),ShiftOrder.First,
 				List.of(pd3,pd4),
 				List.of(emp4),
 				List.of(tf1,tf2),
 				"mohammed greeting", 175, 195);
 		
-		Shift shift3 = new Shift(new Date(2202,10,5),ShiftType.First,
+		Shift shift3 = new Shift(new Date(2202,10,5),ShiftOrder.First,
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf1,tf2),
@@ -113,19 +113,19 @@ public class Tester {
 		shiftRepo.save(shift2);
 		shiftRepo.save(shift3);
 		
-		shift1 = new Shift(new Date(2202,10,6),ShiftType.First,
+		shift1 = new Shift(new Date(2202,10,6),ShiftOrder.First,
 				List.of(pd2,pd3),
 				List.of(emp3,emp5),
 				List.of(tf4,tf3),
 				"taha and ehab greeting", 185, 205);
 		
-		shift2 = new Shift(new Date(2202,10,6),ShiftType.First,
+		shift2 = new Shift(new Date(2202,10,6),ShiftOrder.First,
 				List.of(pd3,pd4),
 				List.of(emp4),
 				List.of(tf1,tf2),
 				"mohammed greeting", 195, 205);
 		
-		shift3 = new Shift(new Date(2202,10,6),ShiftType.First,
+		shift3 = new Shift(new Date(2202,10,6),ShiftOrder.First,
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
@@ -135,19 +135,19 @@ public class Tester {
 		shiftRepo.save(shift2);
 		shiftRepo.save(shift3);
 		
-		shift1 = new Shift(new Date(2202,10,7),ShiftType.First,
+		shift1 = new Shift(new Date(2202,10,7),ShiftOrder.First,
 				List.of(pd2,pd3),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"ehab greeting", 188, 206);
 		
-		shift2 = new Shift(new Date(2202,10,7),ShiftType.First,
+		shift2 = new Shift(new Date(2202,10,7),ShiftOrder.First,
 				List.of(pd3,pd4),
 				List.of(emp4),
 				List.of(tf1,tf2),
 				"mohammed greeting", 196, 206);
 		
-		shift3 = new Shift(new Date(2202,10,7),ShiftType.First,
+		shift3 = new Shift(new Date(2202,10,7),ShiftOrder.First,
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
@@ -157,19 +157,19 @@ public class Tester {
 		shiftRepo.save(shift2);
 		shiftRepo.save(shift3);
 		
-		shift1 = new Shift(new Date(2202,10,8),ShiftType.First,
+		shift1 = new Shift(new Date(2202,10,8),ShiftOrder.First,
 				List.of(pd2,pd3),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		shift2 = new Shift(new Date(2202,10,8),ShiftType.First,
+		shift2 = new Shift(new Date(2202,10,8),ShiftOrder.First,
 				List.of(pd3,pd4),
 				List.of(emp5),
 				List.of(tf1,tf2),
 				"ehab greeting", 192, 202);
 		
-		shift3 = new Shift(new Date(2202,10,8),ShiftType.First,
+		shift3 = new Shift(new Date(2202,10,8),ShiftOrder.First,
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
@@ -179,19 +179,19 @@ public class Tester {
 		shiftRepo.save(shift2);
 		shiftRepo.save(shift3);
 		
-		shift1 = new Shift(new Date(2202,10,9),ShiftType.First,
+		shift1 = new Shift(new Date(2202,10,9),ShiftOrder.First,
 				List.of(pd10,pd9),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		shift2 = new Shift(new Date(2202,10,9),ShiftType.First,
+		shift2 = new Shift(new Date(2202,10,9),ShiftOrder.First,
 				List.of(pd7,pd8),
 				List.of(emp4,emp5),
 				List.of(tf1,tf2),
 				"ehab and mohammed greeting", 192, 202);
 		
-		shift3 = new Shift(new Date(2202,10,9),ShiftType.First,
+		shift3 = new Shift(new Date(2202,10,9),ShiftOrder.First,
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
@@ -201,19 +201,19 @@ public class Tester {
 		shiftRepo.save(shift2);
 		shiftRepo.save(shift3);
 		
-		shift1 = new Shift(new Date(2202,10,10),ShiftType.First,
+		shift1 = new Shift(new Date(2202,10,10),ShiftOrder.First,
 				List.of(pd13,pd12),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		shift2 = new Shift(new Date(2202,10,10),ShiftType.First,
+		shift2 = new Shift(new Date(2202,10,10),ShiftOrder.First,
 				List.of(pd13,pd14),
 				List.of(emp4),
 				List.of(tf1,tf2),
 				"mohammed greeting", 192, 202);
 		
-		shift3 = new Shift(new Date(2202,10,10),ShiftType.First,
+		shift3 = new Shift(new Date(2202,10,10),ShiftOrder.First,
 				List.of(pd11,pd12),
 				List.of(emp5),
 				List.of(tf4,tf5),
@@ -223,19 +223,19 @@ public class Tester {
 		shiftRepo.save(shift2);
 		shiftRepo.save(shift3);
 		
-		shift1 = new Shift(new Date(2202,10,11),ShiftType.First,
+		shift1 = new Shift(new Date(2202,10,11),ShiftOrder.First,
 				List.of(pd12,pd11),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		shift2 = new Shift(new Date(2202,10,11),ShiftType.First,
+		shift2 = new Shift(new Date(2202,10,11),ShiftOrder.First,
 				List.of(pd13,pd14),
 				List.of(emp4),
 				List.of(tf5,tf3),
 				"mohammed greeting", 192, 202);
 		
-		shift3 = new Shift(new Date(2202,10,11),ShiftType.First,
+		shift3 = new Shift(new Date(2202,10,11),ShiftOrder.First,
 				List.of(pd12,pd13),
 				List.of(emp2,emp5),
 				List.of(tf7,tf5),
@@ -251,10 +251,10 @@ public class Tester {
 	}
 	
 	public void emp() {
-		TotalFlow tf2 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,new Time(2,15,56),new Time(4,25,35));
-		TotalFlow tf3 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,77,92,new Time(2,15,56),new Time(4,25,35));
-		TotalFlow tf4 = new TotalFlow(null,AtmsCase.NONE,77,92,new Time(2,15,56),new Time(4,25,35));
-		TotalFlow tf5 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,new Time(2,15,56),new Time(4,25,35));
+		TotalFlow tf2 = new TotalFlow(null,ConsumersCase.ATM_ONE_ONLY,77,92,new Time(2,15,56),new Time(4,25,35));
+		TotalFlow tf3 = new TotalFlow(null,ConsumersCase.ATM_Two_ONLY,77,92,new Time(2,15,56),new Time(4,25,35));
+		TotalFlow tf4 = new TotalFlow(null,ConsumersCase.NONE,77,92,new Time(2,15,56),new Time(4,25,35));
+		TotalFlow tf5 = new TotalFlow(null,ConsumersCase.ATM1_AND_ATM2,77,92,new Time(2,15,56),new Time(4,25,35));
 		totalFlowRepo
 		.saveAll(List.of(tf2,tf3,tf4,tf5))
 		.forEach(t -> System.out.println("from saveAll: "+ t));

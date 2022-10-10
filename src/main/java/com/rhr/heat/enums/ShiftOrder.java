@@ -1,6 +1,6 @@
 package com.rhr.heat.enums;
 
-public enum ShiftType {
+public enum ShiftOrder {
 	First,
 	Second,
 	Third,

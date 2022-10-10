@@ -2,7 +2,7 @@ package com.rhr.heat.model;
 
 import java.sql.Time;
 
-import com.rhr.heat.enums.AtmsCase;
+import com.rhr.heat.enums.ConsumersCase;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TotalFlow {
 	private Long id;
-	private AtmsCase atmsCase;
+	private ConsumersCase consumersCase;
 	private Integer minFlow;
 	private Integer maxFlow;
 	private Time caseBeginTime;

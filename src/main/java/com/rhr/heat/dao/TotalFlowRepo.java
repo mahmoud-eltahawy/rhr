@@ -47,7 +47,7 @@ public class TotalFlowRepo {
 							+ "begin_time, end_time, min_flow, max_flow) "
 							+ "VALUES(?,?,?,?,?)", 
 							Statement.RETURN_GENERATED_KEYS);
-			ps.setString(1, tf.getAtmsCase().toString());
+			ps.setString(1, tf.getConsumersCase().toString());
 			ps.setTime(2, tf.getCaseBeginTime());
 			ps.setTime(3, tf.getCaseEndTime());
 			ps.setInt(4, tf.getMinFlow());
