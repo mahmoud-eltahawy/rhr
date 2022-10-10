@@ -250,23 +250,8 @@ public class Tester {
 		return shiftRepo.findAll();
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void emp() {
-		ProblemDetail pd1  = new ProblemDetail(null, Problem.p1,Machine.Atm1,new Time(0, 30, 24),new Time(0, 30, 24));
-		ProblemDetail pd2  = new ProblemDetail(null, Problem.p2,Machine.Atm2,new Time(0, 30, 24),new Time(0, 30, 24));
-		ProblemDetail pd3  = new ProblemDetail(null, Problem.p3,Machine.Drayer1,new Time(0, 30, 24),new Time(0, 30, 24));
-		ProblemDetail pd4  = new ProblemDetail(null, Problem.p4,Machine.Drayer2,new Time(0, 30, 24),new Time(0, 30, 24));
-		ProblemDetail pd5  = new ProblemDetail(null, Problem.p5,Machine.Drayer3,new Time(0, 30, 24),new Time(0, 30, 24));
-		ProblemDetail pd6  = new ProblemDetail(null, Problem.p6,Machine.Drayer4,new Time(0, 30, 24),new Time(0, 30, 24));
-		ProblemDetail pd7  = new ProblemDetail(null, Problem.p7,Machine.Drayer5,new Time(0, 30, 24),new Time(0, 30, 24));
-		ProblemDetail pd8  = new ProblemDetail(null, Problem.p8,Machine.Drayer6,new Time(0, 30, 24),new Time(0, 30, 24));
-		System.out.println(problemDetailsRepo.save(pd1));
-		System.out.println(problemDetailsRepo.save(pd2));
-		System.out.println(problemDetailsRepo.save(pd3));
-		System.out.println(problemDetailsRepo.save(pd4));
-		System.out.println(problemDetailsRepo.save(pd5));
-		System.out.println(problemDetailsRepo.save(pd6));
-		System.out.println(problemDetailsRepo.save(pd7));
-		System.out.println(problemDetailsRepo.save(pd8));
+		System.out.println(
+		problemDetailsRepo.findById(35L));
 	}
 }

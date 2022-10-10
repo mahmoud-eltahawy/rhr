@@ -4,12 +4,14 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.rhr.heat.dao.rowMappers.ProblemDetailRowMapper;
 import com.rhr.heat.model.ProblemDetail;
 
 import lombok.RequiredArgsConstructor;
@@ -20,15 +22,21 @@ public class ProblemDetailsRepo {
 	private final JdbcTemplate jdbcTemplate;
 	
 	public List<ProblemDetail> findAll(){
-		return null;
+		String sql = "SELECT * FROM problem_detail";
+		return jdbcTemplate.query(sql, new ProblemDetailRowMapper());
 	}
 	
 	public Optional<ProblemDetail> findById(Long id) {
-		return null;
+		String sql = "SELECT * FROM problem_detail WHERE id = ?";
+		return jdbcTemplate.query(sql, 
+				new ProblemDetailRowMapper(),id)
+				.stream().findFirst();
 	}
 
-	public void saveAll(List<ProblemDetail> problems) {
-		problems.forEach(p -> save(p));
+	public List<Long> saveAll(List<ProblemDetail> problems) {
+		return problems.stream()
+				.map(p -> {return save(p);})
+				.collect(Collectors.toList());
 	}
 
 	public Long save(ProblemDetail pd) {
