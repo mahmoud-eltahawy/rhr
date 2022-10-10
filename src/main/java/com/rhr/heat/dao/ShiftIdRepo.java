@@ -48,7 +48,8 @@ public class ShiftIdRepo {
 		jdbcTemplate.update(connection -> {
 			PreparedStatement ps = connection
 					.prepareStatement("INSERT INTO shift_id"
-				+ "(shift_order,shift_date) VALUES(?,?)", 
+				+ "(shift_order,shift_date) VALUES(?,?) "
+				+ "ON CONFLICT (shift_order,shift_date) DO NOTHING", 
 							Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, id.getShift().toString());
 			ps.setDate(2, id.getDate());

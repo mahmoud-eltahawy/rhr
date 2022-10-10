@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS shift_problem (
     shift_id   BIGINT        NOT NULL,
     problem_id BIGINT        NOT NULL,
     PRIMARY KEY(shift_id,problem_id),
-    FOREIGN KEY(shift_id)    REFERENCES shift(shift_id)          ON DELETE CASCADE,
+    FOREIGN KEY(shift_id)    REFERENCES shift(shift_id)    ON DELETE CASCADE,
     FOREIGN KEY(problem_id)  REFERENCES problem_detail(id) ON DELETE CASCADE
 );
 
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS shift_total_flow (
     shift_id BIGINT        NOT NULL,
     flow_id  BIGINT        NOT NULL,
     PRIMARY  KEY(shift_id,flow_id),
-    FOREIGN  KEY(shift_id) REFERENCES shift(shift_id)       ON DELETE CASCADE,
+    FOREIGN  KEY(shift_id) REFERENCES shift(shift_id) ON DELETE CASCADE,
     FOREIGN  KEY(flow_id)  REFERENCES total_flow(id)  ON DELETE CASCADE
 );
 
@@ -62,6 +62,6 @@ CREATE TABLE IF NOT EXISTS shift_employee (
     shift_id BIGINT        NOT NULL,
     emp_id   BIGINT        NOT NULL,
     PRIMARY  KEY(shift_id,emp_id),
-    FOREIGN  KEY(shift_id) REFERENCES shift(shift_id)    ON DELETE CASCADE,
-    FOREIGN  KEY(emp_id)   REFERENCES employee(id) ON DELETE CASCADE
+    FOREIGN  KEY(shift_id) REFERENCES shift(shift_id) ON DELETE CASCADE,
+    FOREIGN  KEY(emp_id)   REFERENCES employee(id)    ON DELETE CASCADE
 );
