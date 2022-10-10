@@ -32,45 +32,49 @@ public class ShiftRepo {
 
 	public Long save(Shift s) {
 		Long theId = shiftIdRepo.save(s.getShiftId());
-		jdbcTemplate.update("INSERT INTO shift"
-				+ "(shift_id,max_temp,min_temp,notes)"
-				+ " VALUES(?,?,?,?)",
-				theId,s.getMaxTemperature(),
-				s.getMinTemperature(),
-				s.getExceptionalNote());
-		
-		s.getProblems().forEach(p -> {
-			Long pId = null;
-			if(p.getId() != null) {
-				pId = p.getId();
-			} else {
-				pId = problemDetailsRepo.save(p);
-			}
-			jdbcTemplate.update("INSERT INTO shift_problem"
-					+ "(shift_id,problem_id) VALUES(?,?)",theId,pId);
-		});
-		
-		s.getEmployees().forEach(e ->{
-			Long eId = null;
-			if(e.getId() != null) {
-				eId = e.getId();
-			} else {
-				eId = employeeRepo.save(e);
-			}
-			jdbcTemplate.update("INSERT INTO shift_employee"
-					+ "(shift_id,emp_id) VALUES(?,?)",theId,eId);
-		});
-		
-		s.getTotalFlowAverage().forEach(t ->{
-			Long tId = null;
-			if(t.getId() != null) {
-				tId = t.getId();
-			} else {
-				tId = totalFlowRepo.save(t);
-			}
-			jdbcTemplate.update("INSERT INTO shift_total_flow"
-					+ "(shift_id,flow_id) VALUES(?,?)",theId,tId);
-		});
-		return theId;
+		if(theId == null) {
+			return theId;
+		} else {
+			jdbcTemplate.update("INSERT INTO shift"
+					+ "(shift_id,max_temp,min_temp,notes)"
+					+ " VALUES(?,?,?,?)",
+					theId,s.getMaxTemperature(),
+					s.getMinTemperature(),
+					s.getExceptionalNote());
+			
+			s.getProblems().forEach(p -> {
+				Long pId = null;
+				if(p.getId() != null) {
+					pId = p.getId();
+				} else {
+					pId = problemDetailsRepo.save(p);
+				}
+				jdbcTemplate.update("INSERT INTO shift_problem"
+						+ "(shift_id,problem_id) VALUES(?,?)",theId,pId);
+			});
+			
+			s.getEmployees().forEach(e ->{
+				Long eId = null;
+				if(e.getId() != null) {
+					eId = e.getId();
+				} else {
+					eId = employeeRepo.save(e);
+				}
+				jdbcTemplate.update("INSERT INTO shift_employee"
+						+ "(shift_id,emp_id) VALUES(?,?)",theId,eId);
+			});
+			
+			s.getTotalFlowAverage().forEach(t ->{
+				Long tId = null;
+				if(t.getId() != null) {
+					tId = t.getId();
+				} else {
+					tId = totalFlowRepo.save(t);
+				}
+				jdbcTemplate.update("INSERT INTO shift_total_flow"
+						+ "(shift_id,flow_id) VALUES(?,?)",theId,tId);
+			});
+			return theId;
+		}
 	}
 }
