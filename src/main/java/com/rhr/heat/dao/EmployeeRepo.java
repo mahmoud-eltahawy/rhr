@@ -1,9 +1,14 @@
 package com.rhr.heat.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.rhr.heat.dao.rowMappers.EmployeeRowMapper;
@@ -32,15 +37,30 @@ public class EmployeeRepo{
 		return jdbcTemplate.update(sql, id);
 	}
 
-	public void saveAll(List<Employee> emps) {
-		emps.forEach(e -> save(e) );
+	public List<Long> saveAll(List<Employee> emps) {
+		return emps.stream()
+				.map(e -> {return save(e);})
+				.collect(Collectors.toList());
 	}
 
-	public void save(Employee emp) {
-		String sql = "INSERT INTO employee"
+	public Long save(Employee emp) {
+		KeyHolder key = new GeneratedKeyHolder();
+		jdbcTemplate.update(connection ->{
+			PreparedStatement ps = connection
+					.prepareStatement("INSERT INTO employee"
 				+ "(first_name,middle_name,last_name,emp_position)"
-				+ "VALUES(?,?,?,?)";
-		jdbcTemplate.update(sql,emp.getFirstName(),emp.getMiddleName()
-				,emp.getLastName(),emp.getPosition().toString());
+				+ "VALUES(?,?,?,?)", 
+							Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, emp.getFirstName());
+			ps.setString(2, emp.getMiddleName());
+			ps.setString(3, emp.getLastName());
+			ps.setString(4, emp.getPosition().toString());
+			return ps;
+		},key);
+	 if (key.getKeys().size() > 1) {
+			return (Long)key.getKeys().get("id");
+		} else {
+			return key.getKey().longValue();
+		}
 	}
 }
