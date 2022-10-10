@@ -43,20 +43,20 @@ public class Tester {
 		employeeRepo.save(emp4);
 		employeeRepo.save(emp5);
 		
-		ProblemDetail pd1  = new ProblemDetail(null, Problem.p1,Machine.Atm1,new MyTime(0, 30),new MyTime(0, 30));
-		ProblemDetail pd2  = new ProblemDetail(null, Problem.p2,Machine.Atm2,new MyTime(0, 30),new MyTime(0, 30));
-		ProblemDetail pd3  = new ProblemDetail(null, Problem.p3,Machine.Drayer1,new MyTime(0, 30),new MyTime(0, 30));
-		ProblemDetail pd4  = new ProblemDetail(null, Problem.p4,Machine.Drayer2,new MyTime(0, 30),new MyTime(0, 30));
-		ProblemDetail pd5  = new ProblemDetail(null, Problem.p5,Machine.Drayer3,new MyTime(0, 30),new MyTime(0, 30));
-		ProblemDetail pd6  = new ProblemDetail(null, Problem.p6,Machine.Drayer4,new MyTime(0, 30),new MyTime(0, 30));
-		ProblemDetail pd7  = new ProblemDetail(null, Problem.p7,Machine.Drayer5,new MyTime(0, 30),new MyTime(0, 30));
-		ProblemDetail pd8  = new ProblemDetail(null, Problem.p8,Machine.Drayer6,new MyTime(0, 30),new MyTime(0, 30));
-		ProblemDetail pd9  = new ProblemDetail(null, Problem.p9,Machine.Drayer7,new MyTime(0, 30),new MyTime(0, 30));
-		ProblemDetail pd10 = new ProblemDetail(null, Problem.p1,Machine.Kilen1,new MyTime(0, 30),new MyTime(0, 30));
-		ProblemDetail pd11 = new ProblemDetail(null, Problem.p1,Machine.Kilen2,new MyTime(0, 30),new MyTime(0, 30));
-		ProblemDetail pd12 = new ProblemDetail(null, Problem.p2,Machine.Kilen3,new MyTime(0, 30),new MyTime(0, 30));
-		ProblemDetail pd13 = new ProblemDetail(null, Problem.p3,Machine.Kilen4,new MyTime(0, 30),new MyTime(0, 30));
-		ProblemDetail pd14 = new ProblemDetail(null, Problem.p4,Machine.Kilen5,new MyTime(0, 30),new MyTime(0, 30));
+		ProblemDetail pd1  = new ProblemDetail(null, Problem.p1,Machine.Atm1,new MyTime(0, 30, "AM"),new MyTime(0, 30, "AM"));
+		ProblemDetail pd2  = new ProblemDetail(null, Problem.p2,Machine.Atm2,new MyTime(0, 30, "AM"),new MyTime(0, 30, "AM"));
+		ProblemDetail pd3  = new ProblemDetail(null, Problem.p3,Machine.Drayer1,new MyTime(0, 30, "AM"),new MyTime(0, 30, "AM"));
+		ProblemDetail pd4  = new ProblemDetail(null, Problem.p4,Machine.Drayer2,new MyTime(0, 30, "AM"),new MyTime(0, 30, "AM"));
+		ProblemDetail pd5  = new ProblemDetail(null, Problem.p5,Machine.Drayer3,new MyTime(0, 30, "AM"),new MyTime(0, 30, "AM"));
+		ProblemDetail pd6  = new ProblemDetail(null, Problem.p6,Machine.Drayer4,new MyTime(0, 30, "AM"),new MyTime(0, 30, "AM"));
+		ProblemDetail pd7  = new ProblemDetail(null, Problem.p7,Machine.Drayer5,new MyTime(0, 30, "AM"),new MyTime(0, 30, "AM"));
+		ProblemDetail pd8  = new ProblemDetail(null, Problem.p8,Machine.Drayer6,new MyTime(0, 30, "AM"),new MyTime(0, 30, "AM"));
+		ProblemDetail pd9  = new ProblemDetail(null, Problem.p9,Machine.Drayer7,new MyTime(0, 30, "AM"),new MyTime(0, 30, "AM"));
+		ProblemDetail pd10 = new ProblemDetail(null, Problem.p1,Machine.Kilen1,new MyTime(0, 30, "AM"),new MyTime(0, 30, "AM"));
+		ProblemDetail pd11 = new ProblemDetail(null, Problem.p1,Machine.Kilen2,new MyTime(0, 30, "AM"),new MyTime(0, 30, "AM"));
+		ProblemDetail pd12 = new ProblemDetail(null, Problem.p2,Machine.Kilen3,new MyTime(0, 30, "AM"),new MyTime(0, 30, "AM"));
+		ProblemDetail pd13 = new ProblemDetail(null, Problem.p3,Machine.Kilen4,new MyTime(0, 30, "AM"),new MyTime(0, 30, "AM"));
+		ProblemDetail pd14 = new ProblemDetail(null, Problem.p4,Machine.Kilen5,new MyTime(0, 30, "AM"),new MyTime(0, 30, "AM"));
 		
 		problemDetailsRepo.save(pd1);
 		problemDetailsRepo.save(pd2);
@@ -73,13 +73,13 @@ public class Tester {
 		problemDetailsRepo.save(pd13);
 		problemDetailsRepo.save(pd14);
 		
-		TotalFlow tf1 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,new MyTime(2,15),new MyTime(4,25));
-		TotalFlow tf2 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,new MyTime(2,15),new MyTime(4,35));
-		TotalFlow tf3 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,77,92,new MyTime(3,15),new MyTime(5,25));
-		TotalFlow tf4 = new TotalFlow(null,AtmsCase.NONE,77,92,new MyTime(2,15),new MyTime(4,25));
-		TotalFlow tf5 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,new MyTime(2,15),new MyTime(4,25));
-		TotalFlow tf6 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,new MyTime(3,15),new MyTime(4,25));
-		TotalFlow tf7 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,77,92,new MyTime(2,15),new MyTime(4,25));
+		TotalFlow tf1 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,new MyTime(2,15, "AM"),new MyTime(4,25, "AM"));
+		TotalFlow tf2 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,new MyTime(2,15, "AM"),new MyTime(4,35, "AM"));
+		TotalFlow tf3 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,77,92,new MyTime(3,15, "AM"),new MyTime(5,25, "AM"));
+		TotalFlow tf4 = new TotalFlow(null,AtmsCase.NONE,77,92,new MyTime(2,15, "AM"),new MyTime(4,25, "AM"));
+		TotalFlow tf5 = new TotalFlow(null,AtmsCase.ATM1_AND_ATM2,77,92,new MyTime(2,15, "AM"),new MyTime(4,25, "AM"));
+		TotalFlow tf6 = new TotalFlow(null,AtmsCase.ATM_ONE_ONLY,77,92,new MyTime(3,15, "AM"),new MyTime(4,25, "AM"));
+		TotalFlow tf7 = new TotalFlow(null,AtmsCase.ATM_Two_ONLY,77,92,new MyTime(2,15, "AM"),new MyTime(4,25, "AM"));
 		
 		totalFlowRepo.save(tf1);
 		totalFlowRepo.save(tf2);
@@ -250,7 +250,7 @@ public class Tester {
 	}
 	
 	public void emp() {
-		System.out.println(
-		problemDetailsRepo.findById(3L).get().toString());
+		ProblemDetail pd  = new ProblemDetail(null, Problem.p1,Machine.Atm1,new MyTime(0, 30, "AM"),new MyTime(0, 30, "AM"));
+		problemDetailsRepo.save(pd);
 	}
 }

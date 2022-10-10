@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.rhr.heat.dao.rowMappers.ProblemDetailRowMapper;
 import com.rhr.heat.model.ProblemDetail;
 
 import lombok.RequiredArgsConstructor;
@@ -17,14 +16,11 @@ public class ProblemDetailsRepo {
 	private final JdbcTemplate jdbcTemplate;
 	
 	public List<ProblemDetail> findAll(){
-		String sql = "SELECT * FROM problem_detail";
-		return jdbcTemplate.query(sql, new ProblemDetailRowMapper());
+		return null;
 	}
 	
 	public Optional<ProblemDetail> findById(Long id) {
-		String sql = "SELECT * FROM problem_detail where id = ?";
-		return jdbcTemplate.query(sql,
-				new ProblemDetailRowMapper(), id).stream().findFirst();
+		return null;
 	}
 
 	public void saveAll(List<ProblemDetail> problems) {
@@ -32,14 +28,12 @@ public class ProblemDetailsRepo {
 	}
 
 	public void save(ProblemDetail pd) {
-		String sql = "INSERT INTO problem_detail(problem,machine,"
-				+ "begin_hour,begin_minute,end_hour,end_minute) VALUES(?,?,?,?,?,?)";
+		String sql = "INSERT INTO problem_detail(problem, machine,"
+				+ "begin_time, end_time) VALUES(?,?,?,?)";
 		jdbcTemplate.update(sql,
 				pd.getProblem().toString(),
 				pd.getMachine().toString(),
-				pd.getBeginTime().getHour(),
-				pd.getBeginTime().getMinute(),
-				pd.getEndTime().getHour(),
-				pd.getEndTime().getMinute());
+				pd.getBeginTime().form(),
+				pd.getBeginTime().form());
 	}
 }

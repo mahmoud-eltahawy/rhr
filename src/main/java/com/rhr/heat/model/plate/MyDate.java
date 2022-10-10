@@ -9,6 +9,26 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MyDate {
 	private Integer year;
-	private Integer Month;
+	private Integer month;
 	private Integer day;
+	
+	public String form() {
+		String years  = this.year.toString();
+		String months = null;
+		String days   = null;
+		
+		if(this.month < 10) {
+			months = "0" + this.month;
+		} else {
+			months = this.month.toString();
+		}
+		
+		if(this.day < 10) {
+			days = "0" + this.day;
+		} else {
+			days = this.day.toString();
+		}
+		
+		return days+"/"+months+"/"+years;
+	}
 }

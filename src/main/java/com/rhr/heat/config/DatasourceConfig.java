@@ -1,7 +1,6 @@
 package com.rhr.heat.config;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,10 +12,13 @@ public class DatasourceConfig {
 
     @Bean
     @Primary
-    @ConfigurationProperties("app.datasource.main")
     public HikariDataSource hikariDataSource() {
         return DataSourceBuilder
                 .create()
+                .driverClassName("org.postgresql.Driver")
+                .url("jdbc:postgresql://localhost:5432/postgres")
+                .username("admin")
+                .password("admin")
                 .type(HikariDataSource.class)
                 .build();
     }
