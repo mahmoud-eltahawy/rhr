@@ -1,6 +1,7 @@
 package com.rhr.heat.dao;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -33,22 +34,55 @@ public class ShiftRepo {
 			 s.setEmployees(jdbcTemplate.query(
 					 "SELECT e.id,e.first_name,e.middle_name,last_name,"
 					 + "e.emp_position FROM employee e JOIN shift_employee "
-					 + "se ON e.id = se.emp_id JOIN shift s ON se.shift_id = ?",
+					 + "se ON e.id = se.emp_id JOIN shift s ON se.shift_id = s.shift_id "
+					 + "where s.shift_id = ?",
 		 		new EmployeeRowMapper(),s.getShiftId().getId()));
 			 s.setProblems(jdbcTemplate.query(
 					 "SELECT pd.id, pd.problem,pd.machine, pd.begin_time,"
-					 + "pd.end_time FROM problem_detail pd JOIN shift_problem "
-					 + "sp ON pd.id = sp.problem_id JOIN shift s ON sp.shift_id = ?", 
+					 +"pd.end_time FROM problem_detail pd JOIN shift_problem "
+					 +"sp ON pd.id = sp.problem_id JOIN shift s ON sp.shift_id = s.shift_id "
+					 +"where s.shift_id = ?", 
 					 new ProblemDetailRowMapper(),s.getShiftId().getId()));
 			 s.setTotalFlowAverage(jdbcTemplate.query(
 					 "SELECT tf.id, tf.consumers_case, tf.begin_time, tf.end_time,"
 					 +"tf.min_flow, tf.max_flow FROM total_flow tf JOIN shift_total_flow "
-					 +"sf ON tf.id = sf.flow_id JOIN shift s ON sf.shift_id = ?", 
+					 +"sf ON tf.id = sf.flow_id JOIN shift s ON sf.shift_id = s.shift_id "
+					 +"where s.shift_id = ?", 
 					 new TotalFlowRowMapper(), s.getShiftId().getId()));
 			 return s;
 		 }).collect(Collectors.toList());
 		 return shifts;
 	}
+
+	public Optional<Shift> findById(Long id) {
+		 Shift s = jdbcTemplate.query(
+				 "select si.id as shift_id, si.shift_order,"
+				+ "shift_date, s.max_temp, s.min_temp, s.notes "
+				+ "from shift s join shift_id si on s.shift_id = si.id "
+				+ "where si.id = ?",
+				new ShiftRowMapper(),id).stream().findFirst().get();
+			 s.setEmployees(jdbcTemplate.query(
+					 "SELECT e.id,e.first_name,e.middle_name,last_name,"
+					 + "e.emp_position FROM employee e JOIN shift_employee "
+					 + "se ON e.id = se.emp_id JOIN shift s ON se.shift_id = s.shift_id "
+					 + "where s.shift_id = ?",
+		 		new EmployeeRowMapper(),s.getShiftId().getId()));
+			 s.setProblems(jdbcTemplate.query(
+					 "SELECT pd.id, pd.problem,pd.machine, pd.begin_time,"
+					 + "pd.end_time FROM problem_detail pd JOIN shift_problem "
+					 + "sp ON pd.id = sp.problem_id JOIN shift s ON sp.shift_id = s.shift_id "
+					 + "where s.shift_id = ?", 
+					 new ProblemDetailRowMapper(),s.getShiftId().getId()));
+			 s.setTotalFlowAverage(jdbcTemplate.query(
+					 "SELECT tf.id, tf.consumers_case, tf.begin_time, tf.end_time,"
+					 +"tf.min_flow, tf.max_flow FROM total_flow tf JOIN shift_total_flow "
+					 +"sf ON tf.id = sf.flow_id JOIN shift s ON sf.shift_id = s.shift_id "
+					 + "where s.shift_id = ?", 
+					 new TotalFlowRowMapper(), s.getShiftId().getId()));
+		 return Optional.of(s);
+	}
+	
+	
 
 	public List<Long> saveAll(List<Shift> shifts) {
 		return shifts.stream()
