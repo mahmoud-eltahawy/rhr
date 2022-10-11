@@ -12,6 +12,7 @@ import com.rhr.heat.dao.rowMappers.EmployeeRowMapper;
 import com.rhr.heat.dao.rowMappers.ProblemDetailRowMapper;
 import com.rhr.heat.dao.rowMappers.ShiftRowMapper;
 import com.rhr.heat.dao.rowMappers.TotalFlowRowMapper;
+import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.model.Shift;
 
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,19 @@ public class ShiftRepo {
 				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
 				+ "from shift s join shift_id si on s.shift_id = si.id",
 				new ShiftRowMapper());
+		 shifts = shifts.stream()
+				 .map(s ->{return fullFill(s);})
+				 .collect(Collectors.toList());
+		 return shifts;
+	}
+
+	public List<Shift> findAll(ShiftOrder order) {
+		 List<Shift> shifts = jdbcTemplate.query(
+				 "select si.id as shift_id, si.shift_order,"
+				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
+				+ "from shift s join shift_id si on s.shift_id = si.id "
+				+ "where si.shift_order = ?",
+				new ShiftRowMapper(), order.toString());
 		 shifts = shifts.stream()
 				 .map(s ->{return fullFill(s);})
 				 .collect(Collectors.toList());
