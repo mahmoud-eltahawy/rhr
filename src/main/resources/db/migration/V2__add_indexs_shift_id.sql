@@ -34,6 +34,9 @@ CREATE TABLE IF NOT EXISTS shift_id (
     shift_order = 'THIRD')
 );
 
+CREATE INDEX idx_by_shift_order ON shift_id (shift_order);
+CREATE INDEX idx_by_shift_date  ON shift_id (shift_date);
+
 CREATE TABLE IF NOT EXISTS shift (
     shift_id BIGINT       PRIMARY KEY,
     max_temp INTEGER      NOT NULL,
