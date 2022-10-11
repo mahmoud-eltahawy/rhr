@@ -2,3 +2,7 @@ server:
   error:
     include-binding-errors: always
     include-message: always
+    
+spring:
+  flyway:
+    locations: classpath:db.migration/{vendor}
