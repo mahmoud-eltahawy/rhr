@@ -33,6 +33,7 @@ public class DatasourceConfig {
     @Bean
     public Flyway flyway(HikariDataSource hikariDataSource) {
     	Flyway flyway = Flyway.configure().dataSource(hikariDataSource).load();
+    	flyway.baseline();
     	flyway.migrate();
     	return flyway;
     }

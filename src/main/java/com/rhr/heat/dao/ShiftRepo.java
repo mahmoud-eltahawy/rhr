@@ -27,7 +27,7 @@ public class ShiftRepo {
 	public List<Shift> findAll() {
 		 List<Shift> shifts = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
-				+ "shift_date, s.max_temp, s.min_temp, s.notes "
+				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
 				+ "from shift s join shift_id si on s.shift_id = si.id",
 				new ShiftRowMapper());
 		 shifts = shifts.stream().map(s ->{
@@ -57,7 +57,7 @@ public class ShiftRepo {
 	public Optional<Shift> findById(Long id) {
 		 Shift s = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
-				+ "shift_date, s.max_temp, s.min_temp, s.notes "
+				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
 				+ "from shift s join shift_id si on s.shift_id = si.id "
 				+ "where si.id = ?",
 				new ShiftRowMapper(),id).stream().findFirst().get();
