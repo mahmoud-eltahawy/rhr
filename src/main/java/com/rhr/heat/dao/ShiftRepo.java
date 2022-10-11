@@ -74,6 +74,16 @@ public class ShiftRepo {
 		 return Optional.of(fullFill(s));
 	}
 
+	public Optional<Shift> findById(Date date, ShiftOrder order) {
+		 Shift s = jdbcTemplate.query(
+				 "select si.id as shift_id, si.shift_order,"
+				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
+				+ "from shift s join shift_id si on s.shift_id = si.id "
+				+ "where si.shift_date = ? and si.shift_order = ?",
+				new ShiftRowMapper(),date,order.toString()).stream().findFirst().get();
+		 return Optional.of(fullFill(s));
+	}
+
 	public List<Shift> findOlderThan(Date date) {
 		 List<Shift> shifts = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
