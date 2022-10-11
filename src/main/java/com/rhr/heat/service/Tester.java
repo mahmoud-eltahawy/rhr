@@ -241,6 +241,6 @@ public class Tester {
 		cal.set(Calendar.MONTH, Calendar.OCTOBER);
 		cal.set(Calendar.DAY_OF_MONTH, 10);
 		Date date = new Date(cal.getTime().getTime());
-		shiftRepo.findOlderThan(date).forEach(s -> System.out.println(s.toString()));
+		shiftRepo.findRecent(date).forEach(s -> System.out.println(s.toString()));
 	}
 }
