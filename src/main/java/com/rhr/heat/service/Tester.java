@@ -236,6 +236,11 @@ public class Tester {
 	}
 	
 	public void emp() {
-		shiftRepo.findAll().forEach(s -> System.out.println(s.toString()));
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, 2022);
+		cal.set(Calendar.MONTH, Calendar.OCTOBER);
+		cal.set(Calendar.DAY_OF_MONTH, 10);
+		Date date = new Date(cal.getTime().getTime());
+		shiftRepo.findOlderThan(date).forEach(s -> System.out.println(s.toString()));
 	}
 }
