@@ -37,6 +37,19 @@ public class ShiftRepo {
 				 .collect(Collectors.toList());
 		 return shifts;
 	}
+	
+	public List<Shift> findAll(Date date) {
+		 List<Shift> shifts = jdbcTemplate.query(
+				 "select si.id as shift_id, si.shift_order,"
+				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
+				+ "from shift s join shift_id si on s.shift_id = si.id "
+				+ "where si.shift_date = ?",
+				new ShiftRowMapper(), date);
+		 shifts = shifts.stream()
+				 .map(s ->{return fullFill(s);})
+				 .collect(Collectors.toList());
+		 return shifts;
+	}
 
 	public List<Shift> findAll(ShiftOrder order) {
 		 List<Shift> shifts = jdbcTemplate.query(
