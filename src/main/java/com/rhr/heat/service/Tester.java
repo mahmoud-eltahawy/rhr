@@ -239,8 +239,8 @@ public class Tester {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, 2022);
 		cal.set(Calendar.MONTH, Calendar.OCTOBER);
-		cal.set(Calendar.DAY_OF_MONTH, 10);
+		cal.set(Calendar.DAY_OF_MONTH, 8);
 		Date date = new Date(cal.getTime().getTime());
-		shiftRepo.findRecent(date).forEach(s -> System.out.println(s.toString()));
+		shiftRepo.findOlderThan(date).forEach(s -> System.out.println(s.toString()));
 	}
 }
