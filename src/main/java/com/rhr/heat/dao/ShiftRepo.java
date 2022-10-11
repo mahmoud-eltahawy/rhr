@@ -31,27 +31,9 @@ public class ShiftRepo {
 				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
 				+ "from shift s join shift_id si on s.shift_id = si.id",
 				new ShiftRowMapper());
-		 shifts = shifts.stream().map(s ->{
-			 s.setEmployees(jdbcTemplate.query(
-					 "SELECT e.id,e.first_name,e.middle_name,last_name,"
-					 + "e.emp_position FROM employee e JOIN shift_employee "
-					 + "se ON e.id = se.emp_id JOIN shift s ON se.shift_id = s.shift_id "
-					 + "where s.shift_id = ?",
-		 		new EmployeeRowMapper(),s.getShiftId().getId()));
-			 s.setProblems(jdbcTemplate.query(
-					 "SELECT pd.id, pd.problem,pd.machine, pd.begin_time,"
-					 +"pd.end_time FROM problem_detail pd JOIN shift_problem "
-					 +"sp ON pd.id = sp.problem_id JOIN shift s ON sp.shift_id = s.shift_id "
-					 +"where s.shift_id = ?", 
-					 new ProblemDetailRowMapper(),s.getShiftId().getId()));
-			 s.setTotalFlowAverage(jdbcTemplate.query(
-					 "SELECT tf.id, tf.consumers_case, tf.begin_time, tf.end_time,"
-					 +"tf.min_flow, tf.max_flow FROM total_flow tf JOIN shift_total_flow "
-					 +"sf ON tf.id = sf.flow_id JOIN shift s ON sf.shift_id = s.shift_id "
-					 +"where s.shift_id = ?", 
-					 new TotalFlowRowMapper(), s.getShiftId().getId()));
-			 return s;
-		 }).collect(Collectors.toList());
+		 shifts = shifts.stream()
+				 .map(s ->{return fullFill(s);})
+				 .collect(Collectors.toList());
 		 return shifts;
 	}
 
@@ -62,25 +44,7 @@ public class ShiftRepo {
 				+ "from shift s join shift_id si on s.shift_id = si.id "
 				+ "where si.id = ?",
 				new ShiftRowMapper(),id).stream().findFirst().get();
-			 s.setEmployees(jdbcTemplate.query(
-					 "SELECT e.id,e.first_name,e.middle_name,last_name,"
-					 + "e.emp_position FROM employee e JOIN shift_employee "
-					 + "se ON e.id = se.emp_id JOIN shift s ON se.shift_id = s.shift_id "
-					 + "where s.shift_id = ?",
-		 		new EmployeeRowMapper(),s.getShiftId().getId()));
-			 s.setProblems(jdbcTemplate.query(
-					 "SELECT pd.id, pd.problem,pd.machine, pd.begin_time,"
-					 + "pd.end_time FROM problem_detail pd JOIN shift_problem "
-					 + "sp ON pd.id = sp.problem_id JOIN shift s ON sp.shift_id = s.shift_id "
-					 + "where s.shift_id = ?", 
-					 new ProblemDetailRowMapper(),s.getShiftId().getId()));
-			 s.setTotalFlowAverage(jdbcTemplate.query(
-					 "SELECT tf.id, tf.consumers_case, tf.begin_time, tf.end_time,"
-					 +"tf.min_flow, tf.max_flow FROM total_flow tf JOIN shift_total_flow "
-					 +"sf ON tf.id = sf.flow_id JOIN shift s ON sf.shift_id = s.shift_id "
-					 + "where s.shift_id = ?", 
-					 new TotalFlowRowMapper(), s.getShiftId().getId()));
-		 return Optional.of(s);
+		 return Optional.of(fullFill(s));
 	}
 
 	public List<Shift> findOlderThan(Date date) {
@@ -90,27 +54,9 @@ public class ShiftRepo {
 				+ "from shift s join shift_id si on s.shift_id = si.id "
 				+ "where si.shift_date <= ?",
 				new ShiftRowMapper(),date);
-		 shifts = shifts.stream().map(s ->{
-			 s.setEmployees(jdbcTemplate.query(
-					 "SELECT e.id,e.first_name,e.middle_name,last_name,"
-					 + "e.emp_position FROM employee e JOIN shift_employee "
-					 + "se ON e.id = se.emp_id JOIN shift s ON se.shift_id = s.shift_id "
-					 + "where s.shift_id = ?",
-		 		new EmployeeRowMapper(),s.getShiftId().getId()));
-			 s.setProblems(jdbcTemplate.query(
-					 "SELECT pd.id, pd.problem,pd.machine, pd.begin_time,"
-					 +"pd.end_time FROM problem_detail pd JOIN shift_problem "
-					 +"sp ON pd.id = sp.problem_id JOIN shift s ON sp.shift_id = s.shift_id "
-					 +"where s.shift_id = ?", 
-					 new ProblemDetailRowMapper(),s.getShiftId().getId()));
-			 s.setTotalFlowAverage(jdbcTemplate.query(
-					 "SELECT tf.id, tf.consumers_case, tf.begin_time, tf.end_time,"
-					 +"tf.min_flow, tf.max_flow FROM total_flow tf JOIN shift_total_flow "
-					 +"sf ON tf.id = sf.flow_id JOIN shift s ON sf.shift_id = s.shift_id "
-					 +"where s.shift_id = ?", 
-					 new TotalFlowRowMapper(), s.getShiftId().getId()));
-			 return s;
-		 }).collect(Collectors.toList());
+		 shifts = shifts.stream()
+				 .map(s ->{return fullFill(s);})
+				 .collect(Collectors.toList());
 		 return shifts;
 	}
 
@@ -121,27 +67,9 @@ public class ShiftRepo {
 				+ "from shift s join shift_id si on s.shift_id = si.id "
 				+ "where si.shift_date >= ?",
 				new ShiftRowMapper(),date);
-		 shifts = shifts.stream().map(s ->{
-			 s.setEmployees(jdbcTemplate.query(
-					 "SELECT e.id,e.first_name,e.middle_name,last_name,"
-					 + "e.emp_position FROM employee e JOIN shift_employee "
-					 + "se ON e.id = se.emp_id JOIN shift s ON se.shift_id = s.shift_id "
-					 + "where s.shift_id = ?",
-		 		new EmployeeRowMapper(),s.getShiftId().getId()));
-			 s.setProblems(jdbcTemplate.query(
-					 "SELECT pd.id, pd.problem,pd.machine, pd.begin_time,"
-					 +"pd.end_time FROM problem_detail pd JOIN shift_problem "
-					 +"sp ON pd.id = sp.problem_id JOIN shift s ON sp.shift_id = s.shift_id "
-					 +"where s.shift_id = ?", 
-					 new ProblemDetailRowMapper(),s.getShiftId().getId()));
-			 s.setTotalFlowAverage(jdbcTemplate.query(
-					 "SELECT tf.id, tf.consumers_case, tf.begin_time, tf.end_time,"
-					 +"tf.min_flow, tf.max_flow FROM total_flow tf JOIN shift_total_flow "
-					 +"sf ON tf.id = sf.flow_id JOIN shift s ON sf.shift_id = s.shift_id "
-					 +"where s.shift_id = ?", 
-					 new TotalFlowRowMapper(), s.getShiftId().getId()));
-			 return s;
-		 }).collect(Collectors.toList());
+		 shifts = shifts.stream()
+				 .map(s ->{return fullFill(s);})
+				 .collect(Collectors.toList());
 		 return shifts;
 	}
 
@@ -152,27 +80,9 @@ public class ShiftRepo {
 				+ "from shift s join shift_id si on s.shift_id = si.id "
 				+ "where si.shift_date between ? and ?",
 				new ShiftRowMapper(),older,newer);
-		 shifts = shifts.stream().map(s -> {
-			 s.setEmployees(jdbcTemplate.query(
-					 "SELECT e.id,e.first_name,e.middle_name,last_name,"
-					 + "e.emp_position FROM employee e JOIN shift_employee "
-					 + "se ON e.id = se.emp_id JOIN shift s ON se.shift_id = s.shift_id "
-					 + "where s.shift_id = ?",
-		 		new EmployeeRowMapper(),s.getShiftId().getId()));
-			 s.setProblems(jdbcTemplate.query(
-					 "SELECT pd.id, pd.problem,pd.machine, pd.begin_time,"
-					 +"pd.end_time FROM problem_detail pd JOIN shift_problem "
-					 +"sp ON pd.id = sp.problem_id JOIN shift s ON sp.shift_id = s.shift_id "
-					 +"where s.shift_id = ?", 
-					 new ProblemDetailRowMapper(),s.getShiftId().getId()));
-			 s.setTotalFlowAverage(jdbcTemplate.query(
-					 "SELECT tf.id, tf.consumers_case, tf.begin_time, tf.end_time,"
-					 +"tf.min_flow, tf.max_flow FROM total_flow tf JOIN shift_total_flow "
-					 +"sf ON tf.id = sf.flow_id JOIN shift s ON sf.shift_id = s.shift_id "
-					 +"where s.shift_id = ?", 
-					 new TotalFlowRowMapper(), s.getShiftId().getId()));
-			 return s;
-		 }).collect(Collectors.toList());
+		 shifts = shifts.stream()
+				 .map(s -> {return fullFill(s);})
+				 .collect(Collectors.toList());
 		 return shifts;
 	}
 
@@ -228,5 +138,27 @@ public class ShiftRepo {
 			});
 			return theId;
 		}
+	}
+	
+	private Shift fullFill(Shift s) {
+		 s.setEmployees(jdbcTemplate.query(
+				 "SELECT e.id,e.first_name,e.middle_name,last_name,"
+				 + "e.emp_position FROM employee e JOIN shift_employee "
+				 + "se ON e.id = se.emp_id JOIN shift s ON se.shift_id = s.shift_id "
+				 + "where s.shift_id = ?",
+			 new EmployeeRowMapper(),s.getShiftId().getId()));
+		 s.setProblems(jdbcTemplate.query(
+				 "SELECT pd.id, pd.problem,pd.machine, pd.begin_time,"
+				 +"pd.end_time FROM problem_detail pd JOIN shift_problem "
+				 +"sp ON pd.id = sp.problem_id JOIN shift s ON sp.shift_id = s.shift_id "
+				 +"where s.shift_id = ?", 
+				 new ProblemDetailRowMapper(),s.getShiftId().getId()));
+		 s.setTotalFlowAverage(jdbcTemplate.query(
+				 "SELECT tf.id, tf.consumers_case, tf.begin_time, tf.end_time,"
+				 +"tf.min_flow, tf.max_flow FROM total_flow tf JOIN shift_total_flow "
+				 +"sf ON tf.id = sf.flow_id JOIN shift s ON sf.shift_id = s.shift_id "
+				 +"where s.shift_id = ?", 
+				 new TotalFlowRowMapper(), s.getShiftId().getId()));
+		 return s;
 	}
 }
