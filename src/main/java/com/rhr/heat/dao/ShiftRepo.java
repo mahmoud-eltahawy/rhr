@@ -6,6 +6,10 @@ import java.util.stream.Collectors;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.rhr.heat.dao.rowMappers.EmployeeRowMapper;
+import com.rhr.heat.dao.rowMappers.ProblemDetailRowMapper;
+import com.rhr.heat.dao.rowMappers.ShiftRowMapper;
+import com.rhr.heat.dao.rowMappers.TotalFlowRowMapper;
 import com.rhr.heat.model.Shift;
 
 import lombok.RequiredArgsConstructor;
@@ -20,8 +24,30 @@ public class ShiftRepo {
 	private final TotalFlowRepo totalFlowRepo;
 
 	public List<Shift> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		 List<Shift> shifts = jdbcTemplate.query(
+				 "select si.id as shift_id, si.shift_order,"
+				+ "shift_date, s.max_temp, s.min_temp, s.notes "
+				+ "from shift s join shift_id si on s.shift_id = si.id",
+				new ShiftRowMapper());
+		 shifts = shifts.stream().map(s ->{
+			 s.setEmployees(jdbcTemplate.query(
+					 "SELECT e.id,e.first_name,e.middle_name,last_name,"
+					 + "e.emp_position FROM employee e JOIN shift_employee "
+					 + "se ON e.id = se.emp_id JOIN shift s ON se.shift_id = ?",
+		 		new EmployeeRowMapper(),s.getShiftId().getId()));
+			 s.setProblems(jdbcTemplate.query(
+					 "SELECT pd.id, pd.problem,pd.machine, pd.begin_time,"
+					 + "pd.end_time FROM problem_detail pd JOIN shift_problem "
+					 + "sp ON pd.id = sp.problem_id JOIN shift s ON sp.shift_id = ?", 
+					 new ProblemDetailRowMapper(),s.getShiftId().getId()));
+			 s.setTotalFlowAverage(jdbcTemplate.query(
+					 "SELECT tf.id, tf.consumers_case, tf.begin_time, tf.end_time,"
+					 +"tf.min_flow, tf.max_flow FROM total_flow tf JOIN shift_total_flow "
+					 +"sf ON tf.id = sf.flow_id JOIN shift s ON sf.shift_id = ?", 
+					 new TotalFlowRowMapper(), s.getShiftId().getId()));
+			 return s;
+		 }).collect(Collectors.toList());
+		 return shifts;
 	}
 
 	public List<Long> saveAll(List<Shift> shifts) {

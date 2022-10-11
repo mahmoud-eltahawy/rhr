@@ -236,5 +236,6 @@ public class Tester {
 	}
 	
 	public void emp() {
+		shiftRepo.findAll().forEach(s -> System.out.println(s.toString()));
 	}
 }
