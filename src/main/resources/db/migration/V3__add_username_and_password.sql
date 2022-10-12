@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS employee (
     emp_position VARCHAR(20)  NOT NULL,
     username     VARCHAR(200) NOT NULL,
     password     VARCHAR(400) NOT NULL,
-    CONSTRAINT emp_unique_username UNIQUE(username);
+    CONSTRAINT emp_unique_username UNIQUE(username)
 );
 
 CREATE INDEX idx_by_username ON employee (username);

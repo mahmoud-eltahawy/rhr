@@ -2,7 +2,6 @@ package com.rhr.heat.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 
-import org.flywaydb.core.Flyway;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,11 +29,12 @@ public class DatasourceConfig {
         return new JdbcTemplate(hikariDataSource);
     }
     
-    @Bean
-    public Flyway flyway(HikariDataSource hikariDataSource) {
-    	Flyway flyway = Flyway.configure().dataSource(hikariDataSource).load();
-    	flyway.baseline();
-    	flyway.migrate();
-    	return flyway;
-    }
+//    @Bean
+//    public Flyway flyway(HikariDataSource hikariDataSource) {
+//    	Flyway flyway = Flyway.configure().dataSource(hikariDataSource).load();
+//    	flyway.baseline();
+//    	flyway.migrate();
+//    	flyway.migrate();
+//    	return flyway;
+//    }
 }

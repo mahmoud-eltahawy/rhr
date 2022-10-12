@@ -218,8 +218,8 @@ public class ShiftRepo {
 	
 	private Shift fullFill(Shift s) {
 		 s.setEmployees(jdbcTemplate.query(
-				 "SELECT e.id,e.first_name,e.middle_name,last_name,"
-				 + "e.emp_position FROM employee e JOIN shift_employee "
+				 "SELECT e.id,e.first_name,e.middle_name,e.last_name,e.username,"
+				 + "e.emp_position,e.password FROM employee e JOIN shift_employee "
 				 + "se ON e.id = se.emp_id JOIN shift s ON se.shift_id = s.shift_id "
 				 + "where s.shift_id = ?",
 			 new EmployeeRowMapper(),s.getShiftId().getId()));

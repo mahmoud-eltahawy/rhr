@@ -59,7 +59,7 @@ public class EmployeeRepo{
 		jdbcTemplate.update(connection ->{
 			PreparedStatement ps = connection
 					.prepareStatement("INSERT INTO employee "
-				+ "(first_name,middle_name,last_name,emp_position) "
+				+ "(first_name,middle_name,last_name,emp_position,username,password) "
 				+ "VALUES(?,?,?,?,?,?) ON CONFLICT(username) DO NOTHING", 
 							Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, emp.getFirstName());
