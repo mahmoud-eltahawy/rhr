@@ -198,10 +198,8 @@ public class ShiftRepo {
 				} else {
 					eId = employeeRepo.save(e);
 				}
-				if(eId != null & theId != null) {
-					jdbcTemplate.update("INSERT INTO shift_employee"
-							+ "(shift_id,emp_id) VALUES(?,?)",theId,eId);
-				}
+				jdbcTemplate.update("INSERT INTO shift_employee"
+						+ "(shift_id,emp_id) VALUES(?,?)",theId,eId);
 			});
 			
 			s.getTotalFlowAverage().forEach(t ->{

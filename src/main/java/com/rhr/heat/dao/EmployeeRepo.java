@@ -33,7 +33,7 @@ public class EmployeeRepo{
 	}
 	
 	public Optional<Employee> findByUsername(String username) {
-		String sql = "SELECT * FROM employee where id = ?";
+		String sql = "SELECT * FROM employee where username = ?";
 		return jdbcTemplate.query(sql,
 				new EmployeeRowMapper(), username).stream().findFirst();
 	}
@@ -55,27 +55,31 @@ public class EmployeeRepo{
 	}
 
 	public Long save(Employee emp) {
-		KeyHolder key = new GeneratedKeyHolder();
-		jdbcTemplate.update(connection ->{
-			PreparedStatement ps = connection
-					.prepareStatement("INSERT INTO employee "
-				+ "(first_name,middle_name,last_name,emp_position,username,password) "
-				+ "VALUES(?,?,?,?,?,?) ON CONFLICT(username) DO NOTHING", 
-							Statement.RETURN_GENERATED_KEYS);
-			ps.setString(1, emp.getFirstName());
-			ps.setString(2, emp.getMiddleName());
-			ps.setString(3, emp.getLastName());
-			ps.setString(4, emp.getPosition().toString());
-			ps.setString(5, emp.getUsername());
-			ps.setString(6, emp.getPassword());
-			return ps;
-		},key);
-		if(key.getKeys() == null) {
-			return null;
-		} else if (key.getKeys().size() > 1) {
-			return (Long)key.getKeys().get("id");
+		Optional<Employee> e;
+		if((e =findByUsername(emp.getUsername())).isPresent()) {
+			return e.get().getId();
 		} else {
-			return key.getKey().longValue();
+			KeyHolder key = new GeneratedKeyHolder();
+			jdbcTemplate.update(connection ->{
+				PreparedStatement ps = connection
+						.prepareStatement("INSERT INTO employee "
+					+ "(first_name,middle_name,last_name,emp_position,username,password) "
+					+ "VALUES(?,?,?,?,?,?) ON CONFLICT(username) DO NOTHING", 
+								Statement.RETURN_GENERATED_KEYS);
+				ps.setString(1, emp.getFirstName());
+				ps.setString(2, emp.getMiddleName());
+				ps.setString(3, emp.getLastName());
+				ps.setString(4, emp.getPosition().toString());
+				ps.setString(5, emp.getUsername());
+				ps.setString(6, emp.getPassword());
+				return ps;
+			},key);
+
+			if (key.getKeys().size() > 1) {
+				return (Long)key.getKeys().get("id");
+			} else {
+				return key.getKey().longValue();
+			}
 		}
 	}
 }
