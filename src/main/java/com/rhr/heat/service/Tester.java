@@ -55,7 +55,7 @@ public class Tester {
 		cal.set(Calendar.MINUTE, 50);
 		end = new Time(cal.getTime().getTime());
 		ProblemDetail pd2  = new ProblemDetail(null, Problem.p2,Machine.Atm2,begin,end);
-		cal.set(Calendar.HOUR, 12);
+		cal.set(Calendar.HOUR, 0);
 		cal.set(Calendar.MINUTE, 50);
 		begin = new Time(cal.getTime().getTime());
 		ProblemDetail pd3  = new ProblemDetail(null, Problem.p3,Machine.Drayer1,begin,end);
@@ -126,7 +126,7 @@ public class Tester {
 		cal.set(Calendar.MINUTE, 10);
 		end = new Time(cal.getTime().getTime());
 		TotalFlow tf6 = new TotalFlow(null,ConsumersCase.ATM_ONE_ONLY,77,92,begin,end);
-		cal.set(Calendar.HOUR, 12);
+		cal.set(Calendar.HOUR, 00);
 		cal.set(Calendar.MINUTE, 15);
 		begin = new Time(cal.getTime().getTime());
 		TotalFlow tf7 = new TotalFlow(null,ConsumersCase.ATM_Two_ONLY,77,92,begin,end);
