@@ -13,11 +13,20 @@ CREATE INDEX idx_by_username ON employee (username);
 
 CREATE TABLE IF NOT EXISTS total_flow (
     id             BIGSERIAL   NOT NULL PRIMARY KEY,
-    consumers_case VARCHAR(20) NOT NULL,
     begin_time     TIME        NOT NULL,
     end_time       TIME        NOT NULL,
     min_flow       INTEGER     NOT NULL,
     max_flow       INTEGER     NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS suspended_machine(
+    id BIGINT NOT NULL,
+    machine VARCHAR(15) NOT NULL,
+    PRIMARY KEY(id,machine),
+    FOREIGN KEY(id) REFERENCES total_flow(id) ON DELETE CASCADE,
+    CONSTRAINT chk_suspended_machine CHECK(machine
+    in ('DRAYER_ONE','DRAYER_TWO','DRAYER_THREE','DRAYER_FOUR',
+    'DRAYER_FIVE','DRAYER_SIX','DRAYER_SEVEN','ATM_ONE','ATM_TWO','PROJECT'))
 );
 
 CREATE TABLE IF NOT EXISTS problem_detail (

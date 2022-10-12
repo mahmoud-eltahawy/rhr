@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.ShiftRepo;
-import com.rhr.heat.enums.ConsumersCase;
 import com.rhr.heat.enums.EmployeePosition;
 import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.Problem;
@@ -106,31 +105,31 @@ public class Tester {
 		ProblemDetail pd14 = new ProblemDetail(null, Problem.p4,Machine.KILEN_FIVE,begin,end);
 		
 		
-		TotalFlow tf1 = new TotalFlow(null,ConsumersCase.ATM1_AND_ATM2,77,92,begin,end);
+		TotalFlow tf1 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
 		cal.set(Calendar.HOUR, 8);
 		cal.set(Calendar.MINUTE, 0);
 		end = new Time(cal.getTime().getTime());
-		TotalFlow tf2 = new TotalFlow(null,ConsumersCase.ATM_ONE_ONLY,77,92,begin,end);
+		TotalFlow tf2 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
 		cal.set(Calendar.HOUR, 1);
 		cal.set(Calendar.MINUTE, 35);
 		begin = new Time(cal.getTime().getTime());
-		TotalFlow tf3 = new TotalFlow(null,ConsumersCase.ATM_Two_ONLY,77,92,begin,end);
+		TotalFlow tf3 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
 		cal.set(Calendar.HOUR, 5);
 		cal.set(Calendar.MINUTE, 15);
 		end = new Time(cal.getTime().getTime());
-		TotalFlow tf4 = new TotalFlow(null,ConsumersCase.NONE,77,92,begin,end);
+		TotalFlow tf4 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
 		cal.set(Calendar.HOUR, 1);
 		cal.set(Calendar.MINUTE, 15);
 		begin = new Time(cal.getTime().getTime());
-		TotalFlow tf5 = new TotalFlow(null,ConsumersCase.ATM1_AND_ATM2,77,92,begin,end);
+		TotalFlow tf5 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
 		cal.set(Calendar.HOUR, 4);
 		cal.set(Calendar.MINUTE, 10);
 		end = new Time(cal.getTime().getTime());
-		TotalFlow tf6 = new TotalFlow(null,ConsumersCase.ATM_ONE_ONLY,77,92,begin,end);
+		TotalFlow tf6 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
 		cal.set(Calendar.HOUR, 00);
 		cal.set(Calendar.MINUTE, 15);
 		begin = new Time(cal.getTime().getTime());
-		TotalFlow tf7 = new TotalFlow(null,ConsumersCase.ATM_Two_ONLY,77,92,begin,end);
+		TotalFlow tf7 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
 		
 		
 		cal = Calendar.getInstance();

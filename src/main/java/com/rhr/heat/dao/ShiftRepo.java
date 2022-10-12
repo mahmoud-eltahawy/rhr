@@ -12,6 +12,7 @@ import com.rhr.heat.dao.rowMappers.EmployeeRowMapper;
 import com.rhr.heat.dao.rowMappers.ProblemDetailRowMapper;
 import com.rhr.heat.dao.rowMappers.ShiftRowMapper;
 import com.rhr.heat.dao.rowMappers.TotalFlowRowMapper;
+import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.model.Shift;
 
@@ -230,11 +231,16 @@ public class ShiftRepo {
 				 +"where s.shift_id = ?", 
 				 new ProblemDetailRowMapper(),s.getShiftId().getId()));
 		 s.setTotalFlowAverage(jdbcTemplate.query(
-				 "SELECT tf.id, tf.consumers_case, tf.begin_time, tf.end_time,"
+				 "SELECT tf.id, tf.begin_time, tf.end_time,"
 				 +"tf.min_flow, tf.max_flow FROM total_flow tf JOIN shift_total_flow "
 				 +"sf ON tf.id = sf.flow_id JOIN shift s ON sf.shift_id = s.shift_id "
 				 +"where s.shift_id = ?", 
-				 new TotalFlowRowMapper(), s.getShiftId().getId()));
+				 new TotalFlowRowMapper(), s.getShiftId().getId()).stream().map(tf -> {
+					tf.setSuspendedMachines(jdbcTemplate.queryForList("SELECT machine FROM "
+							+ "suspended_machine where id =?",String.class,tf.getId())
+							.stream().map(m -> Machine.valueOf(m)).collect(Collectors.toList()));
+					 return tf;
+				 }).collect(Collectors.toList()));
 		 return s;
 	}
 }
