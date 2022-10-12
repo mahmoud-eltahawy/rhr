@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class Tester {
 	private final EmployeeRepo employeeRepo;
 	private final ShiftRepo shiftRepo;
+	private final ImportExportService imp;
 	
 	public void insertData() {
 		Employee emp1 = new Employee(null,"mahmoud","sabry","mohammed",EmployeePosition.Engineer,"mahmoud_sabry","1234");
@@ -301,16 +302,12 @@ public class Tester {
 		cal.set(Calendar.MONTH, Calendar.OCTOBER);
 		cal.set(Calendar.DAY_OF_MONTH, 8);
 		Date date = new Date(cal.getTime().getTime());
-		shiftRepo.findOlderThan(date, ShiftOrder.FIRST)
-		.forEach(s -> System.out.println( "from olderThan 8" + s.toString()));
-		shiftRepo.findRecent(date, ShiftOrder.SECOND)
-		.forEach(s -> System.out.println( "from recent 8" + s.toString()));
+		imp.exportBefore(date);
+		imp.exportAfter(date);
 		cal.set(Calendar.DAY_OF_MONTH, 7);
 		Date date1 = new Date(cal.getTime().getTime());
 		cal.set(Calendar.DAY_OF_MONTH, 10);
 		Date date2 = new Date(cal.getTime().getTime());
-		shiftRepo.findBetween(date1,date2,ShiftOrder.THIRD).forEach(s -> System.out.println( "from between 7 10" + s.toString()));
-		shiftRepo.findAll(date1).forEach(s -> System.out.println( "from All" + s.toString()));
-		System.out.println( "from byId " + shiftRepo.findById(date2,ShiftOrder.SECOND).toString());
+		imp.exportBetween(date1, date2);
 	}
 }
