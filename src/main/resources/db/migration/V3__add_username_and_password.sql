@@ -33,10 +33,7 @@ CREATE TABLE IF NOT EXISTS shift_id (
     shift_order VARCHAR(7)    NOT NULL,
     shift_date  DATE          NOT NULL,
     CONSTRAINT shift_identity UNIQUE(shift_order,shift_date),
-    CONSTRAINT shift_order_values
-    CHECK(shift_order = 'FIRST' OR
-    shift_order = 'SECOND' OR
-    shift_order = 'THIRD')
+    CONSTRAINT shift_order_values CHECK(shift_order in ('FIRST', 'SECOND', 'THIRD'))
 );
 
 CREATE INDEX idx_by_shift_order ON shift_id (shift_order);
