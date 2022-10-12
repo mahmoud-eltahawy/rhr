@@ -23,9 +23,15 @@ CREATE TABLE IF NOT EXISTS total_flow (
 CREATE TABLE IF NOT EXISTS problem_detail (
     id           BIGSERIAL   NOT NULL PRIMARY KEY,
     problem      VARCHAR(40) NOT NULL,
-    machine      VARCHAR(20) NOT NULL,
+    machine      VARCHAR(15) NOT NULL,
     begin_time   TIME        NOT NULL,
     end_time     TIME        NOT NULL
+    CONSTRAINT problem_detail_machine_values
+    CHECK(machine in ('KILEN_ONE','KILEN_TWO',
+	'KILEN_THREE','KILEN_FOUR','KILEN_FIVE',
+	'DRAYER_ONE','DRAYER_TWO','DRAYER_THREE',
+	'DRAYER_FOUR','DRAYER_FIVE','DRAYER_SIX',
+	'DRAYER_SEVEN','ATM_ONE','ATM_TWO','PROJECT'))
 );
 
 CREATE TABLE IF NOT EXISTS shift_id (
