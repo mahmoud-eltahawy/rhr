@@ -12,7 +12,9 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.rhr.heat.dao.rowMappers.EmployeeRowMapper;
+import com.rhr.heat.dao.rowMappers.ShiftIdRowMapper;
 import com.rhr.heat.model.Employee;
+import com.rhr.heat.model.ShiftId;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,6 +38,15 @@ public class EmployeeRepo{
 		String sql = "SELECT * FROM employee where username = ?";
 		return jdbcTemplate.query(sql,
 				new EmployeeRowMapper(), username).stream().findFirst();
+	}
+	
+	public List<ShiftId> findHisShifts(String username) {
+		return jdbcTemplate.query("SELECT si.id,si.shift_date,si.shift_order "
+				+ "FROM shift_id si "
+				+ "JOIN shift s ON s.shift_id = si.id "
+				+ "JOIN shift_employee se ON s.shift_id = se.shift_id "
+				+ "JOIN employee e ON e.id = se.emp_id "
+				+ "WHERE e.username = ?", new ShiftIdRowMapper(), username);
 	}
 	
 	public int deleteById(Long id) {
