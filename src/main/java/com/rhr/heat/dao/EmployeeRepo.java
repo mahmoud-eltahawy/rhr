@@ -1,5 +1,6 @@
 package com.rhr.heat.dao;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
@@ -47,6 +48,26 @@ public class EmployeeRepo{
 				+ "JOIN shift_employee se ON s.shift_id = se.shift_id "
 				+ "JOIN employee e ON e.id = se.emp_id "
 				+ "WHERE e.username = ?", new ShiftIdRowMapper(), username);
+	}
+	
+	public List<ShiftId> findhisShiftsOn(String username,Date older,Date newer) {
+		return jdbcTemplate.query("SELECT si.id,si.shift_date,si.shift_order "
+				+ "FROM shift_id si "
+				+ "JOIN shift s ON s.shift_id = si.id "
+				+ "JOIN shift_employee se ON s.shift_id = se.shift_id "
+				+ "JOIN employee e ON e.id = se.emp_id "
+				+ "WHERE e.username = ? and (si.shift_date >= ? and si.shift_date <= ?)",
+				new ShiftIdRowMapper(), username,older,newer);
+	}
+	
+	public List<ShiftId> findHisLastShifts(String username,Integer limit) {
+		return jdbcTemplate.query("SELECT si.id,si.shift_date,si.shift_order "
+				+ "FROM shift_id si "
+				+ "JOIN shift s ON s.shift_id = si.id "
+				+ "JOIN shift_employee se ON s.shift_id = se.shift_id "
+				+ "JOIN employee e ON e.id = se.emp_id "
+				+ "WHERE e.username = ? ORDER BY si.shift_date DESC LIMIT ?",
+				new ShiftIdRowMapper(), username ,limit);
 	}
 	
 	public int deleteById(Long id) {
