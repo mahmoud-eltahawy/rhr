@@ -55,7 +55,9 @@ public class ShiftIdRepo {
 			ps.setDate(2, id.getDate());
 			return ps;
 		},key);
-	 if (key.getKeys().size() > 1) {
+		if(key.getKeys() == null) {
+			return null;
+		} else if (key.getKeys().size() > 1) {
 			return (Long)key.getKeys().get("id");
 		} else {
 			return key.getKey().longValue();
