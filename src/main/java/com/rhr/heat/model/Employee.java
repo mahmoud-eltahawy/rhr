@@ -16,4 +16,6 @@ public class Employee {
 	private String middleName;
 	private String lastName;
 	private EmployeePosition position;
+	private String username;
+	private String password;
 }

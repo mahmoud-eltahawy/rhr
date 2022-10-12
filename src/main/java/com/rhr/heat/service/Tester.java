@@ -29,11 +29,11 @@ public class Tester {
 	private final ShiftRepo shiftRepo;
 	
 	public void insertData() {
-		Employee emp1 = new Employee(null,"mahmoud","sabry","mohammed",EmployeePosition.Engineer);
-		Employee emp2 = new Employee(null,"mahmoud","gamal","mohammed",EmployeePosition.worker);
-		Employee emp3 = new Employee(null,"taha","mohammed","ismaail",EmployeePosition.worker);
-		Employee emp4 = new Employee(null,"mohammed","gomaa","mohammed",EmployeePosition.worker);
-		Employee emp5 = new Employee(null,"ehab","hagag","saad",EmployeePosition.worker);
+		Employee emp1 = new Employee(null,"mahmoud","sabry","mohammed",EmployeePosition.Engineer,"mahmoud_sabry","1234");
+		Employee emp2 = new Employee(null,"mahmoud","gamal","mohammed",EmployeePosition.worker,"mahmoud_gamal","1234");
+		Employee emp3 = new Employee(null,"taha","mohammed","ismaail",EmployeePosition.worker,"taha_mohammed","1234");
+		Employee emp4 = new Employee(null,"mohammed","gomaa","mohammed",EmployeePosition.worker,"mohammed_gomaa","1234");
+		Employee emp5 = new Employee(null,"ehab","hagag","saad",EmployeePosition.worker,"ehab_hagag","1234");
 		
 		emp1.setId(employeeRepo.save(emp1));
 		emp2.setId(employeeRepo.save(emp2));

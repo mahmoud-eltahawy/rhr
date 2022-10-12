@@ -16,6 +16,8 @@ public class EmployeeRowMapper implements RowMapper<Employee> {
 				rs.getString("first_name"),
 				rs.getString("middle_name"),
 				rs.getString("last_name"), 
-				EmployeePosition.valueOf(rs.getString("emp_position")));
+				EmployeePosition.valueOf(rs.getString("emp_position")),
+				rs.getString("username"),
+				rs.getString("password"));
 	}
 }
