@@ -26,7 +26,6 @@ import lombok.RequiredArgsConstructor;
 public class Tester {
 	private final EmployeeRepo employeeRepo;
 	private final ShiftRepo shiftRepo;
-	private final ImportExportService imp;
 	
 	public void insertData() {
 		Employee emp1 = new Employee(null,"mahmoud","sabry","mohammed",EmployeePosition.Engineer,"mahmoud_sabry","1234");
@@ -299,14 +298,17 @@ public class Tester {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, 2022);
 		cal.set(Calendar.MONTH, Calendar.OCTOBER);
-		cal.set(Calendar.DAY_OF_MONTH, 8);
-		Date date = new Date(cal.getTime().getTime());
-		imp.exportBefore(date);
-		imp.exportAfter(date);
 		cal.set(Calendar.DAY_OF_MONTH, 7);
 		Date date1 = new Date(cal.getTime().getTime());
 		cal.set(Calendar.DAY_OF_MONTH, 10);
 		Date date2 = new Date(cal.getTime().getTime());
-		imp.exportBetween(date1, date2);
+		employeeRepo.findhisShiftsOn("mahmoud_gamal", date1, date2)
+		.forEach(s -> System.out.println(s.toString()));
+		System.out.println("up is shifts betwwn\ndown is last shifts");
+		employeeRepo.findHisLastShifts("mahmoud_gamal", 4)
+		.forEach(s -> System.out.println(s.toString()));
+		System.out.println("down is all shifts");
+		employeeRepo.findHisShifts("mahmoud_gamal")
+		.forEach(s -> System.out.println(s.toString()));
 	}
 }

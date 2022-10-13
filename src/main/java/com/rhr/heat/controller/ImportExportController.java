@@ -1,7 +1,8 @@
 package com.rhr.heat.controller;
 
 import java.io.File;
-import java.util.Date;
+import java.sql.Date;
+import java.util.Calendar;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,44 +14,52 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/io")
 public class ImportExportController {
 	private final ImportExportService importExportService;
 
-	@RequestMapping("/exp/all")
+	@RequestMapping("/xall")
 	public String exportAllToFile() {
 		importExportService.exportThat();
 		return "exported";
 	}
 	
-	@RequestMapping("/exp/after")
-	public String exportAfter(@RequestParam("date")Date date) {
-		importExportService.exportAfter(new java.sql.Date(date.getTime()));
+	@RequestMapping("/xafter")
+	public String exportAfter(@RequestParam("year")Integer year,
+			@RequestParam("month")Integer month,
+			@RequestParam("day")Integer day) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, year);
+		cal.set(Calendar.MONTH, month - 1); //why? !!!!
+		cal.set(Calendar.DAY_OF_MONTH, day);
+		Date date = new Date(cal.getTime().getTime());
+		importExportService.exportAfter(date);
 		return "exported";
 	}
 	
-	@RequestMapping("/exp/before")
+	@RequestMapping("/xbefore")
 	public String exportBefore(@RequestParam("date")Date date) {
 		importExportService.exportBefore(new java.sql.Date(date.getTime()));
 		return "exported";
 	}
 	
-	@RequestMapping("/exp/bet")
+	@RequestMapping("/xbetween")
 	public String exportBetween(
-			@RequestParam("date")Date older,
-			@RequestParam("date")Date newer) {
+			@RequestParam("older")Date older,
+			@RequestParam("newer")Date newer) {
 		importExportService.exportBetween(
 				new java.sql.Date(older.getTime()),
 				new java.sql.Date(newer.getTime()));
 		return "exported";
 	}
 	
-	@RequestMapping("/imp/all")
+	@RequestMapping("/iall")
 	public String importFromFile() {
 		importExportService.importThat();
 		return "imported";
 	}
 	
-	@RequestMapping("/imp/file")
+	@RequestMapping("/ifile")
 	public String importFile(@RequestParam("file")File file) {
 		importExportService.importThat(file);
 		return "imported";
