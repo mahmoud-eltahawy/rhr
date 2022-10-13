@@ -38,8 +38,15 @@ public class ImportExportController {
 	}
 	
 	@RequestMapping("/xbefore")
-	public String exportBefore(@RequestParam("date")Date date) {
-		importExportService.exportBefore(new java.sql.Date(date.getTime()));
+	public String exportBefore(@RequestParam("year")Integer year,
+			@RequestParam("month")Integer month,
+			@RequestParam("day")Integer day) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, year);
+		cal.set(Calendar.MONTH, month - 1); //why? !!!!
+		cal.set(Calendar.DAY_OF_MONTH, day);
+		Date date = new Date(cal.getTime().getTime());
+		importExportService.exportBefore(date);
 		return "exported";
 	}
 	
