@@ -4,5 +4,11 @@ server:
     include-message: always
     
 spring:
+  servlet:
+    multipart.max-file-size: 200MB
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-request-size: 215MB
   flyway:
     locations: classpath:db.migration/{vendor}

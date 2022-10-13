@@ -1,12 +1,14 @@
 package com.rhr.heat.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.util.Calendar;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.rhr.heat.service.ImportExportService;
 
@@ -74,8 +76,16 @@ public class ImportExportController {
 	}
 	
 	@RequestMapping("/ifile")
-	public String importFile(@RequestParam("file")File file) {
-		importExportService.importThat(file);
+	public String importFile(@RequestParam("file")MultipartFile file) {
+		File f = new File(System.getProperty("user.home")+File.separator+"drhrfile.json");
+		try {
+			file.transferTo(f);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		importExportService.importThat(f);
 		return "imported";
 	}
 }
