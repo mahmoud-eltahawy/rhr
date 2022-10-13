@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.Calendar;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,13 +21,13 @@ import lombok.RequiredArgsConstructor;
 public class ImportExportController {
 	private final ImportExportService importExportService;
 
-	@RequestMapping("/xall")
+	@GetMapping("/xall")
 	public String exportAllToFile() {
 		importExportService.exportThat();
 		return "exported";
 	}
 	
-	@RequestMapping("/xafter")
+	@GetMapping("/xafter")
 	public String exportAfter(@RequestParam("year")Integer year,
 			@RequestParam("month")Integer month,
 			@RequestParam("day")Integer day) {
@@ -39,7 +40,7 @@ public class ImportExportController {
 		return "exported";
 	}
 	
-	@RequestMapping("/xbefore")
+	@GetMapping("/xbefore")
 	public String exportBefore(@RequestParam("year")Integer year,
 			@RequestParam("month")Integer month,
 			@RequestParam("day")Integer day) {
@@ -51,8 +52,35 @@ public class ImportExportController {
 		importExportService.exportBefore(date);
 		return "exported";
 	}
+
+	@GetMapping("/xday")
+	public String day(@RequestParam("year")Integer year,
+			@RequestParam("month")Integer month,
+			@RequestParam("day")Integer day) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, year);
+		cal.set(Calendar.MONTH, month - 1); //why? !!!!
+		cal.set(Calendar.DAY_OF_MONTH, day);
+		Date date = new Date(cal.getTime().getTime());
+		importExportService.exportDay(date);
+		return "exported";
+	}
+
+	@GetMapping("/xshift")
+	public String shift(@RequestParam("year")Integer year,
+			@RequestParam("month")Integer month,
+			@RequestParam("day")Integer day,
+			@RequestParam("order")String order) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, year);
+		cal.set(Calendar.MONTH, month - 1); //why? !!!!
+		cal.set(Calendar.DAY_OF_MONTH, day);
+		Date date = new Date(cal.getTime().getTime());
+		importExportService.exportShift(date, order);
+		return "exported";
+	}
 	
-	@RequestMapping("/xbetween")
+	@GetMapping("/xbetween")
 	public String exportBetween(@RequestParam("oyear")Integer oyear,@RequestParam("nyear")Integer nyear,
 			@RequestParam("omonth")Integer omonth,@RequestParam("nmonth")Integer nmonth,
 			@RequestParam("oday")Integer oday,@RequestParam("nday")Integer nday) {
@@ -69,13 +97,13 @@ public class ImportExportController {
 		return "exported";
 	}
 	
-	@RequestMapping("/iall")
+	@GetMapping("/iall")
 	public String importFromFile() {
 		importExportService.importThat();
 		return "imported";
 	}
 	
-	@RequestMapping("/ifile")
+	@GetMapping("/ifile")
 	public String importFile(@RequestParam("file")MultipartFile file) {
 		File f = new File(System.getProperty("user.home")+File.separator+"drhrfile.json");
 		try {

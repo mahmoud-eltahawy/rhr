@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.rhr.heat.dao.ShiftRepo;
+import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.model.Shift;
 import com.rhr.heat.model.ShiftId;
 
@@ -26,6 +27,15 @@ public class ImportExportService {
 	
 	public void exportAfter(Date date) {
 		exportThat(shiftRepo.findRecent(date),"After"+date.toString());
+	}
+	
+	public void exportDay(Date date){
+		exportThat(shiftRepo.findAll(date),"the-day"+date.toString());
+	}
+	
+	public void exportShift(Date date,String order){
+		exportThat(List.of(shiftRepo.findById(date,
+				ShiftOrder.valueOf(order)).get()),"the-shift"+date.toString()+order);
 	}
 	
 	public void exportBefore(Date date) {
