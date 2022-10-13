@@ -139,7 +139,7 @@ footer a {
 
 		<p th:text="*{exceptionalNote}">notes</p>
 
-		<button class="btn-primary">Go</button>
+		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
 	</div>
 
 	<div class="pricing-box pricing-box-bg-image text-center" th:object="${last}">
@@ -150,7 +150,7 @@ footer a {
 
 		<p th:text="*{exceptionalNote}">notes</p>
 
-		<button class="btn-primary">Go</button>
+		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
 	</div>
 
 	<div class="pricing-box text-center" th:object="${middle}">
@@ -161,14 +161,14 @@ footer a {
 
 		<p th:text="*{exceptionalNote}">notes</p>
 
-		<button class="btn-primary">Go</button>
+		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
 	</div>
 </div>
 
 <footer>
 	<p>
 		Created <i class="fa fa-heart"></i> by
-		<h3>Mahmoud gamal</h3>
+		<b th:text="#{developer.name}">developer name</b>
 		- Read the source code of the project
 		<a target="_blank" href="https://github.com/mahmoud-eltahawy/rhr">in this Github page</a>
 	</p>
