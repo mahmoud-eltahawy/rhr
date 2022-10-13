@@ -32,6 +32,11 @@ public class ProblemDetailsRepo {
 				new ProblemDetailRowMapper(),id)
 				.stream().findFirst();
 	}
+	
+	public int deleteById(Long id) {
+		String sql = "DELETE FROM problem_detail WHERE id = ?";
+		return jdbcTemplate.update(sql,id);
+	}
 
 	public List<Long> saveAll(List<ProblemDetail> problems) {
 		return problems.stream()
