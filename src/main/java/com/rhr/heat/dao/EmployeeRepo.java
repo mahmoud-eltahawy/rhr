@@ -47,7 +47,7 @@ public class EmployeeRepo{
 				+ "JOIN shift s ON s.shift_id = si.id "
 				+ "JOIN shift_employee se ON s.shift_id = se.shift_id "
 				+ "JOIN employee e ON e.id = se.emp_id "
-				+ "WHERE e.username = ?", new ShiftIdRowMapper(), username);
+				+ "WHERE e.username = ? ORDER BY si.shift_date DESC", new ShiftIdRowMapper(), username);
 	}
 	
 	public List<ShiftId> findhisShiftsOn(String username,Date older,Date newer) {
@@ -56,7 +56,8 @@ public class EmployeeRepo{
 				+ "JOIN shift s ON s.shift_id = si.id "
 				+ "JOIN shift_employee se ON s.shift_id = se.shift_id "
 				+ "JOIN employee e ON e.id = se.emp_id "
-				+ "WHERE e.username = ? and (si.shift_date >= ? and si.shift_date <= ?)",
+				+ "WHERE e.username = ? and (si.shift_date >= ? "
+				+ "and si.shift_date <= ?) ORDER BY si.shift_date DESC",
 				new ShiftIdRowMapper(), username,older,newer);
 	}
 	
