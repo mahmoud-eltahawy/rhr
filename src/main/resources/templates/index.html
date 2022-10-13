@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - #024 - Pricing Plans</title>
+<style>
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #f6f5f7;
+	font-family: 'Open Sans', sans-serif;
+	margin-bottom: 50px;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.pricing-box-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.pricing-box {
+	background-color: #ffffff;
+	box-shadow: 0px 2px 15px 0px rgba(0,0,0,0.5);
+	border-radius: 4px;
+	flex: 1;
+	padding: 0 30px 30px;
+	margin: 2%;
+	min-width: 250px;
+	max-width: 350px;
+}
+
+.pricing-box h5 {
+	text-transform: uppercase;
+}
+
+.price {
+	margin: 24px 0;
+	font-size: 36px;
+	font-weight: 900;
+}
+
+.price sub, .price sup {
+	font-size: 16px;
+	font-weight: 100;
+}
+
+.features-list {
+	padding: 0;
+	list-style-type: none;
+}
+
+.features-list li {
+	font-weight: 100;
+	padding: 12px 0;
+	font-weight: 100;
+}
+
+.features-list li:not(:last-of-type) {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+	border-radius: 25px;
+	border: none;
+	background-color: #EC1362;
+	color: #ffffff;
+	cursor: pointer;
+	padding: 10px 15px;
+	margin-top: 20px;
+	text-transform: uppercase;
+	transition: all 0.1s ease-in-out;
+}
+
+.btn-primary:hover {
+	box-shadow: 0px 2px 15px 0px rgba(0,0,0,0.5);
+	transform: translateY(-3px);
+}
+
+.pricing-box-bg-image {
+	background-image: url('https://images.unsplash.com/photo-1550029402-226115b7c579?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=701&q=80');
+	background-size: cover;
+	background-position: center center;
+	color: #ffffff;
+}
+
+.pricing-box-bg-image .features-list li {
+	border-bottom-color: rgba(255, 255, 255, 1);
+}
+
+.pricing-box-bg-image .btn-primary {
+	background-color: #ffffff;
+	color: #000;
+}
+
+footer {
+	background-color: #222;
+	color: #fff;
+	font-size: 14px;
+	bottom: 0;
+	position: fixed;
+	left: 0;
+	right: 0;
+	text-align: center;
+}
+
+footer p {
+	margin: 10px 0;
+}
+
+footer i {
+	color: red;
+}
+
+footer a {
+	color: #3C97BF;
+	text-decoration: none;
+}
+</style>
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<h1 class="text-center"> Last three shifts</h1>
+
+<div class="pricing-box-container">
+	<div class="pricing-box text-center">
+		<h5 th:text="${last.shiftId.shift}">two</h5>
+		<h4 th:text="${last.shiftId.date}">date</h4>
+		<p class="price"><sup th:text="${last.maxTemperature}">max</sup>/
+			<sub th:text="${last.minTemperature}">min</sub></p>
+
+		<p th:text="${last.exceptionalNote}">notes</p>
+
+		<button class="btn-primary">Go</button>
+	</div>
+
+	<div class="pricing-box pricing-box-bg-image text-center">
+		<h5 th:text="${middle.shiftId.shift}">three</h5>
+		<h4 th:text="${middle.shiftId.date}">date</h4>
+		<p class="price"><sup th:text="${middle.maxTemperature}">max</sup>/
+			<sub th:text="${middle.minTemperature}">min</sub></p>
+
+		<p th:text="${middle.exceptionalNote}">notes</p>
+
+		<button class="btn-primary">Go</button>
+	</div>
+
+	<div class="pricing-box text-center">
+		<h5 th:text="${first.shiftId.shift}">one</h5>
+		<h4 th:text="${first.shiftId.date}">date</h4>
+		<p class="price"><sup th:text="${first.maxTemperature}">max</sup>/
+			<sub th:text="${first.maxTemperature}">min</sub></p>
+
+		<p th:text="${first.exceptionalNote}">notes</p>
+
+		<button class="btn-primary">Go</button>
+	</div>
+</div>
+
+<footer>
+	<p>
+		Created with <i class="fa fa-heart"></i> by
+		<a target="_blank" href="https://florin-pop.com">Florin Pop</a>
+		- Read about how I created it
+		<a target="_blank" href="https://www.florin-pop.com/blog/2019/02/how-to-create-pricing-plans/">in this article</a><br />
+		Other projects on
+		<a target="_blank" href="https://github.com/florinpop17/work-journal/">Github</a>
+	</p>
+</footer>
+<!-- partial -->
+
+</body>
+</html>

@@ -137,6 +137,19 @@ public class ShiftRepo {
 		 return shifts;
 	}
 
+	public List<Shift> findLast(Integer num) {
+		 List<Shift> shifts = jdbcTemplate.query(
+				 "select si.id as shift_id, si.shift_order,"
+				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
+				+ "from shift s join shift_id si on s.shift_id = si.id "
+				+ " order by si.shift_date desc limit ?",
+				new ShiftRowMapper(), num);
+		 shifts = shifts.stream()
+				 .map(s ->{return fullFill(s);})
+				 .collect(Collectors.toList());
+		 return shifts;
+	}
+
 	public List<Shift> findBetween(Date older,Date newer) {
 		 List<Shift> shifts = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
