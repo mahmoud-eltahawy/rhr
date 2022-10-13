@@ -24,6 +24,10 @@ public class ShowService {
 		return shiftRepo.findOlderThan(date);
 	}
 	
+	public List<Shift> getDay(Date date){
+		return shiftRepo.findAll(date);
+	}
+	
 	public Shift getShift(Date date,String order){
 		return shiftRepo.findById(date, ShiftOrder
 				.valueOf(order)).get();

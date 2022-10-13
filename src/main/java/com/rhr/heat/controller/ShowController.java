@@ -44,7 +44,19 @@ public class ShowController {
 		return showService.shiftsOlderThan(date);
 	}
 
-	@GetMapping("/shift/one")
+	@GetMapping("/shift/day")
+	public List<Shift> day(@RequestParam("year")Integer year,
+			@RequestParam("month")Integer month,
+			@RequestParam("day")Integer day) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, year);
+		cal.set(Calendar.MONTH, month - 1); //why? !!!!
+		cal.set(Calendar.DAY_OF_MONTH, day);
+		Date date = new Date(cal.getTime().getTime());
+		return showService.getDay(date);
+	}
+
+	@GetMapping("/shift/shift")
 	public Shift shift(@RequestParam("year")Integer year,
 			@RequestParam("month")Integer month,
 			@RequestParam("day")Integer day,
