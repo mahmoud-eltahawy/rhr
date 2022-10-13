@@ -51,12 +51,19 @@ public class ImportExportController {
 	}
 	
 	@RequestMapping("/xbetween")
-	public String exportBetween(
-			@RequestParam("older")Date older,
-			@RequestParam("newer")Date newer) {
-		importExportService.exportBetween(
-				new java.sql.Date(older.getTime()),
-				new java.sql.Date(newer.getTime()));
+	public String exportBetween(@RequestParam("oyear")Integer oyear,@RequestParam("nyear")Integer nyear,
+			@RequestParam("omonth")Integer omonth,@RequestParam("nmonth")Integer nmonth,
+			@RequestParam("oday")Integer oday,@RequestParam("nday")Integer nday) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, oyear);
+		cal.set(Calendar.MONTH, omonth - 1); //why? !!!!
+		cal.set(Calendar.DAY_OF_MONTH, oday);
+		Date older = new Date(cal.getTime().getTime());
+		cal.set(Calendar.YEAR, nyear);
+		cal.set(Calendar.MONTH, nmonth - 1); //why? !!!!
+		cal.set(Calendar.DAY_OF_MONTH, nday);
+		Date newer = new Date(cal.getTime().getTime());
+		importExportService.exportBetween(older,newer);
 		return "exported";
 	}
 	
