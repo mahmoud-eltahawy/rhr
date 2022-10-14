@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+$(document).ready(function() {
+    $('[data-toggle="toggle"]').change(function(){
+    $(this).parents().next('.hide').toggle();
+    });
+});
+</script>
+<style>
+table {
+	width: 750px;
+	border-collapse: collapse;
+	margin:50px auto;
+	}
+
+th {
+	background: #3498db;
+	color: white;
+	font-weight: bold;
+	}
+
+td, th {
+	padding: 10px;
+	border: 1px solid #ccc;
+	text-align: left;
+	font-size: 18px;
+	}
+
+h4 {
+	background-color: lightblue;
+	font-weight: bold;
+	color: #2cc16a;
+	font-size: 18px;
+	margin:10px auto;
+	padding: 2px;
+	text-align: center;
+}
+
+.labels tr td {
+	background-color: #2cc16a;
+	font-weight: bold;
+	color: #fff;
+}
+
+.label tr td label {
+	display: block;
+}
+
+
+[data-toggle="toggle"] {
+	display: none;
+}
+</style>
+</head>
+<body>
+	<h4><pre>Shift: <span>order</span>                  Date: <span>the date</span></pre></h4>
+<table>
+	<thead>
+		<tr>
+			<th colspan="5" style="text-align: center;">Machines status</th>
+		</tr>
+	</thead>
+	<thead>
+		<tr>
+			<th>Machine</th>
+			<th>Stoped at</th>
+			<th>Started at</th>
+			<th>Problems</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tbody class="labels">
+			<tr>
+				<td colspan="5" style="text-align: center;">
+					<label for="accounting">Kilens</label>
+					<input type="checkbox" name="accounting" id="accounting" data-toggle="toggle">
+				</td>
+			</tr>
+		</tbody>
+		<tbody class="hide">
+			<tr>
+				<td>Kilen Number</td>
+				<td>Stoped at</td>
+				<td>Started at</td>
+				<td><ul>
+					<li>problem number</li>
+				</ul></td>
+			</tr>
+		</tbody>
+		<tbody class="labels">
+			<tr>
+				<td colspan="5" style="text-align: center;">
+					<label for="management">Drayers</label>
+					<input type="checkbox" name="management" id="management" data-toggle="toggle">
+				</td>
+			</tr>
+		</tbody>
+		<tbody class="hide">
+			<tr>
+				<td>Drayer Number</td>
+				<td>Stoped at</td>
+				<td>Started at</td>
+				<td><ul>
+					<li>problem number</li>
+				</ul></td>
+			</tr>
+		</tbody>
+		<tbody class="labels">
+			<tr>
+				<td colspan="5" style="text-align: center;">
+					<label for="accounting">Atms</label>
+					<input type="checkbox" name="accounting" id="accounting" data-toggle="toggle">
+				</td>
+			</tr>
+		</tbody>
+		<tbody class="hide">
+			<tr>
+				<td>Atm Number</td>
+				<td>Stoped at</td>
+				<td>Started at</td>
+				<td><ul>
+					<li>problem number</li>
+				</ul></td>
+			</tr>
+		</tbody>
+	</tbody>
+</table>
+<table>
+	<thead>
+		<tr>
+			<th colspan="5" style="text-align: center;">Total Flow</th>
+		</tr>
+	</thead>
+	<thead>
+		<tr>
+			<th>Suspended machines</th>
+			<th>Max total flow</th>
+			<th>Min total flow</th>
+			<th>Start time</th>
+			<th>End time</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tbody class="labels">
+			<tr>
+				<td colspan="5" style="text-align: center;">
+					<label for="accounting">Toggle</label>
+					<input type="checkbox" name="accounting" id="accounting" data-toggle="toggle">
+				</td>
+			</tr>
+		</tbody>
+		<tbody class="hide">
+			<tr>
+				<td><ul>
+					<li>machine number</li>
+				</ul></td>
+				<td>Max flow</td>
+				<td>Min flow</td>
+				<td>Start time</td>
+				<td>End time</td>
+			</tr>
+		</tbody>
+	</tbody>
+</table>
+	<h4><pre>Max Temp: <span>max</span>                  Min Temp: <span>min</span></pre></h4>
+<table>
+	<thead>
+		<tr>
+			<th colspan="5" style="text-align: center;">Project suspending</th>
+		</tr>
+	</thead>
+	<thead>
+		<tr>
+			<th>Start time</th>
+			<th>End time</th>
+			<th>Problem</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tbody class="labels">
+			<tr>
+				<td colspan="5" style="text-align: center;">
+					<label for="accounting">Toggle</label>
+					<input type="checkbox" name="accounting" id="accounting" data-toggle="toggle">
+				</td>
+			</tr>
+		</tbody>
+		<tbody class="hide">
+			<tr>
+				<td>Start time</td>
+				<td>End time</td>
+				<td><ul>
+					<li>problem number</li>
+				</ul></td>
+			</tr>
+		</tbody>
+	</tbody>
+</table>
+	<h4><pre>Employee: <span>employee</span> </pre></h4>
+</body>
+</html>
