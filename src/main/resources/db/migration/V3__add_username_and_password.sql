@@ -31,7 +31,6 @@ CREATE TABLE IF NOT EXISTS suspended_machine(
 
 CREATE TABLE IF NOT EXISTS problem_detail (
     id           BIGSERIAL   NOT NULL PRIMARY KEY,
-    problem      VARCHAR(40) NOT NULL,
     machine      VARCHAR(15) NOT NULL,
     begin_time   TIME        NOT NULL,
     end_time     TIME        NOT NULL
@@ -41,6 +40,15 @@ CREATE TABLE IF NOT EXISTS problem_detail (
 	'DRAYER_ONE','DRAYER_TWO','DRAYER_THREE',
 	'DRAYER_FOUR','DRAYER_FIVE','DRAYER_SIX',
 	'DRAYER_SEVEN','ATM_ONE','ATM_TWO','PROJECT'))
+);
+
+CREATE TABLE IF NOT EXISTS problems (
+    id           BIGSERIAL   NOT NULL,
+    problem      VARCHAR(40) NOT NULL,
+    PRIMARY KEY(id,problem),
+    FOREIGN KEY(id) REFERENCES problem_detail(id) ON DELETE CASCADE,
+    CONSTRAINT problems_problem_values
+    CHECK(problem in ('P1','P2','P3','P4','P5','P6','P7','P8','P9'))
 );
 
 CREATE TABLE IF NOT EXISTS shift_id (

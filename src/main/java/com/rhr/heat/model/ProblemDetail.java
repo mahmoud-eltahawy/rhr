@@ -1,6 +1,7 @@
 package com.rhr.heat.model;
 
 import java.sql.Time;
+import java.util.Set;
 
 import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.Problem;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProblemDetail {
 	private Long id;
-	private Problem problem;
+	private Set<Problem> problems;
 	private Machine machine;
 	private Time beginTime;
 	private Time endTime;

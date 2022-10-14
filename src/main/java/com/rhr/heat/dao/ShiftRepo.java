@@ -13,6 +13,7 @@ import com.rhr.heat.dao.rowMappers.ProblemDetailRowMapper;
 import com.rhr.heat.dao.rowMappers.ShiftRowMapper;
 import com.rhr.heat.dao.rowMappers.TotalFlowRowMapper;
 import com.rhr.heat.enums.Machine;
+import com.rhr.heat.enums.Problem;
 import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.model.Shift;
 
@@ -238,11 +239,16 @@ public class ShiftRepo {
 				 + "where s.shift_id = ?",
 			 new EmployeeRowMapper(),s.getShiftId().getId()));
 		 s.setProblems(jdbcTemplate.query(
-				 "SELECT pd.id, pd.problem,pd.machine, pd.begin_time,"
+				 "SELECT pd.id, pd.machine, pd.begin_time,"
 				 +"pd.end_time FROM problem_detail pd JOIN shift_problem "
 				 +"sp ON pd.id = sp.problem_id JOIN shift s ON sp.shift_id = s.shift_id "
 				 +"where s.shift_id = ?", 
-				 new ProblemDetailRowMapper(),s.getShiftId().getId()));
+				 new ProblemDetailRowMapper(),s.getShiftId().getId()).stream().map(pd ->{
+					pd.setProblems(jdbcTemplate.queryForList("SELECT problem FROM "
+							+ "problems where id =?",String.class,pd.getId())
+							.stream().map(m -> Problem.valueOf(m)).collect(Collectors.toSet()));
+					 return pd;
+				 }).collect(Collectors.toList()));
 		 s.setTotalFlowAverage(jdbcTemplate.query(
 				 "SELECT tf.id, tf.begin_time, tf.end_time,"
 				 +"tf.min_flow, tf.max_flow FROM total_flow tf JOIN shift_total_flow "
