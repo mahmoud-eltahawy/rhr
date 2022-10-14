@@ -89,63 +89,74 @@ h4 {
 		</tbody>
 		<tbody class="hide">
 			<tr>
-				<td>KILN ONE</td>
-				<td>
-					<tr th:each="K :${k1}">
-						<td th:text="${K.beginTime}">Stoped at</td>
-						<td th:text="${K.endTime}">Started at</td>
-						<td><ul th:each="p : ${K.problems}">
-							<li th:text="${p}">problem number</li>
-						</ul></td>
-					</tr>
+
+				<td th:unless="${k1}==null">KILEN ONE</td>
+				<td th:unless="${k1}==null">
+					<table>
+						<tr th:each="K :${k1}">
+							<td th:text="${K.beginTime}">Stoped at</td>
+							<td th:text="${K.endTime}">Started at</td>
+							<td><ul th:each="p : ${K.problems}">
+								<li th:text="${p}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 			<tr>
-				<td>KILN TWO</td>
-				<td>
-					<tr th:each="K :${k2}">
-						<td th:text="${K.beginTime}">Stoped at</td>
-						<td th:text="${K.endTime}">Started at</td>
-						<td><ul th:each="p : ${K.problems}">
-							<li th:text="${p}">problem number</li>
-						</ul></td>
-					</tr>
+				<td th:unless="${k2}==null">KILEN TWO</td>
+				<td th:unless="${k2}==null">
+					<table>
+						<tr th:each="K :${k2}">
+							<td th:text="${K.beginTime}">Stoped at</td>
+							<td th:text="${K.endTime}">Started at</td>
+							<td><ul th:each="p : ${K.problems}">
+								<li th:text="${p}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 			<tr>
-				<td>KILN THREE</td>
-				<td>
-					<tr th:each="K :${k3}">
-						<td th:text="${K.beginTime}">Stoped at</td>
-						<td th:text="${K.endTime}">Started at</td>
-						<td><ul th:each="p : ${K.problems}">
-							<li th:text="${p}">problem number</li>
-						</ul></td>
-					</tr>
+				<td th:unless="${k3}==null">KILEN THREE</td>
+				<td th:unless="${k3}==null">
+					<table>
+						<tr th:each="K :${k3}">
+							<td th:text="${K.beginTime}">Stoped at</td>
+							<td th:text="${K.endTime}">Started at</td>
+							<td><ul th:each="p : ${K.problems}">
+								<li th:text="${p}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 			<tr>
-				<td>KILN FOUR</td>
-				<td>
-					<tr th:each="K :${k4}">
-						<td th:text="${K.beginTime}">Stoped at</td>
-						<td th:text="${K.endTime}">Started at</td>
-						<td><ul th:each="p : ${K.problems}">
-							<li th:text="${p}">problem number</li>
-						</ul></td>
-					</tr>
+				<td th:unless="${k4}==null">KILEN FOUR</td>
+				<td th:unless="${k4}==null">
+					<table>
+						<tr th:each="K :${k4}">
+							<td th:text="${K.beginTime}">Stoped at</td>
+							<td th:text="${K.endTime}">Started at</td>
+							<td><ul th:each="p : ${K.problems}">
+								<li th:text="${p}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 			<tr>
-				<td>KILN FIVE</td>
-				<td>
-					<tr th:each="K :${k5}">
-						<td th:text="${K.beginTime}">Stoped at</td>
-						<td th:text="${K.endTime}">Started at</td>
-						<td><ul th:each="p : ${K.problems}">
-							<li th:text="${p}">problem number</li>
-						</ul></td>
-					</tr>
+				<td th:unless="${k5}==null">KILEN FIVE</td>
+				<td th:unless="${k5}==null">
+					<table>
+						<tr th:each="K :${k5}">
+							<td th:text="${K.beginTime}">Stoped at</td>
+							<td th:text="${K.endTime}">Started at</td>
+							<td><ul th:each="p : ${K.problems}">
+								<li th:text="${p}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 		</tbody>
@@ -159,87 +170,101 @@ h4 {
 		</tbody>
 		<tbody class="hide">
 			<tr>
-				<td>DRAYER ONE</td>
-				<td>
-					<tr th:each="D :${d1}">
-						<td th:text="${D.beginTime}">Stoped at</td>
-						<td th:text="${D.endTime}">Started at</td>
-						<td><ul th:each="p : ${D.problems}">
-							<li th:text="${p}">problem number</li>
-						</ul></td>
-					</tr>
+				<td th:unless="${d1}==null">DRAYER ONE</td>
+				<td th:unless="${d1}==null">
+					<table>
+						<tr th:each="D :${d1}">
+							<td th:text="${D.beginTime}">Stoped at</td>
+							<td th:text="${D.endTime}">Started at</td>
+							<td><ul th:each="p : ${D.problems}">
+								<li th:text="${p}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 			<tr>
-				<td>DRAYER TWO</td>
-				<td>
-					<tr th:each="D :${d2}">
-						<td th:text="${D.beginTime}">Stoped at</td>
-						<td th:text="${D.endTime}">Started at</td>
-						<td><ul th:each="p : ${D.problems}">
-							<li th:text="${p}">problem number</li>
-						</ul></td>
-					</tr>
+				<td th:unless="${d2}==null">DRAYER TWO</td>
+				<td th:unless="${d2}==null">
+					<table>
+						<tr th:each="D :${d2}">
+							<td th:text="${D.beginTime}">Stoped at</td>
+							<td th:text="${D.endTime}">Started at</td>
+							<td><ul th:each="p : ${D.problems}">
+								<li th:text="${p}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 			<tr>
-				<td>DRAYER THREE</td>
-				<td>
-					<tr th:each="D :${d3}">
-						<td th:text="${D.beginTime}">Stoped at</td>
-						<td th:text="${D.endTime}">Started at</td>
-						<td><ul th:each="p : ${D.problems}">
-							<li th:text="${p}">problem number</li>
-						</ul></td>
-					</tr>
+				<td th:unless="${d3}==null">DRAYER THREE</td>
+				<td th:unless="${d3}==null">
+					<table>
+						<tr th:each="D :${d3}">
+							<td th:text="${D.beginTime}">Stoped at</td>
+							<td th:text="${D.endTime}">Started at</td>
+							<td><ul th:each="p : ${D.problems}">
+								<li th:text="${p}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 			<tr>
-				<td>DRAYER FOUR</td>
-				<td>
-					<tr th:each="D :${d4}">
-						<td th:text="${D.beginTime}">Stoped at</td>
-						<td th:text="${D.endTime}">Started at</td>
-						<td><ul th:each="p : ${D.problems}">
-							<li th:text="${p}">problem number</li>
-						</ul></td>
-					</tr>
+				<td th:unless="${d4}==null">DRAYER FOUR</td>
+				<td th:unless="${d4}==null">
+					<table>
+						<tr th:each="D :${d4}">
+							<td th:text="${D.beginTime}">Stoped at</td>
+							<td th:text="${D.endTime}">Started at</td>
+							<td><ul th:each="p : ${D.problems}">
+								<li th:text="${p}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 			<tr>
-				<td>DRAYER FIVE</td>
-				<td>
-					<tr th:each="D :${d5}">
-						<td th:text="${D.beginTime}">Stoped at</td>
-						<td th:text="${D.endTime}">Started at</td>
-						<td><ul th:each="p : ${D.problems}">
-							<li th:text="${p}">problem number</li>
-						</ul></td>
-					</tr>
+				<td th:unless="${d5}==null">DRAYER FIVE</td>
+				<td th:unless="${d5}==null">
+					<table>
+						<tr th:each="D :${d5}">
+							<td th:text="${D.beginTime}">Stoped at</td>
+							<td th:text="${D.endTime}">Started at</td>
+							<td><ul th:each="p : ${D.problems}">
+								<li th:text="${p}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 			<tr>
-				<td>DRAYER SIX</td>
-				<td>
-					<tr th:each="D :${d6}">
-						<td th:text="${D.beginTime}">Stoped at</td>
-						<td th:text="${D.endTime}">Started at</td>
-						<td><ul th:each="p : ${D.problems}">
-							<li th:text="${p}">problem number</li>
-						</ul></td>
-					</tr>
+				<td th:unless="${d6}==null">DRAYER SIX</td>
+				<td th:unless="${d6}==null">
+					<table>
+						<tr th:each="D :${d6}">
+							<td th:text="${D.beginTime}">Stoped at</td>
+							<td th:text="${D.endTime}">Started at</td>
+							<td><ul th:each="p : ${D.problems}">
+								<li th:text="${p}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 			<tr>
-				<td>DRAYER SEVEN</td>
-				<td>
-					<tr th:each="D :${d7}">
-						<td th:text="${D.beginTime}">Stoped at</td>
-						<td th:text="${D.endTime}">Started at</td>
-						<td><ul th:each="p : ${D.problems}">
-							<li th:text="${p}">problem number</li>
-						</ul></td>
-					</tr>
+				<td th:unless="${d7}==null">DRAYER SEVEN</td>
+				<td th:unless="${d7}==null">
+					<table>
+						<tr th:each="D :${d7}">
+							<td th:text="${D.beginTime}">Stoped at</td>
+							<td th:text="${D.endTime}">Started at</td>
+							<td><ul th:each="p : ${D.problems}">
+								<li th:text="${p}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 		</tbody>
@@ -253,27 +278,31 @@ h4 {
 		</tbody>
 		<tbody class="hide">
 			<tr>
-				<td>ATM ONE</td>
-				<td>
-					<tr th:each="A :${a1}">
-						<td th:text="${A.beginTime}">Stoped at</td>
-						<td th:text="${A.endTime}">Started at</td>
-						<td><ul th:each="p : ${A.problems}">
-							<li th:text="${p}">problem number</li>
-						</ul></td>
-					</tr>
+				<td th:unless="${a1}==null">ATM ONE</td>
+				<td th:unless="${a1}==null">
+					<table>
+						<tr th:each="A :${a1}">
+							<td th:text="${A.beginTime}">Stoped at</td>
+							<td th:text="${A.endTime}">Started at</td>
+							<td><ul th:each="p : ${A.problems}">
+								<li th:text="${p}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 			<tr>
-				<td>ATM TWO</td>
-				<td>
-					<tr th:each="A :${a2}">
-						<td th:text="${A.beginTime}">Stoped at</td>
-						<td th:text="${A.endTime}">Started at</td>
-						<td><ul th:each="p : ${A.problems}">
-							<li th:text="${p}">problem number</li>
-						</ul></td>
-					</tr>
+				<td th:unless="${a2}==null">ATM TWO</td>
+				<td th:unless="${a2}==null">
+					<table>
+						<tr th:each="A :${a2}">
+							<td th:text="${A.beginTime}">Stoped at</td>
+							<td th:text="${A.endTime}">Started at</td>
+							<td><ul th:each="p : ${A.problems}">
+								<li th:text="${p}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 		</tbody>
@@ -341,14 +370,16 @@ h4 {
 		</tbody>
 		<tbody class="hide">
 			<tr>
-				<td>
-					<tr th:each="P :${p}">
-						<td th:text="${P.beginTime}">Stoped at</td>
-						<td th:text="${P.endTime}">Started at</td>
-						<td><ul th:each="l : ${P.problems}">
-							<li th:text="${l}">problem number</li>
-						</ul></td>
-					</tr>
+				<td th:unless="${p}==null">
+					<table>
+						<tr th:each="P :${p}">
+							<td th:text="${P.beginTime}">Stoped at</td>
+							<td th:text="${P.endTime}">Started at</td>
+							<td><ul th:each="l : ${P.problems}">
+								<li th:text="${l}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 		</tbody>

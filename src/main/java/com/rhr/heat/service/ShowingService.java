@@ -38,11 +38,6 @@ public class ShowingService {
 				mp.put(pd.getMachine(), pds);
 			}
 		}
-		for (Machine m : Machine.values()) {
-			if(mp.get(m) == null) {
-				mp.put(m, new ArrayList<ProblemDetail>());
-			}
-		}
 		
 		return mp;
 	}
