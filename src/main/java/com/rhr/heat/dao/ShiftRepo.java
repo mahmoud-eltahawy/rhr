@@ -28,152 +28,180 @@ public class ShiftRepo {
 	private final ShiftIdRepo shiftIdRepo;
 	private final TotalFlowRepo totalFlowRepo;
 
-	public List<Shift> findAll() {
+	public List<Shift> findAll(Boolean perfect) {
 		 List<Shift> shifts = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
 				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
 				+ "from shift s join shift_id si on s.shift_id = si.id",
 				new ShiftRowMapper());
-		 shifts = shifts.stream()
-				 .map(s ->{return fullFill(s);})
-				 .collect(Collectors.toList());
+		 if(perfect) {
+			 shifts = shifts.stream()
+					 .map(s ->{return fullFill(s);})
+					 .collect(Collectors.toList());
+		 }
 		 return shifts;
 	}
 	
-	public List<Shift> findAll(Date date) {
+	public List<Shift> findAll(Date date,Boolean perfect) {
 		 List<Shift> shifts = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
 				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
 				+ "from shift s join shift_id si on s.shift_id = si.id "
 				+ "where si.shift_date = ?",
 				new ShiftRowMapper(), date);
-		 shifts = shifts.stream()
-				 .map(s ->{return fullFill(s);})
-				 .collect(Collectors.toList());
+		 if(perfect) {
+			 shifts = shifts.stream()
+					 .map(s ->{return fullFill(s);})
+					 .collect(Collectors.toList());
+		 }
 		 return shifts;
 	}
 
-	public List<Shift> findAll(ShiftOrder order) {
+	public List<Shift> findAll(ShiftOrder order,Boolean perfect) {
 		 List<Shift> shifts = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
 				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
 				+ "from shift s join shift_id si on s.shift_id = si.id "
 				+ "where si.shift_order = ?",
 				new ShiftRowMapper(), order.toString());
-		 shifts = shifts.stream()
-				 .map(s ->{return fullFill(s);})
-				 .collect(Collectors.toList());
+		 if(perfect) {
+			 shifts = shifts.stream()
+					 .map(s ->{return fullFill(s);})
+					 .collect(Collectors.toList());
+		 }
 		 return shifts;
 	}
 
-	public Optional<Shift> findById(Long id) {
+	public Optional<Shift> findById(Long id,Boolean perfect) {
 		 Shift s = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
 				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
 				+ "from shift s join shift_id si on s.shift_id = si.id "
 				+ "where si.id = ?",
 				new ShiftRowMapper(),id).stream().findFirst().get();
-		 return Optional.of(fullFill(s));
+		 if(perfect) {
+			 return Optional.of(fullFill(s));
+		 } else {
+			 return Optional.of(s);
+		 }
 	}
 
-	public Optional<Shift> findById(Date date, ShiftOrder order) {
+	public Optional<Shift> findById(Date date, ShiftOrder order,Boolean perfect) {
 		 Shift s = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
 				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
 				+ "from shift s join shift_id si on s.shift_id = si.id "
 				+ "where si.shift_date = ? and si.shift_order = ?",
 				new ShiftRowMapper(),date,order.toString()).stream().findFirst().get();
-		 return Optional.of(fullFill(s));
+		 if(perfect) {
+			 return Optional.of(fullFill(s));
+		 } else {
+			 return Optional.of(s);
+		 }
 	}
 
-	public List<Shift> findOlderThan(Date date) {
+	public List<Shift> findOlderThan(Date date,Boolean perfect) {
 		 List<Shift> shifts = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
 				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
 				+ "from shift s join shift_id si on s.shift_id = si.id "
 				+ "where si.shift_date <= ?",
 				new ShiftRowMapper(),date);
-		 shifts = shifts.stream()
-				 .map(s ->{return fullFill(s);})
-				 .collect(Collectors.toList());
+		 if(perfect) {
+			 shifts = shifts.stream()
+					 .map(s ->{return fullFill(s);})
+					 .collect(Collectors.toList());
+		 }
 		 return shifts;
 	}
 
-	public List<Shift> findOlderThan(Date date,ShiftOrder order) {
+	public List<Shift> findOlderThan(Date date,ShiftOrder order,Boolean perfect) {
 		 List<Shift> shifts = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
 				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
 				+ "from shift s join shift_id si on s.shift_id = si.id "
 				+ "where si.shift_date <= ? and si.shift_order = ?",
 				new ShiftRowMapper(),date ,order.toString());
-		 shifts = shifts.stream()
-				 .map(s ->{return fullFill(s);})
-				 .collect(Collectors.toList());
+		 if(perfect) {
+			 shifts = shifts.stream()
+					 .map(s ->{return fullFill(s);})
+					 .collect(Collectors.toList());
+		 }
 		 return shifts;
 	}
 
-	public List<Shift> findRecent(Date date) {
+	public List<Shift> findRecent(Date date,Boolean perfect) {
 		 List<Shift> shifts = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
 				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
 				+ "from shift s join shift_id si on s.shift_id = si.id "
 				+ "where si.shift_date >= ?",
 				new ShiftRowMapper(),date);
-		 shifts = shifts.stream()
-				 .map(s ->{return fullFill(s);})
-				 .collect(Collectors.toList());
+		 if(perfect) {
+			 shifts = shifts.stream()
+					 .map(s ->{return fullFill(s);})
+					 .collect(Collectors.toList());
+		 }
 		 return shifts;
 	}
 
-	public List<Shift> findRecent(Date date, ShiftOrder order) {
+	public List<Shift> findRecent(Date date, ShiftOrder order,Boolean perfect) {
 		 List<Shift> shifts = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
 				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
 				+ "from shift s join shift_id si on s.shift_id = si.id "
 				+ "where si.shift_date >= ? and si.shift_order = ?",
 				new ShiftRowMapper(),date ,order.toString());
-		 shifts = shifts.stream()
-				 .map(s ->{return fullFill(s);})
-				 .collect(Collectors.toList());
+		 if(perfect) {
+			 shifts = shifts.stream()
+					 .map(s ->{return fullFill(s);})
+					 .collect(Collectors.toList());
+		 }
 		 return shifts;
 	}
 
-	public List<Shift> findLast(Integer num) {
+	public List<Shift> findLast(Integer num,Boolean perfect) {
 		 List<Shift> shifts = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
 				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
 				+ "from shift s join shift_id si on s.shift_id = si.id "
 				+ " order by si.shift_date desc limit ?",
 				new ShiftRowMapper(), num);
-		 shifts = shifts.stream()
-				 .map(s ->{return fullFill(s);})
-				 .collect(Collectors.toList());
+		 if(perfect) {
+			 shifts = shifts.stream()
+					 .map(s ->{return fullFill(s);})
+					 .collect(Collectors.toList());
+		 }
 		 return shifts;
 	}
 
-	public List<Shift> findBetween(Date older,Date newer) {
+	public List<Shift> findBetween(Date older,Date newer,Boolean perfect) {
 		 List<Shift> shifts = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
 				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
 				+ "from shift s join shift_id si on s.shift_id = si.id "
 				+ "where si.shift_date between ? and ?",
 				new ShiftRowMapper(),older,newer);
-		 shifts = shifts.stream()
-				 .map(s -> {return fullFill(s);})
-				 .collect(Collectors.toList());
+		 if(perfect) {
+			 shifts = shifts.stream()
+					 .map(s -> {return fullFill(s);})
+					 .collect(Collectors.toList());
+		 }
 		 return shifts;
 	}
 
-	public List<Shift> findBetween(Date older, Date newer, ShiftOrder order) {
+	public List<Shift> findBetween(Date older, Date newer, ShiftOrder order,Boolean perfect) {
 		 List<Shift> shifts = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
 				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
 				+ "from shift s join shift_id si on s.shift_id = si.id "
 				+ "where si.shift_date between ? and ? and si.shift_order = ?",
 				new ShiftRowMapper(),older,newer,order.toString());
-		 shifts = shifts.stream()
-				 .map(s -> {return fullFill(s);})
-				 .collect(Collectors.toList());
+		 if(perfect) {
+			 shifts = shifts.stream()
+					 .map(s -> {return fullFill(s);})
+					 .collect(Collectors.toList());
+		 }
 		 return shifts;
 	}
 

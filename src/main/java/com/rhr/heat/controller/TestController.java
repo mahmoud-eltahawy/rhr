@@ -1,11 +1,9 @@
 package com.rhr.heat.controller;
 
-import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rhr.heat.model.Shift;
 import com.rhr.heat.service.Tester;
 
 import lombok.RequiredArgsConstructor;
@@ -25,10 +23,5 @@ public class TestController {
 	public String insertEmp() {
 		tester.emp();
 		return "inserted";
-	}
-	
-	@RequestMapping("/get")
-	public List<Shift> getAll() {
-		return tester.getAllData();
 	}
 }

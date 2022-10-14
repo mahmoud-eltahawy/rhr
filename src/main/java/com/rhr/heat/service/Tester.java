@@ -291,10 +291,6 @@ public class Tester {
 				shift71,shift72,shift73));
 	}
 
-	public List<Shift> getAllData(){
-		return shiftRepo.findAll();
-	}
-	
 	public void emp() {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, 2022);

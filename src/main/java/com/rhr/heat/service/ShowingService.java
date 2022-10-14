@@ -1,6 +1,6 @@
 package com.rhr.heat.service;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -11,10 +11,11 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ShiftService {
-	public final ShiftRepo shiftRepo;
+public class ShowingService {
+	private final ShiftRepo shiftRepo;
 	
-	public List<Shift> pickLastThree(){
-		return shiftRepo.findLast(3,false);
+	public Optional<Shift> getShift(Long id) {
+		return shiftRepo.findById(id, true);
 	}
+
 }
