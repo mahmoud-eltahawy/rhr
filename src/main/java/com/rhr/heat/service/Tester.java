@@ -103,6 +103,26 @@ public class Tester {
 		cal.set(Calendar.MINUTE, 0);
 		end = new Time(cal.getTime().getTime());
 		ProblemDetail pd14 = new ProblemDetail(null,Set.of(Problem.P5,Problem.P6,Problem.P7),Machine.KILEN_FIVE,begin,end);
+		cal.set(Calendar.HOUR, 8);
+		cal.set(Calendar.MINUTE, 0);
+		end = new Time(cal.getTime().getTime());
+		ProblemDetail pd15 = new ProblemDetail(null,Set.of(Problem.P5,Problem.P6,Problem.P7),Machine.KILEN_ONE,begin,end);
+		cal.set(Calendar.HOUR, 8);
+		cal.set(Calendar.MINUTE, 0);
+		end = new Time(cal.getTime().getTime());
+		ProblemDetail pd16 = new ProblemDetail(null,Set.of(Problem.P5,Problem.P6,Problem.P7),Machine.KILEN_ONE,begin,end);
+		cal.set(Calendar.HOUR, 8);
+		cal.set(Calendar.MINUTE, 0);
+		end = new Time(cal.getTime().getTime());
+		ProblemDetail pd17 = new ProblemDetail(null,Set.of(Problem.P5,Problem.P6,Problem.P7),Machine.KILEN_TWO,begin,end);
+		cal.set(Calendar.HOUR, 8);
+		cal.set(Calendar.MINUTE, 0);
+		end = new Time(cal.getTime().getTime());
+		ProblemDetail pd18 = new ProblemDetail(null,Set.of(Problem.P5,Problem.P6,Problem.P7),Machine.KILEN_THREE,begin,end);
+		cal.set(Calendar.HOUR, 8);
+		cal.set(Calendar.MINUTE, 0);
+		end = new Time(cal.getTime().getTime());
+		ProblemDetail pd19 = new ProblemDetail(null,Set.of(Problem.P5,Problem.P6,Problem.P7),Machine.KILEN_FOUR,begin,end);
 		
 		
 		TotalFlow tf1 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
@@ -265,7 +285,7 @@ public class Tester {
 		d = new Date(cal.getTime().getTime());
 		
 		Shift shift71 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
-				List.of(pd1,pd2),
+				List.of(pd1,pd2,pd15,pd16,pd17,pd18,pd19,pd3),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
