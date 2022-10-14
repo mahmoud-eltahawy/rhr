@@ -66,15 +66,15 @@ h4 {
 	</thead>
 	<thead>
 		<tr>
-			<th>Machine</th>
+			<th>MACHINE</th>
 			<th>
-				<tr>
-					<th>Stoped at</td>
-					<th>Started at</td>
-					<th><ul>
-						<li>problem number</li>
-					</ul></th>
-				</tr>
+				<table>
+					<tr>
+						<th>Stoped at</th>
+						<th>Started at</th>
+						<th>Problems</th>
+					</tr>
+				</table>
 			</td>
 		</tr>
 	</thead>
@@ -89,7 +89,6 @@ h4 {
 		</tbody>
 		<tbody class="hide">
 			<tr>
-
 				<td th:unless="${k1}==null">KILEN ONE</td>
 				<td th:unless="${k1}==null">
 					<table>
@@ -403,6 +402,19 @@ h4 {
 		<tbody class="hide">
 			<tr th:each="n : ${names}">
 				<td th:text="${n}">name</td>
+			</tr>
+		</tbody>
+		<tbody class="labels">
+			<tr>
+				<td colspan="5" style="text-align: center;">
+					<label for="accounting">Notes</label>
+					<input type="checkbox" name="accounting" id="accounting" data-toggle="toggle">
+				</td>
+			</tr>
+		</tbody>
+		<tbody class="hide">
+			<tr>
+				<td th:text="${note}?:'no additional notes'">notes</td>
 			</tr>
 		</tbody>
 	</tbody>

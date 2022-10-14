@@ -64,6 +64,7 @@ public class ShowingController {
 		model.addAttribute("flow",shift.getTotalFlowAverage());
 		model.addAttribute("maxT",shift.getMaxTemperature());
 		model.addAttribute("minT",shift.getMinTemperature());
+		model.addAttribute("note",shift.getExceptionalNote());
 		model.addAttribute("names",shift.getEmployees().stream().map(e ->{
 			return e.getFirstName()+" "+e.getMiddleName()+" "+e.getLastName();
 		}).collect(Collectors.toList()));
