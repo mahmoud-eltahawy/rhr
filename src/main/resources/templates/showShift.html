@@ -57,7 +57,7 @@ h4 {
 </style>
 </head>
 <body>
-	<h4><pre>Shift: <span>order</span>                  Date: <span>the date</span></pre></h4>
+	<h4><pre th:object="${theId}">Shift: <span th:text="*{shift}">order</span>                  Date: <span th:text="*{date}">the date</span></pre></h4>
 <table>
 	<thead>
 		<tr>
@@ -82,12 +82,12 @@ h4 {
 			</tr>
 		</tbody>
 		<tbody class="hide">
-			<tr>
-				<td>Kilen Number</td>
-				<td>Stoped at</td>
-				<td>Started at</td>
-				<td><ul>
-					<li>problem number</li>
+			<tr th:each="k :${kilens}">
+				<td th:text="${k.machine}">Kilen Number</td>
+				<td th:text="${k.beginTime}">Stoped at</td>
+				<td th:text="${k.endTime}">Started at</td>
+				<td><ul th:each="p : ${k.problems}">
+					<li th:text="${p}">problem number</li>
 				</ul></td>
 			</tr>
 		</tbody>
@@ -100,12 +100,12 @@ h4 {
 			</tr>
 		</tbody>
 		<tbody class="hide">
-			<tr>
-				<td>Drayer Number</td>
-				<td>Stoped at</td>
-				<td>Started at</td>
-				<td><ul>
-					<li>problem number</li>
+			<tr th:each="d :${drayers}">
+				<td th:text="${d.machine}">Drayer Number</td>
+				<td th:text="${d.beginTime}">Stoped at</td>
+				<td th:text="${d.endTime}">Started at</td>
+				<td><ul th:each="p : ${d.problems}">
+					<li th:text="${p}">problem number</li>
 				</ul></td>
 			</tr>
 		</tbody>
@@ -118,12 +118,12 @@ h4 {
 			</tr>
 		</tbody>
 		<tbody class="hide">
-			<tr>
-				<td>Atm Number</td>
-				<td>Stoped at</td>
-				<td>Started at</td>
-				<td><ul>
-					<li>problem number</li>
+			<tr th:each="a :${atms}">
+				<td th:text="${a.machine}">Atm Number</td>
+				<td th:text="${a.beginTime}">Stoped at</td>
+				<td th:text="${a.endTime}">Started at</td>
+				<td><ul th:each="p : ${a.problems}">
+					<li th:text="${p}">problem number</li>
 				</ul></td>
 			</tr>
 		</tbody>
@@ -154,19 +154,19 @@ h4 {
 			</tr>
 		</tbody>
 		<tbody class="hide">
-			<tr>
-				<td><ul>
-					<li>machine number</li>
+			<tr th:each="t : ${flow}">
+				<td><ul th:each="m : ${t.suspendedMachines}">
+					<li th:text="${m}">machine number</li>
 				</ul></td>
-				<td>Max flow</td>
-				<td>Min flow</td>
-				<td>Start time</td>
-				<td>End time</td>
+				<td th:text="${t.maxFlow}">Max flow</td>
+				<td th:text="${t.minFlow}">Min flow</td>
+				<td th:text="${t.caseBeginTime}">Start time</td>
+				<td th:text="${t.caseEndTime}">End time</td>
 			</tr>
 		</tbody>
 	</tbody>
 </table>
-	<h4><pre>Max Temp: <span>max</span>                  Min Temp: <span>min</span></pre></h4>
+	<h4><pre>Max Temp: <span th:text="${maxT}">max</span>                  Min Temp: <span th:text="${minT}">min</span></pre></h4>
 <table>
 	<thead>
 		<tr>
@@ -177,7 +177,7 @@ h4 {
 		<tr>
 			<th>Start time</th>
 			<th>End time</th>
-			<th>Problem</th>
+			<th>Problems</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -190,16 +190,37 @@ h4 {
 			</tr>
 		</tbody>
 		<tbody class="hide">
-			<tr>
-				<td>Start time</td>
-				<td>End time</td>
-				<td><ul>
-					<li>problem number</li>
+			<tr th:each="p : ${project}">
+				<td th:text="${p.beginTime}">Start time</td>
+				<td th:text="${p.endTime}">End time</td>
+				<td><ul th:each="l :${p.problems}">
+					<li th:text="${l}">problem number</li>
 				</ul></td>
 			</tr>
 		</tbody>
 	</tbody>
 </table>
-	<h4><pre>Employee: <span>employee</span> </pre></h4>
+<table>
+	<thead>
+		<tr>
+			<th colspan="5" style="text-align: center;">Employees</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tbody class="labels">
+			<tr>
+				<td colspan="5" style="text-align: center;">
+					<label for="accounting">Names</label>
+					<input type="checkbox" name="accounting" id="accounting" data-toggle="toggle">
+				</td>
+			</tr>
+		</tbody>
+		<tbody class="hide">
+			<tr th:each="n : ${names}">
+				<td th:text="${n}">name</td>
+			</tr>
+		</tbody>
+	</tbody>
+</table>
 </body>
 </html>
