@@ -5,8 +5,8 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.enums.Machine;
-import com.rhr.heat.model.ProblemDetail;
 
 public class ProblemDetailRowMapper implements RowMapper<ProblemDetail>{
 	@Override

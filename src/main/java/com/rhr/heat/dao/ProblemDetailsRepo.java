@@ -12,8 +12,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.rhr.heat.dao.rowMappers.ProblemDetailRowMapper;
+import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.enums.Problem;
-import com.rhr.heat.model.ProblemDetail;
 
 import lombok.RequiredArgsConstructor;
 

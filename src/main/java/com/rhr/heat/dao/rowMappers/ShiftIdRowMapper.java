@@ -5,8 +5,8 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.enums.ShiftOrder;
-import com.rhr.heat.model.ShiftId;
 
 public class ShiftIdRowMapper implements RowMapper<ShiftId> {
 	@Override

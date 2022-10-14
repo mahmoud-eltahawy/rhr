@@ -13,8 +13,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.rhr.heat.dao.rowMappers.ShiftIdRowMapper;
+import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.enums.ShiftOrder;
-import com.rhr.heat.model.ShiftId;
 
 import lombok.RequiredArgsConstructor;
 

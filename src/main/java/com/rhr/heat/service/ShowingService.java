@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.rhr.heat.dao.ShiftRepo;
-import com.rhr.heat.model.Shift;
+import com.rhr.heat.entity.Shift;
 
 import lombok.RequiredArgsConstructor;
 

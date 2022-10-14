@@ -14,8 +14,8 @@ import org.springframework.stereotype.Repository;
 
 import com.rhr.heat.dao.rowMappers.EmployeeRowMapper;
 import com.rhr.heat.dao.rowMappers.ShiftIdRowMapper;
-import com.rhr.heat.model.Employee;
-import com.rhr.heat.model.ShiftId;
+import com.rhr.heat.entity.Employee;
+import com.rhr.heat.entity.ShiftId;
 
 import lombok.RequiredArgsConstructor;
 

@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.ShiftRepo;
+import com.rhr.heat.entity.Employee;
+import com.rhr.heat.entity.ProblemDetail;
+import com.rhr.heat.entity.Shift;
+import com.rhr.heat.entity.ShiftId;
+import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.enums.EmployeePosition;
 import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.Problem;
 import com.rhr.heat.enums.ShiftOrder;
-import com.rhr.heat.model.Employee;
-import com.rhr.heat.model.ProblemDetail;
-import com.rhr.heat.model.Shift;
-import com.rhr.heat.model.ShiftId;
-import com.rhr.heat.model.TotalFlow;
 
 import lombok.RequiredArgsConstructor;
 
@@ -86,19 +86,19 @@ public class Tester {
 		cal.set(Calendar.HOUR, 5);
 		cal.set(Calendar.MINUTE, 10);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd10 = new ProblemDetail(null,Set.of(Problem.P5,Problem.P7),Machine.KILEN_ONE,begin,end);
+		ProblemDetail pd10 = new ProblemDetail(null,Set.of(Problem.P5,Problem.P7),Machine.ATM_ONE,begin,end);
 		cal.set(Calendar.HOUR, 2);
 		cal.set(Calendar.MINUTE, 30);
 		begin = new Time(cal.getTime().getTime());
-		ProblemDetail pd11 = new ProblemDetail(null,Set.of(Problem.P1,Problem.P8),Machine.KILEN_TWO,begin,end);
+		ProblemDetail pd11 = new ProblemDetail(null,Set.of(Problem.P1,Problem.P8),Machine.ATM_TWO,begin,end);
 		cal.set(Calendar.HOUR, 5);
 		cal.set(Calendar.MINUTE, 20);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd12 = new ProblemDetail(null,Set.of(Problem.P1,Problem.P8,Problem.P3),Machine.KILEN_THREE,begin,end);
+		ProblemDetail pd12 = new ProblemDetail(null,Set.of(Problem.P1,Problem.P8,Problem.P3),Machine.PROJECT,begin,end);
 		cal.set(Calendar.HOUR, 2);
 		cal.set(Calendar.MINUTE, 45);
 		begin = new Time(cal.getTime().getTime());
-		ProblemDetail pd13 = new ProblemDetail(null,Set.of(Problem.P2,Problem.P9,Problem.P4),Machine.KILEN_FOUR,begin,end);
+		ProblemDetail pd13 = new ProblemDetail(null,Set.of(Problem.P2,Problem.P9,Problem.P4),Machine.PROJECT,begin,end);
 		cal.set(Calendar.HOUR, 8);
 		cal.set(Calendar.MINUTE, 0);
 		end = new Time(cal.getTime().getTime());
@@ -265,7 +265,7 @@ public class Tester {
 		d = new Date(cal.getTime().getTime());
 		
 		Shift shift71 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
-				List.of(pd12,pd11),
+				List.of(pd1,pd2),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);

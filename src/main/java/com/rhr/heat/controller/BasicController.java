@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.rhr.heat.model.Shift;
+import com.rhr.heat.entity.Shift;
 import com.rhr.heat.service.ShiftService;
 
 import lombok.RequiredArgsConstructor;

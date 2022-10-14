@@ -1,4 +1,4 @@
-package com.rhr.heat.model;
+package com.rhr.heat.entity;
 
 import java.sql.Date;
 

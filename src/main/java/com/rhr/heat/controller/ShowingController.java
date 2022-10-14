@@ -26,9 +26,8 @@ import static com.rhr.heat.enums.Machine.ATM_ONE;
 import static com.rhr.heat.enums.Machine.ATM_TWO;
 import static com.rhr.heat.enums.Machine.PROJECT;
 
-import com.rhr.heat.enums.Machine;
-import com.rhr.heat.model.ProblemDetail;
-import com.rhr.heat.model.Shift;
+import com.rhr.heat.entity.ProblemDetail;
+import com.rhr.heat.entity.Shift;
 import com.rhr.heat.service.ShowingService;
 
 import lombok.RequiredArgsConstructor;

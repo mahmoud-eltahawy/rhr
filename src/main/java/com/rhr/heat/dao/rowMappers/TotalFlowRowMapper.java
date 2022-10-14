@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.rhr.heat.model.TotalFlow;
+import com.rhr.heat.entity.TotalFlow;
 
 public class TotalFlowRowMapper implements RowMapper<TotalFlow> {
 	@Override

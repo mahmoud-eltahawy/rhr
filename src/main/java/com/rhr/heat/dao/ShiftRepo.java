@@ -12,10 +12,10 @@ import com.rhr.heat.dao.rowMappers.EmployeeRowMapper;
 import com.rhr.heat.dao.rowMappers.ProblemDetailRowMapper;
 import com.rhr.heat.dao.rowMappers.ShiftRowMapper;
 import com.rhr.heat.dao.rowMappers.TotalFlowRowMapper;
+import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.Problem;
 import com.rhr.heat.enums.ShiftOrder;
-import com.rhr.heat.model.Shift;
 
 import lombok.RequiredArgsConstructor;
 

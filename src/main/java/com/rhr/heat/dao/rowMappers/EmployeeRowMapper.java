@@ -5,8 +5,8 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import com.rhr.heat.entity.Employee;
 import com.rhr.heat.enums.EmployeePosition;
-import com.rhr.heat.model.Employee;
 
 public class EmployeeRowMapper implements RowMapper<Employee> {
 

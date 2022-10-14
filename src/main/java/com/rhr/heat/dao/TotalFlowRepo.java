@@ -12,8 +12,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.rhr.heat.dao.rowMappers.TotalFlowRowMapper;
+import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.enums.Machine;
-import com.rhr.heat.model.TotalFlow;
 
 import lombok.RequiredArgsConstructor;
 

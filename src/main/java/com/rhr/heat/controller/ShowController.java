@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rhr.heat.model.Shift;
+import com.rhr.heat.entity.Shift;
 import com.rhr.heat.service.ShowService;
 
 import lombok.RequiredArgsConstructor;
