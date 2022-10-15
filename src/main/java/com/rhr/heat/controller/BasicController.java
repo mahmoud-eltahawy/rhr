@@ -1,10 +1,6 @@
 package com.rhr.heat.controller;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,5 +27,10 @@ public class BasicController {
 	public String customError(@RequestParam("message")String message,Model model) {
 		model.addAttribute("message", message);
 		return "errorPage";
+	}
+	
+	@RequestMapping("/comming")
+	public String commingSoon() {
+		return "commingSoon";
 	}
 }
