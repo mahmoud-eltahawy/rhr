@@ -18,7 +18,7 @@ public class BasicController {
 
 	@GetMapping("/")
 	public String index(Model model) {
-		model.addAttribute("title","last week dynamicaly");
+		model.addAttribute("title","Welcom to index page");
 		model.addAttribute("week",service.pickLastWeeks(1));
 		return "index";
 	}
