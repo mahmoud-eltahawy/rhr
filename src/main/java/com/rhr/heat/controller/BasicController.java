@@ -1,6 +1,10 @@
 package com.rhr.heat.controller;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +23,7 @@ public class BasicController {
 	@GetMapping("/")
 	public String index(Model model) {
 		model.addAttribute("title","last week dynamicaly");
-		model.addAttribute("week",service.pickLastWeeks(1));
+		model.addAttribute("week",new TreeMap<>(service.pickLastWeeks(1)));
 		return "index";
 	}
 	
