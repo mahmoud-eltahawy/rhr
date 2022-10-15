@@ -1,7 +1,7 @@
 package com.rhr.heat.service;
 
 import java.sql.Date;
-import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.stereotype.Service;
 
@@ -15,11 +15,11 @@ import lombok.RequiredArgsConstructor;
 public class ShiftService {
 	public final ShiftRepo shiftRepo;
 	
-	public Map<Date ,Day> pickLastWeeks(Integer weeks){
+	public TreeMap<Date ,Day> pickLastWeeks(Integer weeks){
 		return Day.getDays(shiftRepo.findLast(weeks * 21,false));
 	}
 	
-	public Map<Date ,Day> pickLastdays(Integer days){
+	public TreeMap<Date ,Day> pickLastdays(Integer days){
 		return Day.getDays(shiftRepo.findLast(days * 3,false));
 	}
 }

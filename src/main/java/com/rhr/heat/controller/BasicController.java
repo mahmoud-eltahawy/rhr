@@ -23,7 +23,7 @@ public class BasicController {
 	@GetMapping("/")
 	public String index(Model model) {
 		model.addAttribute("title","last week dynamicaly");
-		model.addAttribute("week",new TreeMap<>(service.pickLastWeeks(1)));
+		model.addAttribute("week",service.pickLastWeeks(1));
 		return "index";
 	}
 	

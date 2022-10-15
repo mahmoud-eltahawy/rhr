@@ -1,9 +1,9 @@
 package com.rhr.heat.model;
 
 import java.sql.Date;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.TreeMap;
 
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.ShiftOrder;
@@ -20,8 +20,8 @@ public class Day {
 	private Shift two;
 	private Shift three;
 	
-	public static Map<Date, Day> getDays(List<Shift> shifts){
-		Map<Date, Day> days = new HashMap<>();
+	public static TreeMap<Date, Day> getDays(List<Shift> shifts){
+		TreeMap<Date, Day> days = new TreeMap<Date,Day>(Collections.reverseOrder());
 		for (Shift shift : shifts) {
 			if(days.get(shift.getShiftId().getDate()) == null) {
 				Day day = new Day();
