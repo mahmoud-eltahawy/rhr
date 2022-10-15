@@ -128,10 +128,10 @@ footer a {
 </head>
 <body>
 <!-- partial:index.partial.html -->
-<h1 class="text-center"> Last Week</h1>
+<h1 class="text-center" th:text="${title}"> Last what</h1>
 
-<div class="pricing-box-container">
-	<div class="pricing-box text-center" th:object="${f1}">
+<div class="pricing-box-container" th:each="ins :${week}">
+	<div class="pricing-box text-center" th:object="${ins.value.one}">
 		<h5 th:text="*{shiftId.shift}">two</h5>
 		<h4 th:text="*{shiftId.date}">date</h4>
 		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
@@ -142,7 +142,7 @@ footer a {
 		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
 	</div>
 
-	<div class="pricing-box pricing-box-bg-image text-center" th:object="${l1}">
+	<div class="pricing-box pricing-box-bg-image text-center" th:object="${ins.value.two}">
 		<h5 th:text="*{shiftId.shift}">three</h5>
 		<h4 th:text="*{shiftId.date}">date</h4>
 		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
@@ -153,217 +153,7 @@ footer a {
 		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
 	</div>
 
-	<div class="pricing-box text-center" th:object="${m1}">
-		<h5 th:text="*{shiftId.shift}">one</h5>
-		<h4 th:text="*{shiftId.date}">date</h4>
-		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-			<sub th:text="*{minTemperature}">min</sub></p>
-
-		<p th:text="*{exceptionalNote}">notes</p>
-
-		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-	</div>
-</div>
-
-<div class="pricing-box-container">
-	<div class="pricing-box text-center" th:object="${f2}">
-		<h5 th:text="*{shiftId.shift}">two</h5>
-		<h4 th:text="*{shiftId.date}">date</h4>
-		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-			<sub th:text="*{minTemperature}">min</sub></p>
-
-		<p th:text="*{exceptionalNote}">notes</p>
-
-		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-	</div>
-
-	<div class="pricing-box pricing-box-bg-image text-center" th:object="${l2}">
-		<h5 th:text="*{shiftId.shift}">three</h5>
-		<h4 th:text="*{shiftId.date}">date</h4>
-		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-			<sub th:text="*{minTemperature}">min</sub></p>
-
-		<p th:text="*{exceptionalNote}">notes</p>
-
-		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-	</div>
-
-	<div class="pricing-box text-center" th:object="${m2}">
-		<h5 th:text="*{shiftId.shift}">one</h5>
-		<h4 th:text="*{shiftId.date}">date</h4>
-		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-			<sub th:text="*{minTemperature}">min</sub></p>
-
-		<p th:text="*{exceptionalNote}">notes</p>
-
-		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-	</div>
-</div>
-
-<div class="pricing-box-container">
-	<div class="pricing-box text-center" th:object="${f3}">
-		<h5 th:text="*{shiftId.shift}">two</h5>
-		<h4 th:text="*{shiftId.date}">date</h4>
-		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-			<sub th:text="*{minTemperature}">min</sub></p>
-
-		<p th:text="*{exceptionalNote}">notes</p>
-
-		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-	</div>
-
-	<div class="pricing-box pricing-box-bg-image text-center" th:object="${l3}">
-		<h5 th:text="*{shiftId.shift}">three</h5>
-		<h4 th:text="*{shiftId.date}">date</h4>
-		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-			<sub th:text="*{minTemperature}">min</sub></p>
-
-		<p th:text="*{exceptionalNote}">notes</p>
-
-		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-	</div>
-
-	<div class="pricing-box text-center" th:object="${m3}">
-		<h5 th:text="*{shiftId.shift}">one</h5>
-		<h4 th:text="*{shiftId.date}">date</h4>
-		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-			<sub th:text="*{minTemperature}">min</sub></p>
-
-		<p th:text="*{exceptionalNote}">notes</p>
-
-		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-	</div>
-</div>
-
-<div class="pricing-box-container">
-	<div class="pricing-box text-center" th:object="${f4}">
-		<h5 th:text="*{shiftId.shift}">two</h5>
-		<h4 th:text="*{shiftId.date}">date</h4>
-		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-			<sub th:text="*{minTemperature}">min</sub></p>
-
-		<p th:text="*{exceptionalNote}">notes</p>
-
-		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-	</div>
-
-	<div class="pricing-box pricing-box-bg-image text-center" th:object="${l4}">
-		<h5 th:text="*{shiftId.shift}">three</h5>
-		<h4 th:text="*{shiftId.date}">date</h4>
-		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-			<sub th:text="*{minTemperature}">min</sub></p>
-
-		<p th:text="*{exceptionalNote}">notes</p>
-
-		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-	</div>
-
-	<div class="pricing-box text-center" th:object="${m4}">
-		<h5 th:text="*{shiftId.shift}">one</h5>
-		<h4 th:text="*{shiftId.date}">date</h4>
-		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-			<sub th:text="*{minTemperature}">min</sub></p>
-
-		<p th:text="*{exceptionalNote}">notes</p>
-
-		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-	</div>
-</div>
-
-<div class="pricing-box-container">
-	<div class="pricing-box text-center" th:object="${f5}">
-		<h5 th:text="*{shiftId.shift}">two</h5>
-		<h4 th:text="*{shiftId.date}">date</h4>
-		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-			<sub th:text="*{minTemperature}">min</sub></p>
-
-		<p th:text="*{exceptionalNote}">notes</p>
-
-		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-	</div>
-
-	<div class="pricing-box pricing-box-bg-image text-center" th:object="${l5}">
-		<h5 th:text="*{shiftId.shift}">three</h5>
-		<h4 th:text="*{shiftId.date}">date</h4>
-		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-			<sub th:text="*{minTemperature}">min</sub></p>
-
-		<p th:text="*{exceptionalNote}">notes</p>
-
-		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-	</div>
-
-	<div class="pricing-box text-center" th:object="${m5}">
-		<h5 th:text="*{shiftId.shift}">one</h5>
-		<h4 th:text="*{shiftId.date}">date</h4>
-		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-			<sub th:text="*{minTemperature}">min</sub></p>
-
-		<p th:text="*{exceptionalNote}">notes</p>
-
-		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-	</div>
-</div>
-
-<div class="pricing-box-container">
-	<div class="pricing-box text-center" th:object="${f6}">
-		<h5 th:text="*{shiftId.shift}">two</h5>
-		<h4 th:text="*{shiftId.date}">date</h4>
-		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-			<sub th:text="*{minTemperature}">min</sub></p>
-
-		<p th:text="*{exceptionalNote}">notes</p>
-
-		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-	</div>
-
-	<div class="pricing-box pricing-box-bg-image text-center" th:object="${l6}">
-		<h5 th:text="*{shiftId.shift}">three</h5>
-		<h4 th:text="*{shiftId.date}">date</h4>
-		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-			<sub th:text="*{minTemperature}">min</sub></p>
-
-		<p th:text="*{exceptionalNote}">notes</p>
-
-		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-	</div>
-
-	<div class="pricing-box text-center" th:object="${m6}">
-		<h5 th:text="*{shiftId.shift}">one</h5>
-		<h4 th:text="*{shiftId.date}">date</h4>
-		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-			<sub th:text="*{minTemperature}">min</sub></p>
-
-		<p th:text="*{exceptionalNote}">notes</p>
-
-		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-	</div>
-</div>
-
-<div class="pricing-box-container">
-	<div class="pricing-box text-center" th:object="${f7}">
-		<h5 th:text="*{shiftId.shift}">two</h5>
-		<h4 th:text="*{shiftId.date}">date</h4>
-		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-			<sub th:text="*{minTemperature}">min</sub></p>
-
-		<p th:text="*{exceptionalNote}">notes</p>
-
-		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-	</div>
-
-	<div class="pricing-box pricing-box-bg-image text-center" th:object="${l7}">
-		<h5 th:text="*{shiftId.shift}">three</h5>
-		<h4 th:text="*{shiftId.date}">date</h4>
-		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-			<sub th:text="*{minTemperature}">min</sub></p>
-
-		<p th:text="*{exceptionalNote}">notes</p>
-
-		<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-	</div>
-
-	<div class="pricing-box text-center" th:object="${m7}">
+	<div class="pricing-box text-center" th:object="${ins.value.three}">
 		<h5 th:text="*{shiftId.shift}">one</h5>
 		<h4 th:text="*{shiftId.date}">date</h4>
 		<p class="price"><sup th:text="*{maxTemperature}">max</sup>/

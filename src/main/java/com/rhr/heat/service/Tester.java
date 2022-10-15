@@ -19,6 +19,7 @@ import com.rhr.heat.enums.EmployeePosition;
 import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.Problem;
 import com.rhr.heat.enums.ShiftOrder;
+import com.rhr.heat.model.Day;
 
 import lombok.RequiredArgsConstructor;
 
@@ -312,20 +313,8 @@ public class Tester {
 	}
 
 	public void emp() {
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.YEAR, 2022);
-		cal.set(Calendar.MONTH, Calendar.OCTOBER);
-		cal.set(Calendar.DAY_OF_MONTH, 7);
-		Date date1 = new Date(cal.getTime().getTime());
-		cal.set(Calendar.DAY_OF_MONTH, 10);
-		Date date2 = new Date(cal.getTime().getTime());
-		employeeRepo.findhisShiftsOn("mahmoud_gamal", date1, date2)
-		.forEach(s -> System.out.println(s.toString()));
-		System.out.println("up is shifts betwwn\ndown is last shifts");
-		employeeRepo.findHisLastShifts("mahmoud_gamal", 4)
-		.forEach(s -> System.out.println(s.toString()));
-		System.out.println("down is all shifts");
-		employeeRepo.findHisShifts("mahmoud_gamal")
-		.forEach(s -> System.out.println(s.toString()));
+		Day.getDays(shiftRepo.findLast(3 * 3,false)).forEach((k , v) ->{
+			System.out.println("key is"+k+" and values is "+v.toString());
+		});
 	}
 }
