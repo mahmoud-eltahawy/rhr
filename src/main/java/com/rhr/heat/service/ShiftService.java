@@ -17,4 +17,8 @@ public class ShiftService {
 	public List<Shift> pickLastThree(){
 		return shiftRepo.findLast(3,false);
 	}
+	
+	public List<Shift> pickLastWeek(){
+		return shiftRepo.findLast(21,false);
+	}
 }
