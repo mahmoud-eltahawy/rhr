@@ -4,56 +4,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-function kilens() {
-  var x = document.getElementById("k");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-function drayers() {
-  var x = document.getElementById("d");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-function atms() {
-  var x = document.getElementById("a");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-function machines() {
-  var x = document.getElementById("m");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-function flow() {
-  var x = document.getElementById("f");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-function project() {
-  var x = document.getElementById("p");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-function employee() {
-  var x = document.getElementById("e");
+function toggle(id) {
+  var x = document.getElementById(id);
   if (x.style.display === "none") {
     x.style.display = "block";
   } else {
@@ -111,7 +63,7 @@ h4 {
 </head>
 <body>
 	<h4><pre th:object="${theId}">Shift: <span th:text="*{shift}">order</span>                  Date: <span th:text="*{date}">the date</span></pre></h4>
-	<h5><button for="accounting" onclick="machines()">Machines Status</button></h5>
+	<h5><button for="accounting" onclick="toggle('m')">Machines Status</button></h5>
 <div id="m">
 	<table>
 		<thead>
@@ -130,7 +82,7 @@ h4 {
 		</thead>
 	</table>
 
-	<h5><button for="accounting" onclick="kilens()">Kilens</button></h5>
+	<h5><button for="accounting" onclick="toggle('k')">Kilens</button></h5>
 
 	<div id="k">
 		<table>
@@ -206,7 +158,7 @@ h4 {
 			</tr>
 		</table>
 	</div>
-	<h5><button for="accounting" onclick="drayers()">Drayers</button></h5>
+	<h5><button for="accounting" onclick="toggle('d')">Drayers</button></h5>
 	<div id="d">
 		<table>
 			<tr>
@@ -309,7 +261,7 @@ h4 {
 			</tr>
 		</table>
 	</div>
-	<h5><button for="accounting" onclick="atms()">Atms</button></h5>
+	<h5><button for="accounting" onclick="toggle('a')">Atms</button></h5>
 	<div id="a">
 		<table>
 			<tr>
@@ -344,7 +296,7 @@ h4 {
 	</div>
 </div>
 
-<h5><button for="accounting" onclick="flow()">Total Flow</button></h5>
+<h5><button for="accounting" onclick="toggle('f')">Total Flow</button></h5>
 
 <div id="f">
 	<table>
@@ -371,7 +323,7 @@ h4 {
 
 <h4><pre>Max Temp: <span th:text="${maxT}">max</span>                  Min Temp: <span th:text="${minT}">min</span></pre></h4>
 
-<h5><button for="accounting" onclick="project()">Project suspending</button></h5>
+<h5><button for="accounting" onclick="toggle('p')">Project suspending</button></h5>
 
 <div id="p">
 	<table>
@@ -397,7 +349,7 @@ h4 {
 		</tr>
 	</table>
 </div>
-<h5><button for="accounting" onclick="employee()">Employees</button></h5>
+<h5><button for="accounting" onclick="toggle('e')">Employees</button></h5>
 <div id="e">
 	<table>
 		<tr th:each="n : ${names}">
