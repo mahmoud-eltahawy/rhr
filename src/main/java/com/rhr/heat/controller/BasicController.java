@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.service.ShiftService;
@@ -41,5 +43,11 @@ public class BasicController {
 		model.addAttribute("m7",lastDay.get(19));
 		model.addAttribute("f7",lastDay.get(20));
 		return "index";
+	}
+	
+	@RequestMapping("customError")
+	public String customError(@RequestParam("message")String message,Model model) {
+		model.addAttribute("message", message);
+		return "errorPage";
 	}
 }

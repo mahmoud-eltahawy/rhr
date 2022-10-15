@@ -73,30 +73,30 @@ public class ShiftRepo {
 	}
 
 	public Optional<Shift> findById(Long id,Boolean perfect) {
-		 Shift s = jdbcTemplate.query(
+		 Optional<Shift> s = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
 				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
 				+ "from shift s join shift_id si on s.shift_id = si.id "
 				+ "where si.id = ?",
-				new ShiftRowMapper(),id).stream().findFirst().get();
-		 if(perfect) {
-			 return Optional.of(fullFill(s));
+				new ShiftRowMapper(),id).stream().findFirst();
+		 if(s.isPresent() & perfect) {
+			 return Optional.of(fullFill(s.get()));
 		 } else {
-			 return Optional.of(s);
+			 return s;
 		 }
 	}
 
 	public Optional<Shift> findById(Date date, ShiftOrder order,Boolean perfect) {
-		 Shift s = jdbcTemplate.query(
+		 Optional<Shift> s = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
 				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
 				+ "from shift s join shift_id si on s.shift_id = si.id "
 				+ "where si.shift_date = ? and si.shift_order = ?",
-				new ShiftRowMapper(),date,order.toString()).stream().findFirst().get();
-		 if(perfect) {
-			 return Optional.of(fullFill(s));
+				new ShiftRowMapper(),date,order.toString()).stream().findFirst();
+		 if(s.isPresent() & perfect) {
+			 return Optional.of(fullFill(s.get()));
 		 } else {
-			 return Optional.of(s);
+			 return s;
 		 }
 	}
 
