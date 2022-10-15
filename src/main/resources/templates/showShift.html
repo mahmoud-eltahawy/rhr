@@ -4,36 +4,97 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-$(document).ready(function() {
-    $('[data-toggle="toggle"]').change(function(){
-    $(this).parents().next('.hide').toggle();
-    });
-});
+function kilens() {
+  var x = document.getElementById("k");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+function drayers() {
+  var x = document.getElementById("d");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+function atms() {
+  var x = document.getElementById("a");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+function machines() {
+  var x = document.getElementById("m");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+function flow() {
+  var x = document.getElementById("f");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+function project() {
+  var x = document.getElementById("p");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+function employee() {
+  var x = document.getElementById("e");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
 </script>
 <style>
+
+button {
+	width: 100%;
+	margin: 10px auto;
+	background: #2cc16a;
+	padding: 10px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 18px;
+ }
 table {
-	width: 750px;
+	width: 100%;
 	border-collapse: collapse;
-	margin:50px auto;
+	margin: 10px auto;
 	}
 
 th {
 	background: #3498db;
-	color: white;
+	color: black;
 	font-weight: bold;
 	}
 
 td, th {
 	padding: 10px;
 	border: 1px solid #ccc;
-	text-align: left;
+	text-align: center;
 	font-size: 18px;
 	}
 
 h4 {
-	background-color: lightblue;
+	background-color: #3498db;
 	font-weight: bold;
-	color: #2cc16a;
+	color: black;
 	font-size: 18px;
 	margin:10px auto;
 	padding: 2px;
@@ -46,48 +107,33 @@ h4 {
 	color: #fff;
 }
 
-.label tr td label {
-	display: block;
-}
-
-
-[data-toggle="toggle"] {
-	display: none;
-}
 </style>
 </head>
 <body>
 	<h4><pre th:object="${theId}">Shift: <span th:text="*{shift}">order</span>                  Date: <span th:text="*{date}">the date</span></pre></h4>
-<table>
-	<thead>
-		<tr>
-			<th colspan="5" style="text-align: center;">Machines status</th>
-		</tr>
-	</thead>
-	<thead>
-		<tr>
-			<th>MACHINE</th>
-			<th>
-				<table>
-					<tr>
-						<th>Stoped at</th>
-						<th>Started at</th>
-						<th>Problems</th>
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</thead>
-	<tbody>
-		<tbody class="labels">
+	<h5><button for="accounting" onclick="machines()">Machines Status</button></h5>
+<div id="m">
+	<table>
+		<thead>
 			<tr>
-				<td colspan="5" style="text-align: center;">
-					<label for="accounting">Kilens</label>
-					<input type="checkbox" name="accounting" id="accounting" data-toggle="toggle">
+				<th>MACHINE</th>
+				<th>
+					<table>
+						<tr>
+							<th>Stoped at</th>
+							<th>Started at</th>
+							<th>Problems</th>
+						</tr>
+					</table>
 				</td>
 			</tr>
-		</tbody>
-		<tbody class="hide">
+		</thead>
+	</table>
+
+	<h5><button for="accounting" onclick="kilens()">Kilens</button></h5>
+
+	<div id="k">
+		<table>
 			<tr>
 				<td th:unless="${k1}==null">KILEN ONE</td>
 				<td th:unless="${k1}==null">
@@ -158,16 +204,11 @@ h4 {
 					</table>
 				</td>
 			</tr>
-		</tbody>
-		<tbody class="labels">
-			<tr>
-				<td colspan="5" style="text-align: center;">
-					<label for="management">Drayers</label>
-					<input type="checkbox" name="management" id="management" data-toggle="toggle">
-				</td>
-			</tr>
-		</tbody>
-		<tbody class="hide">
+		</table>
+	</div>
+	<h5><button for="accounting" onclick="drayers()">Drayers</button></h5>
+	<div id="d">
+		<table>
 			<tr>
 				<td th:unless="${d1}==null">DRAYER ONE</td>
 				<td th:unless="${d1}==null">
@@ -266,16 +307,11 @@ h4 {
 					</table>
 				</td>
 			</tr>
-		</tbody>
-		<tbody class="labels">
-			<tr>
-				<td colspan="5" style="text-align: center;">
-					<label for="accounting">Atms</label>
-					<input type="checkbox" name="accounting" id="accounting" data-toggle="toggle">
-				</td>
-			</tr>
-		</tbody>
-		<tbody class="hide">
+		</table>
+	</div>
+	<h5><button for="accounting" onclick="atms()">Atms</button></h5>
+	<div id="a">
+		<table>
 			<tr>
 				<td th:unless="${a1}==null">ATM ONE</td>
 				<td th:unless="${a1}==null">
@@ -304,16 +340,14 @@ h4 {
 					</table>
 				</td>
 			</tr>
-		</tbody>
-	</tbody>
-</table>
-<table>
-	<thead>
-		<tr>
-			<th colspan="5" style="text-align: center;">Total Flow</th>
-		</tr>
-	</thead>
-	<thead>
+		</table>
+	</div>
+</div>
+
+<h5><button for="accounting" onclick="flow()">Total Flow</button></h5>
+
+<div id="f">
+	<table>
 		<tr>
 			<th>Suspended machines</th>
 			<th>Max total flow</th>
@@ -321,103 +355,60 @@ h4 {
 			<th>Start time</th>
 			<th>End time</th>
 		</tr>
-	</thead>
-	<tbody>
-		<tbody class="labels">
-			<tr>
-				<td colspan="5" style="text-align: center;">
-					<label for="accounting">Toggle</label>
-					<input type="checkbox" name="accounting" id="accounting" data-toggle="toggle">
-				</td>
-			</tr>
-		</tbody>
-		<tbody class="hide">
-			<tr th:each="t : ${flow}">
-				<td><ul th:each="m : ${t.suspendedMachines}">
-					<li th:text="${m}">machine number</li>
-				</ul></td>
-				<td th:text="${t.maxFlow}">Max flow</td>
-				<td th:text="${t.minFlow}">Min flow</td>
-				<td th:text="${t.caseBeginTime}">Start time</td>
-				<td th:text="${t.caseEndTime}">End time</td>
-			</tr>
-		</tbody>
-	</tbody>
-</table>
-	<h4><pre>Max Temp: <span th:text="${maxT}">max</span>                  Min Temp: <span th:text="${minT}">min</span></pre></h4>
-<table>
-	<thead>
-		<tr>
-			<th colspan="5" style="text-align: center;">Project suspending</th>
+	</table>
+	<table>
+		<tr th:each="t : ${flow}">
+			<td><ul th:each="m : ${t.suspendedMachines}">
+				<li th:text="${m}">machine number</li>
+			</ul></td>
+			<td th:text="${t.maxFlow}">Max flow</td>
+			<td th:text="${t.minFlow}">Min flow</td>
+			<td th:text="${t.caseBeginTime}">Start time</td>
+			<td th:text="${t.caseEndTime}">End time</td>
 		</tr>
-	</thead>
-	<thead>
+	</table>
+</div>
+
+<h4><pre>Max Temp: <span th:text="${maxT}">max</span>                  Min Temp: <span th:text="${minT}">min</span></pre></h4>
+
+<h5><button for="accounting" onclick="project()">Project suspending</button></h5>
+
+<div id="p">
+	<table>
 		<tr>
-			<th>Start time</th>
-			<th>End time</th>
+			<th>Stoped at</th>
+			<th>Started at</th>
 			<th>Problems</th>
 		</tr>
-	</thead>
-	<tbody>
-		<tbody class="labels">
-			<tr>
-				<td colspan="5" style="text-align: center;">
-					<label for="accounting">Toggle</label>
-					<input type="checkbox" name="accounting" id="accounting" data-toggle="toggle">
-				</td>
-			</tr>
-		</tbody>
-		<tbody class="hide">
-			<tr>
-				<td th:unless="${p}==null">
-					<table>
-						<tr th:each="P :${p}">
-							<td th:text="${P.beginTime}">Stoped at</td>
-							<td th:text="${P.endTime}">Started at</td>
-							<td><ul th:each="l : ${P.problems}">
-								<li th:text="${l}">problem number</li>
-							</ul></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</tbody>
-	</tbody>
-</table>
-<table>
-	<thead>
+	</table>
+	<table>
 		<tr>
-			<th colspan="5" style="text-align: center;">Employees</th>
+			<td th:unless="${p}==null">
+				<table>
+					<tr th:each="P :${p}">
+						<td th:text="${P.beginTime}">Stoped at</td>
+						<td th:text="${P.endTime}">Started at</td>
+						<td><ul th:each="l : ${P.problems}">
+							<li th:text="${l}">problem number</li>
+						</ul></td>
+					</tr>
+				</table>
+			</td>
 		</tr>
-	</thead>
-	<tbody>
-		<tbody class="labels">
-			<tr>
-				<td colspan="5" style="text-align: center;">
-					<label for="accounting">Names</label>
-					<input type="checkbox" name="accounting" id="accounting" data-toggle="toggle">
-				</td>
-			</tr>
-		</tbody>
-		<tbody class="hide">
-			<tr th:each="n : ${names}">
-				<td th:text="${n}">name</td>
-			</tr>
-		</tbody>
-		<tbody class="labels">
-			<tr>
-				<td colspan="5" style="text-align: center;">
-					<label for="accounting">Notes</label>
-					<input type="checkbox" name="accounting" id="accounting" data-toggle="toggle">
-				</td>
-			</tr>
-		</tbody>
-		<tbody class="hide">
-			<tr>
-				<td th:text="${note}?:'no additional notes'">notes</td>
-			</tr>
-		</tbody>
-	</tbody>
-</table>
+	</table>
+</div>
+<h5><button for="accounting" onclick="employee()">Employees</button></h5>
+<div id="e">
+	<table>
+		<tr th:each="n : ${names}">
+			<td>Name</td>
+			<td th:text="${n}">name</td>
+		</tr>
+		<tr>
+			<td>Note</td>
+			<td th:text="${note}?:'no additional notes'">notes</td>
+		</tr>
+	</table>
+</div>
 </body>
 </html>
