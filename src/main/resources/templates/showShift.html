@@ -53,6 +53,20 @@ h4 {
 	text-align: center;
 }
 
+.kilenHead{
+	background-color: yellow;
+	font-weight: bold;
+	font-size: 18px;
+	color: black;
+ }
+
+.kilenData{
+	background-color: orange;
+	font-weight: bold;
+	font-size: 18px;
+	color: black;
+ }
+
 .labels tr td {
 	background-color: #2cc16a;
 	font-weight: bold;
@@ -87,13 +101,14 @@ h4 {
 	<div id="k">
 		<table>
 			<tr>
-				<td th:unless="${k1}==null">KILEN ONE</td>
+				<td th:if="${k1}==null" class="kilenData">KILEN ONE : works fine for the whole shift</td>
+				<td th:unless="${k1}==null" class="kilenHead">KILEN ONE</td>
 				<td th:unless="${k1}==null">
 					<table>
 						<tr th:each="K :${k1}">
-							<td th:text="${K.beginTime}">Stoped at</td>
-							<td th:text="${K.endTime}">Started at</td>
-							<td><ul th:each="p : ${K.problems}">
+							<td th:text="${K.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${K.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${K.problems}">
 								<li th:text="${p}">problem number</li>
 							</ul></td>
 						</tr>
@@ -101,13 +116,14 @@ h4 {
 				</td>
 			</tr>
 			<tr>
-				<td th:unless="${k2}==null">KILEN TWO</td>
+				<td th:if="${k2}==null" class="kilenData">KILEN TWO : works fine for the whole shift</td>
+				<td th:unless="${k2}==null" class="kilenHead">KILEN TWO</td>
 				<td th:unless="${k2}==null">
 					<table>
 						<tr th:each="K :${k2}">
-							<td th:text="${K.beginTime}">Stoped at</td>
-							<td th:text="${K.endTime}">Started at</td>
-							<td><ul th:each="p : ${K.problems}">
+							<td th:text="${K.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${K.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${K.problems}">
 								<li th:text="${p}">problem number</li>
 							</ul></td>
 						</tr>
@@ -115,13 +131,14 @@ h4 {
 				</td>
 			</tr>
 			<tr>
-				<td th:unless="${k3}==null">KILEN THREE</td>
+				<td th:if="${k3}==null" class="kilenData">KILEN THREE : works fine for the whole shift</td>
+				<td th:unless="${k3}==null" class="kilenHead">KILEN THREE</td>
 				<td th:unless="${k3}==null">
 					<table>
 						<tr th:each="K :${k3}">
-							<td th:text="${K.beginTime}">Stoped at</td>
-							<td th:text="${K.endTime}">Started at</td>
-							<td><ul th:each="p : ${K.problems}">
+							<td th:text="${K.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${K.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${K.problems}">
 								<li th:text="${p}">problem number</li>
 							</ul></td>
 						</tr>
@@ -129,13 +146,14 @@ h4 {
 				</td>
 			</tr>
 			<tr>
-				<td th:unless="${k4}==null">KILEN FOUR</td>
+				<td th:if="${k4}==null" class="kilenData">KILEN FOUR : works fine for the whole shift</td>
+				<td th:unless="${k4}==null" class="kilenHead">KILEN FOUR</td>
 				<td th:unless="${k4}==null">
 					<table>
 						<tr th:each="K :${k4}">
-							<td th:text="${K.beginTime}">Stoped at</td>
-							<td th:text="${K.endTime}">Started at</td>
-							<td><ul th:each="p : ${K.problems}">
+							<td th:text="${K.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${K.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${K.problems}">
 								<li th:text="${p}">problem number</li>
 							</ul></td>
 						</tr>
@@ -143,13 +161,14 @@ h4 {
 				</td>
 			</tr>
 			<tr>
-				<td th:unless="${k5}==null">KILEN FIVE</td>
+				<td th:if="${k5}==null" class="kilenData">KILEN FIVE : works fine for the whole shift</td>
+				<td th:unless="${k5}==null" class="kilenHead">KILEN FIVE</td>
 				<td th:unless="${k5}==null">
 					<table>
 						<tr th:each="K :${k5}">
-							<td th:text="${K.beginTime}">Stoped at</td>
-							<td th:text="${K.endTime}">Started at</td>
-							<td><ul th:each="p : ${K.problems}">
+							<td th:text="${K.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${K.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${K.problems}">
 								<li th:text="${p}">problem number</li>
 							</ul></td>
 						</tr>
@@ -162,13 +181,14 @@ h4 {
 	<div id="d">
 		<table>
 			<tr>
-				<td th:unless="${d1}==null">DRAYER ONE</td>
+				<td th:if="${d1}==null" class="kilenData">DRAYER ONE : works fine for the whole shift</td>
+				<td th:unless="${d1}==null" class="kilenHead">DRAYER ONE</td>
 				<td th:unless="${d1}==null">
 					<table>
 						<tr th:each="D :${d1}">
-							<td th:text="${D.beginTime}">Stoped at</td>
-							<td th:text="${D.endTime}">Started at</td>
-							<td><ul th:each="p : ${D.problems}">
+							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${D.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${D.problems}">
 								<li th:text="${p}">problem number</li>
 							</ul></td>
 						</tr>
@@ -176,13 +196,14 @@ h4 {
 				</td>
 			</tr>
 			<tr>
-				<td th:unless="${d2}==null">DRAYER TWO</td>
+				<td th:if="${d2}==null" class="kilenData">DRAYER TWO : works fine for the whole shift</td>
+				<td th:unless="${d2}==null" class="kilenHead">DRAYER TWO</td>
 				<td th:unless="${d2}==null">
 					<table>
 						<tr th:each="D :${d2}">
-							<td th:text="${D.beginTime}">Stoped at</td>
-							<td th:text="${D.endTime}">Started at</td>
-							<td><ul th:each="p : ${D.problems}">
+							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${D.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${D.problems}">
 								<li th:text="${p}">problem number</li>
 							</ul></td>
 						</tr>
@@ -190,13 +211,14 @@ h4 {
 				</td>
 			</tr>
 			<tr>
-				<td th:unless="${d3}==null">DRAYER THREE</td>
+				<td th:if="${d3}==null" class="kilenData">DRAYER THREE : works fine for the whole shift</td>
+				<td th:unless="${d3}==null" class="kilenHead">DRAYER THREE</td>
 				<td th:unless="${d3}==null">
 					<table>
 						<tr th:each="D :${d3}">
-							<td th:text="${D.beginTime}">Stoped at</td>
-							<td th:text="${D.endTime}">Started at</td>
-							<td><ul th:each="p : ${D.problems}">
+							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${D.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${D.problems}">
 								<li th:text="${p}">problem number</li>
 							</ul></td>
 						</tr>
@@ -204,13 +226,14 @@ h4 {
 				</td>
 			</tr>
 			<tr>
-				<td th:unless="${d4}==null">DRAYER FOUR</td>
+				<td th:if="${d4}==null" class="kilenData">DRAYER FOUR : works fine for the whole shift</td>
+				<td th:unless="${d4}==null" class="kilenHead">DRAYER FOUR</td>
 				<td th:unless="${d4}==null">
 					<table>
 						<tr th:each="D :${d4}">
-							<td th:text="${D.beginTime}">Stoped at</td>
-							<td th:text="${D.endTime}">Started at</td>
-							<td><ul th:each="p : ${D.problems}">
+							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${D.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${D.problems}">
 								<li th:text="${p}">problem number</li>
 							</ul></td>
 						</tr>
@@ -218,13 +241,14 @@ h4 {
 				</td>
 			</tr>
 			<tr>
-				<td th:unless="${d5}==null">DRAYER FIVE</td>
+				<td th:if="${d5}==null" class="kilenData">DRAYER FIVE : works fine for the whole shift</td>
+				<td th:unless="${d5}==null" class="kilenHead">DRAYER FIVE</td>
 				<td th:unless="${d5}==null">
 					<table>
 						<tr th:each="D :${d5}">
-							<td th:text="${D.beginTime}">Stoped at</td>
-							<td th:text="${D.endTime}">Started at</td>
-							<td><ul th:each="p : ${D.problems}">
+							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${D.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${D.problems}">
 								<li th:text="${p}">problem number</li>
 							</ul></td>
 						</tr>
@@ -232,13 +256,14 @@ h4 {
 				</td>
 			</tr>
 			<tr>
-				<td th:unless="${d6}==null">DRAYER SIX</td>
+				<td th:if="${d6}==null" class="kilenData">DRAYER SIX : works fine for the whole shift</td>
+				<td th:unless="${d6}==null" class="kilenHead">DRAYER SIX</td>
 				<td th:unless="${d6}==null">
 					<table>
 						<tr th:each="D :${d6}">
-							<td th:text="${D.beginTime}">Stoped at</td>
-							<td th:text="${D.endTime}">Started at</td>
-							<td><ul th:each="p : ${D.problems}">
+							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${D.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${D.problems}">
 								<li th:text="${p}">problem number</li>
 							</ul></td>
 						</tr>
@@ -246,13 +271,14 @@ h4 {
 				</td>
 			</tr>
 			<tr>
-				<td th:unless="${d7}==null">DRAYER SEVEN</td>
+				<td th:if="${d7}==null" class="kilenData">DRAYER SEVEN : works fine for the whole shift</td>
+				<td th:unless="${d7}==null" class="kilenHead">DRAYER SEVEN</td>
 				<td th:unless="${d7}==null">
 					<table>
 						<tr th:each="D :${d7}">
-							<td th:text="${D.beginTime}">Stoped at</td>
-							<td th:text="${D.endTime}">Started at</td>
-							<td><ul th:each="p : ${D.problems}">
+							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${D.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${D.problems}">
 								<li th:text="${p}">problem number</li>
 							</ul></td>
 						</tr>
@@ -265,13 +291,14 @@ h4 {
 	<div id="a">
 		<table>
 			<tr>
-				<td th:unless="${a1}==null">ATM ONE</td>
+				<td th:if="${a1}==null" class="kilenData">ATM ONE : works fine for the whole shift</td>
+				<td th:unless="${a1}==null" class="kilenHead">ATM ONE</td>
 				<td th:unless="${a1}==null">
 					<table>
 						<tr th:each="A :${a1}">
-							<td th:text="${A.beginTime}">Stoped at</td>
-							<td th:text="${A.endTime}">Started at</td>
-							<td><ul th:each="p : ${A.problems}">
+							<td th:text="${A.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${A.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${A.problems}">
 								<li th:text="${p}">problem number</li>
 							</ul></td>
 						</tr>
@@ -279,13 +306,14 @@ h4 {
 				</td>
 			</tr>
 			<tr>
-				<td th:unless="${a2}==null">ATM TWO</td>
+				<td th:if="${a2}==null" class="kilenData">ATM TWO : works fine for the whole shift</td>
+				<td th:unless="${a2}==null" class="kilenHead">ATM TWO</td>
 				<td th:unless="${a2}==null">
 					<table>
 						<tr th:each="A :${a2}">
-							<td th:text="${A.beginTime}">Stoped at</td>
-							<td th:text="${A.endTime}">Started at</td>
-							<td><ul th:each="p : ${A.problems}">
+							<td th:text="${A.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${A.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${A.problems}">
 								<li th:text="${p}">problem number</li>
 							</ul></td>
 						</tr>
@@ -310,13 +338,13 @@ h4 {
 	</table>
 	<table>
 		<tr th:each="t : ${flow}">
-			<td><ul th:each="m : ${t.suspendedMachines}">
+			<td class="kilenData"><ul th:each="m : ${t.suspendedMachines}">
 				<li th:text="${m}">machine number</li>
 			</ul></td>
-			<td th:text="${t.maxFlow}">Max flow</td>
-			<td th:text="${t.minFlow}">Min flow</td>
-			<td th:text="${t.caseBeginTime}">Start time</td>
-			<td th:text="${t.caseEndTime}">End time</td>
+			<td class="kilenData" th:text="${t.maxFlow}">Max flow</td>
+			<td class="kilenData" th:text="${t.minFlow}">Min flow</td>
+			<td class="kilenData" th:text="${t.caseBeginTime}">Start time</td>
+			<td class="kilenData" th:text="${t.caseEndTime}">End time</td>
 		</tr>
 	</table>
 </div>
@@ -335,12 +363,13 @@ h4 {
 	</table>
 	<table>
 		<tr>
+			<td th:if="${p}==null" class="kilenData">The Project works fine for the whole shift</td>
 			<td th:unless="${p}==null">
 				<table>
 					<tr th:each="P :${p}">
-						<td th:text="${P.beginTime}">Stoped at</td>
-						<td th:text="${P.endTime}">Started at</td>
-						<td><ul th:each="l : ${P.problems}">
+						<td class="kilenData" th:text="${P.beginTime}">Stoped at</td>
+						<td class="kilenData" th:text="${P.endTime}">Started at</td>
+						<td class="kilenData"><ul th:each="l : ${P.problems}">
 							<li th:text="${l}">problem number</li>
 						</ul></td>
 					</tr>
@@ -353,12 +382,12 @@ h4 {
 <div id="e">
 	<table>
 		<tr th:each="n : ${names}">
-			<td>Name</td>
-			<td th:text="${n}">name</td>
+			<td class="kilenHead">Name</td>
+			<td class="kilenData" th:text="${n}">name</td>
 		</tr>
 		<tr>
-			<td>Note</td>
-			<td th:text="${note}?:'no additional notes'">notes</td>
+			<td class="kilenHead">Note</td>
+			<td class="kilenData" th:text="${note}?:'no additional notes'">notes</td>
 		</tr>
 	</table>
 </div>
