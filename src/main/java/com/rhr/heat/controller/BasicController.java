@@ -23,7 +23,7 @@ public class BasicController {
 		return "index";
 	}
 	
-	@RequestMapping("customError")
+	@RequestMapping("/customError")
 	public String customError(@RequestParam("message")String message,Model model) {
 		model.addAttribute("message", message);
 		return "errorPage";
