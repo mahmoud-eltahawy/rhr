@@ -3,7 +3,6 @@ package com.rhr.heat.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rhr.heat.service.ShiftService;
@@ -23,10 +22,5 @@ public class BasicController {
 		mv.addObject("next", 1);
 		mv.addObject("week",service.pickLastWeeks(0));
 		return mv;
-	}
-	
-	@RequestMapping("/comming")
-	public String commingSoon() {
-		return "commingSoon";
 	}
 }

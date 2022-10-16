@@ -1,4 +1,4 @@
-package com.rhr.heat.controller;
+package com.rhr.heat.controller.api;
 
 import java.io.File;
 import java.io.IOException;

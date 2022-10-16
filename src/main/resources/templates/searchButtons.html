@@ -3,6 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <title>last week summary</title>
+<script>
+function toggle(id) {
+  var x = document.getElementById(id);
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
 <style>
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
@@ -127,68 +137,53 @@ footer a {
 </style>
 </head>
 <body>
-<h1 class="text-center" th:text="${title}"> Last what</h1>
+<h1 class="text-center" >what you are looking for</h1>
 
 <div class="pricing-box-container">
 	<div class="pricing-box pricing-box-bg-image text-center">
-		<a href="#" th:href="@{/searchPage}"><button class="btn-primary">Search</button></a>
+		<a onclick="toggle('s')"><button class="btn-primary">SHIFT</button></a>
 	</div>
 
 	<div class="pricing-box pricing-box-bg-image text-center">
-		<a href="#" th:href="@{/comming}"><button class="btn-primary">Statistics</button></a>
+		<a onclick="toggle('d')"><button class="btn-primary">DAY</button></a>
 	</div>
 </div>
 
-<div class="pricing-box-container" th:each="ins :${week}">
-	<div th:unless="${ins.value.one}==null">
-		<div class="pricing-box text-center" th:object="${ins.value.one}">
-			<h5 th:text="*{shiftId.shift}">two</h5>
-			<h4 th:text="*{shiftId.date}">date</h4>
-			<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-				<sub th:text="*{minTemperature}">min</sub></p>
-
-			<p th:text="*{exceptionalNote}">notes</p>
-
-			<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-		</div>
+<div class="pricing-box-container">
+	<div id="s" class="pricing-box pricing-box-bg-image text-center">
+		<p>Shift form</p>
 	</div>
-	<div th:unless="${ins.value.two}==null">
-		<div class="pricing-box pricing-box-bg-image text-center" th:object="${ins.value.two}">
-			<h5 th:text="*{shiftId.shift}">three</h5>
-			<h4 th:text="*{shiftId.date}">date</h4>
-			<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-				<sub th:text="*{minTemperature}">min</sub></p>
 
-			<p th:text="*{exceptionalNote}">notes</p>
-
-			<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-		</div>
-	</div>
-	<div th:unless="${ins.value.three}==null">
-		<div class="pricing-box text-center" th:object="${ins.value.three}">
-			<h5 th:text="*{shiftId.shift}">one</h5>
-			<h4 th:text="*{shiftId.date}">date</h4>
-			<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-				<sub th:text="*{minTemperature}">min</sub></p>
-
-			<p th:text="*{exceptionalNote}">notes</p>
-
-			<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-		</div>
+	<div id="d" class="pricing-box pricing-box-bg-image text-center">
+		<p>Day form</p>
 	</div>
 </div>
 
 <div class="pricing-box-container">
 	<div class="pricing-box text-center">
-		<a href="#" th:href="@{/show/week(week=${next})}"><button class="btn-primary">Go to older</button></a>
+		<a onclick="toggle('p')"><button class="btn-primary">PROBLEM !!</button></a>
 	</div>
 
 	<div class="pricing-box pricing-box-bg-image text-center">
-		<a href="#" th:href="@{/comming}"><button class="btn-primary">report</button></a>
+		<a onclick="toggle('m')"><button class="btn-primary">MACHINE</button></a>
 	</div>
 
 	<div class="pricing-box text-center">
-		<a href="#" th:href="@{/show/week(week=${prev})}"><button class="btn-primary">Go to newer</button></a>
+		<a onclick="toggle('e')"><button class="btn-primary">EMPLOYEE</button></a>
+	</div>
+</div>
+
+<div class="pricing-box-container">
+	<div id="p" class="pricing-box text-center">
+		<p>Problem form</p>
+	</div>
+
+	<div id="m" class="pricing-box pricing-box-bg-image text-center">
+		<p>Machine form</p>
+	</div>
+
+	<div id="e" class="pricing-box text-center">
+		<p>Employee form</p>
 	</div>
 </div>
 
