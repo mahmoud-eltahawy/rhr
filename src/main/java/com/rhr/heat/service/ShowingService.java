@@ -1,10 +1,13 @@
 package com.rhr.heat.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,7 @@ import com.rhr.heat.dao.ShiftRepo;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.Machine;
+import com.rhr.heat.model.Day;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,5 +44,27 @@ public class ShowingService {
 		}
 		
 		return mp;
+	}
+	
+	public TreeMap<Date ,Day> pickWeekBefore(Integer year,Integer month,Integer day){
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, year);
+		cal.set(Calendar.MONTH, month);
+		cal.set(Calendar.DAY_OF_MONTH, day);
+		Date newer = new Date(cal.getTime().getTime());
+		cal.add(Calendar.DAY_OF_MONTH, -6);
+		Date older = new Date(cal.getTime().getTime());
+		return Day.getDays(shiftRepo.findBetween(older, newer, false));
+	}
+	
+	public TreeMap<Date ,Day> pickWeekAfter(Integer year,Integer month,Integer day){
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, year);
+		cal.set(Calendar.MONTH, month);
+		cal.set(Calendar.DAY_OF_MONTH, day);
+		Date older = new Date(cal.getTime().getTime());
+		cal.add(Calendar.DAY_OF_MONTH, 6);
+		Date newer = new Date(cal.getTime().getTime());
+		return Day.getDays(shiftRepo.findBetween(older, newer, false));
 	}
 }
