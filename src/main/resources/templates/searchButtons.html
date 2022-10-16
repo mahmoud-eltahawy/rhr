@@ -3,18 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>last week summary</title>
-<script>
-function toggle(id) {
-  var x = document.getElementById(id);
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-</script>
 <style>
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+
+.ghost {
+	 display:none;
+ }
 
 * {
 	box-sizing: border-box;
@@ -150,11 +145,11 @@ footer a {
 </div>
 
 <div class="pricing-box-container">
-	<div id="s" class="pricing-box pricing-box-bg-image text-center">
+	<div id="s" class="pricing-box pricing-box-bg-image text-center ghost">
 		<p>Shift form</p>
 	</div>
 
-	<div id="d" class="pricing-box pricing-box-bg-image text-center">
+	<div id="d" class="pricing-box pricing-box-bg-image text-center ghost">
 		<p>Day form</p>
 	</div>
 </div>
@@ -174,15 +169,15 @@ footer a {
 </div>
 
 <div class="pricing-box-container">
-	<div id="p" class="pricing-box text-center">
+	<div id="p" class="pricing-box text-center ghost">
 		<p>Problem form</p>
 	</div>
 
-	<div id="m" class="pricing-box pricing-box-bg-image text-center">
+	<div id="m" class="pricing-box pricing-box-bg-image text-center ghost">
 		<p>Machine form</p>
 	</div>
 
-	<div id="e" class="pricing-box text-center">
+	<div id="e" class="pricing-box text-center ghost">
 		<p>Employee form</p>
 	</div>
 </div>
@@ -195,5 +190,15 @@ footer a {
 		<a target="_blank" href="https://github.com/mahmoud-eltahawy/rhr">in this Github page</a>
 	</p>
 </footer>
+<script>
+function toggle(id) {
+  var x = document.getElementById(id);
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
 </body>
 </html>
