@@ -1,11 +1,8 @@
 package com.rhr.heat.controller;
 
-import java.sql.Date;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
@@ -33,7 +30,6 @@ import static com.rhr.heat.enums.Machine.PROJECT;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.Machine;
-import com.rhr.heat.model.Day;
 import com.rhr.heat.service.ShowingService;
 
 import lombok.RequiredArgsConstructor;
@@ -82,50 +78,6 @@ public class ShowingController {
 		} else {
 			return "redirect:/customError?message='this shift is not recorded'";
 		}
-	}
-
-	@GetMapping("/weekBefore")
-	public String weekBefore(@RequestParam("year")Integer year,
-			@RequestParam("month")Integer month,
-			@RequestParam("day")Integer day,
-			@RequestParam("title")String title,
-			Model model) {
-		TreeMap<Date, Day> week = showingService.pickWeekBefore(year,month,day);
-		model.addAttribute("title",title);
-		model.addAttribute("week",week);
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(week.firstKey());
-		model.addAttribute("fy",cal.get(Calendar.YEAR));
-		model.addAttribute("fm",cal.get(Calendar.MONTH));
-		model.addAttribute("fd",cal.get(Calendar.DAY_OF_MONTH));
-		cal = Calendar.getInstance();
-		cal.setTime(week.lastKey());
-		model.addAttribute("ly",cal.get(Calendar.YEAR));
-		model.addAttribute("lm",cal.get(Calendar.MONTH));
-		model.addAttribute("ld",cal.get(Calendar.DAY_OF_MONTH));
-		return "index";
-	}
-
-	@GetMapping("/weekAfter")
-	public String weekAfter(@RequestParam("year")Integer year,
-			@RequestParam("month")Integer month,
-			@RequestParam("day")Integer day,
-			@RequestParam("title")String title,
-			Model model) {
-		TreeMap<Date, Day> week = showingService.pickWeekAfter(year,month,day);
-		model.addAttribute("title",title);
-		model.addAttribute("week",week);
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(week.firstKey());
-		model.addAttribute("fy",cal.get(Calendar.YEAR));
-		model.addAttribute("fm",cal.get(Calendar.MONTH));
-		model.addAttribute("fd",cal.get(Calendar.DAY_OF_MONTH));
-		cal = Calendar.getInstance();
-		cal.setTime(week.lastKey());
-		model.addAttribute("ly",cal.get(Calendar.YEAR));
-		model.addAttribute("lm",cal.get(Calendar.MONTH));
-		model.addAttribute("ld",cal.get(Calendar.DAY_OF_MONTH));
-		return "index";
 	}
 }
 
