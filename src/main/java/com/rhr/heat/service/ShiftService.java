@@ -15,8 +15,8 @@ import lombok.RequiredArgsConstructor;
 public class ShiftService {
 	public final ShiftRepo shiftRepo;
 	
-	public TreeMap<Date ,Day> pickLastWeeks(Integer weeks){
-		return Day.getDays(shiftRepo.findLast(weeks * 21,false));
+	public TreeMap<Date ,Day> pickLastWeeks(Integer weekNum){
+		return Day.getDays(shiftRepo.findFromTo(weekNum,weekNum * 21,false));
 	}
 	
 	public TreeMap<Date ,Day> pickLastdays(Integer days){
