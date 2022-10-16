@@ -3,6 +3,7 @@ package com.rhr.heat.controller;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
@@ -41,7 +42,7 @@ public class ShowingController {
 	private final ShowingService service;
 
 	@GetMapping("/shift")
-	public ModelAndView showShift(@RequestParam("id")Long id) {
+	public ModelAndView showShift(@RequestParam("id")UUID id) {
 		ModelAndView mv = new ModelAndView();
 		Optional<Shift> s =  service.getShift(id);
 		if(s.isPresent()) {

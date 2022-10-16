@@ -1,14 +1,11 @@
 package com.rhr.heat.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.rhr.heat.dao.rowMappers.ProblemDetailRowMapper;
@@ -40,42 +37,32 @@ public class ProblemDetailsRepo {
 		}
 	}
 	
-	public int deleteById(Long id) {
+	public int deleteById(UUID id) {
 		String sql = "DELETE FROM problem_detail WHERE id = ?";
 		return jdbcTemplate.update(sql,id);
 	}
 
-	public List<Long> saveAll(List<ProblemDetail> problems) {
+	public List<UUID> saveAll(List<ProblemDetail> problems) {
 		return problems.stream()
 				.map(p -> {return save(p);})
 				.collect(Collectors.toList());
 	}
 
-	public Long save(ProblemDetail pd) {
-		KeyHolder key = new GeneratedKeyHolder();
-		jdbcTemplate.update(connection ->{
-			PreparedStatement ps = connection
-					.prepareStatement("INSERT INTO problem_detail(machine,"
-							+ "begin_time, end_time) VALUES(?,?,?)", 
-							Statement.RETURN_GENERATED_KEYS);
-			ps.setString(1, pd.getMachine().toString());
-			ps.setTime(2, pd.getBeginTime());
-			ps.setTime(3, pd.getEndTime());
-			return ps;
-		},key);
+	public UUID save(ProblemDetail pd) {
+		UUID uuid = UUID.randomUUID();
+		jdbcTemplate.update("INSERT INTO problem_detail(id,machine,"
+							+ "begin_time, end_time) VALUES(?,?,?,?)",
+							uuid,
+							pd.getMachine().toString(),
+							pd.getBeginTime(),
+							pd.getEndTime());
 		
-		final Long id;
-		if (key.getKeys().size() > 1) {
-			id = (Long)key.getKeys().get("id");
-		} else {
-			id = key.getKey().longValue();
-		}
 		pd.getProblems().forEach(m ->{
 			jdbcTemplate.update("INSERT INTO "
 					+ "problems(id,problem) values(?,?) "
-					+ "ON CONFLICT(id,problem) DO NOTHING",id,m.toString());
+					+ "ON CONFLICT(id,problem) DO NOTHING",uuid,m.toString());
 		});
-		return id;
+		return uuid;
 	}
 	
 	private ProblemDetail fullFill(ProblemDetail pd) {

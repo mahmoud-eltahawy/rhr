@@ -1,14 +1,11 @@
 package com.rhr.heat.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.rhr.heat.dao.rowMappers.TotalFlowRowMapper;
@@ -28,7 +25,7 @@ public class TotalFlowRepo {
 				.stream().map(tf -> fullFill(tf)).collect(Collectors.toList());
 	}
 	
-	public Optional<TotalFlow> findById(Long id) {
+	public Optional<TotalFlow> findById(UUID id) {
 		String sql = "SELECT * FROM total_flow WHERE id = ?";
 		Optional<TotalFlow> tf = jdbcTemplate.query(sql, 
 				new TotalFlowRowMapper(),id)
@@ -40,40 +37,30 @@ public class TotalFlowRepo {
 		}
 	}
 
-	public List<Long> saveAll(List<TotalFlow> totalFlowAverage) {
+	public List<UUID> saveAll(List<TotalFlow> totalFlowAverage) {
 		return totalFlowAverage.stream()
 				.map(t -> {return save(t);})
 				.collect(Collectors.toList());
 	}
 
-	public Long save(TotalFlow tf) {
-		KeyHolder key = new GeneratedKeyHolder();
-		jdbcTemplate.update(connection ->{
-			PreparedStatement ps = connection
-					.prepareStatement("INSERT INTO total_flow("
+	public UUID save(TotalFlow tf) {
+		UUID uuid = UUID.randomUUID();
+		jdbcTemplate.update("INSERT INTO total_flow(id,"
 							+ "begin_time, end_time, min_flow, max_flow) "
-							+ "VALUES(?,?,?,?)", 
-							Statement.RETURN_GENERATED_KEYS);
-			ps.setTime(1, tf.getCaseBeginTime());
-			ps.setTime(2, tf.getCaseEndTime());
-			ps.setInt(3, tf.getMinFlow());
-			ps.setInt(4, tf.getMaxFlow());
-			return ps;
-		},key);
+							+ "VALUES(?,?,?,?,?)",
+							uuid,
+							tf.getCaseBeginTime(),
+							tf.getCaseEndTime(),
+							tf.getMinFlow(),
+							tf.getMaxFlow());
 		
-		final Long id;
-		if (key.getKeys().size() > 1) {
-			id = (Long)key.getKeys().get("id");
-		} else {
-			id = key.getKey().longValue();
-		}
 		tf.getSuspendedMachines().forEach(m ->{
 			jdbcTemplate.update("INSERT INTO "
 					+ "suspended_machine(id,machine) values(?,?) "
-					+ "ON CONFLICT(id,machine) DO NOTHING",id,m.toString());
+					+ "ON CONFLICT(id,machine) DO NOTHING",uuid,m.toString());
 		});
 		
-	    return id;
+		return uuid;
 	}
 	
 	private TotalFlow fullFill(TotalFlow tf) {

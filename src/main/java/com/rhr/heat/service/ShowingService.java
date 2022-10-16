@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class ShowingService {
 	private final ShiftRepo shiftRepo;
 	
-	public Optional<Shift> getShift(Long id) {
+	public Optional<Shift> getShift(UUID id) {
 		return shiftRepo.findById(id, true);
 	}
 	

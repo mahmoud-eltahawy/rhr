@@ -3,6 +3,7 @@ package com.rhr.heat.dao;
 import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -72,7 +73,7 @@ public class ShiftRepo {
 		 return shifts;
 	}
 
-	public Optional<Shift> findById(Long id,Boolean perfect) {
+	public Optional<Shift> findById(UUID id,Boolean perfect) {
 		 Optional<Shift> s = jdbcTemplate.query(
 				 "select si.id as shift_id, si.shift_order,"
 				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
@@ -220,26 +221,27 @@ public class ShiftRepo {
 		 return shifts;
 	}
 
-	public List<Long> saveAll(List<Shift> shifts) {
+	public List<UUID> saveAll(List<Shift> shifts) {
 		return shifts.stream()
 				.map(s -> {return save(s);})
 				.collect(Collectors.toList());
 	}
 
-	public Long save(Shift s) {
-		Long theId = shiftIdRepo.save(s.getShiftId());
+	public UUID save(Shift s) {
+		UUID theId = shiftIdRepo.save(s.getShiftId());
 		if(theId == null) {
 			return theId;
 		} else {
 			jdbcTemplate.update("INSERT INTO shift"
 					+ "(shift_id,max_temp,min_temp,notes)"
 					+ " VALUES(?,?,?,?)",
-					theId,s.getMaxTemperature(),
+					theId,
+					s.getMaxTemperature(),
 					s.getMinTemperature(),
 					s.getExceptionalNote());
 			
 			s.getProblems().forEach(p -> {
-				Long pId = null;
+				UUID pId = null;
 				if(p.getId() != null) {
 					pId = p.getId();
 				} else {
@@ -250,7 +252,7 @@ public class ShiftRepo {
 			});
 			
 			s.getEmployees().forEach(e ->{
-				Long eId = null;
+				UUID eId = null;
 				if(e.getId() != null) {
 					eId = e.getId();
 				} else {
@@ -261,7 +263,7 @@ public class ShiftRepo {
 			});
 			
 			s.getTotalFlowAverage().forEach(t ->{
-				Long tId = null;
+				UUID tId = null;
 				if(t.getId() != null) {
 					tId = t.getId();
 				} else {
