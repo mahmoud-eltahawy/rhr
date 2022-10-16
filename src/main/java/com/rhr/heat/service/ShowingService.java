@@ -1,10 +1,12 @@
 package com.rhr.heat.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import com.rhr.heat.dao.ShiftRepo;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.Machine;
+import com.rhr.heat.model.Day;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,5 +43,9 @@ public class ShowingService {
 		}
 		
 		return mp;
+	}
+	
+	public TreeMap<Date ,Day> pickLastWeeks(Integer weekNum){
+		return Day.getDays(shiftRepo.findFromTo(weekNum * 21, 21 ,false));
 	}
 }

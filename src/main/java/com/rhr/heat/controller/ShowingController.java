@@ -38,18 +38,18 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/show")
 @RequiredArgsConstructor
 public class ShowingController {
-	private final ShowingService showingService;
+	private final ShowingService service;
 
 	@GetMapping("/shift")
 	public ModelAndView showShift(@RequestParam("id")Long id) {
 		ModelAndView mv = new ModelAndView();
-		Optional<Shift> s =  showingService.getShift(id);
+		Optional<Shift> s =  service.getShift(id);
 		if(s.isPresent()) {
 			Shift shift =  s.get();
 			
 			mv.setViewName("showShift");
 			
-			Map<Machine, List<ProblemDetail>> mp = showingService.getMachinesProblems(shift.getProblems());
+			Map<Machine, List<ProblemDetail>> mp = service.getMachinesProblems(shift.getProblems());
 			
 			
 			mv.addObject("theId",shift.getShiftId());
@@ -83,4 +83,16 @@ public class ShowingController {
 		}
 		return mv;
 	}
+
+	@GetMapping("/week")
+	public ModelAndView showWeek(@RequestParam("week")Integer week) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("showDays");
+		mv.addObject("title","Welcom to index page");
+		mv.addObject("next",week + 1);
+		mv.addObject("prev",week - 1);
+		mv.addObject("week",service.pickLastWeeks(week));
+		return mv;
+	}
+	
 }

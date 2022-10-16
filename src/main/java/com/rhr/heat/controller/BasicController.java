@@ -20,7 +20,8 @@ public class BasicController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("showDays");
 		mv.addObject("title","Welcom to index page");
-		mv.addObject("week",service.pickLastWeeks(1));
+		mv.addObject("next", 1);
+		mv.addObject("week",service.pickLastWeeks(0));
 		return mv;
 	}
 	

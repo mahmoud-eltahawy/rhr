@@ -184,7 +184,7 @@ footer a {
 
 <div class="pricing-box-container">
 	<div class="pricing-box text-center">
-		<a href="#" th:href="@{/comming}"><button class="btn-primary">Go to older</button></a>
+		<a href="#" th:href="@{/show/week(week=${next})}"><button class="btn-primary">Go to older</button></a>
 	</div>
 
 	<div class="pricing-box pricing-box-bg-image text-center">
@@ -192,7 +192,7 @@ footer a {
 	</div>
 
 	<div class="pricing-box text-center">
-		<a href="#" th:href="@{/comming}"><button class="btn-primary">Go to newer</button></a>
+		<a href="#" th:href="@{/show/week(week=${prev})}"><button class="btn-primary">Go to newer</button></a>
 	</div>
 </div>
 
