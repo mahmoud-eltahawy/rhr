@@ -2,10 +2,9 @@ package com.rhr.heat.controller;
 
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.rhr.heat.service.ShiftService;
 
@@ -17,16 +16,12 @@ public class BasicController {
 	private final ShiftService service;
 
 	@GetMapping("/")
-	public String index(Model model) {
-		model.addAttribute("title","Welcom to index page");
-		model.addAttribute("week",service.pickLastWeeks(1));
-		return "index";
-	}
-	
-	@RequestMapping("/customError")
-	public String customError(@RequestParam("message")String message,Model model) {
-		model.addAttribute("message", message);
-		return "errorPage";
+	public ModelAndView index() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("showDays");
+		mv.addObject("title","Welcom to index page");
+		mv.addObject("week",service.pickLastWeeks(1));
+		return mv;
 	}
 	
 	@RequestMapping("/comming")
