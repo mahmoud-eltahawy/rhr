@@ -29,6 +29,7 @@ public class Tester {
 	private final EmployeeRepo employeeRepo;
 	private final ShiftRepo shiftRepo;
 	
+
 	public void insertData() {
 		Employee emp1 = new Employee(null,"mahmoud","sabry","mohammed",EmployeePosition.Engineer,"mahmoud_sabry","1234");
 		Employee emp2 = new Employee(null,"mahmoud","gamal","mohammed",EmployeePosition.worker,"mahmoud_gamal","1234");
@@ -159,19 +160,19 @@ public class Tester {
 		cal.set(Calendar.DAY_OF_MONTH, 5);
 		Date d = new Date(cal.getTime().getTime());
 		
-		Shift shift11 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+		Shift shift111 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
 				List.of(pd1,pd2),
 				List.of(emp3),
 				List.of(tf1,tf2),
 				"taha greeting", 175, 195);
 		
-		Shift shift12 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+		Shift shift112 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd6,pd4),
 				List.of(emp4),
 				List.of(tf6,tf2),
 				"mohammed greeting", 175, 195);
 		
-		Shift shift13 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+		Shift shift113 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf1,tf2),
@@ -180,19 +181,19 @@ public class Tester {
 		cal.set(Calendar.DAY_OF_MONTH, 6);
 		d = new Date(cal.getTime().getTime());
 		
-		Shift shift21 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+		Shift shift121 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
 				List.of(pd2,pd3),
 				List.of(emp3,emp5),
 				List.of(tf4,tf3),
 				"taha and ehab greeting", 185, 205);
 		
-		Shift shift22 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+		Shift shift122 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd3,pd4),
 				List.of(emp4),
 				List.of(tf1,tf2),
 				"mohammed greeting", 195, 205);
 		
-		Shift shift23 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+		Shift shift123 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
@@ -201,19 +202,19 @@ public class Tester {
 		cal.set(Calendar.DAY_OF_MONTH, 7);
 		d = new Date(cal.getTime().getTime());
 		
-		Shift shift31 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+		Shift shift131 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
 				List.of(pd2,pd3),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"ehab greeting", 188, 206);
 		
-		Shift shift32 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+		Shift shift132 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd3,pd4),
 				List.of(emp4),
 				List.of(tf1,tf2),
 				"mohammed greeting", 196, 206);
 		
-		Shift shift33 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+		Shift shift133 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
@@ -222,19 +223,19 @@ public class Tester {
 		cal.set(Calendar.DAY_OF_MONTH, 8);
 		d = new Date(cal.getTime().getTime());
 		
-		Shift shift41 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+		Shift shift141 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
 				List.of(pd2,pd3),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		Shift shift42 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+		Shift shift142 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd3,pd4),
 				List.of(emp5),
 				List.of(tf1,tf2),
 				"ehab greeting", 192, 202);
 		
-		Shift shift43 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+		Shift shift143 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
@@ -243,19 +244,19 @@ public class Tester {
 		cal.set(Calendar.DAY_OF_MONTH, 9);
 		d = new Date(cal.getTime().getTime());
 		
-		Shift shift51 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+		Shift shift151 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
 				List.of(pd10,pd9),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		Shift shift52 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+		Shift shift152 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd7,pd8),
 				List.of(emp4,emp5),
 				List.of(tf1,tf2),
 				"ehab and mohammed greeting", 192, 202);
 		
-		Shift shift53 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+		Shift shift153 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
@@ -264,19 +265,19 @@ public class Tester {
 		cal.set(Calendar.DAY_OF_MONTH, 10);
 		d = new Date(cal.getTime().getTime());
 		
-		Shift shift61 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+		Shift shift161 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
 				List.of(pd13,pd12),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		Shift shift62 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+		Shift shift162 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd13,pd14),
 				List.of(emp4),
 				List.of(tf1,tf2),
 				"mohammed greeting", 192, 202);
 		
-		Shift shift63 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+		Shift shift163 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd11,pd12),
 				List.of(emp5),
 				List.of(tf4,tf5),
@@ -285,33 +286,497 @@ public class Tester {
 		cal.set(Calendar.DAY_OF_MONTH, 11);
 		d = new Date(cal.getTime().getTime());
 		
-		Shift shift71 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+		Shift shift171 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
 				List.of(pd1,pd2,pd15,pd16,pd17,pd18,pd19,pd3),
 				List.of(emp5),
 				List.of(tf4,tf3),
 				"taha greeting", 181, 201);
 		
-		Shift shift72 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+		Shift shift172 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd13,pd14),
 				List.of(emp4),
 				List.of(tf5,tf3),
 				"mohammed greeting", 192, 202);
 		
-		Shift shift73 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+		Shift shift173 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd12,pd13),
 				List.of(emp2,emp5),
 				List.of(tf7,tf5),
 				"mahmoud and ehab greeting", 173, 195);
 		
-		shiftRepo.saveAll(List.of(shift11,shift12,shift13,
-				shift21,shift22,shift23,
-				shift31,shift32,shift33,
-				shift41,shift42,shift43,
-				shift51,shift52,shift53,
-				shift61,shift62,shift63,
-				shift71,shift72,shift73));
+		cal.set(Calendar.DAY_OF_MONTH, 12);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift211 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd1,pd2),
+				List.of(emp3),
+				List.of(tf1,tf2),
+				"taha greeting", 175, 195);
+		
+		Shift shift212 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd6,pd4),
+				List.of(emp4),
+				List.of(tf6,tf2),
+				"mohammed greeting", 175, 195);
+		
+		Shift shift213 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd5,pd6),
+				List.of(emp2),
+				List.of(tf1,tf2),
+				"mahmoud greeting", 175, 195);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 13);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift221 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd2,pd3),
+				List.of(emp3,emp5),
+				List.of(tf4,tf3),
+				"taha and ehab greeting", 185, 205);
+		
+		Shift shift222 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd3,pd4),
+				List.of(emp4),
+				List.of(tf1,tf2),
+				"mohammed greeting", 195, 205);
+		
+		Shift shift223 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd5,pd6),
+				List.of(emp2),
+				List.of(tf4,tf5),
+				"mahmoud greeting", 177, 197);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 14);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift231 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd2,pd3),
+				List.of(emp5),
+				List.of(tf4,tf3),
+				"ehab greeting", 188, 206);
+		
+		Shift shift232 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd3,pd4),
+				List.of(emp4),
+				List.of(tf1,tf2),
+				"mohammed greeting", 196, 206);
+		
+		Shift shift233 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd5,pd6),
+				List.of(emp2),
+				List.of(tf4,tf5),
+				"mahmoud greeting", 171, 193);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 15);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift241 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd2,pd3),
+				List.of(emp5),
+				List.of(tf4,tf3),
+				"taha greeting", 181, 201);
+		
+		Shift shift242 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd3,pd4),
+				List.of(emp5),
+				List.of(tf1,tf2),
+				"ehab greeting", 192, 202);
+		
+		Shift shift243 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd5,pd6),
+				List.of(emp2),
+				List.of(tf4,tf5),
+				"mahmoud greeting", 173, 195);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 16);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift251 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd10,pd9),
+				List.of(emp5),
+				List.of(tf4,tf3),
+				"taha greeting", 181, 201);
+		
+		Shift shift252 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd7,pd8),
+				List.of(emp4,emp5),
+				List.of(tf1,tf2),
+				"ehab and mohammed greeting", 192, 202);
+		
+		Shift shift253 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd5,pd6),
+				List.of(emp2),
+				List.of(tf4,tf5),
+				"mahmoud greeting", 173, 195);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 17);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift261 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd13,pd12),
+				List.of(emp5),
+				List.of(tf4,tf3),
+				"taha greeting", 181, 201);
+		
+		Shift shift262 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd13,pd14),
+				List.of(emp4),
+				List.of(tf1,tf2),
+				"mohammed greeting", 192, 202);
+		
+		Shift shift263 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd11,pd12),
+				List.of(emp5),
+				List.of(tf4,tf5),
+				"ehab greeting", 173, 195);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 18);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift271 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd1,pd2,pd15,pd16,pd17,pd18,pd19,pd3),
+				List.of(emp5),
+				List.of(tf4,tf3),
+				"taha greeting", 181, 201);
+		
+		Shift shift272 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd13,pd14),
+				List.of(emp4),
+				List.of(tf5,tf3),
+				"mohammed greeting", 192, 202);
+		
+		Shift shift273 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd12,pd13),
+				List.of(emp2,emp5),
+				List.of(tf7,tf5),
+				"mahmoud and ehab greeting", 173, 195);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 19);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift311 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd1,pd2),
+				List.of(emp3),
+				List.of(tf1,tf2),
+				"taha greeting", 175, 195);
+		
+		Shift shift312 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd6,pd4),
+				List.of(emp4),
+				List.of(tf6,tf2),
+				"mohammed greeting", 175, 195);
+		
+		Shift shift313 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd5,pd6),
+				List.of(emp2),
+				List.of(tf1,tf2),
+				"mahmoud greeting", 175, 195);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 20);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift321 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd2,pd3),
+				List.of(emp3,emp5),
+				List.of(tf4,tf3),
+				"taha and ehab greeting", 185, 205);
+		
+		Shift shift322 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd3,pd4),
+				List.of(emp4),
+				List.of(tf1,tf2),
+				"mohammed greeting", 195, 205);
+		
+		Shift shift323 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd5,pd6),
+				List.of(emp2),
+				List.of(tf4,tf5),
+				"mahmoud greeting", 177, 197);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 21);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift331 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd2,pd3),
+				List.of(emp5),
+				List.of(tf4,tf3),
+				"ehab greeting", 188, 206);
+		
+		Shift shift332 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd3,pd4),
+				List.of(emp4),
+				List.of(tf1,tf2),
+				"mohammed greeting", 196, 206);
+		
+		Shift shift333 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd5,pd6),
+				List.of(emp2),
+				List.of(tf4,tf5),
+				"mahmoud greeting", 171, 193);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 22);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift341 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd2,pd3),
+				List.of(emp5),
+				List.of(tf4,tf3),
+				"taha greeting", 181, 201);
+		
+		Shift shift342 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd3,pd4),
+				List.of(emp5),
+				List.of(tf1,tf2),
+				"ehab greeting", 192, 202);
+		
+		Shift shift343 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd5,pd6),
+				List.of(emp2),
+				List.of(tf4,tf5),
+				"mahmoud greeting", 173, 195);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 23);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift351 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd10,pd9),
+				List.of(emp5),
+				List.of(tf4,tf3),
+				"taha greeting", 181, 201);
+		
+		Shift shift352 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd7,pd8),
+				List.of(emp4,emp5),
+				List.of(tf1,tf2),
+				"ehab and mohammed greeting", 192, 202);
+		
+		Shift shift353 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd5,pd6),
+				List.of(emp2),
+				List.of(tf4,tf5),
+				"mahmoud greeting", 173, 195);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 24);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift361 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd13,pd12),
+				List.of(emp5),
+				List.of(tf4,tf3),
+				"taha greeting", 181, 201);
+		
+		Shift shift362 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd13,pd14),
+				List.of(emp4),
+				List.of(tf1,tf2),
+				"mohammed greeting", 192, 202);
+		
+		Shift shift363 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd11,pd12),
+				List.of(emp5),
+				List.of(tf4,tf5),
+				"ehab greeting", 173, 195);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 25);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift371 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd1,pd2,pd15,pd16,pd17,pd18,pd19,pd3),
+				List.of(emp5),
+				List.of(tf4,tf3),
+				"taha greeting", 181, 201);
+		
+		Shift shift372 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd13,pd14),
+				List.of(emp4),
+				List.of(tf5,tf3),
+				"mohammed greeting", 192, 202);
+		
+		Shift shift373 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd12,pd13),
+				List.of(emp2,emp5),
+				List.of(tf7,tf5),
+				"mahmoud and ehab greeting", 173, 195);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 26);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift411 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd1,pd2),
+				List.of(emp3),
+				List.of(tf1,tf2),
+				"taha greeting", 175, 195);
+		
+		Shift shift412 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd6,pd4),
+				List.of(emp4),
+				List.of(tf6,tf2),
+				"mohammed greeting", 175, 195);
+		
+		Shift shift413 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd5,pd6),
+				List.of(emp2),
+				List.of(tf1,tf2),
+				"mahmoud greeting", 175, 195);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 27);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift421 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd2,pd3),
+				List.of(emp3,emp5),
+				List.of(tf4,tf3),
+				"taha and ehab greeting", 185, 205);
+		
+		Shift shift422 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd3,pd4),
+				List.of(emp4),
+				List.of(tf1,tf2),
+				"mohammed greeting", 195, 205);
+		
+		Shift shift423 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd5,pd6),
+				List.of(emp2),
+				List.of(tf4,tf5),
+				"mahmoud greeting", 177, 197);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 28);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift431 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd2,pd3),
+				List.of(emp5),
+				List.of(tf4,tf3),
+				"ehab greeting", 188, 206);
+		
+		Shift shift432 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd3,pd4),
+				List.of(emp4),
+				List.of(tf1,tf2),
+				"mohammed greeting", 196, 206);
+		
+		Shift shift433 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd5,pd6),
+				List.of(emp2),
+				List.of(tf4,tf5),
+				"mahmoud greeting", 171, 193);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 29);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift441 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd2,pd3),
+				List.of(emp5),
+				List.of(tf4,tf3),
+				"taha greeting", 181, 201);
+		
+		Shift shift442 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd3,pd4),
+				List.of(emp5),
+				List.of(tf1,tf2),
+				"ehab greeting", 192, 202);
+		
+		Shift shift443 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd5,pd6),
+				List.of(emp2),
+				List.of(tf4,tf5),
+				"mahmoud greeting", 173, 195);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 30);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift451 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd10,pd9),
+				List.of(emp5),
+				List.of(tf4,tf3),
+				"taha greeting", 181, 201);
+		
+		Shift shift452 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd7,pd8),
+				List.of(emp4,emp5),
+				List.of(tf1,tf2),
+				"ehab and mohammed greeting", 192, 202);
+		
+		Shift shift453 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd5,pd6),
+				List.of(emp2),
+				List.of(tf4,tf5),
+				"mahmoud greeting", 173, 195);
+		
+		cal.set(Calendar.DAY_OF_MONTH, 31);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift461 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd13,pd12),
+				List.of(emp5),
+				List.of(tf4,tf3),
+				"taha greeting", 181, 201);
+		
+		Shift shift462 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd13,pd14),
+				List.of(emp4),
+				List.of(tf1,tf2),
+				"mohammed greeting", 192, 202);
+		
+		Shift shift463 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd11,pd12),
+				List.of(emp5),
+				List.of(tf4,tf5),
+				"ehab greeting", 173, 195);
+		
+		cal.set(Calendar.MONTH, Calendar.NOVEMBER);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		d = new Date(cal.getTime().getTime());
+		
+		Shift shift471 = new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(pd1,pd2,pd15,pd16,pd17,pd18,pd19,pd3),
+				List.of(emp5),
+				List.of(tf4,tf3),
+				"taha greeting", 181, 201);
+		
+		Shift shift472 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(pd13,pd14),
+				List.of(emp4),
+				List.of(tf5,tf3),
+				"mohammed greeting", 192, 202);
+		
+		Shift shift473 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(pd12,pd13),
+				List.of(emp2,emp5),
+				List.of(tf7,tf5),
+				"mahmoud and ehab greeting", 173, 195);
+		
+		shiftRepo.saveAll(List.of(
+				shift111,shift112,shift113,
+				shift121,shift122,shift123,
+				shift131,shift132,shift133,
+				shift141,shift142,shift143,
+				shift151,shift152,shift153,
+				shift161,shift162,shift163,
+				shift171,shift172,shift173,
+				shift211,shift212,shift213,
+				shift221,shift222,shift223,
+				shift231,shift232,shift233,
+				shift241,shift242,shift243,
+				shift251,shift252,shift253,
+				shift261,shift262,shift263,
+				shift271,shift272,shift273,
+				shift311,shift312,shift313,
+				shift321,shift322,shift323,
+				shift331,shift332,shift333,
+				shift341,shift342,shift343,
+				shift351,shift352,shift353,
+				shift361,shift362,shift363,
+				shift371,shift372,shift373,
+				shift411,shift412,shift413,
+				shift421,shift422,shift423,
+				shift431,shift432,shift433,
+				shift441,shift442,shift443,
+				shift451,shift452,shift453,
+				shift461,shift462,shift463,
+				shift471,shift472,shift473));
 	}
-
+	
 	public void emp() {
 		Day.getDays(shiftRepo.findLast(3 * 3,false)).forEach((k , v) ->{
 			System.out.println("key is"+k+" and values is "+v.toString());
