@@ -234,7 +234,7 @@ footer a {
 	<div id="s" class="pricing-box pricing-box-bg-image text-center ghost">
 		<div class="center">
 		<h1>insert Date and Order</h1>
-		<form>
+		<form >
 			<div class="inputbox">
 			<input type="date" required="required">
 			</div>
@@ -285,9 +285,9 @@ footer a {
 	<div id="p" class="pricing-box text-center ghost">
 		<div class="center">
 		<h1>insert Problem Name</h1>
-		<form>
+		<form action="#" th:action="@{/}" th:object="${HModel}" method="post">
 			<div class="select">
-        <select required="required">
+        <select required="required" th:field="*{holder}">
           <option value="P1"  selected>P1</option>
           <option value="P2"         >P2</option>
           <option value="P3"         >P3</option>
@@ -309,9 +309,9 @@ footer a {
 	<div id="m" class="pricing-box pricing-box-bg-image text-center ghost">
 		<div class="center">
 		<h1>insert Machine Name</h1>
-		<form>
+		<form action="#" th:action="@{/}" th:object="${HModel}" method="post">
 			<div class="select">
-        <select required="required">
+        <select required="required" th:field="*{holder}">
           <option value="KILEN_ONE"  selected>kilen one</option>
           <option value="KILEN_TWO"         >kilen two</option>
           <option value="KILEN_THREE"       >kilen three</option>
@@ -339,9 +339,9 @@ footer a {
 	<div id="e" class="pricing-box text-center ghost">
 		<div class="center">
 		<h1>insert username</h1>
-		<form>
+		<form action="#" th:action="@{/}" th:object="${HModel}" method="post">
 			<div class="select">
-        <select required="required">
+        <select required="required" th:field="*{holder}">
             <option th:each="n : ${names}" th:value="${n}" th:text="${n}"> username</option>
         </select>
 			</div><br>

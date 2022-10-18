@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.rhr.heat.model.StringModel;
 import com.rhr.heat.service.ShiftService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class BasicController {
 	public ModelAndView searchPage() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("searchButtons");
+		mv.addObject("HModel", new StringModel());
 		mv.addObject("names", service.usernames());
 		return mv;
 	}
