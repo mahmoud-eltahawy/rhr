@@ -6,6 +6,21 @@
 <style>
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 @import url("https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@600&display=swap");
+
+select {
+  appearance: inherit;
+  background-color: transparent;
+  border: 2px solid #000;
+  border-radius: 10px;
+  padding: 0 1em 0 0;
+  margin: inherit;
+  width: 300px;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -223,9 +238,13 @@ footer a {
 			<div class="inputbox">
 			<input type="date" required="required">
 			</div>
-			<div class="inputbox">
-			<input type="text" required="required">
-			</div>
+			<div class="select">
+        <select required="required">
+          <option value="FIRST"  selected>FIRST</option>
+          <option value="SECOND"         >SECOND</option>
+          <option value="THIRD"          >THIRD</option>
+        </select>
+			</div><br>
 			<div class="inputbox">
 			<input type="button" value="submit">
 			</div>
@@ -267,9 +286,19 @@ footer a {
 		<div class="center">
 		<h1>insert Problem Name</h1>
 		<form>
-			<div class="inputbox">
-			<input type="text" required="required">
-			</div>
+			<div class="select">
+        <select required="required">
+          <option value="P1"  selected>P1</option>
+          <option value="P2"         >P2</option>
+          <option value="P3"         >P3</option>
+          <option value="P4"         >P4</option>
+          <option value="P5"         >P5</option>
+          <option value="P6"         >P6</option>
+          <option value="P7"         >P7</option>
+          <option value="P8"         >P8</option>
+          <option value="P9"         >P9</option>
+        </select>
+			</div><br>
 			<div class="inputbox">
 			<input type="button" value="submit">
 			</div>
@@ -281,9 +310,25 @@ footer a {
 		<div class="center">
 		<h1>insert Machine Name</h1>
 		<form>
-			<div class="inputbox">
-			<input type="text" required="required">
-			</div>
+			<div class="select">
+        <select required="required">
+          <option value="KILEN_ONE"  selected>kilen one</option>
+          <option value="KILEN_TWO"         >kilen two</option>
+          <option value="KILEN_THREE"       >kilen three</option>
+          <option value="KILEN_FOUR"        >kilen four</option>
+          <option value="KILEN_FIVE"        >kilen five</option>
+          <option value="DRAYER_ONE"        >drayer one</option>
+          <option value="DRAYER_TWO"        >drayer two</option>
+          <option value="DRAYER_THREE"      >drayer three</option>
+          <option value="DRAYER_FOUR"       >drayer four</option>
+          <option value="DRAYER_FIVE"       >drayer five</option>
+          <option value="DRAYER_SIX"        >drayer six</option>
+          <option value="DRAYER_SEVEN"      >drayer seven</option>
+          <option value="ATM_ONE"           >atm one</option>
+          <option value="ATM_TWO"           >atm two</option>
+          <option value="PROJECT"           >project</option>
+        </select>
+			</div><br>
 			<div class="inputbox">
 			<input type="button" value="submit">
 			</div>
