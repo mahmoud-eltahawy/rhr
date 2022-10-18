@@ -280,14 +280,14 @@ public class ShiftRepo {
 		 s.setEmployees(jdbcTemplate.query(
 				 "SELECT e.id,e.first_name,e.middle_name,e.last_name,e.username,"
 				 + "e.emp_position,e.password FROM employee e JOIN shift_employee "
-				 + "se ON e.id = se.emp_id JOIN shift s ON se.shift_id = s.shift_id "
-				 + "where s.shift_id = ?",
+				 + "se ON e.id = se.emp_id JOIN shift_id si ON se.shift_id = si.id "
+				 + "where si.id = ?",
 			 new EmployeeRowMapper(),s.getShiftId().getId()));
 		 s.setProblems(jdbcTemplate.query(
 				 "SELECT pd.id, pd.machine, pd.begin_time,"
 				 +"pd.end_time FROM problem_detail pd JOIN shift_problem "
-				 +"sp ON pd.id = sp.problem_id JOIN shift s ON sp.shift_id = s.shift_id "
-				 +"where s.shift_id = ?", 
+				 +"sp ON pd.id = sp.problem_id JOIN shift_id si ON sp.shift_id = si.id "
+				 +"where si.id = ?", 
 				 new ProblemDetailRowMapper(),s.getShiftId().getId()).stream().map(pd ->{
 					pd.setProblems(jdbcTemplate.queryForList("SELECT problem FROM "
 							+ "problems where id =?",String.class,pd.getId())
@@ -297,8 +297,8 @@ public class ShiftRepo {
 		 s.setTotalFlowAverage(jdbcTemplate.query(
 				 "SELECT tf.id, tf.begin_time, tf.end_time,"
 				 +"tf.min_flow, tf.max_flow FROM total_flow tf JOIN shift_total_flow "
-				 +"sf ON tf.id = sf.flow_id JOIN shift s ON sf.shift_id = s.shift_id "
-				 +"where s.shift_id = ?", 
+				 +"sf ON tf.id = sf.flow_id JOIN shift_id si ON sf.shift_id = si.id "
+				 +"where si.id = ?", 
 				 new TotalFlowRowMapper(), s.getShiftId().getId()).stream().map(tf -> {
 					tf.setSuspendedMachines(jdbcTemplate.queryForList("SELECT machine FROM "
 							+ "suspended_machine where id =?",String.class,tf.getId())
