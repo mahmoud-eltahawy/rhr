@@ -240,9 +240,9 @@ footer a {
 			</div>
 			<div class="select">
         <select required="required">
-          <option value="FIRST"  selected>FIRST</option>
-          <option value="SECOND"         >SECOND</option>
-          <option value="THIRD"          >THIRD</option>
+          <option value="FIRST"  selected>first shift</option>
+          <option value="SECOND"         >second shift</option>
+          <option value="THIRD"          >third shift</option>
         </select>
 			</div><br>
 			<div class="inputbox">
@@ -340,9 +340,11 @@ footer a {
 		<div class="center">
 		<h1>insert username</h1>
 		<form>
-			<div class="inputbox">
-			<input type="text" required="required">
-			</div>
+			<div class="select">
+        <select required="required">
+            <option th:each="n : ${names}" th:value="${n}" th:text="${n}"> username</option>
+        </select>
+			</div><br>
 			<div class="inputbox">
 			<input type="button" value="submit">
 			</div>

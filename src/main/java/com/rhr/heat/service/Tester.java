@@ -19,7 +19,6 @@ import com.rhr.heat.enums.EmployeePosition;
 import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.Problem;
 import com.rhr.heat.enums.ShiftOrder;
-import com.rhr.heat.model.Day;
 
 import lombok.RequiredArgsConstructor;
 
@@ -778,8 +777,6 @@ public class Tester {
 	}
 	
 	public void emp() {
-		Day.getDays(shiftRepo.findLast(3 * 3,false)).forEach((k , v) ->{
-			System.out.println("key is"+k+" and values is "+v.toString());
-		});
+		employeeRepo.findAllUserNames().forEach(s -> System.out.println(s));
 	}
 }

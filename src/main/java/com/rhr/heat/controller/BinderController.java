@@ -5,11 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class BinderController {
-
-	@GetMapping("/searchPage")
-	public String searchPage() {
-		return "searchButtons";
-	}
 	
 	@GetMapping("/comming")
 	public String commingSoon() {

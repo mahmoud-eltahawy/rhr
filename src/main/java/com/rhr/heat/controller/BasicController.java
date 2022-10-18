@@ -23,4 +23,12 @@ public class BasicController {
 		mv.addObject("week",service.pickLastWeeks(0));
 		return mv;
 	}
+
+	@GetMapping("/searchPage")
+	public ModelAndView searchPage() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("searchButtons");
+		mv.addObject("names", service.usernames());
+		return mv;
+	}
 }

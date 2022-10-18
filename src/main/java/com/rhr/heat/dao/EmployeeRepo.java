@@ -26,6 +26,11 @@ public class EmployeeRepo{
 		return jdbcTemplate.query(sql, new EmployeeRowMapper());
 	}
 	
+	public List<String> findAllUserNames() {
+		String sql = "SELECT username FROM employee";
+		return jdbcTemplate.queryForList(sql, String.class);
+	}
+	
 	public Optional<Employee> findById(UUID id) {
 		String sql = "SELECT * FROM employee where id = ?";
 		return jdbcTemplate.query(sql,
