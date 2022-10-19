@@ -90,14 +90,15 @@ public class ShowingController {
 
 	@GetMapping("/week")
 	public ModelAndView showWeek(@RequestParam("week")Integer week) {
-		if(week < 0) {
-			week = 0;
-		}
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("showDays");
 		mv.addObject("title","Welcom to index page");
 		mv.addObject("next",week + 1);
-		mv.addObject("prev",week - 1);
+		if(week > 0) {
+			mv.addObject("prev",week - 1);
+		} else {
+			mv.addObject("prev",week);
+		}
 		mv.addObject("week",service.pickLastWeeks(week));
 		return mv;
 	}

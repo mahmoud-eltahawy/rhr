@@ -21,6 +21,7 @@ public class BasicController {
 		mv.setViewName("showDays");
 		mv.addObject("title","Welcom to index page");
 		mv.addObject("next", 1);
+		mv.addObject("prev", 0);
 		mv.addObject("week",service.pickLastWeeks(0));
 		return mv;
 	}
