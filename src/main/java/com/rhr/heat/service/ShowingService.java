@@ -16,6 +16,7 @@ import com.rhr.heat.dao.ShiftRepo;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.Machine;
+import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.model.Day;
 import com.rhr.heat.model.ProblemProfile;
 
@@ -29,6 +30,10 @@ public class ShowingService {
 	
 	public Optional<Shift> getShift(UUID id) {
 		return shiftRepo.findById(id, true);
+	}
+	
+	public Optional<Shift> getShift(Date date,ShiftOrder order) {
+		return shiftRepo.findById(date, order,true);
 	}
 	
 	
