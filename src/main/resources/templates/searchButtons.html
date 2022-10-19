@@ -285,7 +285,7 @@ footer a {
 	<div id="p" class="pricing-box text-center ghost">
 		<div class="center">
 		<h1>insert Problem Name</h1>
-		<form action="#" th:action="@{/}" th:object="${HModel}" method="post">
+		<form action="#" th:action="@{/show/problem}" th:object="${HModel}" method="post">
 			<div class="select">
         <select required="required" th:field="*{holder}">
           <option value="P1"  selected>P1</option>
@@ -299,9 +299,8 @@ footer a {
           <option value="P9"         >P9</option>
         </select>
 			</div><br>
-			<div class="inputbox">
-			<input type="button" value="submit">
-			</div>
+      <input type="hidden" name="num" value="0">
+			  <button class="inputbox" type="submit">Submit </button>
 		</form>
 		</div>
 	</div>

@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,6 +33,7 @@ import static com.rhr.heat.enums.Machine.PROJECT;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.Machine;
+import com.rhr.heat.model.StringModel;
 import com.rhr.heat.service.ShowingService;
 
 import lombok.RequiredArgsConstructor;
@@ -87,6 +90,9 @@ public class ShowingController {
 
 	@GetMapping("/week")
 	public ModelAndView showWeek(@RequestParam("week")Integer week) {
+		if(week < 0) {
+			week = 0;
+		}
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("showDays");
 		mv.addObject("title","Welcom to index page");
@@ -95,5 +101,19 @@ public class ShowingController {
 		mv.addObject("week",service.pickLastWeeks(week));
 		return mv;
 	}
-	
+
+	@PostMapping("/problem")
+	public ModelAndView showProblem(@ModelAttribute("problem")StringModel problem,
+			@RequestParam("num")Integer num) {
+		if(num < 0) {
+			num = 0;
+		}
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("showProblems");
+		mv.addObject("next",num + 1);
+		mv.addObject("prev",num - 1);
+		mv.addObject("problem", problem);
+		mv.addObject("problems",service.pickLastProblems(problem.getHolder(), num));
+		return mv;
+	}
 }

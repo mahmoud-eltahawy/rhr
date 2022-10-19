@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>last week summary</title>
+<style>
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: black;
+	font-family: 'Open Sans', sans-serif;
+	margin-bottom: 50px;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.pricing-box-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.pricing-box {
+	background-color: #ffffff;
+	box-shadow: 0px 2px 15px 0px rgba(0,0,0,0.5);
+	border-radius: 4px;
+	flex: 1;
+	padding: 0 30px 30px;
+	margin: 2%;
+	min-width: 250px;
+	max-width: 1000px;
+}
+
+.pricing-box h5 {
+	text-transform: uppercase;
+}
+
+.price {
+	margin: 24px 0;
+	font-size: 36px;
+	font-weight: 900;
+}
+
+.price sub, .price sup {
+	font-size: 16px;
+	font-weight: 100;
+}
+
+.features-list {
+	padding: 0;
+	list-style-type: none;
+}
+
+.features-list li {
+	font-weight: 100;
+	padding: 12px 0;
+	font-weight: 100;
+}
+
+.features-list li:not(:last-of-type) {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+	border-radius: 25px;
+	border: none;
+	background-color: red;
+	color: #ffffff;
+	cursor: pointer;
+	padding: 10px 15px;
+	margin-top: 20px;
+	text-transform: uppercase;
+	transition: all 0.1s ease-in-out;
+}
+
+.btn-primary:hover {
+	box-shadow: 0px 2px 15px 0px rgba(0,0,0,0.5);
+	transform: translateY(-3px);
+}
+
+.pricing-box-bg-image {
+	background-color:  #922b21;
+	background-size: cover;
+	background-position: center center;
+	color: #ffffff;
+}
+
+.pricing-box-bg-image .features-list li {
+	border-bottom-color: rgba(255, 255, 255, 1);
+}
+
+.pricing-box-bg-image .btn-primary {
+	background-color: #ffffff;
+	color: #000;
+}
+
+footer {
+	background-color: #222;
+	color: #fff;
+	font-size: 14px;
+	bottom: 0;
+	position: fixed;
+	left: 0;
+	right: 0;
+	text-align: center;
+}
+
+footer p {
+	margin: 10px 0;
+}
+
+footer i {
+	color: red;
+}
+
+footer a {
+	color: #3C97BF;
+	text-decoration: none;
+}
+</style>
+</head>
+<body>
+<h1 class="text-center pricing-box" th:text="${problem.holder}"> title</h1>
+
+<div class="pricing-box-container">
+	<div class="pricing-box text-center">
+		<form action="#" th:action="@{/show/problem}" th:object="${problem}" method="post">
+        <input type="hidden" th:value="${problem.holder}" name="holder" id="holder">
+        <input type="hidden" name="num" id="num" th:value="${next}">
+			  <button class="btn-primary" type="submit" >go to older</button>
+		</form>
+	</div>
+
+	<div class="pricing-box pricing-box-bg-image text-center">
+		<a href="#" th:href="@{/comming}"><button>report</button></a>
+	</div>
+
+	<div class="pricing-box text-center">
+		<form action="#" th:action="@{/show/problem}" th:object="${problem}" method="post">
+        <input type="hidden" th:value="${problem.holder}" name="holder" id="holder">
+        <input type="hidden" name="num" id="num" th:value="${prev}">
+			  <button class="btn-primary" type="submit" >go to newer</button>
+		</form>
+	</div>
+</div>
+
+<div class="pricing-box-container" th:each="p :${problems}">
+		<div class="pricing-box pricing-box-bg-image text-center" th:object="${p}">
+			<pre class="price">Date : <span th:text="*{date}">date</span>  shift : <span th:text="*{shift}">shift</span> </pre><br>
+
+			<pre class="price">From : <span th:text="*{beginTime}">begin</span> To : <span th:text="*{endTime}">end</span></pre>
+
+			<pre class="price">Machine : <span th:text="*{machine}"> machine </span></pre>
+
+			<a href="#" th:href="@{/show/shift(date=*{date},order=*{shift})}"><button class="btn-primary">Go to shift</button></a>
+		</div>
+	</div>
+</div>
+
+<div class="pricing-box-container">
+	<div class="pricing-box text-center">
+		<form action="#" th:action="@{/show/problem}" th:object="${problem}" method="post">
+        <input type="hidden" th:value="${problem.holder}" name="holder" id="holder">
+        <input type="hidden" name="num" id="num" th:value="${next}">
+			  <button class="btn-primary" type="submit" >go to older</button>
+		</form>
+	</div>
+
+	<div class="pricing-box pricing-box-bg-image text-center">
+		<a href="#" th:href="@{/comming}"><button>report</button></a>
+	</div>
+
+	<div class="pricing-box text-center">
+		<form action="#" th:action="@{/show/problem}" th:object="${problem}" method="post">
+        <input type="hidden" th:value="${problem.holder}" name="holder" id="holder">
+        <input type="hidden" name="num" id="num" th:value="${prev}">
+			  <button class="btn-primary" type="submit" >go to newer</button>
+		</form>
+	</div>
+</div>
+
+<footer>
+	<p>
+		Created <i class="fa fa-heart"></i> by
+		<b th:text="#{developer.name}">developer name</b>
+		- Read the source code of the project
+		<a target="_blank" href="https://github.com/mahmoud-eltahawy/rhr">in this Github page</a>
+	</p>
+</footer>
+</body>
+</html>

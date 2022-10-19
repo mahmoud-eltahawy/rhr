@@ -11,11 +11,13 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.rhr.heat.dao.ProblemDetailsRepo;
 import com.rhr.heat.dao.ShiftRepo;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.Machine;
 import com.rhr.heat.model.Day;
+import com.rhr.heat.model.ProblemProfile;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ShowingService {
 	private final ShiftRepo shiftRepo;
+	private final ProblemDetailsRepo problemDetailsRepo;
 	
 	public Optional<Shift> getShift(UUID id) {
 		return shiftRepo.findById(id, true);
@@ -48,5 +51,9 @@ public class ShowingService {
 	
 	public TreeMap<Date ,Day> pickLastWeeks(Integer weekNum){
 		return Day.getDays(shiftRepo.findFromTo(weekNum * 21, 21 ,false));
+	}
+	
+	public List<ProblemProfile> pickLastProblems(String problem,Integer problemNum){
+		return  problemDetailsRepo.findProblemsProfiles(problem, problemNum * 7, 7);
 	}
 }

@@ -9,8 +9,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.rhr.heat.dao.rowMappers.ProblemDetailRowMapper;
+import com.rhr.heat.dao.rowMappers.ProblemProfileRowMapper;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.enums.Problem;
+import com.rhr.heat.model.ProblemProfile;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +25,18 @@ public class ProblemDetailsRepo {
 		String sql = "SELECT * FROM problem_detail";
 		return jdbcTemplate.query(sql, new ProblemDetailRowMapper())
 				.stream().map(pd -> fullFill(pd)).collect(Collectors.toList());
+	}
+	
+	public List<ProblemProfile> findProblemsProfiles(String p,Integer begin,Integer end){
+		return jdbcTemplate.query("select si.shift_date ,si.shift_order, "
+				+ "pd.machine ,pd.begin_time ,pd.end_time "
+				+ "from problem_detail pd "
+				+ "join shift_problem sp on sp.problem_id = pd.id "
+				+ "join shift_id si on si.id = sp.shift_id "
+				+ "where pd.id in (select id "
+				+ "from problems p where p.problem = ?) "
+				+ "order by si.shift_date desc offset ? limit ?",
+				new ProblemProfileRowMapper(),p,begin,end);
 	}
 	
 	public Optional<ProblemDetail> findById(Long id) {
