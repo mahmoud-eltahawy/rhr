@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS employee (
     CONSTRAINT emp_unique_username UNIQUE(username)
 );
 
-CREATE INDEX idx_by_username ON employee (username);
+CREATE INDEX IF NOT EXISTS idx_by_username ON employee (username);
 
 CREATE TABLE IF NOT EXISTS total_flow (
     id             UUID        PRIMARY KEY,
@@ -45,12 +45,16 @@ CREATE TABLE IF NOT EXISTS problem_detail (
 );
 
 CREATE TABLE IF NOT EXISTS problems (
-    id           UUID        NOT NULL,
-    problem      VARCHAR(40) NOT NULL,
-    PRIMARY KEY(id,problem),
-    FOREIGN KEY(id) REFERENCES problem_detail(id) ON DELETE CASCADE,
-    CONSTRAINT problems_problem_values
-    CHECK(problem in ('P1','P2','P3','P4','P5','P6','P7','P8','P9'))
+    id           UUID         NOT NULL PRIMARY KEY,
+    problem      VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS problem_detail_problems (
+    problem_detail_id UUID NOT NULL,
+    problem_id UUID NOT NULL,
+    PRIMARY KEY(problem_detail_id,problem_id),
+    FOREIGN KEY(problem_detail_id) REFERENCES problem_detail(id) ON DELETE CASCADE,
+    FOREIGN KEY(problem_id)        REFERENCES problems(id)       ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS shift_id (
