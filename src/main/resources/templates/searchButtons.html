@@ -308,7 +308,7 @@ footer a {
 	<div id="m" class="pricing-box pricing-box-bg-image text-center ghost">
 		<div class="center">
 		<h1>insert Machine Name</h1>
-		<form action="#" th:action="@{/}" th:object="${HModel}" method="post">
+		<form action="#" th:action="@{/show/machine}" th:object="${HModel}" method="post">
 			<div class="select">
         <select required="required" th:field="*{holder}">
           <option value="KILEN_ONE"  selected>kilen one</option>
@@ -328,8 +328,8 @@ footer a {
           <option value="PROJECT"           >project</option>
         </select>
 			</div><br>
-			<div class="inputbox">
-			<input type="button" value="submit">
+      <input type="hidden" name="num" value="0">
+			  <button class="inputbox" type="submit">Submit </button>
 			</div>
 		</form>
 		</div>

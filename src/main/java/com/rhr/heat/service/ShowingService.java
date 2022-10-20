@@ -18,6 +18,7 @@ import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.model.Day;
+import com.rhr.heat.model.MachineProfile;
 import com.rhr.heat.model.ProblemProfile;
 
 import lombok.RequiredArgsConstructor;
@@ -60,5 +61,9 @@ public class ShowingService {
 	
 	public List<ProblemProfile> pickLastProblems(String problem,Integer problemNum){
 		return  problemDetailsRepo.findProblemsProfiles(problem, problemNum * 7, 7);
+	}
+	
+	public List<MachineProfile> pickLastMachineProblems(String machine,Integer num){
+		return  problemDetailsRepo.findMachinesProfiles(machine, num * 7, 7);
 	}
 }

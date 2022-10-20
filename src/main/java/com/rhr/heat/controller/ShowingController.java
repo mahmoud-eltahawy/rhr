@@ -98,7 +98,6 @@ public class ShowingController {
 			Date date,
 			@RequestParam("order")
 			String order) {
-		System.out.println(date+"  "+order);
 		ModelAndView mv = new ModelAndView();
 		Optional<Shift> s =  service.getShift(new java.sql.Date(date.getTime()),ShiftOrder.valueOf(order));
 		if(s.isPresent()) {
@@ -168,6 +167,21 @@ public class ShowingController {
 		mv.addObject("prev",num - 1);
 		mv.addObject("problem", problem);
 		mv.addObject("problems",service.pickLastProblems(problem.getHolder(), num));
+		return mv;
+	}
+
+	@PostMapping("/machine")
+	public ModelAndView showMachine(@ModelAttribute("machine")StringModel machine,
+			@RequestParam("num")Integer num) {
+		if(num < 0) {
+			num = 0;
+		}
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("showMachines");
+		mv.addObject("next",num + 1);
+		mv.addObject("prev",num - 1);
+		mv.addObject("machine", machine);
+		mv.addObject("machineProblems",service.pickLastMachineProblems(machine.getHolder(), num));
 		return mv;
 	}
 }
