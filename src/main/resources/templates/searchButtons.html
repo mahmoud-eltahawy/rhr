@@ -288,15 +288,7 @@ footer a {
 		<form action="#" th:action="@{/show/problem}" th:object="${HModel}" method="post">
 			<div class="select">
         <select required="required" th:field="*{holder}">
-          <option value="P1"  selected>P1</option>
-          <option value="P2"         >P2</option>
-          <option value="P3"         >P3</option>
-          <option value="P4"         >P4</option>
-          <option value="P5"         >P5</option>
-          <option value="P6"         >P6</option>
-          <option value="P7"         >P7</option>
-          <option value="P8"         >P8</option>
-          <option value="P9"         >P9</option>
+          <option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
         </select>
 			</div><br>
       <input type="hidden" name="num" value="0">

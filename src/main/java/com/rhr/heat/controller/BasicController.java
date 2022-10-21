@@ -32,6 +32,7 @@ public class BasicController {
 		mv.setViewName("searchButtons");
 		mv.addObject("HModel", new StringModel());
 		mv.addObject("names", service.usernames());
+		mv.addObject("pTitles", service.problemsTitles());
 		return mv;
 	}
 }

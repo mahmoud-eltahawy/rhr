@@ -7,6 +7,7 @@ import java.util.TreeMap;
 import org.springframework.stereotype.Service;
 
 import com.rhr.heat.dao.EmployeeRepo;
+import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.dao.ShiftRepo;
 import com.rhr.heat.model.Day;
 
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class ShiftService {
 	public final ShiftRepo shiftRepo;
 	public final EmployeeRepo employeeRepo;
+	public final ProblemRepo problemRepo;
 	
 	public TreeMap<Date ,Day> pickLastWeeks(Integer weekNum){
 		return Day.getDays(shiftRepo.findFromTo(weekNum * 21, 21 ,false));
@@ -28,5 +30,9 @@ public class ShiftService {
 	
 	public List<String> usernames(){
 		return employeeRepo.findAllUserNames();
+	}
+	
+	public List<String> problemsTitles(){
+		return problemRepo.findAllTitles();
 	}
 }

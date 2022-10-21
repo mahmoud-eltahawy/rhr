@@ -109,7 +109,7 @@ h4 {
 							<td th:text="${K.beginTime}" class="kilenData">Stoped at</td>
 							<td th:text="${K.endTime}" class="kilenData">Started at</td>
 							<td class="kilenData"><ul th:each="p : ${K.problems}">
-								<li th:text="${p}">problem number</li>
+								<li th:text="${p.title}">problem number</li>
 							</ul></td>
 						</tr>
 					</table>
@@ -124,7 +124,7 @@ h4 {
 							<td th:text="${K.beginTime}" class="kilenData">Stoped at</td>
 							<td th:text="${K.endTime}" class="kilenData">Started at</td>
 							<td class="kilenData"><ul th:each="p : ${K.problems}">
-								<li th:text="${p}">problem number</li>
+								<li th:text="${p.title}">problem number</li>
 							</ul></td>
 						</tr>
 					</table>
@@ -139,7 +139,7 @@ h4 {
 							<td th:text="${K.beginTime}" class="kilenData">Stoped at</td>
 							<td th:text="${K.endTime}" class="kilenData">Started at</td>
 							<td class="kilenData"><ul th:each="p : ${K.problems}">
-								<li th:text="${p}">problem number</li>
+								<li th:text="${p.title}">problem number</li>
 							</ul></td>
 						</tr>
 					</table>
@@ -154,7 +154,7 @@ h4 {
 							<td th:text="${K.beginTime}" class="kilenData">Stoped at</td>
 							<td th:text="${K.endTime}" class="kilenData">Started at</td>
 							<td class="kilenData"><ul th:each="p : ${K.problems}">
-								<li th:text="${p}">problem number</li>
+								<li th:text="${p.title}">problem number</li>
 							</ul></td>
 						</tr>
 					</table>
@@ -169,7 +169,7 @@ h4 {
 							<td th:text="${K.beginTime}" class="kilenData">Stoped at</td>
 							<td th:text="${K.endTime}" class="kilenData">Started at</td>
 							<td class="kilenData"><ul th:each="p : ${K.problems}">
-								<li th:text="${p}">problem number</li>
+								<li th:text="${p.title}">problem number</li>
 							</ul></td>
 						</tr>
 					</table>
@@ -189,7 +189,7 @@ h4 {
 							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
 							<td th:text="${D.endTime}" class="kilenData">Started at</td>
 							<td class="kilenData"><ul th:each="p : ${D.problems}">
-								<li th:text="${p}">problem number</li>
+								<li th:text="${p.title}">problem number</li>
 							</ul></td>
 						</tr>
 					</table>
@@ -204,7 +204,7 @@ h4 {
 							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
 							<td th:text="${D.endTime}" class="kilenData">Started at</td>
 							<td class="kilenData"><ul th:each="p : ${D.problems}">
-								<li th:text="${p}">problem number</li>
+								<li th:text="${p.title}">problem number</li>
 							</ul></td>
 						</tr>
 					</table>
@@ -219,7 +219,7 @@ h4 {
 							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
 							<td th:text="${D.endTime}" class="kilenData">Started at</td>
 							<td class="kilenData"><ul th:each="p : ${D.problems}">
-								<li th:text="${p}">problem number</li>
+								<li th:text="${p.title}">problem number</li>
 							</ul></td>
 						</tr>
 					</table>
@@ -234,7 +234,7 @@ h4 {
 							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
 							<td th:text="${D.endTime}" class="kilenData">Started at</td>
 							<td class="kilenData"><ul th:each="p : ${D.problems}">
-								<li th:text="${p}">problem number</li>
+								<li th:text="${p.title}">problem number</li>
 							</ul></td>
 						</tr>
 					</table>
@@ -249,7 +249,7 @@ h4 {
 							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
 							<td th:text="${D.endTime}" class="kilenData">Started at</td>
 							<td class="kilenData"><ul th:each="p : ${D.problems}">
-								<li th:text="${p}">problem number</li>
+								<li th:text="${p.title}">problem number</li>
 							</ul></td>
 						</tr>
 					</table>
@@ -264,7 +264,7 @@ h4 {
 							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
 							<td th:text="${D.endTime}" class="kilenData">Started at</td>
 							<td class="kilenData"><ul th:each="p : ${D.problems}">
-								<li th:text="${p}">problem number</li>
+								<li th:text="${p.title}">problem number</li>
 							</ul></td>
 						</tr>
 					</table>
@@ -279,7 +279,7 @@ h4 {
 							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
 							<td th:text="${D.endTime}" class="kilenData">Started at</td>
 							<td class="kilenData"><ul th:each="p : ${D.problems}">
-								<li th:text="${p}">problem number</li>
+								<li th:text="${p.title}">problem number</li>
 							</ul></td>
 						</tr>
 					</table>
@@ -299,7 +299,7 @@ h4 {
 							<td th:text="${A.beginTime}" class="kilenData">Stoped at</td>
 							<td th:text="${A.endTime}" class="kilenData">Started at</td>
 							<td class="kilenData"><ul th:each="p : ${A.problems}">
-								<li th:text="${p}">problem number</li>
+								<li th:text="${p.title}">problem number</li>
 							</ul></td>
 						</tr>
 					</table>
@@ -314,7 +314,7 @@ h4 {
 							<td th:text="${A.beginTime}" class="kilenData">Stoped at</td>
 							<td th:text="${A.endTime}" class="kilenData">Started at</td>
 							<td class="kilenData"><ul th:each="p : ${A.problems}">
-								<li th:text="${p}">problem number</li>
+								<li th:text="${p.title}">problem number</li>
 							</ul></td>
 						</tr>
 					</table>
@@ -370,7 +370,7 @@ h4 {
 						<td class="kilenData" th:text="${P.beginTime}">Stoped at</td>
 						<td class="kilenData" th:text="${P.endTime}">Started at</td>
 						<td class="kilenData"><ul th:each="l : ${P.problems}">
-							<li th:text="${l}">problem number</li>
+							<li th:text="${l.title}">problem number</li>
 						</ul></td>
 					</tr>
 				</table>

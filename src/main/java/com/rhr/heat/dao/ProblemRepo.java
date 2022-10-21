@@ -27,6 +27,11 @@ public class ProblemRepo {
 		return jdbcTemplate.query(sql, new ProblemRowMapper());
 	}
 
+	public List<String> findAllTitles(){
+		String sql = "SELECT p.title FROM problem p";
+		return jdbcTemplate.queryForList(sql,String.class);
+	}
+
 	public List<Problem> findProblemDetailProblems(UUID id){
 		String sql = "SELECT p.title , p.description FROM problem p "
 				+ "join problem_detail_problem pdp on p.title = pdp.problem_title "
@@ -38,14 +43,13 @@ public class ProblemRepo {
 		return jdbcTemplate.query("select si.shift_date ,si.shift_order, "
 				+ "pd.machine ,pd.begin_time ,pd.end_time "
 				+ "from problem p "
-				+ "join problem_detail_problems pdp "
+				+ "join problem_detail_problem pdp "
 				+ "on p.title = pdp.problem_title "
-				+ "ioin problem_detail pd "
+				+ "join problem_detail pd "
 				+ "on pd.id = pdp.problem_detail_id "
 				+ "join shift_problem sp on sp.problem_id = pd.id "
 				+ "join shift_id si on si.id = sp.shift_id "
-				+ "where p.id in (select id "
-				+ "from problems p where p.title = ?) "
+				+ "where p.title = ?"
 				+ "order by si.shift_date desc offset ? limit ?",
 				new ProblemProfileRowMapper(),p,begin,end);
 	}

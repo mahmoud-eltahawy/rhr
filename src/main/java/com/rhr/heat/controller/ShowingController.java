@@ -166,6 +166,7 @@ public class ShowingController {
 		mv.addObject("next",num + 1);
 		mv.addObject("prev",num - 1);
 		mv.addObject("problem", problem);
+		mv.addObject("description", service.findProblemDescription(problem.getHolder()));
 		mv.addObject("problems",service.pickLastProblems(problem.getHolder(), num));
 		return mv;
 	}

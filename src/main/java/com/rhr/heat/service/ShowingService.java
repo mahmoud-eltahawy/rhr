@@ -63,6 +63,10 @@ public class ShowingService {
 		return  problemRepo.findProblemsProfiles(problem, problemNum * 7, 7);
 	}
 	
+	public String findProblemDescription(String title) {
+		return problemRepo.findByTitle(title).get().getDescription();
+	}
+	
 	public List<MachineProfile> pickLastMachineProblems(String machine,Integer num){
 		return  problemRepo.findMachinesProfiles(machine, num * 7, 7);
 	}

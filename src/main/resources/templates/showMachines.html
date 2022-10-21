@@ -157,7 +157,7 @@ footer a {
 
 			<pre class="price">From : <span th:text="*{beginTime}">begin</span> To : <span th:text="*{endTime}">end</span></pre>
 
-			<pre class="price">Problems : <ul th:each="p :*{problems}"> <li th:text="${p}">problem</li></ul></pre>
+			<pre class="price">Problems : <ul th:each="p :*{problems}"> <li th:text="${p.title}">problem</li></ul></pre>
 
 			<a href="#" th:href="@{/show/shft(date=*{date},order=*{shift})}"><button class="btn-primary">Go to shift</button></a>
 		</div>
