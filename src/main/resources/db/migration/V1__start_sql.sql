@@ -44,17 +44,17 @@ CREATE TABLE IF NOT EXISTS problem_detail (
 	'DRAYER_SEVEN','ATM_ONE','ATM_TWO','PROJECT'))
 );
 
-CREATE TABLE IF NOT EXISTS problems (
-    id           UUID         NOT NULL PRIMARY KEY,
-    problem      VARCHAR(100) NOT NULL UNIQUE
+CREATE TABLE IF NOT EXISTS problem (
+    title        VARCHAR(100) PRIMARY KEY,
+    description  VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS problem_detail_problems (
-    problem_detail_id UUID NOT NULL,
-    problem_id UUID NOT NULL,
-    PRIMARY KEY(problem_detail_id,problem_id),
+CREATE TABLE IF NOT EXISTS problem_detail_problem (
+    problem_detail_id UUID     NOT NULL,
+    problem_title VARCHAR(100) NOT NULL,
+    PRIMARY KEY(problem_detail_id,problem_title),
     FOREIGN KEY(problem_detail_id) REFERENCES problem_detail(id) ON DELETE CASCADE,
-    FOREIGN KEY(problem_id)        REFERENCES problems(id)       ON DELETE CASCADE
+    FOREIGN KEY(problem_title)     REFERENCES problem(title)     ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS shift_id (
@@ -65,8 +65,8 @@ CREATE TABLE IF NOT EXISTS shift_id (
     CONSTRAINT shift_order_values CHECK(shift_order in ('FIRST', 'SECOND', 'THIRD'))
 );
 
-CREATE INDEX idx_by_shift_order ON shift_id (shift_order);
-CREATE INDEX idx_by_shift_date  ON shift_id (shift_date);
+CREATE INDEX IF NOT EXISTS idx_by_shift_order ON shift_id (shift_order);
+CREATE INDEX IF NOT EXISTS idx_by_shift_date  ON shift_id (shift_date);
 
 CREATE TABLE IF NOT EXISTS shift (
     shift_id UUID         PRIMARY KEY,

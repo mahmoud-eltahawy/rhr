@@ -11,7 +11,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.rhr.heat.dao.ProblemDetailsRepo;
+import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.dao.ShiftRepo;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ShowingService {
 	private final ShiftRepo shiftRepo;
-	private final ProblemDetailsRepo problemDetailsRepo;
+	private final ProblemRepo problemRepo;
 	
 	public Optional<Shift> getShift(UUID id) {
 		return shiftRepo.findById(id, true);
@@ -60,10 +60,10 @@ public class ShowingService {
 	}
 	
 	public List<ProblemProfile> pickLastProblems(String problem,Integer problemNum){
-		return  problemDetailsRepo.findProblemsProfiles(problem, problemNum * 7, 7);
+		return  problemRepo.findProblemsProfiles(problem, problemNum * 7, 7);
 	}
 	
 	public List<MachineProfile> pickLastMachineProblems(String machine,Integer num){
-		return  problemDetailsRepo.findMachinesProfiles(machine, num * 7, 7);
+		return  problemRepo.findMachinesProfiles(machine, num * 7, 7);
 	}
 }

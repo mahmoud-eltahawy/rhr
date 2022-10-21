@@ -8,13 +8,8 @@ import java.util.stream.Collectors;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.rhr.heat.dao.rowMappers.MachineProfileRowMapper;
 import com.rhr.heat.dao.rowMappers.ProblemDetailRowMapper;
-import com.rhr.heat.dao.rowMappers.ProblemProfileRowMapper;
 import com.rhr.heat.entity.ProblemDetail;
-import com.rhr.heat.enums.Problem;
-import com.rhr.heat.model.MachineProfile;
-import com.rhr.heat.model.ProblemProfile;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProblemDetailsRepo {
 	private final JdbcTemplate jdbcTemplate;
+	private final ProblemRepo  problemRepo;
 	
 	public List<ProblemDetail> findAll(){
 		String sql = "SELECT * FROM problem_detail";
@@ -29,38 +25,7 @@ public class ProblemDetailsRepo {
 				.stream().map(pd -> fullFill(pd)).collect(Collectors.toList());
 	}
 	
-	public List<ProblemProfile> findProblemsProfiles(String p,Integer begin,Integer end){
-		return jdbcTemplate.query("select si.shift_date ,si.shift_order, "
-				+ "pd.machine ,pd.begin_time ,pd.end_time "
-				+ "from problem_detail pd "
-				+ "join shift_problem sp on sp.problem_id = pd.id "
-				+ "join shift_id si on si.id = sp.shift_id "
-				+ "where pd.id in (select id "
-				+ "from problems p where p.problem = ?) "
-				+ "order by si.shift_date desc offset ? limit ?",
-				new ProblemProfileRowMapper(),p,begin,end);
-	}
-	
-	public List<MachineProfile> findMachinesProfiles(String p,Integer begin,Integer end){
-		return jdbcTemplate.query("select si.shift_date ,si.shift_order, "
-				+ "pd.begin_time ,pd.end_time,pd.id "
-				+ "from problem_detail pd "
-				+ "join shift_problem sp on sp.problem_id = pd.id "
-				+ "join shift_id si on si.id = sp.shift_id "
-				+ "where pd.id in (select id "
-				+ "from problem_detail pd2 where pd2.machine  = ?) "
-				+ "order by si.shift_date desc offset ? limit ?",
-				new MachineProfileRowMapper(),p,begin,end).stream().map(m -> {
-					m.setProblems(jdbcTemplate.queryForList(
-							"select problem from problems where id = ?"
-							,String.class,m.getId()).stream()
-							.map(r -> Problem.valueOf(r))
-							.collect(Collectors.toList()));
-					return m;
-				}).collect(Collectors.toList());
-	}
-	
-	public Optional<ProblemDetail> findById(Long id) {
+	public Optional<ProblemDetail> findById(UUID id) {
 		String sql = "SELECT * FROM problem_detail WHERE id = ?";
 		Optional<ProblemDetail> pd  = jdbcTemplate.query(sql, 
 				new ProblemDetailRowMapper(),id)
@@ -93,17 +58,15 @@ public class ProblemDetailsRepo {
 							pd.getEndTime());
 		
 		pd.getProblems().forEach(m ->{
-			jdbcTemplate.update("INSERT INTO "
-					+ "problems(id,problem) values(?,?) "
-					+ "ON CONFLICT(id,problem) DO NOTHING",uuid,m.toString());
+			jdbcTemplate.update("INSERT INTO problem_detail_problem"
+					+ "(problem_detail_id,problem_title) values(?,?) ",
+					uuid,m.getTitle());
 		});
 		return uuid;
 	}
 	
 	private ProblemDetail fullFill(ProblemDetail pd) {
-		pd.setProblems(jdbcTemplate.queryForList("SELECT problem FROM "
-				+ "problems where id =?",String.class,pd.getId())
-				.stream().map(s -> Problem.valueOf(s)).collect(Collectors.toSet()));
+		pd.setProblems(problemRepo.findProblemDetailProblems(pd.getId()));
 		return pd;
 	}
 }

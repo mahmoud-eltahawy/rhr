@@ -15,7 +15,6 @@ import com.rhr.heat.dao.rowMappers.ShiftRowMapper;
 import com.rhr.heat.dao.rowMappers.TotalFlowRowMapper;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.Machine;
-import com.rhr.heat.enums.Problem;
 import com.rhr.heat.enums.ShiftOrder;
 
 import lombok.RequiredArgsConstructor;
@@ -28,6 +27,7 @@ public class ShiftRepo {
 	private final ProblemDetailsRepo problemDetailsRepo;
 	private final ShiftIdRepo shiftIdRepo;
 	private final TotalFlowRepo totalFlowRepo;
+	private final ProblemRepo problemRepo;
 
 	public List<Shift> findAll(Boolean perfect) {
 		 List<Shift> shifts = jdbcTemplate.query(
@@ -289,9 +289,7 @@ public class ShiftRepo {
 				 +"sp ON pd.id = sp.problem_id JOIN shift_id si ON sp.shift_id = si.id "
 				 +"where si.id = ?", 
 				 new ProblemDetailRowMapper(),s.getShiftId().getId()).stream().map(pd ->{
-					pd.setProblems(jdbcTemplate.queryForList("SELECT problem FROM "
-							+ "problems where id =?",String.class,pd.getId())
-							.stream().map(m -> Problem.valueOf(m)).collect(Collectors.toSet()));
+					 pd.setProblems(problemRepo.findProblemDetailProblems(pd.getId()));
 					 return pd;
 				 }).collect(Collectors.toList()));
 		 s.setTotalFlowAverage(jdbcTemplate.query(

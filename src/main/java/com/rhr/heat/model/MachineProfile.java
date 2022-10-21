@@ -5,7 +5,7 @@ import java.sql.Time;
 import java.util.List;
 import java.util.UUID;
 
-import com.rhr.heat.enums.Problem;
+import com.rhr.heat.entity.Problem;
 import com.rhr.heat.enums.ShiftOrder;
 
 import lombok.AllArgsConstructor;

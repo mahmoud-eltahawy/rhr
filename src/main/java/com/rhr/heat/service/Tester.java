@@ -4,20 +4,20 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
 import com.rhr.heat.dao.EmployeeRepo;
+import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.dao.ShiftRepo;
 import com.rhr.heat.entity.Employee;
+import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.enums.EmployeePosition;
 import com.rhr.heat.enums.Machine;
-import com.rhr.heat.enums.Problem;
 import com.rhr.heat.enums.ShiftOrder;
 
 import lombok.RequiredArgsConstructor;
@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class Tester {
 	private final EmployeeRepo employeeRepo;
 	private final ShiftRepo shiftRepo;
+	private final ProblemRepo problemRepo;
 	
 
 	public void insertData() {
@@ -42,6 +43,26 @@ public class Tester {
 		emp4.setId(employeeRepo.save(emp4));
 		emp5.setId(employeeRepo.save(emp5));
 		
+		Problem P1 = new Problem("title 1", "description 1");
+		Problem P2 = new Problem("title 2", "description 2");
+		Problem P3 = new Problem("title 3", "description 3");
+		Problem P4 = new Problem("title 4", "description 4");
+		Problem P5 = new Problem("title 5", "description 5");
+		Problem P6 = new Problem("title 6", "description 6");
+		Problem P7 = new Problem("title 7", "description 7");
+		Problem P8 = new Problem("title 8", "description 8");
+		Problem P9 = new Problem("title 9", "description 9");
+		
+		problemRepo.save(P1);
+		problemRepo.save(P2);
+		problemRepo.save(P3);
+		problemRepo.save(P4);
+		problemRepo.save(P5);
+		problemRepo.save(P6);
+		problemRepo.save(P7);
+		problemRepo.save(P8);
+		problemRepo.save(P9);
+		
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.HOUR, 3);
 		cal.set(Calendar.MINUTE, 45);
@@ -51,79 +72,79 @@ public class Tester {
 		cal.set(Calendar.MINUTE, 40);
 		Time end = new Time(cal.getTime().getTime());
 		
-		ProblemDetail pd1  = new ProblemDetail(null,Set.of(Problem.P1,Problem.P2),Machine.ATM_ONE,begin,end);
+		ProblemDetail pd1  = new ProblemDetail(null,List.of(P1,P2),Machine.ATM_ONE,begin,end);
 		cal.set(Calendar.HOUR, 5);
 		cal.set(Calendar.MINUTE, 50);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd2  = new ProblemDetail(null,Set.of(Problem.P3,Problem.P4),Machine.ATM_TWO,begin,end);
+		ProblemDetail pd2  = new ProblemDetail(null,List.of(P3,P4),Machine.ATM_TWO,begin,end);
 		cal.set(Calendar.HOUR, 0);
 		cal.set(Calendar.MINUTE, 50);
 		begin = new Time(cal.getTime().getTime());
-		ProblemDetail pd3  = new ProblemDetail(null,Set.of(Problem.P5,Problem.P6),Machine.DRAYER_ONE,begin,end);
+		ProblemDetail pd3  = new ProblemDetail(null,List.of(P5,P6),Machine.DRAYER_ONE,begin,end);
 		cal.set(Calendar.HOUR, 6);
 		cal.set(Calendar.MINUTE, 6);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd4  = new ProblemDetail(null,Set.of(Problem.P7,Problem.P8),Machine.DRAYER_TWO,begin,end);
+		ProblemDetail pd4  = new ProblemDetail(null,List.of(P7,P8),Machine.DRAYER_TWO,begin,end);
 		cal.set(Calendar.HOUR, 1);
 		cal.set(Calendar.MINUTE, 5);
 		begin = new Time(cal.getTime().getTime());
-		ProblemDetail pd5  = new ProblemDetail(null,Set.of(Problem.P9,Problem.P1),Machine.DRAYER_THREE,begin,end);
+		ProblemDetail pd5  = new ProblemDetail(null,List.of(P9,P1),Machine.DRAYER_THREE,begin,end);
 		cal.set(Calendar.HOUR, 3);
 		cal.set(Calendar.MINUTE, 30);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd6  = new ProblemDetail(null,Set.of(Problem.P2,Problem.P5),Machine.DRAYER_FOUR,begin,end);
+		ProblemDetail pd6  = new ProblemDetail(null,List.of(P2,P5),Machine.DRAYER_FOUR,begin,end);
 		cal.set(Calendar.HOUR, 2);
 		cal.set(Calendar.MINUTE, 5);
 		begin = new Time(cal.getTime().getTime());
-		ProblemDetail pd7  = new ProblemDetail(null,Set.of(Problem.P4,Problem.P7),Machine.DRAYER_FIVE,begin,end);
+		ProblemDetail pd7  = new ProblemDetail(null,List.of(P4,P7),Machine.DRAYER_FIVE,begin,end);
 		cal.set(Calendar.HOUR, 3);
 		cal.set(Calendar.MINUTE, 40);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd8  = new ProblemDetail(null,Set.of(Problem.P8,Problem.P3),Machine.DRAYER_SIX,begin,end);
+		ProblemDetail pd8  = new ProblemDetail(null,List.of(P8,P3),Machine.DRAYER_SIX,begin,end);
 		cal.set(Calendar.HOUR, 1);
 		cal.set(Calendar.MINUTE, 30);
 		begin = new Time(cal.getTime().getTime());
-		ProblemDetail pd9  = new ProblemDetail(null,Set.of(Problem.P4,Problem.P6),Machine.DRAYER_SEVEN,begin,end);
+		ProblemDetail pd9  = new ProblemDetail(null,List.of(P4,P6),Machine.DRAYER_SEVEN,begin,end);
 		cal.set(Calendar.HOUR, 5);
 		cal.set(Calendar.MINUTE, 10);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd10 = new ProblemDetail(null,Set.of(Problem.P5,Problem.P7),Machine.ATM_ONE,begin,end);
+		ProblemDetail pd10 = new ProblemDetail(null,List.of(P5,P7),Machine.ATM_ONE,begin,end);
 		cal.set(Calendar.HOUR, 2);
 		cal.set(Calendar.MINUTE, 30);
 		begin = new Time(cal.getTime().getTime());
-		ProblemDetail pd11 = new ProblemDetail(null,Set.of(Problem.P1,Problem.P8),Machine.ATM_TWO,begin,end);
+		ProblemDetail pd11 = new ProblemDetail(null,List.of(P1,P8),Machine.ATM_TWO,begin,end);
 		cal.set(Calendar.HOUR, 5);
 		cal.set(Calendar.MINUTE, 20);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd12 = new ProblemDetail(null,Set.of(Problem.P1,Problem.P8,Problem.P3),Machine.PROJECT,begin,end);
+		ProblemDetail pd12 = new ProblemDetail(null,List.of(P1,P8,P3),Machine.PROJECT,begin,end);
 		cal.set(Calendar.HOUR, 2);
 		cal.set(Calendar.MINUTE, 45);
 		begin = new Time(cal.getTime().getTime());
-		ProblemDetail pd13 = new ProblemDetail(null,Set.of(Problem.P2,Problem.P9,Problem.P4),Machine.PROJECT,begin,end);
+		ProblemDetail pd13 = new ProblemDetail(null,List.of(P2,P9,P4),Machine.PROJECT,begin,end);
 		cal.set(Calendar.HOUR, 8);
 		cal.set(Calendar.MINUTE, 0);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd14 = new ProblemDetail(null,Set.of(Problem.P5,Problem.P6,Problem.P7),Machine.KILEN_FIVE,begin,end);
+		ProblemDetail pd14 = new ProblemDetail(null,List.of(P5,P6,P7),Machine.KILEN_FIVE,begin,end);
 		cal.set(Calendar.HOUR, 8);
 		cal.set(Calendar.MINUTE, 0);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd15 = new ProblemDetail(null,Set.of(Problem.P5,Problem.P6,Problem.P7),Machine.KILEN_ONE,begin,end);
+		ProblemDetail pd15 = new ProblemDetail(null,List.of(P5,P6,P7),Machine.KILEN_ONE,begin,end);
 		cal.set(Calendar.HOUR, 8);
 		cal.set(Calendar.MINUTE, 0);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd16 = new ProblemDetail(null,Set.of(Problem.P5,Problem.P6,Problem.P7),Machine.KILEN_ONE,begin,end);
+		ProblemDetail pd16 = new ProblemDetail(null,List.of(P5,P6,P7),Machine.KILEN_ONE,begin,end);
 		cal.set(Calendar.HOUR, 8);
 		cal.set(Calendar.MINUTE, 0);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd17 = new ProblemDetail(null,Set.of(Problem.P5,Problem.P6,Problem.P7),Machine.KILEN_TWO,begin,end);
+		ProblemDetail pd17 = new ProblemDetail(null,List.of(P5,P6,P7),Machine.KILEN_TWO,begin,end);
 		cal.set(Calendar.HOUR, 8);
 		cal.set(Calendar.MINUTE, 0);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd18 = new ProblemDetail(null,Set.of(Problem.P5,Problem.P6,Problem.P7),Machine.KILEN_THREE,begin,end);
+		ProblemDetail pd18 = new ProblemDetail(null,List.of(P5,P6,P7),Machine.KILEN_THREE,begin,end);
 		cal.set(Calendar.HOUR, 8);
 		cal.set(Calendar.MINUTE, 0);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd19 = new ProblemDetail(null,Set.of(Problem.P5,Problem.P6,Problem.P7),Machine.KILEN_FOUR,begin,end);
+		ProblemDetail pd19 = new ProblemDetail(null,List.of(P5,P6,P7),Machine.KILEN_FOUR,begin,end);
 		
 		
 		TotalFlow tf1 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
