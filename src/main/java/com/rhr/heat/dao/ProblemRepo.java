@@ -49,7 +49,7 @@ public class ProblemRepo {
 				+ "on pd.id = pdp.problem_detail_id "
 				+ "join shift_problem sp on sp.problem_id = pd.id "
 				+ "join shift_id si on si.id = sp.shift_id "
-				+ "where p.title = ?"
+				+ "where p.title = ? "
 				+ "order by si.shift_date desc offset ? limit ?",
 				new ProblemProfileRowMapper(),p,begin,end);
 	}
