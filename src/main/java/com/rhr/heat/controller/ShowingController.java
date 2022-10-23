@@ -157,6 +157,16 @@ public class ShowingController {
 		return mv;
 	}
 
+	@GetMapping("/day")
+	public ModelAndView showWeek(@RequestParam("date")
+			@DateTimeFormat(pattern = "yyyy-MM-dd")Date date) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("showDay");
+		mv.addObject("title",date);
+		mv.addObject("week",service.findDay(new java.sql.Date(date.getTime())));
+		return mv;
+	}
+
 	@PostMapping("/emp")
 	public ModelAndView showEmp(
 			@RequestParam("month")Integer month,

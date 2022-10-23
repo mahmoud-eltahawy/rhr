@@ -265,12 +265,12 @@ footer a {
 	<div id="d" class="pricing-box pricing-box-bg-image text-center ghost">
 		<div class="center">
 		<h1>insert Date</h1>
-		<form>
+		<form action="#" th:action="@{/show/day}">
 			<div class="inputbox">
-			<input type="date" required="required">
+			<input type="date" id="{date}" name="date" required="required">
 			</div>
 			<div class="inputbox">
-			<input type="button" value="submit">
+			  <button class="inputbox" type="submit">Submit </button>
 			</div>
 		</form>
 		</div>

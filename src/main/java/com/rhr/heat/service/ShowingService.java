@@ -71,6 +71,10 @@ public class ShowingService {
 		return problemRepo.findByTitle(title).get().getDescription();
 	}
 	
+	public TreeMap<Date, Day> findDay(Date date) {
+		return Day.getDays(shiftRepo.findAll(date, false));
+	}
+	
 	public List<MachineProfile> pickLastMachineProblems(String machine,Integer num){
 		return  problemRepo.findMachinesProfiles(machine, num * 7, 7);
 	}
