@@ -244,19 +244,19 @@ footer a {
 	<div id="s" class="pricing-box pricing-box-bg-image text-center ghost">
 		<div class="center">
 		<h1>insert Date and Order</h1>
-		<form >
+		<form action="#" th:action="@{/show/shft}">
 			<div class="inputbox">
-			<input type="date" required="required">
+			<input type="date" id="{date}" name="date" required="required">
 			</div>
 			<div class="select">
-        <select required="required">
+        <select required="required" id="{order}" name="order">
           <option value="FIRST"  selected>first shift</option>
           <option value="SECOND"         >second shift</option>
           <option value="THIRD"          >third shift</option>
         </select>
 			</div><br>
 			<div class="inputbox">
-			<input type="button" value="submit">
+			  <button class="inputbox" type="submit">Submit </button>
 			</div>
 		</form>
 		</div>
