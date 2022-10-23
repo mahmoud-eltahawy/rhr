@@ -11,13 +11,16 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.dao.ShiftRepo;
+import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.model.Day;
+import com.rhr.heat.model.EmpSect;
 import com.rhr.heat.model.MachineProfile;
 import com.rhr.heat.model.ProblemProfile;
 
@@ -28,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 public class ShowingService {
 	private final ShiftRepo shiftRepo;
 	private final ProblemRepo problemRepo;
+	private final EmployeeRepo employeeRepo;
 	
 	public Optional<Shift> getShift(UUID id) {
 		return shiftRepo.findById(id, true);
@@ -69,5 +73,13 @@ public class ShowingService {
 	
 	public List<MachineProfile> pickLastMachineProblems(String machine,Integer num){
 		return  problemRepo.findMachinesProfiles(machine, num * 7, 7);
+	}
+	
+	public List<EmpSect> pickLastEmployeeSections(String username,Integer num){
+		return EmpSect.days(employeeRepo.findHisLastShifts(username, num * 30, 30));
+	}
+	
+	public Optional<Employee> getEmployee(String username) {
+		return employeeRepo.findByUsername(username);
 	}
 }

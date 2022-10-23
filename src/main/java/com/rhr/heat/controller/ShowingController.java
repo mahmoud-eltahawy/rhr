@@ -32,10 +32,12 @@ import static com.rhr.heat.enums.Machine.ATM_ONE;
 import static com.rhr.heat.enums.Machine.ATM_TWO;
 import static com.rhr.heat.enums.Machine.PROJECT;
 
+import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.ShiftOrder;
+import com.rhr.heat.model.EmpSect;
 import com.rhr.heat.model.StringModel;
 import com.rhr.heat.service.ShowingService;
 
@@ -152,6 +154,28 @@ public class ShowingController {
 			mv.addObject("prev",week);
 		}
 		mv.addObject("week",service.pickLastWeeks(week));
+		return mv;
+	}
+
+	@PostMapping("/emp")
+	public ModelAndView showEmp(
+			@RequestParam("month")Integer month,
+			@ModelAttribute("username")StringModel username) {
+		System.out.println(month +" " + username);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("employeeDays");
+		mv.addObject("title","Employee review");
+		Employee emp = service.getEmployee(username.getHolder()).get();
+		mv.addObject("fullname",emp.getFirstName()+" "+emp.getMiddleName()+" "+emp.getLastName());
+		mv.addObject("position",emp.getPosition());
+		mv.addObject("next",month + 1);
+		if(month > 0) {
+			mv.addObject("prev",month - 1);
+		} else {
+			mv.addObject("prev",month);
+		}
+		mv.addObject("username", username);
+		mv.addObject("months",service.pickLastEmployeeSections(username.getHolder(), month));
 		return mv;
 	}
 

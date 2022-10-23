@@ -330,14 +330,15 @@ footer a {
 	<div id="e" class="pricing-box text-center ghost">
 		<div class="center">
 		<h1>insert username</h1>
-		<form action="#" th:action="@{/}" th:object="${HModel}" method="post">
+		<form action="#" th:action="@{/show/emp}" th:object="${HModel}" method="post">
 			<div class="select">
         <select required="required" th:field="*{holder}">
             <option th:each="n : ${names}" th:value="${n}" th:text="${n}"> username</option>
         </select>
 			</div><br>
-			<div class="inputbox">
-			<input type="button" value="submit">
+			</div><br>
+      <input type="hidden" name="month" value="0">
+			  <button class="inputbox" type="submit">Submit </button>
 			</div>
 		</form>
 		</div>

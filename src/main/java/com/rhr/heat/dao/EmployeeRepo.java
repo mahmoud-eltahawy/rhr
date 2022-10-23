@@ -63,14 +63,14 @@ public class EmployeeRepo{
 				new ShiftIdRowMapper(), username,older,newer);
 	}
 	
-	public List<ShiftId> findHisLastShifts(String username,Integer limit) {
+	public List<ShiftId> findHisLastShifts(String username,Integer set,Integer limit) {
 		return jdbcTemplate.query("SELECT si.id,si.shift_date,si.shift_order "
 				+ "FROM shift_id si "
 				+ "JOIN shift s ON s.shift_id = si.id "
 				+ "JOIN shift_employee se ON s.shift_id = se.shift_id "
 				+ "JOIN employee e ON e.id = se.emp_id "
-				+ "WHERE e.username = ? ORDER BY si.shift_date DESC LIMIT ?",
-				new ShiftIdRowMapper(), username ,limit);
+				+ "WHERE e.username = ? ORDER BY si.shift_date DESC OFFSET ? LIMIT ?",
+				new ShiftIdRowMapper(), username, set, limit);
 	}
 	
 	public int deleteById(UUID id) {
