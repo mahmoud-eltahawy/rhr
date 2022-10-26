@@ -35,4 +35,11 @@ public class BasicController {
 		mv.addObject("pTitles", service.problemsTitles());
 		return mv;
 	}
+
+	@GetMapping("/report")
+	public ModelAndView reportPage() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("reportPage");
+		return mv;
+	}
 }
