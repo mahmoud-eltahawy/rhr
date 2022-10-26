@@ -239,6 +239,11 @@ footer a {
 </head>
 <body>
 <div class="pricing-box-container">
+	<div id="ba" class="pricing-box pricing-box-bg-image text-center">
+		<a onclick="toggle('pb')"><button class="btn-primary">Problem</button></a>
+	</div>
+
+<div id="pb" style="display:none">
 	<div class="pricing-box pricing-box-bg-image text-center">
 		<a onclick="toggle('k')"><button class="btn-primary">Kilen</button></a>
 	</div>
@@ -254,7 +259,13 @@ footer a {
 	<div class="pricing-box pricing-box-bg-image text-center">
 		<a onclick="toggle('p')"><button class="btn-primary">Project</button></a>
 	</div>
+</div>
 
+<div id="bb"  class="pricing-box pricing-box-bg-image text-center">
+  <a onclick="toggle('rb')"><button class="btn-primary">Records</button></a>
+</div>
+
+<div id="rb" style="display:none">
 	<div class="pricing-box pricing-box-bg-image text-center">
 		<a onclick="toggle('f')"><button class="btn-primary">Total Flow</button></a>
 	</div>
@@ -266,10 +277,22 @@ footer a {
 	<div class="pricing-box pricing-box-bg-image text-center">
 		<a onclick="toggle('n')"><button class="btn-primary">Note</button></a>
 	</div>
+</div>
 
+<div id="bc"  class="pricing-box pricing-box-bg-image text-center">
+  <a onclick="toggle('ob')"><button class="btn-primary">Others</button></a>
+</div>
+
+<div id="ob" style="display:none">
 	<div class="pricing-box pricing-box-bg-image text-center">
 		<a onclick="toggle('e')"><button class="btn-primary">Employees</button></a>
 	</div>
+
+	<div class="pricing-box pricing-box-bg-image text-center">
+		<a href="#" th:href="@{/generate}"><button class="btn-primary">Generate</button></a>
+	</div>
+</div>
+
 </div>
 
 <div class="pricing-box-container">
@@ -450,6 +473,12 @@ footer a {
 	</div>
 </div>
 
+
+<div class="pricing-box-container">
+  <div id="bd" style="display:none"  class="pricing-box pricing-box-bg-image text-center">
+    <a onclick="headToggle()"><button class="btn-primary">Head</button></a>
+  </div>
+</div>
 <footer>
 	<p>
 		Created <i class="fa fa-heart"></i> by
@@ -466,7 +495,17 @@ function toggle(id) {
   } else {
     x.style.display = "none";
   }
+  if(id ==="pb" || id === "rb" || id === "ob"){
+    headToggle();
+  }
 }
+
+function headToggle() {
+    toggle("ba")
+    toggle("bb")
+    toggle("bc")
+    toggle("bd")
+ }
 </script>
 </body>
 </html>
