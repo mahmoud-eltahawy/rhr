@@ -28,6 +28,8 @@ public class Tester {
 	private final EmployeeRepo employeeRepo;
 	private final ShiftRepo shiftRepo;
 	private final ProblemRepo problemRepo;
+	private final ReportService service;
+	
 
 
 	public void insertData() {
@@ -1728,6 +1730,6 @@ public class Tester {
 	}
 
 	public void emp() {
-		employeeRepo.findAllUserNames().forEach(s -> System.out.println(s));
+		System.out.println(service.thisShift());
 	}
 }

@@ -40,6 +40,8 @@ public class BasicController {
 	public ModelAndView reportPage() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("reportPage");
+		mv.addObject("names", service.usernames());
+		mv.addObject("pTitles", service.problemsTitles());
 		return mv;
 	}
 }
