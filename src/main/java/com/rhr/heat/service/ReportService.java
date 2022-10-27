@@ -1,5 +1,6 @@
 package com.rhr.heat.service;
 
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -10,67 +11,64 @@ import org.springframework.stereotype.Service;
 import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.enums.ShiftOrder;
 
+
 @Service
 public class ReportService {
 	
 	public ShiftId thisShift() {
-		Timestamp now = new Timestamp(check(Calendar.getInstance()).getTimeInMillis());
-
-			   if(now.after(BeginOrEnd(ShiftOrder.THIRD, false)) &
-				now.before(BeginOrEnd(ShiftOrder.SECOND, true))) {
-			return new ShiftId(null,new Date(now.getTime()), ShiftOrder.FIRST);
-		} else if(now.after(BeginOrEnd(ShiftOrder.FIRST, false)) &
-				now.before(BeginOrEnd(ShiftOrder.THIRD, true))) {
-			return new ShiftId(null, new Date(now.getTime()), ShiftOrder.SECOND);
-		} else if(now.before(BeginOrEnd(ShiftOrder.FIRST, true))) {
-			return new ShiftId(null,
-					new Date(now.getTime() - TimeUnit.DAYS.toMillis(1)),ShiftOrder.THIRD);
-		} else {
-			return null;
+			   if(workNow().after(shiftBegin(ShiftOrder.FIRST)) &
+				workNow().before(shiftBegin(ShiftOrder.SECOND))) {
+			return new ShiftId(null, new Date(workNow().getTime()), ShiftOrder.FIRST);
+		} else if(workNow().after(shiftBegin(ShiftOrder.SECOND)) &
+				workNow().before(shiftBegin(ShiftOrder.THIRD))) {
+			return new ShiftId(null, new Date(workNow().getTime()), ShiftOrder.SECOND);
+		} else if(workNow().after(shiftBegin(ShiftOrder.THIRD)) &
+				workNow().before(shiftBegin(null))) {
+			return new ShiftId(null, new Date(workNow().getTime()), ShiftOrder.THIRD);
 		}
+		return null;
 	}
-
-	public Timestamp BeginOrEnd(ShiftOrder order , Boolean begin) {
-		Calendar cal = Calendar.getInstance();
-		
-		cal = check(cal);
-		
-		cal.set(Calendar.HOUR,         8);
-		cal.set(Calendar.MINUTE,       14);
-		cal.set(Calendar.SECOND,       59);
-		cal.set(Calendar.MILLISECOND,  999);
-		cal.set(Calendar.AM_PM,        Calendar.AM);
-		if(begin) {
-			       if(order == ShiftOrder.FIRST) {
-				return new Timestamp(cal.getTimeInMillis());
-			} else if(order == ShiftOrder.SECOND) {
-				return new Timestamp(cal.getTimeInMillis() + TimeUnit.HOURS.toMillis(8));
-			} else if(order == ShiftOrder.THIRD) {
-				return new Timestamp(cal.getTimeInMillis() + TimeUnit.HOURS.toMillis(16));
-			} else {
-				return null;
-			}
+	
+	public Timestamp shiftBegin(ShiftOrder order) {
+		Calendar cal = Calendar.getInstance(); 
+		cal.setTimeInMillis(workNow().getTime());
+			   if(order == ShiftOrder.FIRST) {
+			cal.set(Calendar.HOUR, 0);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.set(Calendar.MILLISECOND, 1);
+			cal.set(Calendar.AM_PM, Calendar.AM);
+			return new Timestamp(cal.getTimeInMillis());
+		} else if(order == ShiftOrder.SECOND) {
+			cal.set(Calendar.HOUR, 8);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.set(Calendar.MILLISECOND, 1);
+			cal.set(Calendar.AM_PM, Calendar.AM);
+			return new Timestamp(cal.getTimeInMillis());
+		} else if(order == ShiftOrder.THIRD) {
+			cal.set(Calendar.HOUR, 4);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.set(Calendar.MILLISECOND, 1);
+			cal.set(Calendar.AM_PM, Calendar.PM);
+			return new Timestamp(cal.getTimeInMillis());
 		} else {
-				   if(order == ShiftOrder.FIRST) {
-				return BeginOrEnd(ShiftOrder.SECOND, true);
-			} else if(order == ShiftOrder.SECOND) {
-				return BeginOrEnd(ShiftOrder.THIRD, true);
-			} else if(order == ShiftOrder.THIRD) {
-				return BeginOrEnd(ShiftOrder.FIRST, true);
-			} else {
-				return null;
-			}
+			cal.set(Calendar.HOUR, 11);
+			cal.set(Calendar.MINUTE, 59);
+			cal.set(Calendar.SECOND, 59);
+			cal.set(Calendar.MILLISECOND, 999);
+			cal.set(Calendar.AM_PM, Calendar.PM);
+			return new Timestamp(cal.getTimeInMillis());
 		}
 	}
 	
-	private Calendar check(Calendar cal) {
-		if(cal.get(Calendar.HOUR) < 8 &
-				cal.get(Calendar.MINUTE) < 15 &
-				cal.get(Calendar.SECOND) < 60 &
-				cal.get(Calendar.MILLISECOND) < 1000 &
-				cal.get(Calendar.AM_PM) == Calendar.AM) {
-			cal.setTime(new Timestamp(cal.getTimeInMillis() - TimeUnit.DAYS.toMillis(1)));
-		}
-		return cal;
+	public Timestamp workNow() {
+		Calendar cal = Calendar.getInstance();
+		Timestamp now = new Timestamp(
+				cal.getTimeInMillis() -
+				TimeUnit.HOURS.toMillis(8) -
+				TimeUnit.MINUTES.toMillis(15));
+		return now;
 	}
 }

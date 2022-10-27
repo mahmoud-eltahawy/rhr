@@ -1731,5 +1731,10 @@ public class Tester {
 
 	public void emp() {
 		System.out.println(service.thisShift());
+		System.out.println(service.workNow().toString());
+		System.out.println(service.shiftBegin(ShiftOrder.FIRST));
+		System.out.println(service.shiftBegin(ShiftOrder.SECOND));
+		System.out.println(service.shiftBegin(ShiftOrder.THIRD));
+		System.out.println(service.shiftBegin(null));
 	}
 }
