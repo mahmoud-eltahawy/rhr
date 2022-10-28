@@ -90,8 +90,8 @@ public class ReportService {
 			Iterator<TotalFlow> it = tfs.iterator();
 			while(it.hasNext()) {
 				TotalFlow c = it.next();
-				if(tool.timeEquals(c.getCaseBeginTime(), totalFlow.getCaseBeginTime()) &
-						tool.timeEquals(c.getCaseEndTime(), totalFlow.getCaseEndTime())) {
+				if(Tools.timeEquals(c.getCaseBeginTime(), totalFlow.getCaseBeginTime()) &
+						Tools.timeEquals(c.getCaseEndTime(), totalFlow.getCaseEndTime())) {
 					it.remove();
 				}
 			}

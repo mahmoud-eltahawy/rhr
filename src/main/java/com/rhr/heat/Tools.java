@@ -124,7 +124,18 @@ public class Tools {
 		}
 	}
 	
-	public Boolean timeEquals(Time one,Time two) {
+	public <T> Boolean exists(T comparable ,List<T> comparables){
+		Boolean exists = false;
+		for (T c : comparables) {
+			if(c.equals(comparable)) {
+				exists = true;
+				break;
+			}
+		}
+		return exists;
+	}
+	
+	public static Boolean timeEquals(Time one,Time two) {
 		Calendar calOne = Calendar.getInstance();
 		calOne.setTimeInMillis(one.getTime());
 		Calendar calTwo = Calendar.getInstance();
@@ -138,16 +149,5 @@ public class Tools {
 		} else {
 			return false;
 		}
-	}
-	
-	public <T> Boolean exists(T comparable ,List<T> comparables){
-		Boolean exists = false;
-		for (T c : comparables) {
-			if(c.equals(comparable)) {
-				exists = true;
-				break;
-			}
-		}
-		return exists;
 	}
 }

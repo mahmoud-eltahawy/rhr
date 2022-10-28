@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import com.rhr.heat.Tools;
 import com.rhr.heat.enums.Machine;
-import com.rhr.heat.service.ReportService;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,8 +30,8 @@ public class ProblemDetail {
 		if (getClass() != obj.getClass())
 			return false;
 		ProblemDetail other = (ProblemDetail) obj;
-		return ReportService.timeEquals(beginTime, other.beginTime) &&
-				ReportService.timeEquals(endTime, other.endTime)
+		return Tools.timeEquals(beginTime, other.beginTime) &&
+				Tools.timeEquals(endTime, other.endTime)
 				&& machine == other.machine && Objects.equals(problems, other.problems);
 	}
 	@Override
