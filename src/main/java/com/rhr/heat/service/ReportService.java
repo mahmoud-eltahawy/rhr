@@ -33,6 +33,37 @@ import lombok.RequiredArgsConstructor;
 public class ReportService {
 	private final Map<String, File> dataFiles;
 	
+	public Shift removeTotalFlow(TotalFlow totalFlow) {
+		Shift oldShift = getCurrentShift();
+		List<TotalFlow> tfs = oldShift.getTotalFlowAverage();
+		if(tfs != null) {
+			Iterator<TotalFlow> it = tfs.iterator();
+			while(it.hasNext()) {
+				TotalFlow c = it.next();
+				Calendar cBegin = Calendar.getInstance();
+				cBegin.setTimeInMillis(c.getCaseBeginTime().getTime());
+				Calendar cEnd = Calendar.getInstance();
+				cEnd.setTimeInMillis(c.getCaseEndTime().getTime());
+				
+				Calendar tBegin = Calendar.getInstance();
+				tBegin.setTimeInMillis(totalFlow.getCaseBeginTime().getTime());
+				Calendar tEnd = Calendar.getInstance();
+				tEnd.setTimeInMillis(totalFlow.getCaseEndTime().getTime());
+				
+				if(cBegin.get(Calendar.HOUR) == tBegin.get(Calendar.HOUR) &
+						cBegin.get(Calendar.MINUTE) == tBegin.get(Calendar.MINUTE) &
+						cEnd.get(Calendar.HOUR) == tEnd.get(Calendar.HOUR) &
+						cEnd.get(Calendar.MINUTE) == tEnd.get(Calendar.MINUTE)) {
+					it.remove();
+				}
+			}
+		}	
+		
+		oldShift.setTotalFlowAverage(tfs);
+		writeShift(oldShift);
+		return oldShift;
+	}
+	
 	public Shift removeEmployee(Employee employee) {
 		Shift oldShift = getCurrentShift();
 		List<Employee> ems = oldShift.getEmployees();
