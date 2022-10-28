@@ -37,7 +37,6 @@ import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.ShiftOrder;
-import com.rhr.heat.model.EmpSect;
 import com.rhr.heat.model.StringModel;
 import com.rhr.heat.service.ShowingService;
 

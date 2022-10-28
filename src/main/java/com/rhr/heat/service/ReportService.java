@@ -8,12 +8,19 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Service;
 
+import com.rhr.heat.entity.Shift;
 import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.enums.ShiftOrder;
 
 
 @Service
 public class ReportService {
+	
+	
+	public Shift getCurrentShift() {
+		
+		return null;
+	}
 	
 	public ShiftId thisShift() {
 			   if(workNow().after(shiftBegin(ShiftOrder.FIRST)) &

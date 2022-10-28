@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ImportExportService {
 	private final ShiftRepo shiftRepo;
+	private final File home;
 
 	
 	public void exportAfter(Date date) {
@@ -50,9 +51,6 @@ public class ImportExportService {
 	public void exportThat() {
 		FileWriter fw;
 		try {
-			File home = new File(System.getProperty("user.home")+File.separator+"rhrData");
-			home.mkdir();
-			
 			fw = new FileWriter(new File(home.getAbsolutePath()+File.separator+"allData.json"));
 			new Gson().toJson(shiftRepo.findAll(true).stream().map(s -> {
 				ShiftId si = s.getShiftId();
@@ -81,9 +79,6 @@ public class ImportExportService {
 	public void exportThat(List<Shift> shifts,String name) {
 		FileWriter fw;
 		try {
-			File home = new File(System.getProperty("user.home")+File.separator+"rhrData");
-			home.mkdir();
-			
 			fw = new FileWriter(new File(home.getAbsolutePath()+File.separator+name+".json"));
 			new Gson().toJson(shifts.stream().map(s -> {
 				ShiftId si = s.getShiftId();
@@ -111,8 +106,8 @@ public class ImportExportService {
 	
 	public void importThat() {
 		try {
-			FileReader fr = new FileReader(new File(System.getProperty("user.home")
-					+File.separator+"rhrData"+File.separator+"allData.json"));
+			FileReader fr = new FileReader(new File(
+					home.getAbsolutePath()+File.separator+"allData.json"));
 			List<Shift> shifts = new Gson().fromJson(fr,
 					new TypeToken<List<Shift>>() {}.getType());
 			shiftRepo.saveAll(shifts);
