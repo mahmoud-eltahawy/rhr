@@ -1728,10 +1728,6 @@ public class Tester {
 	}
 
 	public void emp() {
-
-		Shift shift973 = new Shift(null,
-				null,null,null,
-				"mahmoud and ehab greeting", 173, 195);
-		service.stashShift(shift973);
+		service.addEmployee(new Employee(null, "alaa", "ahmed", "mubarek", EmployeePosition.worker, "alaa_ali", "1234"));
 	}
 }

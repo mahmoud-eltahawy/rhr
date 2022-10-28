@@ -7,7 +7,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.enums.ShiftOrder;
@@ -28,7 +31,37 @@ import lombok.RequiredArgsConstructor;
 public class ReportService {
 	private final Map<String, File> dataFiles;
 	
-	public void stashShift(Shift newShift) {
+	public Shift addEmployee(Employee employee) {
+		Shift oldShift = getCurrentShift();
+		List<Employee> ems = oldShift.getEmployees();
+		if(ems == null) {
+			ems =new ArrayList<>();
+			ems.add(employee);
+			oldShift.setEmployees(ems);
+		} else {
+			Boolean exists = false;
+			for (Employee e : ems) {
+				if(e.getUsername().equals(employee.getUsername())) {
+					exists = true;
+					break;
+				}
+			}
+			if(!exists) {
+				oldShift.getEmployees().add(employee);
+			}
+		}
+		
+		try {
+			FileWriter fw = new FileWriter(dataFiles.get("currentShift"));
+			new Gson().toJson(oldShift,fw);
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return oldShift;
+	}
+	
+	public Shift stashShift(Shift newShift) {
 		Shift oldShift = getCurrentShift();
 		oldShift.setProblems(newShift.getProblems());
 		oldShift.setTotalFlowAverage(newShift.getTotalFlowAverage());
@@ -45,6 +78,7 @@ public class ReportService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return oldShift;
 	}
 	
 	public Shift getCurrentShift() {
