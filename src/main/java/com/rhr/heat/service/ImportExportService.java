@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ImportExportService {
 	private final ShiftRepo shiftRepo;
-	private final File home;
+	private final Map<String, File> dataFiles;
 
 	
 	public void exportAfter(Date date) {
@@ -51,7 +52,7 @@ public class ImportExportService {
 	public void exportThat() {
 		FileWriter fw;
 		try {
-			fw = new FileWriter(new File(home.getAbsolutePath()+File.separator+"allData.json"));
+			fw = new FileWriter(dataFiles.get("allShifts"));
 			new Gson().toJson(shiftRepo.findAll(true).stream().map(s -> {
 				ShiftId si = s.getShiftId();
 				si.setId(null);
@@ -79,7 +80,7 @@ public class ImportExportService {
 	public void exportThat(List<Shift> shifts,String name) {
 		FileWriter fw;
 		try {
-			fw = new FileWriter(new File(home.getAbsolutePath()+File.separator+name+".json"));
+			fw = new FileWriter(new File(dataFiles.get("home").getAbsolutePath()+File.separator+name+".json"));
 			new Gson().toJson(shifts.stream().map(s -> {
 				ShiftId si = s.getShiftId();
 				si.setId(null);
@@ -106,8 +107,7 @@ public class ImportExportService {
 	
 	public void importThat() {
 		try {
-			FileReader fr = new FileReader(new File(
-					home.getAbsolutePath()+File.separator+"allData.json"));
+			FileReader fr = new FileReader(dataFiles.get("allShifts"));
 			List<Shift> shifts = new Gson().fromJson(fr,
 					new TypeToken<List<Shift>>() {}.getType());
 			shiftRepo.saveAll(shifts);

@@ -1,25 +1,62 @@
 package com.rhr.heat.service;
 
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.enums.ShiftOrder;
 
+import lombok.RequiredArgsConstructor;
+
 
 @Service
+@RequiredArgsConstructor
 public class ReportService {
+	private final Map<String, File> dataFiles;
 	
 	
 	public Shift getCurrentShift() {
-		
-		return null;
+		Shift currentShift = null;
+		try {
+			FileReader fr = new FileReader(dataFiles.get("currentShift"));
+			Gson gson = new Gson();
+			currentShift = gson.fromJson(fr, Shift.class);
+			if(replaceShift(currentShift)) {
+				FileWriter fw = new FileWriter(dataFiles.get("currentShift"));
+				currentShift = new Shift();
+				currentShift.setShiftId(thisShift());
+				gson.toJson(currentShift,fw);
+				fw.close();
+			}
+			fr.close();
+		} catch (JsonSyntaxException | JsonIOException  | IOException e) {
+			e.printStackTrace();
+		}
+		return currentShift;
+	}
+	
+	private Boolean replaceShift(Shift currentShift) {
+		if(currentShift == null )  {
+			return true;
+		} 
+		if(currentShift.getShiftId().equals(thisShift())) {
+			return true;
+		}
+		return false;
 	}
 	
 	public ShiftId thisShift() {

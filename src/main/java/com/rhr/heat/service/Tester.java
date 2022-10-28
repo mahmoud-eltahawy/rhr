@@ -1730,6 +1730,7 @@ public class Tester {
 	}
 
 	public void emp() {
+		System.out.println(service.getCurrentShift().toString());
 		System.out.println(service.thisShift());
 		System.out.println(service.workNow().toString());
 		System.out.println(service.shiftBegin(ShiftOrder.FIRST));
