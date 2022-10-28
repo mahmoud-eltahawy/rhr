@@ -1738,8 +1738,22 @@ public class Tester {
 		cal.set(Calendar.HOUR, 4);
 		cal.set(Calendar.MINUTE, 40);
 		Time end = new Time(cal.getTime().getTime());
-		ProblemDetail pd1  = new ProblemDetail(null,null,Machine.ATM_ONE,begin,end);
-		service.addProblem(pd1);
 		
+		Problem P1 = new Problem("title 1", "description 1");
+		Problem P2 = new Problem("title 2", "description 2");
+		
+		ProblemDetail pd1  = new ProblemDetail(null,List.of(P1,P2),Machine.ATM_ONE,begin,end);
+		
+		Employee emp2 = new Employee(null,"mahmoud","gamal","mohammed",EmployeePosition.worker,"mahmoud_gamal","1234");
+		
+		TotalFlow tf1 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
+		
+//		service.addProblem(pd1);
+//		service.addEmployee(emp2);
+//		service.addTotalFlow(tf1);
+		
+		service.removeProblem(pd1);
+		service.removeEmployee(emp2);
+		service.removeTotalFlow(tf1);
 	}
 }

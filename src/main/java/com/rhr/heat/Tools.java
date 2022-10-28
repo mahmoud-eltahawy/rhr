@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -41,6 +43,7 @@ public class Tools {
 				gson.toJson(currentShift,fw);
 				fw.close();
 			}
+			//TODO what if the id is different
 			fr.close();
 		} catch (JsonSyntaxException | JsonIOException  | IOException e) {
 			e.printStackTrace();
@@ -133,6 +136,30 @@ public class Tools {
 			}
 		}
 		return exists;
+	}
+	
+	public <T> List<T> addTo(T element ,List<T> list){
+		if(list == null) {
+			list =new ArrayList<>();
+			list.add(element);
+		} else {
+			if(!exists(element, list)) {
+				list.add(element);
+			}
+		}
+		return list;
+	}
+	
+	public <T> List<T> removeFrom(T element ,List<T> list){
+		if(list != null) {
+			Iterator<T> it = list.iterator();
+			while(it.hasNext()) {
+				if(it.next().equals(element)) {
+					it.remove();
+				}
+			}
+		}	
+		return list;
 	}
 	
 	public static Boolean timeEquals(Time one,Time two) {
