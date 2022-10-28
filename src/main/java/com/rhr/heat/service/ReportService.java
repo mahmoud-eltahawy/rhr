@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.rhr.heat.entity.Employee;
+import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.TotalFlow;
@@ -32,7 +34,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ReportService {
 	private final Map<String, File> dataFiles;
-	
 	public Shift removeTotalFlow(TotalFlow totalFlow) {
 		Shift oldShift = getCurrentShift();
 		List<TotalFlow> tfs = oldShift.getTotalFlowAverage();
@@ -40,20 +41,8 @@ public class ReportService {
 			Iterator<TotalFlow> it = tfs.iterator();
 			while(it.hasNext()) {
 				TotalFlow c = it.next();
-				Calendar cBegin = Calendar.getInstance();
-				cBegin.setTimeInMillis(c.getCaseBeginTime().getTime());
-				Calendar cEnd = Calendar.getInstance();
-				cEnd.setTimeInMillis(c.getCaseEndTime().getTime());
-				
-				Calendar tBegin = Calendar.getInstance();
-				tBegin.setTimeInMillis(totalFlow.getCaseBeginTime().getTime());
-				Calendar tEnd = Calendar.getInstance();
-				tEnd.setTimeInMillis(totalFlow.getCaseEndTime().getTime());
-				
-				if(cBegin.get(Calendar.HOUR) == tBegin.get(Calendar.HOUR) &
-						cBegin.get(Calendar.MINUTE) == tBegin.get(Calendar.MINUTE) &
-						cEnd.get(Calendar.HOUR) == tEnd.get(Calendar.HOUR) &
-						cEnd.get(Calendar.MINUTE) == tEnd.get(Calendar.MINUTE)) {
+				if(ReportService.timeEquals(c.getCaseBeginTime(), totalFlow.getCaseBeginTime()) &
+						ReportService.timeEquals(c.getCaseEndTime(), totalFlow.getCaseEndTime())) {
 					it.remove();
 				}
 			}
@@ -76,6 +65,30 @@ public class ReportService {
 			}
 		}	
 		oldShift.setEmployees(ems);
+		writeShift(oldShift);
+		return oldShift;
+	}
+	
+	public Shift addProblem(ProblemDetail problemDetail) {
+		Shift oldShift = getCurrentShift();
+		List<ProblemDetail> pds = oldShift.getProblems();
+		if(pds == null) {
+			pds =new ArrayList<>();
+			pds.add(problemDetail);
+			oldShift.setProblems(pds);
+		} else {
+			Boolean exists = false;
+			for (ProblemDetail pd : pds) {
+				if(pd.equals(problemDetail)) {
+					exists = true;
+					break;
+				}
+			}
+			if(!exists) {
+				oldShift.getProblems().add(problemDetail);
+			}
+		}
+		
 		writeShift(oldShift);
 		return oldShift;
 	}
@@ -236,6 +249,22 @@ public class ReportService {
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public static Boolean timeEquals(Time one,Time two) {
+		Calendar calOne = Calendar.getInstance();
+		calOne.setTimeInMillis(one.getTime());
+		Calendar calTwo = Calendar.getInstance();
+		calTwo.setTimeInMillis(two.getTime());
+		
+		if(calOne.get(Calendar.HOUR) == calTwo.get(Calendar.HOUR) &
+				calOne.get(Calendar.MINUTE) == calTwo.get(Calendar.MINUTE) &
+				calOne.get(Calendar.SECOND) == calTwo.get(Calendar.SECOND) &
+				calOne.get(Calendar.MILLISECOND) == calTwo.get(Calendar.MILLISECOND)) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

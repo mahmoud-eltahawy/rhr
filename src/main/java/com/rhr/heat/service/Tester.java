@@ -1728,6 +1728,18 @@ public class Tester {
 	}
 
 	public void emp() {
-		service.removeEmployee(new Employee(null, "alaa", "ahmed", "mubarek", EmployeePosition.worker, "alaa_ali", "1234"));
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR, 3);
+		cal.set(Calendar.MINUTE, 45);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		cal.set(Calendar.AM_PM, Calendar.AM);
+		Time begin = new Time(cal.getTime().getTime());
+		cal.set(Calendar.HOUR, 4);
+		cal.set(Calendar.MINUTE, 40);
+		Time end = new Time(cal.getTime().getTime());
+		ProblemDetail pd1  = new ProblemDetail(null,null,Machine.ATM_ONE,begin,end);
+		service.addProblem(pd1);
+		
 	}
 }
