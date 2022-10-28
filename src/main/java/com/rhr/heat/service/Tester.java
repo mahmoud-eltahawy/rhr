@@ -1741,6 +1741,9 @@ public class Tester {
 		
 		Problem P1 = new Problem("title 1", "description 1");
 		Problem P2 = new Problem("title 2", "description 2");
+
+		problemRepo.save(P1);
+		problemRepo.save(P2);
 		
 		ProblemDetail pd1  = new ProblemDetail(null,List.of(P1,P2),Machine.ATM_ONE,begin,end);
 		
@@ -1751,6 +1754,9 @@ public class Tester {
 		service.addProblem(pd1);
 		service.addEmployee(emp2);
 		service.addTotalFlow(tf1);
+		service.setTemperature(220, 190);
+		service.setNote("perfection");
+		service.saveShift();
 		
 //		service.removeProblem(pd1);
 //		service.removeEmployee(emp2);

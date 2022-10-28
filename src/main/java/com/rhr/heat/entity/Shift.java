@@ -17,4 +17,32 @@ public class Shift {
 	private String exceptionalNote;
 	private Integer minTemperature;
 	private Integer maxTemperature;
+	
+	public Boolean isPushable() {
+		if(shiftId == null) {
+			return false;
+		}
+		if(shiftId.getDate() == null || shiftId.getShift() == null) {
+			return false;
+		}
+		if(employees == null) {
+			return false;
+		}
+		if(employees.size() == 0) {
+			return false;
+		}
+		if(totalFlowAverage == null) {
+			return false;
+		}
+		if(totalFlowAverage.size() == 0) {
+			return false;
+		}
+		if(minTemperature == null) {
+			return false;
+		}
+		if(maxTemperature == null) {
+			return false;
+		}
+		return true;
+	}
 }

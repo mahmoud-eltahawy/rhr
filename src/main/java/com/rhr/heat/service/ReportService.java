@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.rhr.heat.Tools;
+import com.rhr.heat.dao.ShiftRepo;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
@@ -16,6 +17,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ReportService {
 	private final Tools tool;
+	private final ShiftRepo shiftRepo;
+	
+	public Shift saveShift() {
+		Shift oldShift = tool.getCurrentShift();
+		if(oldShift.isPushable()) {
+			shiftRepo.save(oldShift);
+		}
+		
+		return oldShift;
+	}
 	
 	public Shift stashShift(Shift newShift) {
 		Shift oldShift = tool.getCurrentShift();
@@ -55,6 +66,13 @@ public class ReportService {
 		Shift oldShift = tool.getCurrentShift();
 		oldShift.setMaxTemperature(max);
 		oldShift.setMinTemperature(min);
+		tool.writeShift(oldShift);
+		return oldShift;
+	}
+	
+	public Shift setNote(String note) {
+		Shift oldShift = tool.getCurrentShift();
+		oldShift.setExceptionalNote(note);
 		tool.writeShift(oldShift);
 		return oldShift;
 	}
