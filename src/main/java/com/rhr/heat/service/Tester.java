@@ -1748,12 +1748,12 @@ public class Tester {
 		
 		TotalFlow tf1 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
 		
-//		service.addProblem(pd1);
-//		service.addEmployee(emp2);
-//		service.addTotalFlow(tf1);
+		service.addProblem(pd1);
+		service.addEmployee(emp2);
+		service.addTotalFlow(tf1);
 		
-		service.removeProblem(pd1);
-		service.removeEmployee(emp2);
-		service.removeTotalFlow(tf1);
+//		service.removeProblem(pd1);
+//		service.removeEmployee(emp2);
+//		service.removeTotalFlow(tf1);
 	}
 }

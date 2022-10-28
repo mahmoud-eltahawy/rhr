@@ -50,6 +50,14 @@ public class ReportService {
 		tool.writeShift(oldShift);
 		return oldShift;
 	}
+	
+	public Shift setTemperature(Integer max, Integer min) {
+		Shift oldShift = tool.getCurrentShift();
+		oldShift.setMaxTemperature(max);
+		oldShift.setMinTemperature(min);
+		tool.writeShift(oldShift);
+		return oldShift;
+	}
 
 	public Shift removeTotalFlow(TotalFlow totalFlow) {
 		Shift oldShift = tool.getCurrentShift();

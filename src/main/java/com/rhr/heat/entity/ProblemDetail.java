@@ -30,8 +30,8 @@ public class ProblemDetail {
 		if (getClass() != obj.getClass())
 			return false;
 		ProblemDetail other = (ProblemDetail) obj;
-		return Tools.timeEquals(beginTime, other.beginTime) &&
-				Tools.timeEquals(endTime, other.endTime)
+		return Tools.equals(beginTime, other.beginTime) &&
+				Tools.equals(endTime, other.endTime)
 				&& machine == other.machine && Objects.equals(problems, other.problems);
 	}
 	@Override

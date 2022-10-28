@@ -54,7 +54,7 @@ public class Tools {
 		if(currentShift == null )  {
 			return true;
 		} 
-		if(currentShift.getShiftId().equals(thisShift())) {
+		if(!currentShift.getShiftId().equals(thisShift())) {
 			return true;
 		}
 		return false;
@@ -162,7 +162,7 @@ public class Tools {
 		return list;
 	}
 	
-	public static Boolean timeEquals(Time one,Time two) {
+	public static Boolean equals(Time one,Time two) {
 		Calendar calOne = Calendar.getInstance();
 		calOne.setTimeInMillis(one.getTime());
 		Calendar calTwo = Calendar.getInstance();
@@ -172,6 +172,21 @@ public class Tools {
 				calOne.get(Calendar.MINUTE) == calTwo.get(Calendar.MINUTE) &
 				calOne.get(Calendar.SECOND) == calTwo.get(Calendar.SECOND) &
 				calOne.get(Calendar.MILLISECOND) == calTwo.get(Calendar.MILLISECOND)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static Boolean equals(Date one,Date two) {
+		Calendar calOne = Calendar.getInstance();
+		calOne.setTimeInMillis(one.getTime());
+		Calendar calTwo = Calendar.getInstance();
+		calTwo.setTimeInMillis(two.getTime());
+		
+		if(calOne.get(Calendar.YEAR) == calTwo.get(Calendar.YEAR) &
+				calOne.get(Calendar.MONTH) == calTwo.get(Calendar.MONTH) &
+				calOne.get(Calendar.DAY_OF_MONTH) == calTwo.get(Calendar.DAY_OF_MONTH)) {
 			return true;
 		} else {
 			return false;

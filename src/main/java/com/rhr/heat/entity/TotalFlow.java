@@ -31,8 +31,8 @@ public class TotalFlow {
 		if (getClass() != obj.getClass())
 			return false;
 		TotalFlow other = (TotalFlow) obj;
-		return Tools.timeEquals(caseBeginTime, other.caseBeginTime) &&
-				Tools.timeEquals(caseEndTime, other.caseEndTime);
+		return Tools.equals(caseBeginTime, other.caseBeginTime) &&
+				Tools.equals(caseEndTime, other.caseEndTime);
 	}
 	@Override
 	public int hashCode() {
