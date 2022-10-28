@@ -1,7 +1,6 @@
 package com.rhr.heat.entity;
 
 import java.sql.Date;
-import java.util.Objects;
 import java.util.UUID;
 
 import com.rhr.heat.enums.ShiftOrder;
