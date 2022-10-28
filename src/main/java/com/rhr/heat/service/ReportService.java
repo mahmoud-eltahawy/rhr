@@ -22,6 +22,7 @@ import com.google.gson.JsonSyntaxException;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.entity.ShiftId;
+import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.enums.ShiftOrder;
 
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,31 @@ public class ReportService {
 			}
 		}	
 		oldShift.setEmployees(ems);
+		writeShift(oldShift);
+		return oldShift;
+	}
+	
+	public Shift addTotalFlow(TotalFlow totalFlow) {
+		Shift oldShift = getCurrentShift();
+		List<TotalFlow> tfs = oldShift.getTotalFlowAverage();
+		if(tfs == null) {
+			tfs =new ArrayList<>();
+			tfs.add(totalFlow);
+			oldShift.setTotalFlowAverage(tfs);
+		} else {
+			Boolean exists = false;
+			for (TotalFlow tf : tfs) {
+				if(tf.getCaseBeginTime().equals(totalFlow.getCaseBeginTime()) &
+						tf.getCaseEndTime().equals(totalFlow.getCaseEndTime())) {
+					exists = true;
+					break;
+				}
+			}
+			if(!exists) {
+				oldShift.getTotalFlowAverage().add(totalFlow);
+			}
+		}
+		
 		writeShift(oldShift);
 		return oldShift;
 	}
