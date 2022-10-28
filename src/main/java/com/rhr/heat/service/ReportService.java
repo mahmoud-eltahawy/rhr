@@ -28,6 +28,24 @@ import lombok.RequiredArgsConstructor;
 public class ReportService {
 	private final Map<String, File> dataFiles;
 	
+	public void stashShift(Shift newShift) {
+		Shift oldShift = getCurrentShift();
+		oldShift.setProblems(newShift.getProblems());
+		oldShift.setTotalFlowAverage(newShift.getTotalFlowAverage());
+		oldShift.setEmployees(newShift.getEmployees());
+		oldShift.setExceptionalNote(newShift.getExceptionalNote());
+		oldShift.setMinTemperature(newShift.getMinTemperature());
+		oldShift.setMaxTemperature(newShift.getMaxTemperature());
+		
+		try {
+			FileWriter fw = new FileWriter(dataFiles.get("currentShift"));
+			new Gson().toJson(oldShift,fw);
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	public Shift getCurrentShift() {
 		Shift currentShift = null;

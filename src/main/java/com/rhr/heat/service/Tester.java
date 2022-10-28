@@ -29,8 +29,6 @@ public class Tester {
 	private final ShiftRepo shiftRepo;
 	private final ProblemRepo problemRepo;
 	private final ReportService service;
-	
-
 
 	public void insertData() {
 		Employee emp1 = new Employee(null,"mahmoud","sabry","mohammed",EmployeePosition.Engineer,"mahmoud_sabry","1234");
@@ -1730,12 +1728,10 @@ public class Tester {
 	}
 
 	public void emp() {
-		System.out.println(service.getCurrentShift().toString());
-		System.out.println(service.thisShift());
-		System.out.println(service.workNow().toString());
-		System.out.println(service.shiftBegin(ShiftOrder.FIRST));
-		System.out.println(service.shiftBegin(ShiftOrder.SECOND));
-		System.out.println(service.shiftBegin(ShiftOrder.THIRD));
-		System.out.println(service.shiftBegin(null));
+
+		Shift shift973 = new Shift(null,
+				null,null,null,
+				"mahmoud and ehab greeting", 173, 195);
+		service.stashShift(shift973);
 	}
 }
