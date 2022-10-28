@@ -1728,6 +1728,6 @@ public class Tester {
 	}
 
 	public void emp() {
-		service.addEmployee(new Employee(null, "alaa", "ahmed", "mubarek", EmployeePosition.worker, "alaa_ali", "1234"));
+		service.removeEmployee(new Employee(null, "alaa", "ahmed", "mubarek", EmployeePosition.worker, "alaa_ali", "1234"));
 	}
 }

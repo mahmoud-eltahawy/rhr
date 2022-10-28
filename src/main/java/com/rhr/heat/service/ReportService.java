@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -31,6 +32,22 @@ import lombok.RequiredArgsConstructor;
 public class ReportService {
 	private final Map<String, File> dataFiles;
 	
+	public Shift removeEmployee(Employee employee) {
+		Shift oldShift = getCurrentShift();
+		List<Employee> ems = oldShift.getEmployees();
+		if(ems != null) {
+			Iterator<Employee> it = ems.iterator();
+			while(it.hasNext()) {
+				if(it.next().getUsername().equals(employee.getUsername())) {
+					it.remove();
+				}
+			}
+		}	
+		oldShift.setEmployees(ems);
+		writeShift(oldShift);
+		return oldShift;
+	}
+	
 	public Shift addEmployee(Employee employee) {
 		Shift oldShift = getCurrentShift();
 		List<Employee> ems = oldShift.getEmployees();
@@ -51,13 +68,7 @@ public class ReportService {
 			}
 		}
 		
-		try {
-			FileWriter fw = new FileWriter(dataFiles.get("currentShift"));
-			new Gson().toJson(oldShift,fw);
-			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		writeShift(oldShift);
 		return oldShift;
 	}
 	
@@ -70,14 +81,7 @@ public class ReportService {
 		oldShift.setMinTemperature(newShift.getMinTemperature());
 		oldShift.setMaxTemperature(newShift.getMaxTemperature());
 		
-		try {
-			FileWriter fw = new FileWriter(dataFiles.get("currentShift"));
-			new Gson().toJson(oldShift,fw);
-			fw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		writeShift(oldShift);
 		return oldShift;
 	}
 	
@@ -166,5 +170,15 @@ public class ReportService {
 				TimeUnit.HOURS.toMillis(8) -
 				TimeUnit.MINUTES.toMillis(15));
 		return now;
+	}
+	
+	public void writeShift(Shift shift) {
+		try {
+			FileWriter fw = new FileWriter(dataFiles.get("currentShift"));
+			new Gson().toJson(shift,fw);
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
