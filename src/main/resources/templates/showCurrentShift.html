@@ -52,15 +52,15 @@ h4 {
 	text-align: center;
 }
 
-.headSize{
+.headProps{
 	width: 25%;
  }
 
- .dataSize{
+ .dataProps{
 	width: 75%;
  }
 
- .elementSize{
+ .elementProps{
 	 width:25%;
  }
 
@@ -93,13 +93,13 @@ h4 {
 	<table>
 		<thead>
 			<tr>
-				<th>MACHINE</th>
-				<th>
+				<th class="headProps">MACHINE</th>
+				<th class="dataProps">
 					<table>
 						<tr>
-							<th>Stoped at</th>
-							<th>Started at</th>
-							<th>Problems</th>
+							<th class="elementProps">Stoped at</th>
+							<th class="elementProps">Started at</th>
+							<th class="elementProps">Problems</th>
 						</tr>
 					</table>
 				</th>
@@ -112,13 +112,13 @@ h4 {
 	<table>
 		<tr th:if="${k1}==null"><td class="kilenData" colspan="2">KILEN ONE : works fine for the whole shift</td></tr>
 		<tr>
-			<td th:unless="${k1}==null" class="kilenHead headSize">KILEN ONE</td>
-			<td th:unless="${k1}==null" class="kilenData dataSize">
+			<td th:unless="${k1}==null" class="kilenHead headProps">KILEN ONE</td>
+			<td th:unless="${k1}==null" class="kilenData dataProps">
 				<table>
 					<tr th:each="K :${k1}">
-						<td th:text="${K.beginTime}" class="kilenData elementSize">Stoped at</td>
-						<td th:text="${K.endTime}" class="kilenData elementSize">Started at</td>
-						<td class="kilenData elementSize"><ul th:each="p : ${K.problems}">
+						<td th:text="${K.beginTime}" class="kilenData elementProps">Stoped at</td>
+						<td th:text="${K.endTime}" class="kilenData elementProps">Started at</td>
+						<td class="kilenData elementProps"><ul th:each="p : ${K.problems}">
 							<li th:text="${p.title}">problem number</li>
 						</ul></td>
 					</tr>
@@ -127,13 +127,13 @@ h4 {
 		</tr>
 		<tr th:if="${k2}==null"><td class="kilenData" colspan="2">KILEN Two : works fine for the whole shift</td></tr>
 		<tr>
-			<td th:unless="${k2}==null" class="kilenHead headSize">KILEN TWO</td>
-			<td th:unless="${k2}==null" class="kilenData dataSize">
+			<td th:unless="${k2}==null" class="kilenHead headProps">KILEN TWO</td>
+			<td th:unless="${k2}==null" class="kilenData dataProps">
 				<table>
 					<tr th:each="K :${k2}">
-						<td th:text="${K.beginTime}" class="kilenData elementSize">Stoped at</td>
-						<td th:text="${K.endTime}" class="kilenData elementSize">Started at</td>
-						<td class="kilenData elementSize"><ul th:each="p : ${K.problems}">
+						<td th:text="${K.beginTime}" class="kilenData elementProps">Stoped at</td>
+						<td th:text="${K.endTime}" class="kilenData elementProps">Started at</td>
+						<td class="kilenData elementProps"><ul th:each="p : ${K.problems}">
 							<li th:text="${p.title}">problem number</li>
 						</ul></td>
 					</tr>
@@ -142,13 +142,13 @@ h4 {
 		</tr>
 		<tr th:if="${k3}==null"><td class="kilenData" colspan="2">KILEN Three : works fine for the whole shift</td></tr>
 		<tr>
-			<td th:unless="${k3}==null" class="kilenHead headSize">KILEN THREE</td>
-			<td th:unless="${k3}==null" class="kilenData dataSize">
+			<td th:unless="${k3}==null" class="kilenHead headProps">KILEN THREE</td>
+			<td th:unless="${k3}==null" class="kilenData dataProps">
 				<table>
 					<tr th:each="K :${k3}">
-						<td th:text="${K.beginTime}" class="kilenData elementSize">Stoped at</td>
-						<td th:text="${K.endTime}" class="kilenData elementSize">Started at</td>
-						<td class="kilenData elementSize"><ul th:each="p : ${K.problems}">
+						<td th:text="${K.beginTime}" class="kilenData elementProps">Stoped at</td>
+						<td th:text="${K.endTime}" class="kilenData elementProps">Started at</td>
+						<td class="kilenData elementProps"><ul th:each="p : ${K.problems}">
 							<li th:text="${p.title}">problem number</li>
 						</ul></td>
 					</tr>
@@ -157,13 +157,13 @@ h4 {
 		</tr>
 		<tr th:if="${k4}==null"><td class="kilenData" colspan="2">KILEN Four : works fine for the whole shift</td></tr>
 		<tr>
-			<td th:unless="${k4}==null" class="kilenHead headSize">KILEN FOUR</td>
-			<td th:unless="${k4}==null" class="kilenData dataSize">
+			<td th:unless="${k4}==null" class="kilenHead headProps">KILEN FOUR</td>
+			<td th:unless="${k4}==null" class="kilenData dataProps">
 				<table>
 					<tr th:each="K :${k4}">
-						<td th:text="${K.beginTime}" class="kilenData elementSize">Stoped at</td>
-						<td th:text="${K.endTime}" class="kilenData elementSize">Started at</td>
-						<td class="kilenData elementSize"><ul th:each="p : ${K.problems}">
+						<td th:text="${K.beginTime}" class="kilenData elementProps">Stoped at</td>
+						<td th:text="${K.endTime}" class="kilenData elementProps">Started at</td>
+						<td class="kilenData elementProps"><ul th:each="p : ${K.problems}">
 							<li th:text="${p.title}">problem number</li>
 						</ul></td>
 					</tr>
@@ -172,13 +172,13 @@ h4 {
 		</tr>
 		<tr th:if="${k5}==null"><td class="kilenData" colspan="2">KILEN Five : works fine for the whole shift</td></tr>
 		<tr>
-			<td th:unless="${k5}==null" class="kilenHead headSize">KILEN FIVE</td>
-			<td th:unless="${k5}==null" class="kilenData dataSize">
+			<td th:unless="${k5}==null" class="kilenHead headProps">KILEN FIVE</td>
+			<td th:unless="${k5}==null" class="kilenData dataProps">
 				<table>
 					<tr th:each="K :${k5}">
-						<td th:text="${K.beginTime}" class="kilenData elementSize">Stoped at</td>
-						<td th:text="${K.endTime}" class="kilenData elementSize">Started at</td>
-						<td class="kilenData elementSize"><ul th:each="p : ${K.problems}">
+						<td th:text="${K.beginTime}" class="kilenData elementProps">Stoped at</td>
+						<td th:text="${K.endTime}" class="kilenData elementProps">Started at</td>
+						<td class="kilenData elementProps"><ul th:each="p : ${K.problems}">
 							<li th:text="${p.title}">problem number</li>
 						</ul></td>
 					</tr>
