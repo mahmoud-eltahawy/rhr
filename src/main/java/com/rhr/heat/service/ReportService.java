@@ -24,7 +24,6 @@ public class ReportService {
 		if(oldShift.isPushable()) {
 			shiftRepo.save(oldShift);
 		}
-		
 		return oldShift;
 	}
 	
