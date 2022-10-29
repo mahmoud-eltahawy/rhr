@@ -37,7 +37,7 @@ public class ReportController {
 	}
 
 	@PostMapping("/emp")
-	public ModelAndView employee(@ModelAttribute("emp")Employee emp) {
+	public ModelAndView employee(@ModelAttribute("emp")String emp) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("reportPage");
 		mv.addObject("pushable", service.addEmployee(emp).isPushable());

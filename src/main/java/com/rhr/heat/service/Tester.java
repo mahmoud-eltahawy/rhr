@@ -1749,10 +1749,12 @@ public class Tester {
 		
 		Employee emp2 = new Employee(null,"mahmoud","gamal","mohammed",EmployeePosition.worker,"mahmoud_gamal","1234");
 		
+		employeeRepo.save(emp2);
+		
 		TotalFlow tf1 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
 		
 		service.addProblem(pd1);
-		service.addEmployee(emp2);
+		service.addEmployee("mahmoud_gamal");
 		service.addTotalFlow(tf1);
 		service.setTemperature(220, 190);
 		service.setNote("perfection");

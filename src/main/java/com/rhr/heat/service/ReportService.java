@@ -1,10 +1,12 @@
 package com.rhr.heat.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.rhr.heat.Tools;
+import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.ShiftRepo;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.ProblemDetail;
@@ -18,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class ReportService {
 	private final Tools tool;
 	private final ShiftRepo shiftRepo;
+	private final EmployeeRepo employeeRepo;
 	
 	public Shift saveShift() {
 		Shift oldShift = tool.getCurrentShift();
@@ -54,10 +57,13 @@ public class ReportService {
 		return oldShift;
 	}
 	
-	public Shift addEmployee(Employee employee) {
+	public Shift addEmployee(String emp) {
+		Optional<Employee> employee = employeeRepo.findByUsername(emp);
 		Shift oldShift = tool.getCurrentShift();
-		oldShift.setEmployees(tool.addTo(employee, oldShift.getEmployees()));
-		tool.writeShift(oldShift);
+		if(employee.isPresent()) {
+			oldShift.setEmployees(tool.addTo(employee.get(), oldShift.getEmployees()));
+			tool.writeShift(oldShift);
+		}
 		return oldShift;
 	}
 	

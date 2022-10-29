@@ -5,6 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.rhr.heat.entity.Employee;
+import com.rhr.heat.entity.ProblemDetail;
+import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.model.StringModel;
 import com.rhr.heat.service.ShiftService;
 
@@ -40,8 +43,11 @@ public class BasicController {
 	public ModelAndView reportPage() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("reportPage");
-		mv.addObject("names", service.usernames());
+		mv.addObject("emps", service.usernames());
 		mv.addObject("pTitles", service.problemsTitles());
+		mv.addObject("emp", new Employee());
+		mv.addObject("problem", new ProblemDetail());
+		mv.addObject("flow", new TotalFlow());
 		return mv;
 	}
 }

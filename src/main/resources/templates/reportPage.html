@@ -299,9 +299,9 @@ footer a {
 	<div id="f" class="pricing-box text-center ghost">
 		<div class="center">
 		<h1>Total Flow block</h1>
-		<form action="#" th:action="@{/comming}" method="post">
+		<form action="#" th:action="@{/report/flow}" th:object="${flow}" method="post">
         <label name="machines" id="machines">suspended</label>
-        <select required="required" multiple="multiple" id="machine" name="machine">
+        <select required="required" multiple="multiple" th:field="*{suspendedMachines}">
           <option value="KILEN_ONE"    >kilen one</option>
           <option value="KILEN_TWO"    >kilen two</option>
           <option value="KILEN_THREE"  >kilen three</option>
@@ -319,14 +319,14 @@ footer a {
         </select><br>
 
       <label name="max"    id="max">Max Flow</label>
-      <input type="number" id="max" name="max" required>
+      <input type="number" th:field="*{maxFlow}" required><br>
       <label name="min"    id="min">min Flow</label>
-      <input type="number" id="min"   name="min"   required>
+      <input type="number" th:field="*{minFlow}" required><br>
 
       <label name="begin" id="begin">begin</label>
-      <input type="time"  id="begin" name="begin" required>
+      <input type="time"  th:field="*{caseBeginTime}" required>
       <label name="end"   id="end">end</label>
-      <input type="time"  id="end"   name="end"   required>
+      <input type="time"  th:field="*{caseEndTime}"   required>
 			  <button class="inputbox" type="submit">Submit </button>
 			</div>
 		</form>
@@ -336,11 +336,11 @@ footer a {
 	<div id="t" class="pricing-box text-center ghost">
 		<div class="center">
 		<h1>Temperature</h1>
-		<form action="#" th:action="@{/comming}" method="post">
+		<form action="#" th:action="@{/report/temp}" method="post">
       <label name="max" id="max">Max Temp</label>
-      <input type="number" id="max" name="max" required>
+      <input type="number" id="max" name="max" required><br>
       <label name="end" id="end">min temp</label>
-      <input type="number" id="min"   name="min"   required>
+      <input type="number" id="min"   name="min"   required><br>
 			  <button class="inputbox" type="submit">Submit </button>
 			</div>
 		</form>
@@ -349,16 +349,17 @@ footer a {
 
 	<div id="p" class="pricing-box text-center ghost">
 		<div class="center">
-		<h1>insert Date</h1>
-		<form action="#" th:action="@{/comming}" method="post">
-        <label name="problem" id="problem">which problem</label>
-        <select id="problem" name="problem" required>
+		<h1>Project problem</h1>
+		<form action="#" th:action="@{/report/problem}" th:object="${problem}" method="post">
+        <input type="hidden" id="machine" name="machine" value="PROJECT">
+        <label name="problems" id="problems">which problem</label><br>
+        <select multiple="multiple" th:field="*{problems}" required>
           <option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
         </select><br>
-      <label name="begin" id="begin">Problem begin</label>
-      <input type="time" id="begin" name="begin" required>
-      <label name="end" id="end">Problem end</label>
-      <input type="time" id="end"   name="end"   required>
+      <label name="beginTime" id="beginTime">Problem begin</label>
+      <input type="time" th:field="*{beginTime}" required><br>
+      <label name="endTime" id="endTime">Problem end</label>
+      <input type="time" th:field="*{endTime}"   required><br>
 			  <button class="inputbox" type="submit">Submit </button>
 			</div>
 		</form>
@@ -370,23 +371,23 @@ footer a {
 	<div id="k" class="pricing-box text-center ghost">
 		<div class="center">
 		<h1>Kilen Problem</h1>
-		<form action="#" th:action="@{/comming}" method="post">
+		<form action="#" th:action="@{/report/problem}" th:object="${problem}" method="post">
         <label name="kilen" id="kilen">which kilen </label>
-        <select required="required" id="kilen" name="kilen">
+        <select required="required" th:field="*{machine}">
           <option value="KILEN_ONE"  selected>kilen one</option>
           <option value="KILEN_TWO"         >kilen two</option>
           <option value="KILEN_THREE"       >kilen three</option>
           <option value="KILEN_FOUR"        >kilen four</option>
           <option value="KILEN_FIVE"        >kilen five</option>
         </select><br>
-        <label name="problem" id="problem">which problem</label>
-        <select id="problem" name="problem" required>
+        <label name="problems" id="problems">which problem</label><br>
+        <select multiple="multiple" th:field="*{problems}" required>
           <option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
         </select><br>
-      <label name="begin" id="begin">Problem begin</label>
-      <input type="time" id="begin" name="begin" required>
+      <label name="beginTime" id="beginTime">Problem begin</label>
+      <input type="time" th:field="*{beginTime}" required><br>
       <label name="end" id="end">Problem end</label>
-      <input type="time" id="end"   name="end"   required>
+      <input type="time" th:field="*{endTime}"   required><br>
 			  <button class="inputbox" type="submit">Submit </button>
 			</div>
 		</form>
@@ -396,7 +397,7 @@ footer a {
 	<div id="d" class="pricing-box text-center ghost">
 		<div class="center">
 		<h1>Drayer Problem</h1>
-		<form action="#" th:action="@{/comming}" method="post">
+		<form action="#" th:action="@{/report/problem}" th:object="${problem}" method="post">
         <label name="drayer" id="drayer">which drayer</label>
         <select required="required" id="kilen" name="drayer">
           <option value="DRAYER_ONE"  selected>drayer one</option>
@@ -407,14 +408,14 @@ footer a {
           <option value="DRAYER_SIX"         >drayer six</option>
           <option value="DRAYER_SEVEN"       >drayer seven</option>
         </select><br>
-        <label name="problem" id="problem">which Problem</label>
-        <select id="problem" name="problem" required>
+        <label name="problems" id="problems">which problem</label><br>
+        <select multiple="multiple" th:field="*{problems}" required>
           <option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
         </select><br>
-      <label name="begin" id="begin">Problem begin</label>
-      <input type="time" id="begin" name="begin" required>
+      <label name="beginTime" id="beginTime">Problem begin</label>
+      <input type="time" th:field="*{beginTime}" required><br>
       <label name="end" id="end">Problem end</label>
-      <input type="time" id="end"   name="end"   required>
+      <input type="time" th:field="*{endTime}"   required><br>
 			  <button class="inputbox" type="submit">Submit </button>
 			</div>
 		</form>
@@ -424,20 +425,20 @@ footer a {
 	<div id="a" class="pricing-box text-center ghost">
 		<div class="center">
 		<h1>ATM problem</h1>
-		<form action="#" th:action="@{/comming}" method="post">
+		<form action="#" th:action="@{/report/problem}" th:object="${problem}" method="post">
         <label name="atm" id="atm">Atm : </label>
         <select required="required" id="kilen" name="kilen">
           <option value="ATM_ONE"  selected>Atm one</option>
           <option value="ATM_TWO"         >Atm two</option>
         </select><br>
-        <label name="problem" id="problem">Problem : </label>
-        <select id="problem" name="problem" required>
+        <label name="problems" id="problems">which problem</label><br>
+        <select multiple="multiple" th:field="*{problems}" required>
           <option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
         </select><br>
-      <label name="begin" id="begin">Problem begin</label>
-      <input type="time" id="begin" name="begin" required>
+      <label name="beginTime" id="beginTime">Problem begin</label>
+      <input type="time" th:field="*{beginTime}" required><br>
       <label name="end" id="end">Problem end</label>
-      <input type="time" id="end"   name="end"   required>
+      <input type="time" th:field="*{endTime}"   required><br>
 			  <button class="inputbox" type="submit">Submit </button>
 			</div>
 		</form>
@@ -449,9 +450,9 @@ footer a {
 	<div id="n" class="pricing-box text-center ghost">
 		<div class="center">
 		<h1>Note</h1>
-		<form action="#" th:action="@{/comming}" method="post">
-        <label name="notes" id="notes">Enter note</label>
-        <textarea maxlength="254" name="notes" id="notes" rows="5" cols="50">all is fine</textarea>
+		<form action="#" th:action="@{/report/note}" method="post">
+        <label name="note" id="note">Enter note</label>
+        <textarea maxlength="254" name="note" id="note" rows="5" cols="50">all is fine</textarea>
 			  <button class="inputbox" type="submit">Submit </button>
 			</div>
 		</form>
@@ -461,7 +462,7 @@ footer a {
 	<div id="e" class="pricing-box text-center ghost">
 		<div class="center">
 		<h1>Employees</h1>
-		<form action="#" th:action="@{/comming}" method="post">
+		<form action="#" th:action="@{/report/emp}" method="post">
         <label name="emp" id="emp">employee</label>
         <select multiple="mutiple" name="emp" id="emp" required>
           <option th:each="e: ${emps}" th:value="${e}" th:text="${e}">employee</option>
