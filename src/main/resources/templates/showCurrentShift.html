@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+function toggle(id) {
+  var x = document.getElementById(id);
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+<style>
+button {
+	width: 100%;
+	margin: 10px auto;
+	background: #2cc16a;
+	padding: 10px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 18px;
+ }
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 10px auto;
+	}
+
+th {
+	background: #3498db;
+	color: black;
+	font-weight: bold;
+	}
+
+td, th {
+	padding: 10px;
+	border: 1px solid #ccc;
+	text-align: center;
+	font-size: 18px;
+	}
+
+h4 {
+	background-color: #3498db;
+	font-weight: bold;
+	color: black;
+	font-size: 18px;
+	margin:10px auto;
+	padding: 2px;
+	text-align: center;
+}
+
+.headSize{
+	width: 25%;
+ }
+
+ .dataSize{
+	width: 75%;
+ }
+
+ .elementSize{
+	 width:25%;
+ }
+
+.kilenHead{
+	background-color: yellow;
+	font-weight: bold;
+	font-size: 18px;
+	color: black;
+ }
+
+.kilenData{
+	background-color: orange;
+	font-weight: bold;
+	font-size: 18px;
+	color: black;
+ }
+
+.labels tr td {
+	background-color: #2cc16a;
+	font-weight: bold;
+	color: #fff;
+}
+
+</style>
+</head>
+<body>
+	<h4><pre th:object="${theId}">Shift: <span th:text="*{shift}">order</span>                  Date: <span th:text="*{date}">the date</span></pre></h4>
+	<h5><button for="accounting" onclick="toggle('m')">Machines Status</button></h5>
+<div id="m">
+	<table>
+		<thead>
+			<tr>
+				<th>MACHINE</th>
+				<th>
+					<table>
+						<tr>
+							<th>Stoped at</th>
+							<th>Started at</th>
+							<th>Problems</th>
+						</tr>
+					</table>
+				</th>
+			</tr>
+		</thead>
+	</table>
+</div>
+<h5><button for="accounting" onclick="toggle('k')">Kilens</button></h5>
+<div id="k">
+	<table>
+		<tr th:if="${k1}==null"><td class="kilenData" colspan="2">KILEN ONE : works fine for the whole shift</td></tr>
+		<tr>
+			<td th:unless="${k1}==null" class="kilenHead headSize">KILEN ONE</td>
+			<td th:unless="${k1}==null" class="kilenData dataSize">
+				<table>
+					<tr th:each="K :${k1}">
+						<td th:text="${K.beginTime}" class="kilenData elementSize">Stoped at</td>
+						<td th:text="${K.endTime}" class="kilenData elementSize">Started at</td>
+						<td class="kilenData elementSize"><ul th:each="p : ${K.problems}">
+							<li th:text="${p.title}">problem number</li>
+						</ul></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr th:if="${k2}==null"><td class="kilenData" colspan="2">KILEN Two : works fine for the whole shift</td></tr>
+		<tr>
+			<td th:unless="${k2}==null" class="kilenHead headSize">KILEN TWO</td>
+			<td th:unless="${k2}==null" class="kilenData dataSize">
+				<table>
+					<tr th:each="K :${k2}">
+						<td th:text="${K.beginTime}" class="kilenData elementSize">Stoped at</td>
+						<td th:text="${K.endTime}" class="kilenData elementSize">Started at</td>
+						<td class="kilenData elementSize"><ul th:each="p : ${K.problems}">
+							<li th:text="${p.title}">problem number</li>
+						</ul></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr th:if="${k3}==null"><td class="kilenData" colspan="2">KILEN Three : works fine for the whole shift</td></tr>
+		<tr>
+			<td th:unless="${k3}==null" class="kilenHead headSize">KILEN THREE</td>
+			<td th:unless="${k3}==null" class="kilenData dataSize">
+				<table>
+					<tr th:each="K :${k3}">
+						<td th:text="${K.beginTime}" class="kilenData elementSize">Stoped at</td>
+						<td th:text="${K.endTime}" class="kilenData elementSize">Started at</td>
+						<td class="kilenData elementSize"><ul th:each="p : ${K.problems}">
+							<li th:text="${p.title}">problem number</li>
+						</ul></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr th:if="${k4}==null"><td class="kilenData" colspan="2">KILEN Four : works fine for the whole shift</td></tr>
+		<tr>
+			<td th:unless="${k4}==null" class="kilenHead headSize">KILEN FOUR</td>
+			<td th:unless="${k4}==null" class="kilenData dataSize">
+				<table>
+					<tr th:each="K :${k4}">
+						<td th:text="${K.beginTime}" class="kilenData elementSize">Stoped at</td>
+						<td th:text="${K.endTime}" class="kilenData elementSize">Started at</td>
+						<td class="kilenData elementSize"><ul th:each="p : ${K.problems}">
+							<li th:text="${p.title}">problem number</li>
+						</ul></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr th:if="${k5}==null"><td class="kilenData" colspan="2">KILEN Five : works fine for the whole shift</td></tr>
+		<tr>
+			<td th:unless="${k5}==null" class="kilenHead headSize">KILEN FIVE</td>
+			<td th:unless="${k5}==null" class="kilenData dataSize">
+				<table>
+					<tr th:each="K :${k5}">
+						<td th:text="${K.beginTime}" class="kilenData elementSize">Stoped at</td>
+						<td th:text="${K.endTime}" class="kilenData elementSize">Started at</td>
+						<td class="kilenData elementSize"><ul th:each="p : ${K.problems}">
+							<li th:text="${p.title}">problem number</li>
+						</ul></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+	<h5><button for="accounting" onclick="toggle('d')">Drayers</button></h5>
+	<div id="d">
+		<table>
+			<tr>
+				<td th:if="${d1}==null" class="kilenData">DRAYER ONE : works fine for the whole shift</td>
+				<td th:unless="${d1}==null" class="kilenHead">DRAYER ONE</td>
+				<td th:unless="${d1}==null">
+					<table>
+						<tr th:each="D :${d1}">
+							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${D.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${D.problems}">
+								<li th:text="${p.title}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td th:if="${d2}==null" class="kilenData">DRAYER TWO : works fine for the whole shift</td>
+				<td th:unless="${d2}==null" class="kilenHead">DRAYER TWO</td>
+				<td th:unless="${d2}==null">
+					<table>
+						<tr th:each="D :${d2}">
+							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${D.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${D.problems}">
+								<li th:text="${p.title}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td th:if="${d3}==null" class="kilenData">DRAYER THREE : works fine for the whole shift</td>
+				<td th:unless="${d3}==null" class="kilenHead">DRAYER THREE</td>
+				<td th:unless="${d3}==null">
+					<table>
+						<tr th:each="D :${d3}">
+							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${D.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${D.problems}">
+								<li th:text="${p.title}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td th:if="${d4}==null" class="kilenData">DRAYER FOUR : works fine for the whole shift</td>
+				<td th:unless="${d4}==null" class="kilenHead">DRAYER FOUR</td>
+				<td th:unless="${d4}==null">
+					<table>
+						<tr th:each="D :${d4}">
+							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${D.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${D.problems}">
+								<li th:text="${p.title}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td th:if="${d5}==null" class="kilenData">DRAYER FIVE : works fine for the whole shift</td>
+				<td th:unless="${d5}==null" class="kilenHead">DRAYER FIVE</td>
+				<td th:unless="${d5}==null">
+					<table>
+						<tr th:each="D :${d5}">
+							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${D.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${D.problems}">
+								<li th:text="${p.title}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td th:if="${d6}==null" class="kilenData">DRAYER SIX : works fine for the whole shift</td>
+				<td th:unless="${d6}==null" class="kilenHead">DRAYER SIX</td>
+				<td th:unless="${d6}==null">
+					<table>
+						<tr th:each="D :${d6}">
+							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${D.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${D.problems}">
+								<li th:text="${p.title}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td th:if="${d7}==null" class="kilenData">DRAYER SEVEN : works fine for the whole shift</td>
+				<td th:unless="${d7}==null" class="kilenHead">DRAYER SEVEN</td>
+				<td th:unless="${d7}==null">
+					<table>
+						<tr th:each="D :${d7}">
+							<td th:text="${D.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${D.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${D.problems}">
+								<li th:text="${p.title}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<h5><button for="accounting" onclick="toggle('a')">Atms</button></h5>
+	<div id="a">
+		<table>
+			<tr>
+				<td th:if="${a1}==null" class="kilenData">ATM ONE : works fine for the whole shift</td>
+				<td th:unless="${a1}==null" class="kilenHead">ATM ONE</td>
+				<td th:unless="${a1}==null">
+					<table>
+						<tr th:each="A :${a1}">
+							<td th:text="${A.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${A.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${A.problems}">
+								<li th:text="${p.title}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td th:if="${a2}==null" class="kilenData">ATM TWO : works fine for the whole shift</td>
+				<td th:unless="${a2}==null" class="kilenHead">ATM TWO</td>
+				<td th:unless="${a2}==null">
+					<table>
+						<tr th:each="A :${a2}">
+							<td th:text="${A.beginTime}" class="kilenData">Stoped at</td>
+							<td th:text="${A.endTime}" class="kilenData">Started at</td>
+							<td class="kilenData"><ul th:each="p : ${A.problems}">
+								<li th:text="${p.title}">problem number</li>
+							</ul></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<h5><button for="accounting" onclick="toggle('f')">Total Flow</button></h5>
+
+<div id="f">
+	<table>
+		<tr>
+			<th>Suspended machines</th>
+			<th>Max total flow</th>
+			<th>Min total flow</th>
+			<th>Start time</th>
+			<th>End time</th>
+		</tr>
+	</table>
+	<table>
+		<tr th:each="t : ${flow}">
+			<td class="kilenData"><ul th:each="m : ${t.suspendedMachines}">
+				<li th:text="${m}">machine number</li>
+			</ul></td>
+			<td class="kilenData" th:text="${t.maxFlow}">Max flow</td>
+			<td class="kilenData" th:text="${t.minFlow}">Min flow</td>
+			<td class="kilenData" th:text="${t.caseBeginTime}">Start time</td>
+			<td class="kilenData" th:text="${t.caseEndTime}">End time</td>
+		</tr>
+	</table>
+</div>
+
+<h4><pre>Max Temp: <span th:text="${maxT}">max</span>                  Min Temp: <span th:text="${minT}">min</span></pre></h4>
+
+<h5><button for="accounting" onclick="toggle('p')">Project suspending</button></h5>
+
+<div id="p">
+	<table>
+		<tr>
+			<th>Stoped at</th>
+			<th>Started at</th>
+			<th>Problems</th>
+		</tr>
+	</table>
+	<table>
+		<tr>
+			<td th:if="${p}==null" class="kilenData">The Project works fine for the whole shift</td>
+			<td th:unless="${p}==null">
+				<table>
+					<tr th:each="P :${p}">
+						<td class="kilenData" th:text="${P.beginTime}">Stoped at</td>
+						<td class="kilenData" th:text="${P.endTime}">Started at</td>
+						<td class="kilenData"><ul th:each="l : ${P.problems}">
+							<li th:text="${l.title}">problem number</li>
+						</ul></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+<h5><button for="accounting" onclick="toggle('e')">Employees</button></h5>
+<div id="e">
+	<table>
+		<tr th:each="n : ${names}">
+			<td class="kilenHead">Name</td>
+			<td class="kilenData" th:text="${n}">name</td>
+		</tr>
+		<tr>
+			<td class="kilenHead">Note</td>
+			<td class="kilenData" th:text="${note}?:'no additional notes'">notes</td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>

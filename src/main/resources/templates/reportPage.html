@@ -464,7 +464,7 @@ footer a {
 		<h1>Employees</h1>
 		<form action="#" th:action="@{/report/emp}" method="post">
         <label name="emp" id="emp">employee</label>
-        <select multiple="mutiple" name="emp" id="emp" required>
+        <select name="emp" id="emp" required>
           <option th:each="e: ${emps}" th:value="${e}" th:text="${e}">employee</option>
         </select><br>
 			  <button class="inputbox" type="submit">Submit </button>
