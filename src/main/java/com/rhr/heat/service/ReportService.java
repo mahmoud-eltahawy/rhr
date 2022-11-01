@@ -28,6 +28,11 @@ public class ReportService {
 	public ShiftId getTheId() {
 		return tool.thisShift();
 	}
+	
+	public Shift getCurrentShift() {
+		return tool.getCurrentShift();
+	}
+	
 	public List<String> problemsTitles(){
 		return problemRepo.findAllTitles();
 	}

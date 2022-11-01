@@ -14,6 +14,16 @@ function toggle(id) {
 }
 </script>
 <style>
+ select, input,textarea {
+	font-size: 30px;
+	text-align : center;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #5f9341;
+    margin-bottom: 4px;
+}
+
 .ghost {
 	 display:none;
  }
@@ -646,7 +656,7 @@ h4 {
 			<form action="#" th:action="@{/report/emp}" method="post">
 				<label name="emp" id="emp">employee</label>
 				<select name="emp" id="emp" required>
-				<option th:each="e: ${emps}" th:value="${e}" th:text="${e}">employee</option>
+				<option th:each="e: ${allEmps}" th:value="${e}" th:text="${e}">employee</option>
 				</select><br>
 				<button class="inputbox" type="submit">Submit </button>
 			</form>

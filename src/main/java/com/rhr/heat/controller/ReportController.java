@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.rhr.heat.Tools;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.ProblemDetail;
+import com.rhr.heat.entity.Shift;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.service.ReportService;
 
@@ -23,13 +25,17 @@ public class ReportController {
 	@RequestMapping("/")
 	public ModelAndView reportPage() {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("reportPage");
-		mv.addObject("emps", service.usernames());
+		Shift shift = service.getCurrentShift();
+		
+		Tools.completeShift(mv, shift);
+		
+		mv.addObject("allEmps", service.usernames());
 		mv.addObject("pTitles", service.problemsTitles());
 		mv.addObject("emp", new Employee());
 		mv.addObject("problem", new ProblemDetail());
 		mv.addObject("flow", new TotalFlow());
-		mv.addObject("theId",service.getTheId());
+
+		mv.setViewName("reportPage");
 		return mv;
 	}
 

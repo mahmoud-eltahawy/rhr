@@ -72,7 +72,7 @@ public class ShowingController {
 	public ModelAndView showWeek(@RequestParam("week")Integer week) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("showDays");
-		mv.addObject("title","Welcom to index page");
+		mv.addObject("title","last week page");
 		mv.addObject("next",week + 1);
 		if(week > 0) {
 			mv.addObject("prev",week - 1);

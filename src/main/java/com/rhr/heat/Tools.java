@@ -217,15 +217,17 @@ public class Tools {
 	
 	public static Map<Machine, List<ProblemDetail>> getMachinesProblems(List<ProblemDetail> allDetails){
 		Map<Machine, List<ProblemDetail>> mp = new HashMap<>();
-		for (ProblemDetail pd : allDetails) {
-			if(mp.get(pd.getMachine()) == null) {
-				List<ProblemDetail> pds = new ArrayList<>();
-				pds.add(pd);
-				mp.put(pd.getMachine(), pds);
-			} else {
-				List<ProblemDetail> pds = mp.get(pd.getMachine());
-				pds.add(pd);
-				mp.put(pd.getMachine(), pds);
+		if(allDetails != null) {
+			for (ProblemDetail pd : allDetails) {
+				if(mp.get(pd.getMachine()) == null) {
+					List<ProblemDetail> pds = new ArrayList<>();
+					pds.add(pd);
+					mp.put(pd.getMachine(), pds);
+				} else {
+					List<ProblemDetail> pds = mp.get(pd.getMachine());
+					pds.add(pd);
+					mp.put(pd.getMachine(), pds);
+				}
 			}
 		}
 		
@@ -255,9 +257,11 @@ public class Tools {
 		mv.addObject("maxT",shift.getMaxTemperature());
 		mv.addObject("minT",shift.getMinTemperature());
 		mv.addObject("note",shift.getExceptionalNote());
-		mv.addObject("names",shift.getEmployees().stream().map(e ->{
-			return e.getFirstName()+" "+e.getMiddleName()+" "+e.getLastName();
-		}).collect(Collectors.toList()));
+		if(shift.getEmployees() != null) {
+			mv.addObject("names",shift.getEmployees().stream().map(e ->{
+				return e.getFirstName()+" "+e.getMiddleName()+" "+e.getLastName();
+			}).collect(Collectors.toList()));
+		}
 		return mv;
 	}
 }
