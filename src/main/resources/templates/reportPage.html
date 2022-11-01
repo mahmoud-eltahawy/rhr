@@ -347,8 +347,7 @@ footer a {
 		</div>
 	</div>
 
-	<div id="p" class="pricing-box text-center ghost">
-		<div class="center">
+	<div id="p" class="pricing-box text-center center ghost">
 		<h1>Project problem</h1>
 		<form action="#" th:action="@{/report/problem}" th:object="${problem}" method="post">
         <input type="hidden" id="machine" name="machine" value="PROJECT">
@@ -356,14 +355,12 @@ footer a {
         <select multiple="multiple" th:field="*{problems}" required>
           <option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
         </select><br>
-      <label name="beginTime" id="beginTime">Problem begin</label>
-      <input type="time" th:field="*{beginTime}" required><br>
-      <label name="endTime" id="endTime">Problem end</label>
-      <input type="time" th:field="*{endTime}"   required><br>
+        <label name="beginTime" id="beginTime">Problem begin</label>
+        <input type="time" th:field="*{beginTime}" required><br>
+        <label name="endTime" id="endTime">Problem end</label>
+        <input type="time" th:field="*{endTime}"   required><br>
 			  <button class="inputbox" type="submit">Submit </button>
-			</div>
 		</form>
-		</div>
 	</div>
 </div>
 
