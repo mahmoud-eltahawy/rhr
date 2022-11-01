@@ -633,7 +633,7 @@ h4 {
 <h5><button for="accounting" class="fine" onclick="toggle('e')">Employees</button></h5>
 <div id="e" class="ghost">
 	<table>
-		<tr th:each="n : ${names}">
+		<tr th:each="n : ${emps}">
 			<td style="width:5%"><button class="danger">delete</button></td>
 			<td class="kilenHead">Name</td>
 			<td class="kilenData" th:text="${n}">name</td>

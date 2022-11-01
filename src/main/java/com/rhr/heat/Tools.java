@@ -1,5 +1,21 @@
 package com.rhr.heat;
 
+import static com.rhr.heat.enums.Machine.KILEN_ONE;
+import static com.rhr.heat.enums.Machine.KILEN_TWO;
+import static com.rhr.heat.enums.Machine.KILEN_THREE;
+import static com.rhr.heat.enums.Machine.KILEN_FOUR;
+import static com.rhr.heat.enums.Machine.KILEN_FIVE;
+import static com.rhr.heat.enums.Machine.DRAYER_ONE;
+import static com.rhr.heat.enums.Machine.DRAYER_TWO;
+import static com.rhr.heat.enums.Machine.DRAYER_THREE;
+import static com.rhr.heat.enums.Machine.DRAYER_FOUR;
+import static com.rhr.heat.enums.Machine.DRAYER_FIVE;
+import static com.rhr.heat.enums.Machine.DRAYER_SIX;
+import static com.rhr.heat.enums.Machine.DRAYER_SEVEN;
+import static com.rhr.heat.enums.Machine.ATM_ONE;
+import static com.rhr.heat.enums.Machine.ATM_TWO;
+import static com.rhr.heat.enums.Machine.PROJECT;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -9,18 +25,23 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.entity.ShiftId;
+import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.ShiftOrder;
 
 import lombok.RequiredArgsConstructor;
@@ -191,5 +212,52 @@ public class Tools {
 		} else {
 			return false;
 		}
+	}
+	
+	
+	public static Map<Machine, List<ProblemDetail>> getMachinesProblems(List<ProblemDetail> allDetails){
+		Map<Machine, List<ProblemDetail>> mp = new HashMap<>();
+		for (ProblemDetail pd : allDetails) {
+			if(mp.get(pd.getMachine()) == null) {
+				List<ProblemDetail> pds = new ArrayList<>();
+				pds.add(pd);
+				mp.put(pd.getMachine(), pds);
+			} else {
+				List<ProblemDetail> pds = mp.get(pd.getMachine());
+				pds.add(pd);
+				mp.put(pd.getMachine(), pds);
+			}
+		}
+		
+		return mp;
+	}
+
+	public static ModelAndView completeShift(ModelAndView mv,Shift shift) {
+		Map<Machine, List<ProblemDetail>> mp = getMachinesProblems(shift.getProblems());
+		
+		mv.addObject("theId",shift.getShiftId());
+		mv.addObject("k1",mp.get(KILEN_ONE));
+		mv.addObject("k2",mp.get(KILEN_TWO));
+		mv.addObject("k3",mp.get(KILEN_THREE));
+		mv.addObject("k4",mp.get(KILEN_FOUR));
+		mv.addObject("k5",mp.get(KILEN_FIVE));
+		mv.addObject("d1",mp.get(DRAYER_ONE));
+		mv.addObject("d2",mp.get(DRAYER_TWO));
+		mv.addObject("d3",mp.get(DRAYER_THREE));
+		mv.addObject("d4",mp.get(DRAYER_FOUR));
+		mv.addObject("d5",mp.get(DRAYER_FIVE));
+		mv.addObject("d6",mp.get(DRAYER_SIX));
+		mv.addObject("d7",mp.get(DRAYER_SEVEN));
+		mv.addObject("a1",mp.get(ATM_ONE));
+		mv.addObject("a2",mp.get(ATM_TWO));
+		mv.addObject("p" ,mp.get(PROJECT));
+		mv.addObject("flow",shift.getTotalFlowAverage());
+		mv.addObject("maxT",shift.getMaxTemperature());
+		mv.addObject("minT",shift.getMinTemperature());
+		mv.addObject("note",shift.getExceptionalNote());
+		mv.addObject("names",shift.getEmployees().stream().map(e ->{
+			return e.getFirstName()+" "+e.getMiddleName()+" "+e.getLastName();
+		}).collect(Collectors.toList()));
+		return mv;
 	}
 }
