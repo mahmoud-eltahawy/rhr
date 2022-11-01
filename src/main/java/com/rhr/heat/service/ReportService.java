@@ -7,10 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.rhr.heat.Tools;
 import com.rhr.heat.dao.EmployeeRepo;
+import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.dao.ShiftRepo;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
+import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.TotalFlow;
 
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,18 @@ public class ReportService {
 	private final Tools tool;
 	private final ShiftRepo shiftRepo;
 	private final EmployeeRepo employeeRepo;
+	private final ProblemRepo problemRepo;
+	
+	public ShiftId getTheId() {
+		return tool.thisShift();
+	}
+	public List<String> problemsTitles(){
+		return problemRepo.findAllTitles();
+	}
+	
+	public List<String> usernames(){
+		return employeeRepo.findAllUserNames();
+	}
 	
 	public Shift saveShift() {
 		Shift oldShift = tool.getCurrentShift();

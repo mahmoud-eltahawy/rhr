@@ -20,6 +20,19 @@ import lombok.RequiredArgsConstructor;
 public class ReportController {
 	private final ReportService service;
 
+	@RequestMapping("/")
+	public ModelAndView reportPage() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("reportPage");
+		mv.addObject("emps", service.usernames());
+		mv.addObject("pTitles", service.problemsTitles());
+		mv.addObject("emp", new Employee());
+		mv.addObject("problem", new ProblemDetail());
+		mv.addObject("flow", new TotalFlow());
+		mv.addObject("theId",service.getTheId());
+		return mv;
+	}
+
 	@PostMapping("/problem")
 	public ModelAndView problem(@ModelAttribute("problem")ProblemDetail pd) {
 		ModelAndView mv = new ModelAndView();

@@ -38,16 +38,4 @@ public class BasicController {
 		mv.addObject("pTitles", service.problemsTitles());
 		return mv;
 	}
-
-	@GetMapping("/report")
-	public ModelAndView reportPage() {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("reportPage");
-		mv.addObject("emps", service.usernames());
-		mv.addObject("pTitles", service.problemsTitles());
-		mv.addObject("emp", new Employee());
-		mv.addObject("problem", new ProblemDetail());
-		mv.addObject("flow", new TotalFlow());
-		return mv;
-	}
 }

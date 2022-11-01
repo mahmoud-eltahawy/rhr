@@ -1,131 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>last week summary</title>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+function toggle(id) {
+  var x = document.getElementById(id);
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
 <style>
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
-@import url("https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@600&display=swap");
-
-textarea{
-  background-color: dodgerblue;
-  width: 100%;
-  border-radius: 10px;
-  font-size : 14px;
- }
-button{
-  background-color: dodgerblue;
-  border: 2px solid #000;
-  border-radius: 10px;
-  width: 100%;
-  font-family: inherit;
-  font-size : 24px;
-  cursor: inherit;
-  line-height: inherit;
-  margin : 10px;
-  padding : 10px;
- }
-
-select {
-  appearance: inherit;
-  background-color: transparent;
-  border: 2px solid #000;
-  border-radius: 10px;
-  padding: 0 1em 0 0;
-  margin: inherit;
-  width: 300px;
-  font-family: inherit;
-  font-size: inherit;
-  cursor: inherit;
-  line-height: inherit;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: linear-gradient(45deg, greenyellow, dodgerblue);
-  font-family: "Sansita Swashed", cursive;
-}
-.center {
-  position: relative;
-  padding: 50px 50px;
-  background: #fff;
-  border-radius: 10px;
-}
-.center h1 {
-  font-size: 2em;
-  border-left: 5px solid dodgerblue;
-  padding: 10px;
-  color: #000;
-  letter-spacing: 5px;
-  margin-bottom: 60px;
-  font-weight: bold;
-  padding-left: 10px;
-}
-.center .inputbox {
-  position: relative;
-  width: 300px;
-  height: 50px;
-  margin-bottom: 50px;
-}
-.center .inputbox input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  border: 2px solid #000;
-  outline: none;
-  background: none;
-  padding: 10px;
-  border-radius: 10px;
-  font-size: 1.2em;
-}
-.center .inputbox:last-child {
-  margin-bottom: 0;
-}
-.center .inputbox span {
-  position: absolute;
-  top: 14px;
-  left: 20px;
-  font-size: 1em;
-  transition: 0.6s;
-  font-family: sans-serif;
-}
-.center .inputbox input:focus ~ span,
-.center .inputbox input:valid ~ span {
-  transform: translateX(-13px) translateY(-35px);
-  font-size: 1em;
-}
-.center .inputbox [type="button"] {
-  width: 50%;
-  background: dodgerblue;
-  color: #fff;
-  border: #fff;
-}
-.center .inputbox:hover [type="button"] {
-  background: linear-gradient(45deg, greenyellow, dodgerblue);
-}
-
-
 .ghost {
 	 display:none;
  }
-
-* {
-	box-sizing: border-box;
-}
-
-body {
-	background-color: #f6f5f7;
-	font-family: 'Open Sans', sans-serif;
-	margin-bottom: 50px;
-}
-
 .text-center {
 	text-align: center;
 }
@@ -148,362 +39,632 @@ body {
   font-size : 20px;
 	font-weight: 900;
 }
+.fine{
+	background: #3498db;
+ }
 
-.pricing-box h5 {
-	text-transform: uppercase;
-}
+.danger{
+	background: red;
+ }
 
-.price {
-	margin: 24px 0;
-	font-size: 36px;
-	font-weight: 900;
-}
+ .good{
+	background: green;
+ }
+button {
+	width: 100%;
+	height : 100%;
+	margin: 10px auto;
+	padding: 10px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 18px;
+ }
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 10px auto;
+	}
 
-.price sub, .price sup {
-	font-size: 16px;
-	font-weight: 100;
-}
+th {
+	background: #3498db;
+	color: black;
+	font-weight: bold;
+	}
 
-.features-list {
-	padding: 0;
-	list-style-type: none;
-}
+td, th {
+	padding: 10px;
+	border: 1px solid #ccc;
+	text-align: center;
+	font-size: 18px;
+	}
 
-.features-list li {
-	font-weight: 100;
-	padding: 12px 0;
-	font-weight: 100;
-}
-
-.features-list li:not(:last-of-type) {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.btn-primary {
-	border-radius: 25px;
-	border: none;
-	background-color: red;
-	color: #ffffff;
-	cursor: pointer;
-	padding: 10px 15px;
-	margin-top: 20px;
-	text-transform: uppercase;
-	transition: all 0.1s ease-in-out;
-}
-
-.btn-primary:hover {
-	box-shadow: 0px 2px 15px 0px rgba(0,0,0,0.5);
-	transform: translateY(-3px);
-}
-
-.pricing-box-bg-image {
-	background-color: red;
-	background-size: cover;
-	background-position: center center;
-	color: #ffffff;
-}
-
-.pricing-box-bg-image .features-list li {
-	border-bottom-color: rgba(255, 255, 255, 1);
-}
-
-.pricing-box-bg-image .btn-primary {
-	background-color: #ffffff;
-	color: #000;
-}
-
-footer {
-	background-color: #222;
-	color: #fff;
-	font-size: 14px;
-	bottom: 0;
-	position: fixed;
-	left: 0;
-	right: 0;
+h4 {
+	background-color: #3498db;
+	font-weight: bold;
+	color: black;
+	font-size: 18px;
+	margin:10px auto;
+	padding: 2px;
 	text-align: center;
 }
 
-footer p {
-	margin: 10px 0;
+.headProps{
+	width: 25%;
+ }
+
+ .dataProps{
+	width: 75%;
+ }
+
+ .elementProps{
+	 width:32%;
+ }
+
+.kilenHead{
+	text-align: center;
+	background-color: yellow;
+	font-weight: bold;
+	font-size: 18px;
+	color: black;
+ }
+
+.DrayerHead{
+	text-align: center;
+	background-color: yellow;
+	font-weight: bold;
+	font-size: 18px;
+	color: black;
+ }
+
+.AtmHead{
+	text-align: center;
+	background-color: yellow;
+	font-weight: bold;
+	font-size: 18px;
+	color: black;
+ }
+
+.kilenData{
+	text-align: center;
+	background-color: orange;
+	font-weight: bold;
+	font-size: 18px;
+	color: black;
+ }
+
+.DrayerData{
+	text-align: center;
+	background-color: orange;
+	font-weight: bold;
+	font-size: 18px;
+	color: black;
+ }
+
+.AtmData{
+	text-align: center;
+	background-color: orange;
+	font-weight: bold;
+	font-size: 18px;
+	color: black;
+ }
+
+.labels tr td {
+	background-color: #2cc16a;
+	font-weight: bold;
+	color: #fff;
 }
 
-footer i {
-	color: red;
-}
-
-footer a {
-	color: #3C97BF;
-	text-decoration: none;
-}
 </style>
 </head>
 <body>
-<div class="pricing-box-container">
-	<div id="ba" class="pricing-box pricing-box-bg-image text-center">
-		<a onclick="toggle('pb')"><button class="btn-primary">Problem</button></a>
-	</div>
-
-<div id="pb" style="display:none">
-	<div class="pricing-box pricing-box-bg-image text-center">
-		<a onclick="toggle('k')"><button class="btn-primary">Kilen</button></a>
-	</div>
-
-	<div class="pricing-box pricing-box-bg-image text-center">
-		<a onclick="toggle('d')"><button class="btn-primary">Drayer</button></a>
-	</div>
-
-	<div class="pricing-box pricing-box-bg-image text-center">
-		<a onclick="toggle('a')"><button class="btn-primary">Atm</button></a>
-	</div>
-
-	<div class="pricing-box pricing-box-bg-image text-center">
-		<a onclick="toggle('p')"><button class="btn-primary">Project</button></a>
-	</div>
-</div>
-
-<div id="bb"  class="pricing-box pricing-box-bg-image text-center">
-  <a onclick="toggle('rb')"><button class="btn-primary">Records</button></a>
-</div>
-
-<div id="rb" style="display:none">
-	<div class="pricing-box pricing-box-bg-image text-center">
-		<a onclick="toggle('f')"><button class="btn-primary">Total Flow</button></a>
-	</div>
-
-	<div class="pricing-box pricing-box-bg-image text-center">
-		<a onclick="toggle('t')"><button class="btn-primary">Temperature</button></a>
-	</div>
-
-	<div class="pricing-box pricing-box-bg-image text-center">
-		<a onclick="toggle('n')"><button class="btn-primary">Note</button></a>
-	</div>
-</div>
-
-<div id="bc"  class="pricing-box pricing-box-bg-image text-center">
-  <a onclick="toggle('ob')"><button class="btn-primary">Others</button></a>
-</div>
-
-<div id="ob" style="display:none">
-	<div class="pricing-box pricing-box-bg-image text-center">
-		<a onclick="toggle('e')"><button class="btn-primary">Employees</button></a>
-	</div>
-
-	<div class="pricing-box pricing-box-bg-image text-center">
-		<a href="#" th:href="@{/generate}"><button class="btn-primary">Generate</button></a>
-	</div>
-</div>
-
-</div>
-
-<div class="pricing-box-container">
-	<div id="f" class="pricing-box text-center ghost">
-		<div class="center">
-		<h1>Total Flow block</h1>
-		<form action="#" th:action="@{/report/flow}" th:object="${flow}" method="post">
-        <label name="machines" id="machines">suspended</label>
-        <select required="required" multiple="multiple" th:field="*{suspendedMachines}">
-          <option value="KILEN_ONE"    >kilen one</option>
-          <option value="KILEN_TWO"    >kilen two</option>
-          <option value="KILEN_THREE"  >kilen three</option>
-          <option value="KILEN_FOUR"   >kilen four</option>
-          <option value="KILEN_FIVE"   >kilen five</option>
-          <option value="DRAYER_ONE"   >drayer one</option>
-          <option value="DRAYER_TWO"   >drayer two</option>
-          <option value="DRAYER_THREE" >drayer three</option>
-          <option value="DRAYER_FOUR"  >drayer four</option>
-          <option value="DRAYER_FIVE"  >drayer five</option>
-          <option value="DRAYER_SIX"   >drayer six</option>
-          <option value="DRAYER_SEVEN" >drayer seven</option>
-          <option value="ATM_ONE"      >Atm one</option>
-          <option value="ATM_TWO"      >Atm two</option>
-        </select><br>
-
-      <label name="max"    id="max">Max Flow</label>
-      <input type="number" th:field="*{maxFlow}" required><br>
-      <label name="min"    id="min">min Flow</label>
-      <input type="number" th:field="*{minFlow}" required><br>
-
-      <label name="begin" id="begin">begin</label>
-      <input type="time"  th:field="*{caseBeginTime}" required>
-      <label name="end"   id="end">end</label>
-      <input type="time"  th:field="*{caseEndTime}"   required>
-			  <button class="inputbox" type="submit">Submit </button>
+<h4><pre th:object="${theId}">Shift: <span th:text="*{shift}">order</span>                  Date: <span th:text="*{date}">the date</span></pre></h4>
+<h5><button for="accounting" class="fine" onclick="toggle('m')">Machines Status</button></h5>
+<div id="m" class="ghost">
+	<table>
+		<thead>
+			<tr>
+				<th class="headProps">MACHINE</th>
+				<th class="dataProps">
+					<table>
+						<tr>
+							<th class="elementProps">Stoped at</th>
+							<th class="elementProps">Started at</th>
+							<th class="elementProps">Problems</th>
+						</tr>
+					</table>
+				</th>
+			</tr>
+		</thead>
+	</table>
+	<h5><button for="accounting" class="fine" onclick="toggle('k')">Kilens</button></h5>
+	<div id="k" class="ghost">
+		<table>
+			<tr th:if="${k1}==null"><td class="kilenData" colspan="2">KILEN ONE : works fine for the whole shift</td></tr>
+			<tr>
+				<td th:unless="${k1}==null" class="kilenHead headProps"><button class="danger">KILEN ONE</button></td>
+				<td th:unless="${k1}==null" class="kilenData dataProps">
+					<table>
+						<tr th:each="K :${k1}">
+							<td style="width:5%"><button class="danger">delete</button></td>
+							<td th:text="${K.beginTime}" class="kilenData elementProps">Stoped at</td>
+							<td th:text="${K.endTime}" class="kilenData elementProps">Started at</td>
+							<td class="kilenData elementProps"><ul th:each="p : ${K.problems}">
+								<li><button class="danger" th:text="${p.title}">problem number</button></li>
+							</ul><button class="good">add</button></td>
+						</tr>
+						<tr><td colspan="4" class="kilenData elementProps"><button class="good">add</button></td></tr>
+					</table>
+				</td>
+			</tr>
+			<tr th:if="${k2}==null"><td class="kilenData" colspan="2">KILEN Two : works fine for the whole shift</td></tr>
+			<tr>
+				<td th:unless="${k2}==null" class="kilenHead headProps"><button class="danger">KILEN TWO</button></td>
+				<td th:unless="${k2}==null" class="kilenData dataProps">
+					<table>
+						<tr th:each="K :${k2}">
+							<td style="width:5%"><button class="danger">delete</button></td>
+							<td th:text="${K.beginTime}" class="kilenData elementProps">Stoped at</td>
+							<td th:text="${K.endTime}" class="kilenData elementProps">Started at</td>
+							<td class="kilenData elementProps"><ul th:each="p : ${K.problems}">
+								<li><button class="danger" th:text="${p.title}">problem number</button></li>
+							</ul><button class="good">add</button></td>
+						</tr>
+						<tr><td colspan="4" class="kilenData elementProps"><button class="good">add</button></td></tr>
+					</table>
+				</td>
+			</tr>
+			<tr th:if="${k3}==null"><td class="kilenData" colspan="2">KILEN Three : works fine for the whole shift</td></tr>
+			<tr>
+				<td th:unless="${k3}==null" class="kilenHead headProps"><button class="danger">KILEN THREE</button></td>
+				<td th:unless="${k3}==null" class="kilenData dataProps">
+					<table>
+						<tr th:each="K :${k3}">
+							<td style="width:5%"><button class="danger">delete</button></td>
+							<td th:text="${K.beginTime}" class="kilenData elementProps">Stoped at</td>
+							<td th:text="${K.endTime}" class="kilenData elementProps">Started at</td>
+							<td class="kilenData elementProps"><ul th:each="p : ${K.problems}">
+								<li><button th:text="${p.title}" class="danger">problem number</button></li>
+							</ul><button class="good">add</button></td>
+						</tr>
+						<tr><td colspan="4" class="kilenData elementProps"><button class="good">add</button></td></tr>
+					</table>
+				</td>
+			</tr>
+			<tr th:if="${k4}==null"><td class="kilenData" colspan="2">KILEN Four : works fine for the whole shift</td></tr>
+			<tr>
+				<td th:unless="${k4}==null" class="kilenHead headProps"><button class="danger">KILEN FOUR</button></td>
+				<td th:unless="${k4}==null" class="kilenData dataProps">
+					<table>
+						<tr th:each="K :${k4}">
+							<td style="width:5%"><button class="danger">delete</button></td>
+							<td th:text="${K.beginTime}" class="kilenData elementProps">Stoped at</td>
+							<td th:text="${K.endTime}" class="kilenData elementProps">Started at</td>
+							<td class="kilenData elementProps"><ul th:each="p : ${K.problems}">
+								<li><button class="danger" th:text="${p.title}">problem number</button></li>
+							</ul><button class="good">add</button></td>
+						</tr>
+						<tr><td colspan="4" class="kilenData elementProps"><button class="good">add</button></td></tr>
+					</table>
+				</td>
+			</tr>
+			<tr th:if="${k5}==null"><td class="kilenData" colspan="2">KILEN Five : works fine for the whole shift</td></tr>
+			<tr>
+				<td th:unless="${k5}==null" class="kilenHead headProps"><button class="danger">KILEN FIVE</button></td>
+				<td th:unless="${k5}==null" class="kilenData dataProps">
+					<table>
+						<tr th:each="K :${k5}">
+							<td style="width:5%"><button class="danger">delete</button></td>
+							<td th:text="${K.beginTime}" class="kilenData elementProps">Stoped at</td>
+							<td th:text="${K.endTime}" class="kilenData elementProps">Started at</td>
+							<td class="kilenData elementProps"><ul th:each="p : ${K.problems}">
+								<li><button class="danger" th:text="${p.title}">problem number</button></li>
+							</ul><button class="good">add</button></td>
+						</tr>
+						<tr><td colspan="4" class="kilenData elementProps"><button class="good">add</button></td></tr>
+					</table>
+				</td>
+			</tr>
+			<tr><td class="kilenData" colspan="2"><button onclick="toggle('kf')" class="good">add</button></td></tr>
+		</table>
+		<div class="pricing-box-container">
+			<div class="pricing-box text-center center ghost" id="kf">
+				<h1>Kilen Problem</h1>
+				<form action="#" th:action="@{/report/problem}" th:object="${problem}" method="post">
+				<label name="machine" id="machine">which kilen</label>
+				<select required="required" th:field="*{machine}">
+					<option value="KILEN_ONE"  selected>kilen one</option>
+					<option value="KILEN_TWO"         >kilen two</option>
+					<option value="KILEN_THREE"       >kilen three</option>
+					<option value="KILEN_FOUR"        >kilen four</option>
+					<option value="KILEN_FIVE"        >kilen five</option>
+				</select><br>
+				<label name="problems" id="problems">which problem</label><br>
+				<select multiple="multiple" th:field="*{problems}" required>
+					<option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
+				</select><br>
+				<label name="beginTime" id="beginTime">Problem begin</label>
+				<input type="time" th:field="*{beginTime}" required><br>
+				<label name="end" id="end">Problem end</label>
+				<input type="time" th:field="*{endTime}"   required><br>
+				<button class="inputbox" type="submit">Submit</button>
+				</form>
 			</div>
-		</form>
 		</div>
 	</div>
+	<h5><button for="accounting" class="fine" onclick="toggle('d')">Drayers</button></h5>
+	<div id="d" class="ghost">
+		<table>
+			<tr th:if="${d1}==null"><td class="DrayerData" colspan="2">DRAYER ONE : works fine for the whole shift</tr>
+			<tr>
+				<td th:unless="${d1}==null" class="DrayerHead headProps"><button class="danger">DRAYER ONE</button></td>
+				<td th:unless="${d1}==null" class="DrayerData dataProps">
+					<table>
+						<tr th:each="D :${d1}">
+							<td style="width:5%"><button class="danger">delete</button></td>
+							<td th:text="${D.beginTime}" class="DrayerData elementProps">Stoped at</td>
+							<td th:text="${D.endTime}" class="DrayerData elementProps">Started at</td>
+							<td class="DrayerData elementProps"><ul th:each="p : ${D.problems}">
+								<li><button class="danger" th:text="${p.title}">problem number</button></li>
+							</ul><button class="good">add</button></td>
+						</tr>
+						<tr><td colspan="4" class="kilenData elementProps"><button class="good">add</button></td></tr>
+					</table>
+				</td>
+			</tr>
+			<tr th:if="${d2}==null"><td class="kilenData" colspan="2">DRAYER Two : works fine for the whole shift</tr>
+			<tr>
+				<td th:unless="${d2}==null" class="DrayerHead headProps"><button class="danger">DRAYER TWO</button></td>
+				<td th:unless="${d2}==null" class="DrayerData dataProps">
+					<table>
+						<tr th:each="D :${d2}">
+							<td style="width:5%"><button class="danger">delete</button></td>
+							<td th:text="${D.beginTime}" class="DrayerData elementProps">Stoped at</td>
+							<td th:text="${D.endTime}" class="DrayerData elementProps">Started at</td>
+							<td class="DrayerData elementProps"><ul th:each="p : ${D.problems}">
+								<li><button class="danger" th:text="${p.title}">problem number</button></li>
+							</ul><button class="good">add</button></td>
+						</tr>
+						<tr><td colspan="4" class="kilenData elementProps"><button class="good">add</button></td></tr>
+					</table>
+				</td>
+			</tr>
+			<tr th:if="${d3}==null"><td class="kilenData" colspan="2">DRAYER Three : works fine for the whole shift</tr>
+			<tr>
+				<td th:unless="${d3}==null" class="DrayerHead headProps"><button class="danger">DRAYER THREE</button></td>
+				<td th:unless="${d3}==null" class="DrayerData dataProps">
+					<table>
+						<tr th:each="D :${d3}">
+							<td style="width:5%"><button class="danger">delete</button></td>
+							<td th:text="${D.beginTime}" class="DrayerData elementProps">Stoped at</td>
+							<td th:text="${D.endTime}" class="DrayerData elementProps">Started at</td>
+							<td class="DrayerData elementProps"><ul th:each="p : ${D.problems}">
+								<li><button class="danger" th:text="${p.title}">problem number</button></li>
+							</ul><button class="good">add</button></td>
+						</tr>
+						<tr><td colspan="4" class="kilenData elementProps"><button class="good">add</button></td></tr>
+					</table>
+				</td>
+			</tr>
+			<tr th:if="${d4}==null"><td class="kilenData" colspan="2">DRAYER Four : works fine for the whole shift</tr>
+			<tr>
+				<td th:unless="${d4}==null" class="DrayerHead headProps"><button class="danger">DRAYER FOUR</button></td>
+				<td th:unless="${d4}==null" class="DrayerData dataProps">
+					<table>
+						<tr th:each="D :${d4}">
+							<td style="width:5%"><button class="danger">delete</button></td>
+							<td th:text="${D.beginTime}" class="DrayerData elementProps">Stoped at</td>
+							<td th:text="${D.endTime}" class="DrayerData elementProps">Started at</td>
+							<td class="DrayerData elementProps"><ul th:each="p : ${D.problems}">
+								<li><button class="danger" th:text="${p.title}">problem number</button></li>
+							</ul><button class="good">add</button></td>
+						</tr>
+						<tr><td colspan="4" class="kilenData elementProps"><button class="good">add</button></td></tr>
+					</table>
+				</td>
+			</tr>
+			<tr th:if="${d5}==null"><td class="kilenData" colspan="2">DRAYER Five : works fine for the whole shift</tr>
+			<tr>
+				<td th:unless="${d5}==null" class="DrayerHead headProps"><button class="danger">DRAYER FIVE</button></td>
+				<td th:unless="${d5}==null" class="DrayerData dataProps">
+					<table>
+						<tr th:each="D :${d5}">
+							<td style="width:5%"><button class="danger">delete</button></td>
+							<td th:text="${D.beginTime}" class="DrayerData elementProps">Stoped at</td>
+							<td th:text="${D.endTime}" class="DrayerData elementProps">Started at</td>
+							<td class="DrayerData elementProps"><ul th:each="p : ${D.problems}">
+								<li><button class="danger" th:text="${p.title}">problem number</button></li>
+							</ul><button class="good">add</button></td>
+						</tr>
+						<tr><td colspan="4" class="kilenData elementProps"><button class="good">add</button></td></tr>
+					</table>
+				</td>
+			</tr>
+			<tr th:if="${d6}==null"><td class="kilenData" colspan="2">DRAYER Six : works fine for the whole shift</tr>
+			<tr>
+				<td th:unless="${d6}==null" class="DrayerHead headProps"><button class="danger">DRAYER SIX</button></td>
+				<td th:unless="${d6}==null" class="DrayerData dataProps">
+					<table>
+						<tr th:each="D :${d6}">
+							<td style="width:5%"><button class="danger">delete</button></td>
+							<td th:text="${D.beginTime}" class="DrayerData elementProps">Stoped at</td>
+							<td th:text="${D.endTime}" class="DrayerData elementProps">Started at</td>
+							<td class="DrayerData elementProps"><ul th:each="p : ${D.problems}">
+								<li><button class="danger" th:text="${p.title}">problem number</button></li>
+							</ul><button class="good">add</button></td>
+						</tr>
+						<tr><td colspan="4" class="kilenData elementProps"><button class="good">add</button></td></tr>
+					</table>
+				</td>
+			</tr>
+			<tr th:if="${d7}==null"><td class="kilenData" colspan="2">DRAYER Seven : works fine for the whole shift</tr>
+			<tr>
+				<td th:unless="${d7}==null" class="DrayerHead headProps"><button class="danger">DRAYER SEVEN</button></td>
+				<td th:unless="${d7}==null" class="DrayerData dataProps">
+					<table>
+						<tr th:each="D :${d7}">
+							<td style="width:5%"><button class="danger">delete</button></td>
+							<td th:text="${D.beginTime}" class="DrayerData elementProps">Stoped at</td>
+							<td th:text="${D.endTime}" class="DrayerData elementProps">Started at</td>
+							<td class="DrayerData elementProps"><ul th:each="p : ${D.problems}">
+								<li><button class="danger" th:text="${p.title}">problem number</button></li>
+							</ul><button class="good">add</button></td>
+						</tr>
+						<tr><td colspan="4" class="kilenData elementProps"><button class="good">add</button></td></tr>
+					</table>
+				</td>
+			</tr>
+			<tr><td class="kilenData" colspan="2"><button onclick="toggle('df')" class="good">add</button></td></tr>
+		</table>
+		<div class="pricing-box-container">
+			<div id="df" class="pricing-box text-center center ghost">
+				<h1>Drayer Problem</h1>
+				<form action="#" th:action="@{/report/problem}" th:object="${problem}" method="post">
+					<label name="drayer" id="drayer">which drayer</label>
+					<select required="required" id="drayer" name="drayer">
+						<option value="DRAYER_ONE"  selected>drayer one</option>
+						<option value="DRAYER_TWO"         >drayer two</option>
+						<option value="DRAYER_THREE"       >drayer three</option>
+						<option value="DRAYER_FOUR"        >drayer four</option>
+						<option value="DRAYER_FIVE"        >drayer five</option>
+						<option value="DRAYER_SIX"         >drayer six</option>
+						<option value="DRAYER_SEVEN"       >drayer seven</option>
+					</select><br>
+					<label name="problems" id="problems">which problem</label><br>
+					<select multiple="multiple" th:field="*{problems}" required>
+						<option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
+					</select><br>
+					<label name="beginTime" id="beginTime">Problem begin</label>
+					<input type="time" th:field="*{beginTime}" required><br>
+					<label name="end" id="end">Problem end</label>
+					<input type="time" th:field="*{endTime}"   required><br>
+					<button class="inputbox" type="submit">Submit </button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<h5><button for="accounting" class="fine" onclick="toggle('a')">Atms</button></h5>
+	<div id="a" class="ghost">
+		<table>
+			<tr th:if="${a1}==null"><td class="AtmData" colspan="2">ATM ONE : works fine for the whole shift</td></tr>
+			<tr>
+				<td th:unless="${a1}==null" class="AtmHead headProps"><button class="danger">ATM ONE</button></td>
+				<td th:unless="${a1}==null" class="AtmData dataProps">
+					<table>
+						<tr th:each="A :${a1}">
+							<td style="width:5%"><button class="danger">delete</button></td>
+							<td th:text="${A.beginTime}" class="AtmData elementProps">Stoped at</td>
+							<td th:text="${A.endTime}" class="AtmData elementProps">Started at</td>
+							<td class="AtmData elementProps"><ul th:each="p : ${A.problems}">
+								<li><button class="danger" th:text="${p.title}">problem number</button></li>
+							</ul><button class="good">add</button></td>
+						</tr>
+						<tr><td colspan="4" class="kilenData elementProps"><button class="good">add</button></td></tr>
+					</table>
+				</td>
+			</tr>
+			<tr th:if="${a2}==null"><td class="AtmData" colspan="2">ATM Two : works fine for the whole shift</td></tr>
+			<tr>
+				<td th:unless="${a2}==null" class="AtmHead headProps"><button class="danger">ATM TWO</button></td>
+				<td th:unless="${a2}==null" class="AtmData dataProps">
+					<table>
+						<tr th:each="A :${a2}">
+							<td style="width:5%"><button class="danger">delete</button></td>
+							<td th:text="${A.beginTime}" class="AtmData elementProps">Stoped at</td>
+							<td th:text="${A.endTime}" class="AtmData elementProps">Started at</td>
+							<td class="AtmData elementProps"><ul th:each="p : ${A.problems}">
+								<li><button class="danger" th:text="${p.title}">problem number</button></li>
+							</ul><button class="good">add</button></td>
+						</tr>
+						<tr><td colspan="4" class="kilenData elementProps"><button class="good">add</button></td></tr>
+					</table>
+				</td>
+			</tr>
+			<tr><td class="kilenData" colspan="2"><button onclick="toggle('af')" class="good">add</button></td></tr>
+		</table>
+		<div class="pricing-box-container">
+			<div id="af" class="pricing-box text-center center ghost">
+				<h1>ATM problem</h1>
+				<form action="#" th:action="@{/report/problem}" th:object="${problem}" method="post">
+					<label name="atm" id="atm">Atm : </label>
+					<select required="required" id="kilen" name="kilen">
+						<option value="ATM_ONE"  selected>Atm one</option>
+						<option value="ATM_TWO"         >Atm two</option>
+					</select><br>
+					<label name="problems" id="problems">which problem</label><br>
+					<select multiple="multiple" th:field="*{problems}" required>
+						<option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
+					</select><br>
+					<label name="beginTime" id="beginTime">Problem begin</label>
+					<input type="time" th:field="*{beginTime}" required><br>
+					<label name="end" id="end">Problem end</label>
+					<input type="time" th:field="*{endTime}"   required><br>
+					<button class="inputbox" type="submit">Submit </button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 
-	<div id="t" class="pricing-box text-center ghost">
-		<div class="center">
+<h5><button for="accounting" class="fine" onclick="toggle('p')">Project suspending</button></h5>
+<div id="p" class="ghost">
+	<table>
+		<tr>
+			<th>
+				<table>
+					<th class="kilenData">Stoped at</th>
+					<th class="kilenData">Started at</th>
+					<th class="kilenData">Problems</th>
+				</table>
+			</th>
+		</tr>
+	</table>
+	<table>
+		<tr th:if="${p}==null"><td class="kilenData" colspan="2">The Project works fine for the whole shift<td></tr>
+		<tr>
+			<td th:each="P :${p}" style="width:5%"><button class="danger">delete</button></td>
+			<td th:unless="${p}==null">
+				<table>
+					<tr th:each="P :${p}">
+						<td class="kilenData" th:text="${P.beginTime}">Stoped at</td>
+						<td class="kilenData" th:text="${P.endTime}">Started at</td>
+						<td class="kilenData"><ul th:each="l : ${P.problems}">
+								<li><button class="danger" th:text="${p.title}">problem number</button></li>
+						</ul><button class="good">add</button></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr><td class="kilenData" colspan="2"><button onclick="toggle('pf')" class="good">add</button></td></tr>
+	</table>
+	<div class="pricing-box-container">
+		<div id="pf" class="pricing-box text-center center ghost">
+			<h1>Project problem</h1>
+			<form action="#" th:action="@{/report/problem}" th:object="${problem}" method="post">
+			<input type="hidden" id="machine" name="machine" value="PROJECT">
+			<label name="problems" id="problems">which problem</label><br>
+			<select multiple="multiple" th:field="*{problems}" required>
+			<option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
+			</select><br>
+			<label name="beginTime" id="beginTime">Problem begin</label>
+			<input type="time" th:field="*{beginTime}" required><br>
+			<label name="endTime" id="endTime">Problem end</label>
+			<input type="time" th:field="*{endTime}"   required><br>
+				<button class="inputbox" type="submit">Submit </button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<h5><button for="accounting" class="fine" onclick="toggle('f')">Total Flow</button></h5>
+<div id="f" class="ghost">
+	<table>
+		<tr>
+			<th>Suspended machines</th>
+			<th>Max total flow</th>
+			<th>Min total flow</th>
+			<th>Start time</th>
+			<th>End time</th>
+		</tr>
+	</table>
+	<table>
+		<tr th:each="t : ${flow}">
+			<td style="width:5%"><button class="danger">delete</button></td>
+			<td class="kilenData"><ul th:each="m : ${t.suspendedMachines}">
+				<li><button class="danger" th:text="${m}">machine number</button></li>
+			</ul><button class="good">add</button></td>
+			<td class="kilenData" th:text="${t.maxFlow}">Max flow</td>
+			<td class="kilenData" th:text="${t.minFlow}">Min flow</td>
+			<td class="kilenData" th:text="${t.caseBeginTime}">Start time</td>
+			<td class="kilenData" th:text="${t.caseEndTime}">End time</td>
+		</tr>
+		<tr><td class="kilenData" colspan="6"><button onclick="toggle('ff')" class="good">add</button></td></tr>
+	</table>
+	<div class="pricing-box-container">
+		<div id="ff" class="pricing-box text-center center ghost">
+		<h1>Total Flow block</h1>
+			<form action="#" th:action="@{/report/flow}" th:object="${flow}" method="post">
+				<label name="machines" id="machines">suspended</label>
+				<select required="required" multiple="multiple" th:field="*{suspendedMachines}">
+					<option value="KILEN_ONE"    >kilen one</option>
+					<option value="KILEN_TWO"    >kilen two</option>
+					<option value="KILEN_THREE"  >kilen three</option>
+					<option value="KILEN_FOUR"   >kilen four</option>
+					<option value="KILEN_FIVE"   >kilen five</option>
+					<option value="DRAYER_ONE"   >drayer one</option>
+					<option value="DRAYER_TWO"   >drayer two</option>
+					<option value="DRAYER_THREE" >drayer three</option>
+					<option value="DRAYER_FOUR"  >drayer four</option>
+					<option value="DRAYER_FIVE"  >drayer five</option>
+					<option value="DRAYER_SIX"   >drayer six</option>
+					<option value="DRAYER_SEVEN" >drayer seven</option>
+					<option value="ATM_ONE"      >Atm one</option>
+					<option value="ATM_TWO"      >Atm two</option>
+				</select><br>
+				<label name="max"    id="max">Max Flow</label>
+				<input type="number" th:field="*{maxFlow}" required><br>
+				<label name="min"    id="min">min Flow</label>
+				<input type="number" th:field="*{minFlow}" required><br>
+
+				<label name="begin" id="begin">begin</label>
+				<input type="time"  th:field="*{caseBeginTime}" required>
+				<label name="end"   id="end">end</label>
+				<input type="time"  th:field="*{caseEndTime}"   required>
+				<button class="inputbox" type="submit">Submit </button>
+			</form>
+		</div>
+	</div>
+</div><br><br>
+
+<h4><pre>Max Temp: <span th:text="${maxT}">max</span>   Min Temp: <span th:text="${minT}">min</span></pre></h4>
+<h4 class="kilenData"><button onclick="toggle('tf')" class="good">set</button></h4><br><br>
+<div class="pricing-box-container">
+	<div id="tf" class="pricing-box text-center center ghost">
 		<h1>Temperature</h1>
 		<form action="#" th:action="@{/report/temp}" method="post">
-      <label name="max" id="max">Max Temp</label>
-      <input type="number" id="max" name="max" required><br>
-      <label name="end" id="end">min temp</label>
-      <input type="number" id="min"   name="min"   required><br>
-			  <button class="inputbox" type="submit">Submit </button>
-			</div>
-		</form>
-		</div>
-	</div>
-
-	<div id="p" class="pricing-box text-center center ghost">
-		<h1>Project problem</h1>
-		<form action="#" th:action="@{/report/problem}" th:object="${problem}" method="post">
-        <input type="hidden" id="machine" name="machine" value="PROJECT">
-        <label name="problems" id="problems">which problem</label><br>
-        <select multiple="multiple" th:field="*{problems}" required>
-          <option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
-        </select><br>
-        <label name="beginTime" id="beginTime">Problem begin</label>
-        <input type="time" th:field="*{beginTime}" required><br>
-        <label name="endTime" id="endTime">Problem end</label>
-        <input type="time" th:field="*{endTime}"   required><br>
-			  <button class="inputbox" type="submit">Submit </button>
+			<label name="max" id="max">Max Temp</label>
+			<input type="number" id="max" name="max" required><br>
+			<label name="end" id="end">min temp</label>
+			<input type="number" id="min"   name="min"   required><br>
+			<button class="inputbox" type="submit">Submit </button>
 		</form>
 	</div>
 </div>
 
-<div class="pricing-box-container">
-	<div id="k" class="pricing-box text-center ghost">
-		<div class="center">
-		<h1>Kilen Problem</h1>
-		<form action="#" th:action="@{/report/problem}" th:object="${problem}" method="post">
-        <label name="kilen" id="kilen">which kilen </label>
-        <select required="required" th:field="*{machine}">
-          <option value="KILEN_ONE"  selected>kilen one</option>
-          <option value="KILEN_TWO"         >kilen two</option>
-          <option value="KILEN_THREE"       >kilen three</option>
-          <option value="KILEN_FOUR"        >kilen four</option>
-          <option value="KILEN_FIVE"        >kilen five</option>
-        </select><br>
-        <label name="problems" id="problems">which problem</label><br>
-        <select multiple="multiple" th:field="*{problems}" required>
-          <option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
-        </select><br>
-      <label name="beginTime" id="beginTime">Problem begin</label>
-      <input type="time" th:field="*{beginTime}" required><br>
-      <label name="end" id="end">Problem end</label>
-      <input type="time" th:field="*{endTime}"   required><br>
-			  <button class="inputbox" type="submit">Submit </button>
-			</div>
-		</form>
-		</div>
-	</div>
-
-	<div id="d" class="pricing-box text-center ghost">
-		<div class="center">
-		<h1>Drayer Problem</h1>
-		<form action="#" th:action="@{/report/problem}" th:object="${problem}" method="post">
-        <label name="drayer" id="drayer">which drayer</label>
-        <select required="required" id="kilen" name="drayer">
-          <option value="DRAYER_ONE"  selected>drayer one</option>
-          <option value="DRAYER_TWO"         >drayer two</option>
-          <option value="DRAYER_THREE"       >drayer three</option>
-          <option value="DRAYER_FOUR"        >drayer four</option>
-          <option value="DRAYER_FIVE"        >drayer five</option>
-          <option value="DRAYER_SIX"         >drayer six</option>
-          <option value="DRAYER_SEVEN"       >drayer seven</option>
-        </select><br>
-        <label name="problems" id="problems">which problem</label><br>
-        <select multiple="multiple" th:field="*{problems}" required>
-          <option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
-        </select><br>
-      <label name="beginTime" id="beginTime">Problem begin</label>
-      <input type="time" th:field="*{beginTime}" required><br>
-      <label name="end" id="end">Problem end</label>
-      <input type="time" th:field="*{endTime}"   required><br>
-			  <button class="inputbox" type="submit">Submit </button>
-			</div>
-		</form>
-		</div>
-	</div>
-
-	<div id="a" class="pricing-box text-center ghost">
-		<div class="center">
-		<h1>ATM problem</h1>
-		<form action="#" th:action="@{/report/problem}" th:object="${problem}" method="post">
-        <label name="atm" id="atm">Atm : </label>
-        <select required="required" id="kilen" name="kilen">
-          <option value="ATM_ONE"  selected>Atm one</option>
-          <option value="ATM_TWO"         >Atm two</option>
-        </select><br>
-        <label name="problems" id="problems">which problem</label><br>
-        <select multiple="multiple" th:field="*{problems}" required>
-          <option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
-        </select><br>
-      <label name="beginTime" id="beginTime">Problem begin</label>
-      <input type="time" th:field="*{beginTime}" required><br>
-      <label name="end" id="end">Problem end</label>
-      <input type="time" th:field="*{endTime}"   required><br>
-			  <button class="inputbox" type="submit">Submit </button>
-			</div>
-		</form>
+<h5><button for="accounting" class="fine" onclick="toggle('e')">Employees</button></h5>
+<div id="e" class="ghost">
+	<table>
+		<tr th:each="n : ${names}">
+			<td style="width:5%"><button class="danger">delete</button></td>
+			<td class="kilenHead">Name</td>
+			<td class="kilenData" th:text="${n}">name</td>
+		</tr>
+		<tr><td class="kilenData" colspan="3"><button onclick="toggle('ef')" class="good">add</button></td></tr>
+	</table>
+	<div class="pricing-box-container">
+		<div id="ef" class="pricing-box text-center center ghost">
+			<h1>Employees</h1>
+			<form action="#" th:action="@{/report/emp}" method="post">
+				<label name="emp" id="emp">employee</label>
+				<select name="emp" id="emp" required>
+				<option th:each="e: ${emps}" th:value="${e}" th:text="${e}">employee</option>
+				</select><br>
+				<button class="inputbox" type="submit">Submit </button>
+			</form>
 		</div>
 	</div>
 </div>
 
+
+<p class="kilenData" th:text="${note}?:'no additional notes'">notes</p>
+<h4 class="kilenData"><button onclick="toggle('nf')" class="good">set</button></h4><br><br>
 <div class="pricing-box-container">
-	<div id="n" class="pricing-box text-center ghost">
-		<div class="center">
+	<div id="nf" class="pricing-box text-center center ghost">
 		<h1>Note</h1>
 		<form action="#" th:action="@{/report/note}" method="post">
-        <label name="note" id="note">Enter note</label>
-        <textarea maxlength="254" name="note" id="note" rows="5" cols="50">all is fine</textarea>
-			  <button class="inputbox" type="submit">Submit </button>
-			</div>
+			<textarea maxlength="254" name="note" id="note" rows="5" cols="50">all is fine</textarea>
+			<button class="inputbox" type="submit">Submit </button>
 		</form>
-		</div>
 	</div>
-
-	<div id="e" class="pricing-box text-center ghost">
-		<div class="center">
-		<h1>Employees</h1>
-		<form action="#" th:action="@{/report/emp}" method="post">
-        <label name="emp" id="emp">employee</label>
-        <select name="emp" id="emp" required>
-          <option th:each="e: ${emps}" th:value="${e}" th:text="${e}">employee</option>
-        </select><br>
-			  <button class="inputbox" type="submit">Submit </button>
-			</div>
-		</form>
-		</div>
-	</div>
-</div>
-
-
-<div class="pricing-box-container">
-  <div id="bd" style="display:none"  class="pricing-box pricing-box-bg-image text-center">
-    <a onclick="headToggle()"><button class="btn-primary">Head</button></a>
-  </div>
-</div>
-<footer>
-	<p>
-		Created <i class="fa fa-heart"></i> by
-		<b th:text="#{developer.name}">developer name</b>
-		- Read the source code of the project
-		<a target="_blank" href="https://github.com/mahmoud-eltahawy/rhr">in this Github page</a>
-	</p>
-</footer>
-<script>
-function toggle(id) {
-  var x = document.getElementById(id);
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-  if(id ==="pb" || id === "rb" || id === "ob"){
-    headToggle();
-  }
-}
-
-function headToggle() {
-    toggle("ba")
-    toggle("bb")
-    toggle("bc")
-    toggle("bd")
- }
-</script>
+</div><br><br><br><br>
 </body>
 </html>
