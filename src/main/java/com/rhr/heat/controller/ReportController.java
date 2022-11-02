@@ -32,18 +32,20 @@ public class ReportController {
 		ModelAndView mv = new ModelAndView();
 		Shift shift = service.getCurrentShift();
 		
-		Tools.completeShift(mv, shift);
+		mv = Tools.completeShift(mv, shift);
 		
 		mv.addObject("allEmps", service.usernames());
+		mv.addObject("emps", service.getCurrentShift()
+				.getEmployees().stream().map(e -> e.getUsername())
+				.collect(Collectors.toList()));
 		mv.addObject("pTitles", service.problemsTitles());
-		mv.addObject("emp", new Employee());
-
+		mv.addObject("pushable", shift.isPushable());
 		mv.setViewName("reportPage");
 		return mv;
 	}
 
 	@PostMapping("/problem")
-	public ModelAndView problem(
+	public String problem(
 			@RequestParam("machine")String machine,
 			@RequestParam("problems")List<String> problems,
 			@RequestParam("beginTime")String beginTime,
@@ -55,14 +57,12 @@ public class ReportController {
 				Machine.valueOf(machine),
 				Tools.getTime(beginTime),
 				Tools.getTime(endTime));
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("reportPage");
-		mv.addObject("pushable", service.addProblem(pd).isPushable());
-		return mv;
+		service.addProblem(pd);
+		return "redirect:/report/";
 	}
 
 	@PostMapping("/flow")
-	public ModelAndView flow(
+	public String flow(
 			@RequestParam("machines")List<String> machines,
 			@RequestParam("max")Integer max,
 			@RequestParam("min")Integer min,
@@ -74,37 +74,29 @@ public class ReportController {
 				min, max,
 				Tools.getTime(beginTime),
 				Tools.getTime(endTime));
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("reportPage");
-		mv.addObject("pushable", service.addTotalFlow(tf).isPushable());
-		return mv;
+		service.addTotalFlow(tf);
+		return "redirect:/report/";
 	}
 
 	@PostMapping("/emp")
-	public ModelAndView employee(@ModelAttribute("emp")String emp) {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("reportPage");
-		mv.addObject("pushable", service.addEmployee(emp).isPushable());
-		return mv;
+	public String employee(@ModelAttribute("emp")String emp) {
+		service.addEmployee(emp);
+		return "redirect:/report/";
 	}
 
 	@PostMapping("/temp")
-	public ModelAndView temperature(
+	public String temperature(
 			@RequestParam("max")Integer max ,
 			@RequestParam("min")Integer min) {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("reportPage");
-		mv.addObject("pushable", service.setTemperature(max, min).isPushable());
-		return mv;
+		service.setTemperature(max, min);
+		return "redirect:/report/";
 	}
 
 	@PostMapping("/note")
-	public ModelAndView note(
+	public String note(
 			@RequestParam("note")String note) {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("reportPage");
-		mv.addObject("pushable", service.setNote(note).isPushable());
-		return mv;
+		service.setNote(note);
+		return "redirect:/report/";
 	}
 
 	@PostMapping("/remove/problem")
