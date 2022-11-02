@@ -37,7 +37,6 @@ public class ReportController {
 		mv.addObject("allEmps", service.usernames());
 		mv.addObject("pTitles", service.problemsTitles());
 		mv.addObject("emp", new Employee());
-		mv.addObject("flow", new TotalFlow());
 
 		mv.setViewName("reportPage");
 		return mv;
@@ -63,7 +62,18 @@ public class ReportController {
 	}
 
 	@PostMapping("/flow")
-	public ModelAndView flow(@ModelAttribute("flow")TotalFlow tf) {
+	public ModelAndView flow(
+			@RequestParam("machines")List<String> machines,
+			@RequestParam("max")Integer max,
+			@RequestParam("min")Integer min,
+			@RequestParam("beginTime")String beginTime,
+			@RequestParam("endTime")String endTime) {
+		TotalFlow tf = new TotalFlow(null,
+				machines.stream().map(m -> Machine.valueOf(m))
+				.collect(Collectors.toList()),
+				min, max,
+				Tools.getTime(beginTime),
+				Tools.getTime(endTime));
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("reportPage");
 		mv.addObject("pushable", service.addTotalFlow(tf).isPushable());

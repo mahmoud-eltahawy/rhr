@@ -592,9 +592,9 @@ h4 {
 	<div class="pricing-box-container">
 		<div id="ff" class="pricing-box text-center center ghost">
 		<h1>Total Flow block</h1>
-			<form action="#" th:action="@{/report/flow}" th:object="${flow}" method="post">
+			<form action="#" th:action="@{/report/flow}" method="post">
 				<label name="machines" id="machines">suspended</label>
-				<select required="required" multiple="multiple" th:field="*{suspendedMachines}">
+				<select required="required" multiple="multiple" name="machines" id="machines">
 					<option value="KILEN_ONE"    >kilen one</option>
 					<option value="KILEN_TWO"    >kilen two</option>
 					<option value="KILEN_THREE"  >kilen three</option>
@@ -611,14 +611,14 @@ h4 {
 					<option value="ATM_TWO"      >Atm two</option>
 				</select><br>
 				<label name="max"    id="max">Max Flow</label>
-				<input type="number" th:field="*{maxFlow}" required><br>
+				<input type="number" name="max"    id="max" required><br>
 				<label name="min"    id="min">min Flow</label>
-				<input type="number" th:field="*{minFlow}" required><br>
+				<input type="number" name="min"    id="min" required><br>
 
-				<label name="begin" id="begin">begin</label>
-				<input type="time"  th:field="*{caseBeginTime}" required>
-				<label name="end"   id="end">end</label>
-				<input type="time"  th:field="*{caseEndTime}"   required>
+				<label name="beginTime" id="beginTime">begin</label>
+				<input type="time"  name="beginTime" id="beginTime" required>
+				<label name="endTime"   id="endTime">end</label>
+				<input type="time"  name="endTime"   id="endTime"   required>
 				<button class="inputbox" type="submit">Submit </button>
 			</form>
 		</div>
