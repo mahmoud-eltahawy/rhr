@@ -279,9 +279,9 @@ h4 {
 		<div class="pricing-box-container">
 			<div class="pricing-box text-center center ghost" id="kf">
 				<h1>Kilen Problem</h1>
-				<form action="#" th:action="@{/report/problem}" th:object="${problem}" method="post">
+				<form action="#" th:action="@{/report/problem}" method="post">
 				<label name="machine" id="machine">which kilen</label>
-				<select required="required" th:field="*{machine}">
+				<select required="required" id="machine" name="machine">
 					<option value="KILEN_ONE"  selected>kilen one</option>
 					<option value="KILEN_TWO"         >kilen two</option>
 					<option value="KILEN_THREE"       >kilen three</option>
@@ -289,13 +289,13 @@ h4 {
 					<option value="KILEN_FIVE"        >kilen five</option>
 				</select><br>
 				<label name="problems" id="problems">which problem</label><br>
-				<select multiple="multiple" th:field="*{problems}" required>
+				<select multiple="multiple" name="problems" id="problems" required>
 					<option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
 				</select><br>
 				<label name="beginTime" id="beginTime">Problem begin</label>
-				<input type="time" th:field="*{beginTime}" required><br>
-				<label name="end" id="end">Problem end</label>
-				<input type="time" th:field="*{endTime}"   required><br>
+				<input type="time" id="beginTime" name="beginTime" required><br>
+				<label name="endTime" id="endTime">Problem end</label>
+				<input type="time" id="endTime" name="endTime"   required><br>
 				<button class="inputbox" type="submit">Submit</button>
 				</form>
 			</div>
@@ -663,7 +663,6 @@ h4 {
 		</div>
 	</div>
 </div>
-
 
 <p class="kilenData" th:text="${note}?:'no additional notes'">notes</p>
 <h4 class="kilenData"><button onclick="toggle('nf')" class="good">set</button></h4><br><br>

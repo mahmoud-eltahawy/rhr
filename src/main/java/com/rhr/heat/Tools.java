@@ -264,4 +264,11 @@ public class Tools {
 		}
 		return mv;
 	}
+	
+	public static Time getTime(String str) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR, Integer.parseInt(str.substring(0, 2)));
+		cal.set(Calendar.MINUTE, Integer.parseInt(str.substring(3)));
+		return new Time(cal.getTimeInMillis());
+	}
 }

@@ -1,5 +1,9 @@
 package com.rhr.heat.controller;
 
+import java.sql.Time;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,9 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.rhr.heat.Tools;
 import com.rhr.heat.entity.Employee;
+import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.entity.TotalFlow;
+import com.rhr.heat.enums.Machine;
 import com.rhr.heat.service.ReportService;
 
 import lombok.RequiredArgsConstructor;
@@ -40,7 +46,18 @@ public class ReportController {
 	}
 
 	@PostMapping("/problem")
-	public ModelAndView problem(@ModelAttribute("problem")ProblemDetail pd) {
+	public ModelAndView problem(
+			@RequestParam("machine")String machine,
+			@RequestParam("problems")List<String> problems,
+			@RequestParam("beginTime")String beginTime,
+			@RequestParam("endTime")String endTime) {
+		
+		ProblemDetail pd = new ProblemDetail(null,
+				problems.stream().map(p -> new Problem(p,null))
+				.collect(Collectors.toList()),
+				Machine.valueOf(machine),
+				Tools.getTime(beginTime),
+				Tools.getTime(endTime));
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("reportPage");
 		mv.addObject("pushable", service.addProblem(pd).isPushable());
