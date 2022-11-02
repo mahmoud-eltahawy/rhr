@@ -35,9 +35,11 @@ public class ReportController {
 		mv = Tools.completeShift(mv, shift);
 		
 		mv.addObject("allEmps", service.usernames());
-		mv.addObject("emps", service.getCurrentShift()
-				.getEmployees().stream().map(e -> e.getUsername())
+		List<Employee> ems = service.getCurrentShift().getEmployees();
+		if(ems != null) {
+			mv.addObject("emps", ems.stream().map(e -> e.getUsername())
 				.collect(Collectors.toList()));
+		}
 		mv.addObject("pTitles", service.problemsTitles());
 		mv.addObject("pushable", shift.isPushable());
 		mv.setViewName("reportPage");
