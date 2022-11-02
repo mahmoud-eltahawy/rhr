@@ -4,7 +4,7 @@ package com.rhr.heat.controller.api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rhr.heat.service.Tester;
+import com.rhr.heat.service.api.Tester;
 
 import lombok.RequiredArgsConstructor;
 

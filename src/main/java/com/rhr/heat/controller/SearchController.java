@@ -28,6 +28,16 @@ import lombok.RequiredArgsConstructor;
 public class SearchController {
 	private final SearchService service;
 
+	@GetMapping("/")
+	public ModelAndView searchPage() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("searchButtons");
+		mv.addObject("HModel", new StringModel());
+		mv.addObject("names", service.usernames());
+		mv.addObject("pTitles", service.problemsTitles());
+		return mv;
+	}
+
 	@GetMapping("/last/week")
 	public ModelAndView index() {
 		ModelAndView mv = new ModelAndView();
@@ -36,16 +46,6 @@ public class SearchController {
 		mv.addObject("next", 1);
 		mv.addObject("prev", 0);
 		mv.addObject("week",service.pickLastWeeks(0));
-		return mv;
-	}
-
-	@GetMapping("/")
-	public ModelAndView searchPage() {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("searchButtons");
-		mv.addObject("HModel", new StringModel());
-		mv.addObject("names", service.usernames());
-		mv.addObject("pTitles", service.problemsTitles());
 		return mv;
 	}
 
