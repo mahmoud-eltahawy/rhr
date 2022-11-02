@@ -18,15 +18,36 @@ import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.model.StringModel;
-import com.rhr.heat.service.ShowingService;
+import com.rhr.heat.service.SearchService;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequestMapping("/show")
 @RequiredArgsConstructor
-public class ShowingController {
-	private final ShowingService service;
+public class SearchController {
+	private final SearchService service;
+
+	@GetMapping("/last/week")
+	public ModelAndView index() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("showDays");
+		mv.addObject("title","Welcom to index page");
+		mv.addObject("next", 1);
+		mv.addObject("prev", 0);
+		mv.addObject("week",service.pickLastWeeks(0));
+		return mv;
+	}
+
+	@GetMapping("/")
+	public ModelAndView searchPage() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("searchButtons");
+		mv.addObject("HModel", new StringModel());
+		mv.addObject("names", service.usernames());
+		mv.addObject("pTitles", service.problemsTitles());
+		return mv;
+	}
 
 	@GetMapping("/shift")
 	public ModelAndView showShift(@RequestParam("id")UUID id) {

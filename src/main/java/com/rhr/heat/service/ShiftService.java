@@ -1,7 +1,6 @@
 package com.rhr.heat.service;
 
 import java.sql.Date;
-import java.util.List;
 import java.util.TreeMap;
 
 import org.springframework.stereotype.Service;
@@ -26,13 +25,5 @@ public class ShiftService {
 	
 	public TreeMap<Date ,Day> pickLastdays(Integer days){
 		return Day.getDays(shiftRepo.findLast(days * 3,false));
-	}
-	
-	public List<String> usernames(){
-		return employeeRepo.findAllUserNames();
-	}
-	
-	public List<String> problemsTitles(){
-		return problemRepo.findAllTitles();
 	}
 }

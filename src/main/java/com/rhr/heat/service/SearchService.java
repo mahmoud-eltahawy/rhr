@@ -28,10 +28,18 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ShowingService {
+public class SearchService {
 	private final ShiftRepo shiftRepo;
 	private final ProblemRepo problemRepo;
 	private final EmployeeRepo employeeRepo;
+	
+	public List<String> problemsTitles(){
+		return problemRepo.findAllTitles();
+	}
+	
+	public List<String> usernames(){
+		return employeeRepo.findAllUserNames();
+	}
 	
 	public Optional<Shift> getShift(UUID id) {
 		return shiftRepo.findById(id, true);
