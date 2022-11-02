@@ -1,6 +1,5 @@
 package com.rhr.heat.controller;
 
-import java.sql.Time;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +37,6 @@ public class ReportController {
 		mv.addObject("allEmps", service.usernames());
 		mv.addObject("pTitles", service.problemsTitles());
 		mv.addObject("emp", new Employee());
-		mv.addObject("problem", new ProblemDetail());
 		mv.addObject("flow", new TotalFlow());
 
 		mv.setViewName("reportPage");

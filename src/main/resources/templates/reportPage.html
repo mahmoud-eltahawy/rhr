@@ -531,14 +531,14 @@ h4 {
 	<table>
 		<tr th:if="${p}==null"><td class="kilenData" colspan="2">The Project works fine for the whole shift<td></tr>
 		<tr>
-			<td th:each="P :${p}" style="width:5%"><button class="danger">delete</button></td>
 			<td th:unless="${p}==null">
 				<table>
 					<tr th:each="P :${p}">
+						<td style="width:5%"><button class="danger">delete</button></td>
 						<td class="kilenData" th:text="${P.beginTime}">Stoped at</td>
 						<td class="kilenData" th:text="${P.endTime}">Started at</td>
 						<td class="kilenData"><ul th:each="l : ${P.problems}">
-								<li><button class="danger" th:text="${p.title}">problem number</button></li>
+								<li><button class="danger" th:text="${l.title}">problem number</button></li>
 						</ul><button class="good">add</button></td>
 					</tr>
 				</table>
@@ -549,16 +549,16 @@ h4 {
 	<div class="pricing-box-container">
 		<div id="pf" class="pricing-box text-center center ghost">
 			<h1>Project problem</h1>
-			<form action="#" th:action="@{/report/problem}" th:object="${problem}" method="post">
+			<form action="#" th:action="@{/report/problem}" method="post">
 			<input type="hidden" id="machine" name="machine" value="PROJECT">
 			<label name="problems" id="problems">which problem</label><br>
-			<select multiple="multiple" th:field="*{problems}" required>
+			<select multiple="multiple" name="problems" id="problems" required>
 			<option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
 			</select><br>
 			<label name="beginTime" id="beginTime">Problem begin</label>
-			<input type="time" th:field="*{beginTime}" required><br>
+			<input type="time" name="beginTime" id="beginTime" required><br>
 			<label name="endTime" id="endTime">Problem end</label>
-			<input type="time" th:field="*{endTime}"   required><br>
+			<input type="time" name="endTime" id="endTime"   required><br>
 				<button class="inputbox" type="submit">Submit </button>
 			</form>
 		</div>
