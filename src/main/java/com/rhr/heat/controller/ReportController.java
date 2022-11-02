@@ -44,6 +44,12 @@ public class ReportController {
 		return mv;
 	}
 
+	@RequestMapping("/save")
+	public String save() {
+		service.save();
+		return "redirect:/report/";
+	}
+
 	@PostMapping("/problem")
 	public String problem(
 			@RequestParam("machine")String machine,

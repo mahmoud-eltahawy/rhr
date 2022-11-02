@@ -2,6 +2,7 @@ package com.rhr.heat.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,15 @@ public class ReportService {
 	private final EmployeeRepo employeeRepo;
 	private final ProblemRepo problemRepo;
 	
+	public void save() {
+		Shift s = getCurrentShift();
+		s.setEmployees(s.getEmployees().stream()
+				.map(e -> employeeRepo.findByUsername(e.getUsername()).orElseThrow())
+				.collect(Collectors.toList()));
+		if(s.isPushable()) {
+			shiftRepo.save(s);
+		}
+	}
 	public ShiftId getTheId() {
 		return tool.thisShift();
 	}

@@ -675,5 +675,12 @@ h4 {
 		</form>
 	</div>
 </div><br><br><br><br>
+<div class="pricing-box-container">
+	<div class="pricing-box text-center center">
+		<div th:if="${pushable}==true">
+			<a href="#" th:href="@{/report/save}"><button  class="good">Save</button></a>
+		</div>
+	</div>
+</div><br><br><br><br>
 </body>
 </html>
