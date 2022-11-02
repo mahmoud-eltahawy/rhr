@@ -428,9 +428,9 @@ h4 {
 		<div class="pricing-box-container">
 			<div id="df" class="pricing-box text-center center ghost">
 				<h1>Drayer Problem</h1>
-				<form action="#" th:action="@{/report/problem}" th:object="${problem}" method="post">
-					<label name="drayer" id="drayer">which drayer</label>
-					<select required="required" id="drayer" name="drayer">
+				<form action="#" th:action="@{/report/problem}" method="post">
+					<label name="machine" id="machine">which drayer</label>
+					<select required="required" id="machine" name="machine">
 						<option value="DRAYER_ONE"  selected>drayer one</option>
 						<option value="DRAYER_TWO"         >drayer two</option>
 						<option value="DRAYER_THREE"       >drayer three</option>
@@ -440,14 +440,14 @@ h4 {
 						<option value="DRAYER_SEVEN"       >drayer seven</option>
 					</select><br>
 					<label name="problems" id="problems">which problem</label><br>
-					<select multiple="multiple" th:field="*{problems}" required>
+					<select multiple="multiple" name="problems" id="problems" required>
 						<option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
 					</select><br>
 					<label name="beginTime" id="beginTime">Problem begin</label>
-					<input type="time" th:field="*{beginTime}" required><br>
-					<label name="end" id="end">Problem end</label>
-					<input type="time" th:field="*{endTime}"   required><br>
-					<button class="inputbox" type="submit">Submit </button>
+					<input type="time" id="beginTime" name="beginTime" required><br>
+					<label name="endTime" id="endTime">Problem end</label>
+					<input type="time" id="endTime" name="endTime"   required><br>
+					<button class="inputbox" type="submit">Submit</button>
 				</form>
 			</div>
 		</div>
