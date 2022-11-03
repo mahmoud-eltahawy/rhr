@@ -11,7 +11,14 @@ CREATE TABLE IF NOT EXISTS employee (
     CONSTRAINT emp_unique_username UNIQUE(username)
 );
 
-CREATE INDEX IF NOT EXISTS idx_by_username ON employee (username);
+CREATE INDEX IF NOT EXISTS idx_by_username ON employee(username);
+
+CREATE TABLE IF NOT EXISTS machine(
+    id       UUID        PRIMARY KEY,
+    catagory VARCHAR(20) NOT NULL,
+    num      INTEGER     NOT NULL,
+    CONSTRAINT unique_machine_identity UNIQUE(catagory,num)
+);
 
 CREATE TABLE IF NOT EXISTS total_flow (
     id             UUID        PRIMARY KEY,
@@ -21,30 +28,20 @@ CREATE TABLE IF NOT EXISTS total_flow (
     max_flow       INTEGER     NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS suspended_machine(
-    id UUID  NOT NULL,
-    machine VARCHAR(15) NOT NULL,
-    PRIMARY KEY(id,machine),
-    FOREIGN KEY(id) REFERENCES total_flow(id) ON DELETE CASCADE,
-    CONSTRAINT chk_suspended_machine CHECK(machine
-    in ('KILEN_ONE','KILEN_TWO',
-	'KILEN_THREE','KILEN_FOUR','KILEN_FIVE',
-	'DRAYER_ONE','DRAYER_TWO','DRAYER_THREE',
-	'DRAYER_FOUR','DRAYER_FIVE','DRAYER_SIX',
-	'DRAYER_SEVEN','ATM_ONE','ATM_TWO','PROJECT'))
+CREATE TABLE IF NOT EXISTS total_flow_machine(
+    total_flow_id UUID  NOT NULL,
+    machine_id    UUID  NOT NULL,
+    PRIMARY KEY(total_flow_id,machine_id),
+    FOREIGN KEY(total_flow_id) REFERENCES total_flow(id) ON DELETE CASCADE,
+    FOREIGN KEY(machine_id)    REFERENCES machine(id)    ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS problem_detail (
-    id           UUID        PRIMARY KEY,
-    machine      VARCHAR(15) NOT NULL,
-    begin_time   TIME        NOT NULL,
-    end_time     TIME        NOT NULL,
-    CONSTRAINT problem_detail_machine_values
-    CHECK(machine in ('KILEN_ONE','KILEN_TWO',
-	'KILEN_THREE','KILEN_FOUR','KILEN_FIVE',
-	'DRAYER_ONE','DRAYER_TWO','DRAYER_THREE',
-	'DRAYER_FOUR','DRAYER_FIVE','DRAYER_SIX',
-	'DRAYER_SEVEN','ATM_ONE','ATM_TWO','PROJECT'))
+    id           UUID       PRIMARY KEY,
+    machine_id   UUID       NOT NULL,
+    begin_time   TIME       NOT NULL,
+    end_time     TIME       NOT NULL,
+    FOREIGN KEY(machine_id) REFERENCES machine(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS problem (
