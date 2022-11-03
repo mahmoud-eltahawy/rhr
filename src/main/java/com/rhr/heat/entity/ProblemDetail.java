@@ -6,7 +6,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 import com.rhr.heat.Tools;
-import com.rhr.heat.enums.Machine;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,7 +31,7 @@ public class ProblemDetail {
 		ProblemDetail other = (ProblemDetail) obj;
 		return Tools.equals(beginTime, other.beginTime) &&
 				Tools.equals(endTime, other.endTime)
-				&& machine == other.machine && Objects.equals(problems, other.problems);
+				&& machine.equals(other.machine) && Objects.equals(problems, other.problems);
 	}
 	@Override
 	public int hashCode() {

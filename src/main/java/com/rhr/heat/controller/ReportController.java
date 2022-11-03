@@ -12,11 +12,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.rhr.heat.Tools;
 import com.rhr.heat.entity.Employee;
+import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.entity.TotalFlow;
-import com.rhr.heat.enums.Machine;
 import com.rhr.heat.service.ReportService;
 
 import lombok.RequiredArgsConstructor;
@@ -54,7 +54,7 @@ public class ReportController {
 
 	@PostMapping("/problem")
 	public String problem(
-			@RequestParam("machine")String machine,
+			@RequestParam("machine")Machine machine,
 			@RequestParam("problems")List<String> problems,
 			@RequestParam("beginTime")String beginTime,
 			@RequestParam("endTime")String endTime) {
@@ -62,7 +62,7 @@ public class ReportController {
 		ProblemDetail pd = new ProblemDetail(null,
 				problems.stream().map(p -> new Problem(p,null))
 				.collect(Collectors.toList()),
-				Machine.valueOf(machine),
+				machine,
 				Tools.getTime(beginTime),
 				Tools.getTime(endTime));
 		service.addProblem(pd);
@@ -71,14 +71,13 @@ public class ReportController {
 
 	@PostMapping("/flow")
 	public String flow(
-			@RequestParam("machines")List<String> machines,
+			@RequestParam("machines")List<Machine> machines,
 			@RequestParam("max")Integer max,
 			@RequestParam("min")Integer min,
 			@RequestParam("beginTime")String beginTime,
 			@RequestParam("endTime")String endTime) {
 		TotalFlow tf = new TotalFlow(null,
-				machines.stream().map(m -> Machine.valueOf(m))
-				.collect(Collectors.toList()),
+				machines,
 				min, max,
 				Tools.getTime(beginTime),
 				Tools.getTime(endTime));

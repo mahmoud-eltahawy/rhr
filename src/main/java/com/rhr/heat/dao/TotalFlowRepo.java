@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import com.rhr.heat.dao.rowMappers.TotalFlowRowMapper;
 import com.rhr.heat.entity.TotalFlow;
-import com.rhr.heat.enums.Machine;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TotalFlowRepo {
 	private final JdbcTemplate jdbcTemplate;
+	private final MachineRepo machineRepo;
 	
 	public List<TotalFlow> findAll(){
 		String sql = "SELECT * FROM total_flow";
@@ -56,17 +56,18 @@ public class TotalFlowRepo {
 		
 		tf.getSuspendedMachines().forEach(m ->{
 			jdbcTemplate.update("INSERT INTO "
-					+ "suspended_machine(id,machine) values(?,?) "
-					+ "ON CONFLICT(id,machine) DO NOTHING",uuid,m.toString());
+					+ "total_flow_machine(total_flow_id,machine_id) values(?,?) "
+					+ "ON CONFLICT(total_flow_id,machine_id) DO NOTHING",uuid,m.getId());
 		});
 		
 		return uuid;
 	}
 	
-	private TotalFlow fullFill(TotalFlow tf) {
-		tf.setSuspendedMachines(jdbcTemplate.queryForList("SELECT machine FROM "
-				+ "suspended_machine where id =?",String.class,tf.getId())
-				.stream().map(s -> Machine.valueOf(s)).collect(Collectors.toList()));
+	public TotalFlow fullFill(TotalFlow tf) {
+		tf.setSuspendedMachines(jdbcTemplate.queryForList("SELECT machine_id FROM "
+				+ "total_flow_machine where total_flow_id = ?",UUID.class,tf.getId())
+				.stream().map(uuid -> machineRepo.findById(uuid).orElseThrow())
+				.collect(Collectors.toList()));
 		return tf;
 	}
 }

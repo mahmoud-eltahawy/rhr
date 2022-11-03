@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class ProblemDetailsRepo {
 	private final JdbcTemplate jdbcTemplate;
 	private final ProblemRepo  problemRepo;
+	private final MachineRepo machineRepo;
 	
 	public List<ProblemDetail> findAll(){
 		String sql = "SELECT * FROM problem_detail";
@@ -50,10 +51,10 @@ public class ProblemDetailsRepo {
 
 	public UUID save(ProblemDetail pd) {
 		UUID uuid = UUID.randomUUID();
-		jdbcTemplate.update("INSERT INTO problem_detail(id,machine,"
+		jdbcTemplate.update("INSERT INTO problem_detail(id,machine_id,"
 							+ "begin_time, end_time) VALUES(?,?,?,?)",
 							uuid,
-							pd.getMachine().toString(),
+							pd.getMachine().getId(),
 							pd.getBeginTime(),
 							pd.getEndTime());
 		
@@ -65,7 +66,8 @@ public class ProblemDetailsRepo {
 		return uuid;
 	}
 	
-	private ProblemDetail fullFill(ProblemDetail pd) {
+	public ProblemDetail fullFill(ProblemDetail pd) {
+		pd.setMachine(machineRepo.findById(pd.getMachine().getId()).orElseThrow());
 		pd.setProblems(problemRepo.findProblemDetailProblems(pd.getId()));
 		return pd;
 	}

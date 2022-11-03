@@ -14,7 +14,6 @@ import com.rhr.heat.dao.rowMappers.ProblemDetailRowMapper;
 import com.rhr.heat.dao.rowMappers.ShiftRowMapper;
 import com.rhr.heat.dao.rowMappers.TotalFlowRowMapper;
 import com.rhr.heat.entity.Shift;
-import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.ShiftOrder;
 
 import lombok.RequiredArgsConstructor;
@@ -27,7 +26,6 @@ public class ShiftRepo {
 	private final ProblemDetailsRepo problemDetailsRepo;
 	private final ShiftIdRepo shiftIdRepo;
 	private final TotalFlowRepo totalFlowRepo;
-	private final ProblemRepo problemRepo;
 
 	public List<Shift> findAll(Boolean perfect) {
 		 List<Shift> shifts = jdbcTemplate.query(
@@ -284,13 +282,12 @@ public class ShiftRepo {
 				 + "where si.id = ?",
 			 new EmployeeRowMapper(),s.getShiftId().getId()));
 		 s.setProblems(jdbcTemplate.query(
-				 "SELECT pd.id, pd.machine, pd.begin_time,"
+				 "SELECT pd.id, pd.machine_id, pd.begin_time,"
 				 +"pd.end_time FROM problem_detail pd JOIN shift_problem "
 				 +"sp ON pd.id = sp.problem_id JOIN shift_id si ON sp.shift_id = si.id "
 				 +"where si.id = ?", 
 				 new ProblemDetailRowMapper(),s.getShiftId().getId()).stream().map(pd ->{
-					 pd.setProblems(problemRepo.findProblemDetailProblems(pd.getId()));
-					 return pd;
+					 return problemDetailsRepo.fullFill(pd);
 				 }).collect(Collectors.toList()));
 		 s.setTotalFlowAverage(jdbcTemplate.query(
 				 "SELECT tf.id, tf.begin_time, tf.end_time,"
@@ -298,10 +295,7 @@ public class ShiftRepo {
 				 +"sf ON tf.id = sf.flow_id JOIN shift_id si ON sf.shift_id = si.id "
 				 +"where si.id = ?", 
 				 new TotalFlowRowMapper(), s.getShiftId().getId()).stream().map(tf -> {
-					tf.setSuspendedMachines(jdbcTemplate.queryForList("SELECT machine FROM "
-							+ "suspended_machine where id =?",String.class,tf.getId())
-							.stream().map(m -> Machine.valueOf(m)).collect(Collectors.toList()));
-					 return tf;
+					 return totalFlowRepo.fullFill(tf);
 				 }).collect(Collectors.toList()));
 		 return s;
 	}

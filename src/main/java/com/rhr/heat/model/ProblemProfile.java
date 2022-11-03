@@ -3,7 +3,7 @@ package com.rhr.heat.model;
 import java.sql.Date;
 import java.sql.Time;
 
-import com.rhr.heat.enums.Machine;
+import com.rhr.heat.entity.Machine;
 import com.rhr.heat.enums.ShiftOrder;
 
 import lombok.AllArgsConstructor;

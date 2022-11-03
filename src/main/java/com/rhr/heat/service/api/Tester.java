@@ -8,18 +8,18 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.rhr.heat.dao.EmployeeRepo;
+import com.rhr.heat.dao.MachineRepo;
 import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.dao.ShiftRepo;
 import com.rhr.heat.entity.Employee;
+import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.enums.EmployeePosition;
-import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.ShiftOrder;
-import com.rhr.heat.service.ReportService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,14 +29,46 @@ public class Tester {
 	private final EmployeeRepo employeeRepo;
 	private final ShiftRepo shiftRepo;
 	private final ProblemRepo problemRepo;
-	private final ReportService service;
+	private final MachineRepo machineRepo;
 
 	public void insertData() {
-		Employee emp1 = new Employee(null,"mahmoud","sabry","mohammed",EmployeePosition.Engineer,"mahmoud_sabry","1234");
+		Employee emp1 = new Employee(null,"mahmoud","mohammed","sabry",EmployeePosition.Engineer,"mahmoud_sabry","1234");
 		Employee emp2 = new Employee(null,"mahmoud","gamal","mohammed",EmployeePosition.worker,"mahmoud_gamal","1234");
 		Employee emp3 = new Employee(null,"taha","mohammed","ismaail",EmployeePosition.worker,"taha_mohammed","1234");
 		Employee emp4 = new Employee(null,"mohammed","gomaa","mohammed",EmployeePosition.worker,"mohammed_gomaa","1234");
 		Employee emp5 = new Employee(null,"ehab","hagag","saad",EmployeePosition.worker,"ehab_hagag","1234");
+		
+		Machine KILEN_ONE     = new Machine(null, "KILEN" , 1);
+		Machine KILEN_TWO     = new Machine(null, "KILEN" , 2);
+		Machine KILEN_THREE   = new Machine(null, "KILEN" , 3);
+		Machine KILEN_FOUR    = new Machine(null, "KILEN" , 4);
+		Machine KILEN_FIVE    = new Machine(null, "KILEN" , 5);
+		Machine DRAYER_ONE    = new Machine(null, "DRAYER", 1);
+		Machine DRAYER_TWO    = new Machine(null, "DRAYER", 2);
+		Machine DRAYER_THREE  = new Machine(null, "DRAYER", 3);
+		Machine DRAYER_FOUR   = new Machine(null, "DRAYER", 4);
+		Machine DRAYER_FIVE   = new Machine(null, "DRAYER", 5);
+		Machine DRAYER_SIX    = new Machine(null, "DRAYER", 6);
+		Machine DRAYER_SEVEN  = new Machine(null, "DRAYER", 7);
+		Machine ATM_ONE       = new Machine(null, "ATM"   , 1);
+		Machine ATM_TWO       = new Machine(null, "ATM"   , 2);
+		Machine PROJECT       = new Machine(null, "PROJECT", 0);
+
+		KILEN_ONE.setId(machineRepo.save(KILEN_ONE));
+		KILEN_TWO.setId(machineRepo.save(KILEN_TWO));
+		KILEN_THREE.setId(machineRepo.save(KILEN_THREE));
+		KILEN_FOUR.setId(machineRepo.save(KILEN_FOUR));
+		KILEN_FIVE.setId(machineRepo.save(KILEN_FIVE));
+		DRAYER_ONE.setId(machineRepo.save(DRAYER_ONE));
+		DRAYER_TWO.setId(machineRepo.save(DRAYER_TWO));
+		DRAYER_THREE.setId(machineRepo.save(DRAYER_THREE));
+		DRAYER_FOUR.setId(machineRepo.save(DRAYER_FOUR));
+		DRAYER_FIVE.setId(machineRepo.save(DRAYER_FIVE));
+		DRAYER_SIX.setId(machineRepo.save(DRAYER_SIX));
+		DRAYER_SEVEN.setId(machineRepo.save(DRAYER_SEVEN));
+		ATM_ONE.setId(machineRepo.save(ATM_ONE));
+		ATM_TWO.setId(machineRepo.save(ATM_TWO));
+		PROJECT.setId(machineRepo.save(PROJECT));
 
 		emp1.setId(employeeRepo.save(emp1));
 		emp2.setId(employeeRepo.save(emp2));
@@ -73,106 +105,106 @@ public class Tester {
 		cal.set(Calendar.MINUTE, 40);
 		Time end = new Time(cal.getTime().getTime());
 
-		ProblemDetail pd1  = new ProblemDetail(null,List.of(P1,P2),Machine.ATM_ONE,begin,end);
+		ProblemDetail pd1  = new ProblemDetail(null,List.of(P1,P2),ATM_ONE,begin,end);
 		cal.set(Calendar.HOUR, 5);
 		cal.set(Calendar.MINUTE, 50);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd2  = new ProblemDetail(null,List.of(P3,P4),Machine.ATM_TWO,begin,end);
+		ProblemDetail pd2  = new ProblemDetail(null,List.of(P3,P4),ATM_TWO,begin,end);
 		cal.set(Calendar.HOUR, 0);
 		cal.set(Calendar.MINUTE, 50);
 		begin = new Time(cal.getTime().getTime());
-		ProblemDetail pd3  = new ProblemDetail(null,List.of(P5,P6),Machine.DRAYER_ONE,begin,end);
+		ProblemDetail pd3  = new ProblemDetail(null,List.of(P5,P6),DRAYER_ONE,begin,end);
 		cal.set(Calendar.HOUR, 6);
 		cal.set(Calendar.MINUTE, 6);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd4  = new ProblemDetail(null,List.of(P7,P8),Machine.DRAYER_TWO,begin,end);
+		ProblemDetail pd4  = new ProblemDetail(null,List.of(P7,P8),DRAYER_TWO,begin,end);
 		cal.set(Calendar.HOUR, 1);
 		cal.set(Calendar.MINUTE, 5);
 		begin = new Time(cal.getTime().getTime());
-		ProblemDetail pd5  = new ProblemDetail(null,List.of(P9,P1),Machine.DRAYER_THREE,begin,end);
+		ProblemDetail pd5  = new ProblemDetail(null,List.of(P9,P1),DRAYER_THREE,begin,end);
 		cal.set(Calendar.HOUR, 3);
 		cal.set(Calendar.MINUTE, 30);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd6  = new ProblemDetail(null,List.of(P2,P5),Machine.DRAYER_FOUR,begin,end);
+		ProblemDetail pd6  = new ProblemDetail(null,List.of(P2,P5),DRAYER_FOUR,begin,end);
 		cal.set(Calendar.HOUR, 2);
 		cal.set(Calendar.MINUTE, 5);
 		begin = new Time(cal.getTime().getTime());
-		ProblemDetail pd7  = new ProblemDetail(null,List.of(P4,P7),Machine.DRAYER_FIVE,begin,end);
+		ProblemDetail pd7  = new ProblemDetail(null,List.of(P4,P7),DRAYER_FIVE,begin,end);
 		cal.set(Calendar.HOUR, 3);
 		cal.set(Calendar.MINUTE, 40);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd8  = new ProblemDetail(null,List.of(P8,P3),Machine.DRAYER_SIX,begin,end);
+		ProblemDetail pd8  = new ProblemDetail(null,List.of(P8,P3),DRAYER_SIX,begin,end);
 		cal.set(Calendar.HOUR, 1);
 		cal.set(Calendar.MINUTE, 30);
 		begin = new Time(cal.getTime().getTime());
-		ProblemDetail pd9  = new ProblemDetail(null,List.of(P4,P6),Machine.DRAYER_SEVEN,begin,end);
+		ProblemDetail pd9  = new ProblemDetail(null,List.of(P4,P6),DRAYER_SEVEN,begin,end);
 		cal.set(Calendar.HOUR, 5);
 		cal.set(Calendar.MINUTE, 10);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd10 = new ProblemDetail(null,List.of(P5,P7),Machine.ATM_ONE,begin,end);
+		ProblemDetail pd10 = new ProblemDetail(null,List.of(P5,P7),ATM_ONE,begin,end);
 		cal.set(Calendar.HOUR, 2);
 		cal.set(Calendar.MINUTE, 30);
 		begin = new Time(cal.getTime().getTime());
-		ProblemDetail pd11 = new ProblemDetail(null,List.of(P1,P8),Machine.ATM_TWO,begin,end);
+		ProblemDetail pd11 = new ProblemDetail(null,List.of(P1,P8),ATM_TWO,begin,end);
 		cal.set(Calendar.HOUR, 5);
 		cal.set(Calendar.MINUTE, 20);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd12 = new ProblemDetail(null,List.of(P1,P8,P3),Machine.PROJECT,begin,end);
+		ProblemDetail pd12 = new ProblemDetail(null,List.of(P1,P8,P3),PROJECT,begin,end);
 		cal.set(Calendar.HOUR, 2);
 		cal.set(Calendar.MINUTE, 45);
 		begin = new Time(cal.getTime().getTime());
-		ProblemDetail pd13 = new ProblemDetail(null,List.of(P2,P9,P4),Machine.PROJECT,begin,end);
+		ProblemDetail pd13 = new ProblemDetail(null,List.of(P2,P9,P4),PROJECT,begin,end);
 		cal.set(Calendar.HOUR, 8);
 		cal.set(Calendar.MINUTE, 0);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd14 = new ProblemDetail(null,List.of(P5,P6,P7),Machine.KILEN_FIVE,begin,end);
+		ProblemDetail pd14 = new ProblemDetail(null,List.of(P5,P6,P7),KILEN_FIVE,begin,end);
 		cal.set(Calendar.HOUR, 8);
 		cal.set(Calendar.MINUTE, 0);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd15 = new ProblemDetail(null,List.of(P5,P6,P7),Machine.KILEN_ONE,begin,end);
+		ProblemDetail pd15 = new ProblemDetail(null,List.of(P5,P6,P7),KILEN_ONE,begin,end);
 		cal.set(Calendar.HOUR, 8);
 		cal.set(Calendar.MINUTE, 0);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd16 = new ProblemDetail(null,List.of(P5,P6,P7),Machine.KILEN_ONE,begin,end);
+		ProblemDetail pd16 = new ProblemDetail(null,List.of(P5,P6,P7),KILEN_ONE,begin,end);
 		cal.set(Calendar.HOUR, 8);
 		cal.set(Calendar.MINUTE, 0);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd17 = new ProblemDetail(null,List.of(P5,P6,P7),Machine.KILEN_TWO,begin,end);
+		ProblemDetail pd17 = new ProblemDetail(null,List.of(P5,P6,P7),KILEN_TWO,begin,end);
 		cal.set(Calendar.HOUR, 8);
 		cal.set(Calendar.MINUTE, 0);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd18 = new ProblemDetail(null,List.of(P5,P6,P7),Machine.KILEN_THREE,begin,end);
+		ProblemDetail pd18 = new ProblemDetail(null,List.of(P5,P6,P7),KILEN_THREE,begin,end);
 		cal.set(Calendar.HOUR, 8);
 		cal.set(Calendar.MINUTE, 0);
 		end = new Time(cal.getTime().getTime());
-		ProblemDetail pd19 = new ProblemDetail(null,List.of(P5,P6,P7),Machine.KILEN_FOUR,begin,end);
+		ProblemDetail pd19 = new ProblemDetail(null,List.of(P5,P6,P7),KILEN_FOUR,begin,end);
 
 
-		TotalFlow tf1 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
+		TotalFlow tf1 = new TotalFlow(null,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end);
 		cal.set(Calendar.HOUR, 8);
 		cal.set(Calendar.MINUTE, 0);
 		end = new Time(cal.getTime().getTime());
-		TotalFlow tf2 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
+		TotalFlow tf2 = new TotalFlow(null,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end);
 		cal.set(Calendar.HOUR, 1);
 		cal.set(Calendar.MINUTE, 35);
 		begin = new Time(cal.getTime().getTime());
-		TotalFlow tf3 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
+		TotalFlow tf3 = new TotalFlow(null,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end);
 		cal.set(Calendar.HOUR, 5);
 		cal.set(Calendar.MINUTE, 15);
 		end = new Time(cal.getTime().getTime());
-		TotalFlow tf4 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
+		TotalFlow tf4 = new TotalFlow(null,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end);
 		cal.set(Calendar.HOUR, 1);
 		cal.set(Calendar.MINUTE, 15);
 		begin = new Time(cal.getTime().getTime());
-		TotalFlow tf5 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
+		TotalFlow tf5 = new TotalFlow(null,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end);
 		cal.set(Calendar.HOUR, 4);
 		cal.set(Calendar.MINUTE, 10);
 		end = new Time(cal.getTime().getTime());
-		TotalFlow tf6 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
+		TotalFlow tf6 = new TotalFlow(null,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end);
 		cal.set(Calendar.HOUR, 00);
 		cal.set(Calendar.MINUTE, 15);
 		begin = new Time(cal.getTime().getTime());
-		TotalFlow tf7 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
+		TotalFlow tf7 = new TotalFlow(null,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end);
 
 		
 		
@@ -1729,40 +1761,5 @@ public class Tester {
 	}
 
 	public void emp() {
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.HOUR, 3);
-		cal.set(Calendar.MINUTE, 45);
-		cal.set(Calendar.SECOND, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-		cal.set(Calendar.AM_PM, Calendar.AM);
-		Time begin = new Time(cal.getTime().getTime());
-		cal.set(Calendar.HOUR, 4);
-		cal.set(Calendar.MINUTE, 40);
-		Time end = new Time(cal.getTime().getTime());
-		
-		Problem P1 = new Problem("title 1", "description 1");
-		Problem P2 = new Problem("title 2", "description 2");
-
-		problemRepo.save(P1);
-		problemRepo.save(P2);
-		
-		ProblemDetail pd1  = new ProblemDetail(null,List.of(P1,P2),Machine.ATM_ONE,begin,end);
-		
-		Employee emp2 = new Employee(null,"mahmoud","gamal","mohammed",EmployeePosition.worker,"mahmoud_gamal","1234");
-		
-		employeeRepo.save(emp2);
-		
-		TotalFlow tf1 = new TotalFlow(null,List.of(Machine.ATM_ONE,Machine.DRAYER_TWO),77,92,begin,end);
-		
-		service.addProblem(pd1);
-		service.addEmployee("mahmoud_gamal");
-		service.addTotalFlow(tf1);
-		service.setTemperature(220, 190);
-		service.setNote("perfection");
-		service.saveShift();
-		
-//		service.removeProblem(pd1);
-//		service.removeEmployee(emp2);
-//		service.removeTotalFlow(tf1);
 	}
 }

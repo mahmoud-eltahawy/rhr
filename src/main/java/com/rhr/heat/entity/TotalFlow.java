@@ -6,7 +6,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 import com.rhr.heat.Tools;
-import com.rhr.heat.enums.Machine;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,21 +1,5 @@
 package com.rhr.heat;
 
-import static com.rhr.heat.enums.Machine.KILEN_ONE;
-import static com.rhr.heat.enums.Machine.KILEN_TWO;
-import static com.rhr.heat.enums.Machine.KILEN_THREE;
-import static com.rhr.heat.enums.Machine.KILEN_FOUR;
-import static com.rhr.heat.enums.Machine.KILEN_FIVE;
-import static com.rhr.heat.enums.Machine.DRAYER_ONE;
-import static com.rhr.heat.enums.Machine.DRAYER_TWO;
-import static com.rhr.heat.enums.Machine.DRAYER_THREE;
-import static com.rhr.heat.enums.Machine.DRAYER_FOUR;
-import static com.rhr.heat.enums.Machine.DRAYER_FIVE;
-import static com.rhr.heat.enums.Machine.DRAYER_SIX;
-import static com.rhr.heat.enums.Machine.DRAYER_SEVEN;
-import static com.rhr.heat.enums.Machine.ATM_ONE;
-import static com.rhr.heat.enums.Machine.ATM_TWO;
-import static com.rhr.heat.enums.Machine.PROJECT;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -38,10 +22,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.entity.ShiftId;
-import com.rhr.heat.enums.Machine;
 import com.rhr.heat.enums.ShiftOrder;
 
 import lombok.RequiredArgsConstructor;
@@ -233,26 +217,41 @@ public class Tools {
 		
 		return mp;
 	}
-
-	public static ModelAndView completeShift(ModelAndView mv,Shift shift) {
-		Map<Machine, List<ProblemDetail>> mp = getMachinesProblems(shift.getProblems());
+	
+	public static Map<String, List<ProblemDetail>> getCategoryProblems(List<ProblemDetail> allDetails){
+		Map<String, List<ProblemDetail>> mp = new HashMap<>();
+		if(allDetails != null) {
+			for (ProblemDetail pd : allDetails) {
+				String cat = pd.getMachine().getCatagory();
+				if(mp.get(cat) == null) {
+					List<ProblemDetail> pds = new ArrayList<>();
+					pds.add(pd);
+					mp.put(cat, pds);
+				} else {
+					List<ProblemDetail> pds = mp.get(cat);
+					pds.add(pd);
+					mp.put(cat, pds);
+				}
+			}
+		}
+		return mp;
+	}
+	
+	public static Map<String, Map<Machine, List<ProblemDetail>>>
+		getCategoryMachines(List<ProblemDetail> allDetails){
 		
+		Map<String, Map<Machine, List<ProblemDetail>>> result = new HashMap<>();
+		Map<String, List<ProblemDetail>> cp = getCategoryProblems(allDetails);
+		
+		for (String cat : cp.keySet()) {
+			result.put(cat, getMachinesProblems(cp.get(cat)));
+		}
+		return result;
+	}
+	
+	public static ModelAndView completeShift(ModelAndView mv,Shift shift) {
 		mv.addObject("theId",shift.getShiftId());
-		mv.addObject("k1",mp.get(KILEN_ONE));
-		mv.addObject("k2",mp.get(KILEN_TWO));
-		mv.addObject("k3",mp.get(KILEN_THREE));
-		mv.addObject("k4",mp.get(KILEN_FOUR));
-		mv.addObject("k5",mp.get(KILEN_FIVE));
-		mv.addObject("d1",mp.get(DRAYER_ONE));
-		mv.addObject("d2",mp.get(DRAYER_TWO));
-		mv.addObject("d3",mp.get(DRAYER_THREE));
-		mv.addObject("d4",mp.get(DRAYER_FOUR));
-		mv.addObject("d5",mp.get(DRAYER_FIVE));
-		mv.addObject("d6",mp.get(DRAYER_SIX));
-		mv.addObject("d7",mp.get(DRAYER_SEVEN));
-		mv.addObject("a1",mp.get(ATM_ONE));
-		mv.addObject("a2",mp.get(ATM_TWO));
-		mv.addObject("p" ,mp.get(PROJECT));
+		mv.addObject("cats",getCategoryMachines(shift.getProblems()));
 		mv.addObject("flow",shift.getTotalFlowAverage());
 		mv.addObject("maxT",shift.getMaxTemperature());
 		mv.addObject("minT",shift.getMinTemperature());
