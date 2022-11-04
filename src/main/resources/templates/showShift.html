@@ -9,34 +9,34 @@
 <body>
 <p th:object="${theId}">Shift: <span th:text="*{shift}">order</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDate: <span th:text="*{date}">the date</span></p><br>
-<h1><button onclick="toggle('m')">Machines Status</button></h1><br>
+<h1><button class="notsub" onclick="toggle('m')">Machines Status</button></h1><br>
 <div id="m">
-	<table>
-		<tr>
-			<th>Stoped at</th>
-			<th>Started at</th>
-			<th>Problems</th>
-		</tr>
-	</table><br>
 	<div>
 		<ul th:each="cat : ${cats}">
 			<li>
-				<h2><button th:text="${cat.key}">category title</button></h2>
+				<h2><button class="issub" th:text="${cat.key}">category title</button></h2>
 				<ul th:each="mapin : ${cat.value}">
 					<li>
-						<h3><button th:text="${mapin.key}">machine title<button></h3>
+						<h3 th:unless="${mapin.key}==0"><button class="issubsub" th:text="${mapin.key}">machine title<button></h3><br>
 						<table>
-							<tr>
+							<thead>
+								<tr>
+									<th>begin at</th>
+									<th>ended at</th>
+									<th>problems</th>
+								</tr>
+							</thead>
+							<tbody>
 								<tr th:each="pd : ${mapin.value}">
 									<td th:text="${pd.beginTime}">problem begin time</td>
 									<td th:text="${pd.endTime}">problem end time</td>
 									<td>
-										<ul th:each="p : ${pd.problems}">
-											<li th:text="${p.title}">problem</li>
-										</ul>
+										<ol type="1">
+											<li th:each="p : ${pd.problems}"><span th:text="${p.title}"></span></li>
+										</ol>
 									</td>
 								</tr>
-							</tr>
+							</tbody>
 						</table>
 					</li>
 				</ul>
