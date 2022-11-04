@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url("https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@600&display=swap");
+
+button{
+  background-color: dodgerblue;
+  border: 2px solid #000;
+  border-radius: 10px;
+  width: 100%;
+  font-family: inherit;
+  cursor: inherit;
+  line-height: inherit;
+ }
+
+select {
+  appearance: inherit;
+  background-color: transparent;
+  border: 2px solid #000;
+  border-radius: 10px;
+  padding: 0 1em 0 0;
+  margin: inherit;
+  width: 300px;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(45deg, greenyellow, dodgerblue);
+  font-family: "Sansita Swashed", cursive;
+}
+.center {
+  position: relative;
+  padding: 50px 50px;
+  background: #fff;
+  border-radius: 10px;
+}
+.center h1 {
+  font-size: 2em;
+  border-left: 5px solid dodgerblue;
+  padding: 10px;
+  color: #000;
+  letter-spacing: 5px;
+  margin-bottom: 60px;
+  font-weight: bold;
+  padding-left: 10px;
+}
+.center .inputbox {
+  position: relative;
+  width: 300px;
+  height: 50px;
+  margin-bottom: 50px;
+}
+.center .inputbox input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border: 2px solid #000;
+  outline: none;
+  background: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 1.2em;
+}
+.center .inputbox:last-child {
+  margin-bottom: 0;
+}
+.center .inputbox span {
+  position: absolute;
+  top: 14px;
+  left: 20px;
+  font-size: 1em;
+  transition: 0.6s;
+  font-family: sans-serif;
+}
+.center .inputbox input:focus ~ span,
+.center .inputbox input:valid ~ span {
+  transform: translateX(-13px) translateY(-35px);
+  font-size: 1em;
+}
+.center .inputbox [type="button"] {
+  width: 50%;
+  background: dodgerblue;
+  color: #fff;
+  border: #fff;
+}
+.center .inputbox:hover [type="button"] {
+  background: linear-gradient(45deg, greenyellow, dodgerblue);
+}
+
+
+.ghost {
+	 display:none;
+ }
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #f6f5f7;
+	font-family: 'Open Sans', sans-serif;
+	margin-bottom: 50px;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.pricing-box-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.pricing-box {
+	background-color: #ffffff;
+	box-shadow: 0px 2px 15px 0px rgba(0,0,0,0.5);
+	border-radius: 4px;
+	flex: 1;
+	padding: 0 30px 30px;
+	margin: 2%;
+	min-width: 250px;
+	max-width: 350px;
+}
+
+.pricing-box h5 {
+	text-transform: uppercase;
+}
+
+.price {
+	margin: 24px 0;
+	font-size: 36px;
+	font-weight: 900;
+}
+
+.price sub, .price sup {
+	font-size: 16px;
+	font-weight: 100;
+}
+
+.features-list {
+	padding: 0;
+	list-style-type: none;
+}
+
+.features-list li {
+	font-weight: 100;
+	padding: 12px 0;
+	font-weight: 100;
+}
+
+.features-list li:not(:last-of-type) {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+	border-radius: 25px;
+	border: none;
+	background-color: #EC1362;
+	color: #ffffff;
+	cursor: pointer;
+	padding: 10px 15px;
+	margin-top: 20px;
+	text-transform: uppercase;
+	transition: all 0.1s ease-in-out;
+}
+
+.btn-primary:hover {
+	box-shadow: 0px 2px 15px 0px rgba(0,0,0,0.5);
+	transform: translateY(-3px);
+}
+
+.pricing-box-bg-image {
+	background-color: #EC1362;
+	background-size: cover;
+	background-position: center center;
+	color: #ffffff;
+}
+
+.pricing-box-bg-image .features-list li {
+	border-bottom-color: rgba(255, 255, 255, 1);
+}
+
+.pricing-box-bg-image .btn-primary {
+	background-color: #ffffff;
+	color: #000;
+}
+
+footer {
+	background-color: #222;
+	color: #fff;
+	font-size: 14px;
+	bottom: 0;
+	position: fixed;
+	left: 0;
+	right: 0;
+	text-align: center;
+}
+
+footer p {
+	margin: 10px 0;
+}
+
+footer i {
+	color: red;
+}
+
+footer a {
+	color: #3C97BF;
+	text-decoration: none;
+}

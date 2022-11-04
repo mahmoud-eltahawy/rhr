@@ -1760,6 +1760,7 @@ public class Tester {
 				shift971,shift972,shift973));
 	}
 
-	public void emp() {
+	public Shift emp() {
+		return shiftRepo.findLast(2, true).get(0);
 	}
 }

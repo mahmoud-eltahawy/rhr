@@ -14,6 +14,14 @@ public class Machine {
 	private UUID id;
 	private String catagory;
 	private Integer number;
+	
+	public Integer getNumber() {
+		if(number < 1) {
+			return null;
+		}
+		return number;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

@@ -4,6 +4,7 @@ package com.rhr.heat.controller.api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rhr.heat.entity.Shift;
 import com.rhr.heat.service.api.Tester;
 
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,7 @@ public class TestController {
 	}
 	
 	@RequestMapping("/emp")
-	public String insertEmp() {
-		tester.emp();
-		return "inserted";
+	public Shift insertEmp() {
+		return tester.emp();
 	}
 }
