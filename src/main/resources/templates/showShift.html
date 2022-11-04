@@ -7,249 +7,40 @@
   <script type="text/javascript" src="../static/js/showShift.js" th:src="@{/js/showShift.js}" async></script>
 </head>
 <body>
-	<h4><pre th:object="${theId}">Shift: <span th:text="*{shift}">order</span>                  Date: <span th:text="*{date}">the date</span></pre></h4>
-	<h5><button for="accounting" onclick="toggle('m')">Machines Status</button></h5>
+<h4><pre th:object="${theId}">Shift: <span th:text="*{shift}">order</span>                  Date: <span th:text="*{date}">the date</span></pre></h4>
+<button for="accounting" onclick="toggle('m')"><h1>Machines Status</h1></button>
 <div id="m">
 	<table>
-		<thead>
-			<tr>
-				<th class="headProps">MACHINE</th>
-				<th class="dataProps">
-					<table>
-						<tr>
-							<th class="elementProps">Stoped at</th>
-							<th class="elementProps">Started at</th>
-							<th class="elementProps">Problems</th>
-						</tr>
-					</table>
-				</th>
-			</tr>
-		</thead>
+		<tr>
+			<th class="elementProps">Stoped at</th>
+			<th class="elementProps">Started at</th>
+			<th class="elementProps">Problems</th>
+		</tr>
 	</table>
-	<h5><button for="accounting" onclick="toggle('k')">Kilens</button></h5>
-	<div id="k">
-		<table>
-			<tr th:if="${k1}==null"><td class="kilenData" colspan="2">KILEN ONE : works fine for the whole shift</td></tr>
-			<tr>
-				<td th:unless="${k1}==null" class="kilenHead headProps">KILEN ONE</td>
-				<td th:unless="${k1}==null" class="kilenData dataProps">
-					<table>
-						<tr th:each="K :${k1}">
-							<td th:text="${K.beginTime}" class="kilenData elementProps">Stoped at</td>
-							<td th:text="${K.endTime}" class="kilenData elementProps">Started at</td>
-							<td class="kilenData elementProps"><ul th:each="p : ${K.problems}">
-								<li th:text="${p.title}">problem number</li>
-							</ul></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr th:if="${k2}==null"><td class="kilenData" colspan="2">KILEN Two : works fine for the whole shift</td></tr>
-			<tr>
-				<td th:unless="${k2}==null" class="kilenHead headProps">KILEN TWO</td>
-				<td th:unless="${k2}==null" class="kilenData dataProps">
-					<table>
-						<tr th:each="K :${k2}">
-							<td th:text="${K.beginTime}" class="kilenData elementProps">Stoped at</td>
-							<td th:text="${K.endTime}" class="kilenData elementProps">Started at</td>
-							<td class="kilenData elementProps"><ul th:each="p : ${K.problems}">
-								<li th:text="${p.title}">problem number</li>
-							</ul></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr th:if="${k3}==null"><td class="kilenData" colspan="2">KILEN Three : works fine for the whole shift</td></tr>
-			<tr>
-				<td th:unless="${k3}==null" class="kilenHead headProps">KILEN THREE</td>
-				<td th:unless="${k3}==null" class="kilenData dataProps">
-					<table>
-						<tr th:each="K :${k3}">
-							<td th:text="${K.beginTime}" class="kilenData elementProps">Stoped at</td>
-							<td th:text="${K.endTime}" class="kilenData elementProps">Started at</td>
-							<td class="kilenData elementProps"><ul th:each="p : ${K.problems}">
-								<li th:text="${p.title}">problem number</li>
-							</ul></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr th:if="${k4}==null"><td class="kilenData" colspan="2">KILEN Four : works fine for the whole shift</td></tr>
-			<tr>
-				<td th:unless="${k4}==null" class="kilenHead headProps">KILEN FOUR</td>
-				<td th:unless="${k4}==null" class="kilenData dataProps">
-					<table>
-						<tr th:each="K :${k4}">
-							<td th:text="${K.beginTime}" class="kilenData elementProps">Stoped at</td>
-							<td th:text="${K.endTime}" class="kilenData elementProps">Started at</td>
-							<td class="kilenData elementProps"><ul th:each="p : ${K.problems}">
-								<li th:text="${p.title}">problem number</li>
-							</ul></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr th:if="${k5}==null"><td class="kilenData" colspan="2">KILEN Five : works fine for the whole shift</td></tr>
-			<tr>
-				<td th:unless="${k5}==null" class="kilenHead headProps">KILEN FIVE</td>
-				<td th:unless="${k5}==null" class="kilenData dataProps">
-					<table>
-						<tr th:each="K :${k5}">
-							<td th:text="${K.beginTime}" class="kilenData elementProps">Stoped at</td>
-							<td th:text="${K.endTime}" class="kilenData elementProps">Started at</td>
-							<td class="kilenData elementProps"><ul th:each="p : ${K.problems}">
-								<li th:text="${p.title}">problem number</li>
-							</ul></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-	</div>
-	<h5><button for="accounting" onclick="toggle('d')">Drayers</button></h5>
-	<div id="d">
-		<table>
-			<tr th:if="${d1}==null"><td class="DrayerData" colspan="2">DRAYER ONE : works fine for the whole shift</tr>
-			<tr>
-				<td th:unless="${d1}==null" class="DrayerHead headProps">DRAYER ONE</td>
-				<td th:unless="${d1}==null" class="DrayerData dataProps">
-					<table>
-						<tr th:each="D :${d1}">
-							<td th:text="${D.beginTime}" class="DrayerData elementProps">Stoped at</td>
-							<td th:text="${D.endTime}" class="DrayerData elementProps">Started at</td>
-							<td class="DrayerData elementProps"><ul th:each="p : ${D.problems}">
-								<li th:text="${p.title}">problem number</li>
-							</ul></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr th:if="${d2}==null"><td class="kilenData" colspan="2">DRAYER Two : works fine for the whole shift</tr>
-			<tr>
-				<td th:unless="${d2}==null" class="DrayerHead headProps">DRAYER TWO</td>
-				<td th:unless="${d2}==null" class="DrayerData dataProps">
-					<table>
-						<tr th:each="D :${d2}">
-							<td th:text="${D.beginTime}" class="DrayerData elementProps">Stoped at</td>
-							<td th:text="${D.endTime}" class="DrayerData elementProps">Started at</td>
-							<td class="DrayerData elementProps"><ul th:each="p : ${D.problems}">
-								<li th:text="${p.title}">problem number</li>
-							</ul></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr th:if="${d3}==null"><td class="kilenData" colspan="2">DRAYER Three : works fine for the whole shift</tr>
-			<tr>
-				<td th:unless="${d3}==null" class="DrayerHead headProps">DRAYER THREE</td>
-				<td th:unless="${d3}==null" class="DrayerData dataProps">
-					<table>
-						<tr th:each="D :${d3}">
-							<td th:text="${D.beginTime}" class="DrayerData elementProps">Stoped at</td>
-							<td th:text="${D.endTime}" class="DrayerData elementProps">Started at</td>
-							<td class="DrayerData elementProps"><ul th:each="p : ${D.problems}">
-								<li th:text="${p.title}">problem number</li>
-							</ul></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr th:if="${d4}==null"><td class="kilenData" colspan="2">DRAYER Four : works fine for the whole shift</tr>
-			<tr>
-				<td th:unless="${d4}==null" class="DrayerHead headProps">DRAYER FOUR</td>
-				<td th:unless="${d4}==null" class="DrayerData dataProps">
-					<table>
-						<tr th:each="D :${d4}">
-							<td th:text="${D.beginTime}" class="DrayerData elementProps">Stoped at</td>
-							<td th:text="${D.endTime}" class="DrayerData elementProps">Started at</td>
-							<td class="DrayerData elementProps"><ul th:each="p : ${D.problems}">
-								<li th:text="${p.title}">problem number</li>
-							</ul></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr th:if="${d5}==null"><td class="kilenData" colspan="2">DRAYER Five : works fine for the whole shift</tr>
-			<tr>
-				<td th:unless="${d5}==null" class="DrayerHead headProps">DRAYER FIVE</td>
-				<td th:unless="${d5}==null" class="DrayerData dataProps">
-					<table>
-						<tr th:each="D :${d5}">
-							<td th:text="${D.beginTime}" class="DrayerData elementProps">Stoped at</td>
-							<td th:text="${D.endTime}" class="DrayerData elementProps">Started at</td>
-							<td class="DrayerData elementProps"><ul th:each="p : ${D.problems}">
-								<li th:text="${p.title}">problem number</li>
-							</ul></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr th:if="${d6}==null"><td class="kilenData" colspan="2">DRAYER Six : works fine for the whole shift</tr>
-			<tr>
-				<td th:unless="${d6}==null" class="DrayerHead headProps">DRAYER SIX</td>
-				<td th:unless="${d6}==null" class="DrayerData dataProps">
-					<table>
-						<tr th:each="D :${d6}">
-							<td th:text="${D.beginTime}" class="DrayerData elementProps">Stoped at</td>
-							<td th:text="${D.endTime}" class="DrayerData elementProps">Started at</td>
-							<td class="DrayerData elementProps"><ul th:each="p : ${D.problems}">
-								<li th:text="${p.title}">problem number</li>
-							</ul></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr th:if="${d7}==null"><td class="kilenData" colspan="2">DRAYER Seven : works fine for the whole shift</tr>
-			<tr>
-				<td th:unless="${d7}==null" class="DrayerHead headProps">DRAYER SEVEN</td>
-				<td th:unless="${d7}==null" class="DrayerData dataProps">
-					<table>
-						<tr th:each="D :${d7}">
-							<td th:text="${D.beginTime}" class="DrayerData elementProps">Stoped at</td>
-							<td th:text="${D.endTime}" class="DrayerData elementProps">Started at</td>
-							<td class="DrayerData elementProps"><ul th:each="p : ${D.problems}">
-								<li th:text="${p.title}">problem number</li>
-							</ul></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-	</div>
-	<h5><button for="accounting" onclick="toggle('a')">Atms</button></h5>
-	<div id="a">
-		<table>
-			<tr th:if="${a1}==null"><td class="AtmData" colspan="2">ATM ONE : works fine for the whole shift</td></tr>
-			<tr>
-				<td th:unless="${a1}==null" class="AtmHead headProps">ATM ONE</td>
-				<td th:unless="${a1}==null" class="AtmData dataProps">
-					<table>
-						<tr th:each="A :${a1}">
-							<td th:text="${A.beginTime}" class="AtmData elementProps">Stoped at</td>
-							<td th:text="${A.endTime}" class="AtmData elementProps">Started at</td>
-							<td class="AtmData elementProps"><ul th:each="p : ${A.problems}">
-								<li th:text="${p.title}">problem number</li>
-							</ul></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr th:if="${a2}==null"><td class="AtmData" colspan="2">ATM ONE : works fine for the whole shift</td></tr>
-			<tr>
-				<td th:unless="${a2}==null" class="AtmHead headProps">ATM TWO</td>
-				<td th:unless="${a2}==null" class="AtmData dataProps">
-					<table>
-						<tr th:each="A :${a2}">
-							<td th:text="${A.beginTime}" class="AtmData elementProps">Stoped at</td>
-							<td th:text="${A.endTime}" class="AtmData elementProps">Started at</td>
-							<td class="AtmData elementProps"><ul th:each="p : ${A.problems}">
-								<li th:text="${p.title}">problem number</li>
-							</ul></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
+	<div>
+		<ul th:each="cat : ${cats}">
+			<li>
+				<button><h2 th:text="${cat.key}">category title</h2></button>
+				<ul th:each="mapin : ${cat.value}">
+					<li>
+						<button><h3 th:text="${mapin.key}">machine title</h3><button>
+						<table>
+							<tr>
+								<tr th:each="pd : ${mapin.value}">
+									<td class="elementProps" th:text="${pd.beginTime}">problem begin time</td>
+									<td class="elementProps" th:text="${pd.endTime}">problem end time</td>
+									<td>
+										<ul class="elementProps" th:each="p : ${pd.problems}">
+											<li th:text="${p.title}">problem</li>
+										</ul>
+									</td>
+								</tr>
+							</tr>
+						</table>
+					</li>
+				</ul>
+			</li>
+		</ul>
 	</div>
 </div>
 
