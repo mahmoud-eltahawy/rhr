@@ -7,8 +7,9 @@
   <script type="text/javascript" src="../static/js/showShift.js" th:src="@{/js/showShift.js}" async></script>
 </head>
 <body>
-	<button><h4><pre th:object="${theId}">Shift: <span th:text="*{shift}">order</span>                  Date: <span th:text="*{date}">the date</span></pre></h4></button>
-<button onclick="toggle('m')"><h1>Machines Status</h1></button>
+<p th:object="${theId}">Shift: <span th:text="*{shift}">order</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDate: <span th:text="*{date}">the date</span></p><br>
+<h1><button onclick="toggle('m')">Machines Status</button></h1><br>
 <div id="m">
 	<table>
 		<tr>
@@ -16,14 +17,14 @@
 			<th>Started at</th>
 			<th>Problems</th>
 		</tr>
-	</table>
+	</table><br>
 	<div>
 		<ul th:each="cat : ${cats}">
 			<li>
-				<button><h2 th:text="${cat.key}">category title</h2></button>
+				<h2><button th:text="${cat.key}">category title</button></h2>
 				<ul th:each="mapin : ${cat.value}">
 					<li>
-						<button><h3 th:text="${mapin.key}">machine title</h3><button>
+						<h3><button th:text="${mapin.key}">machine title<button></h3>
 						<table>
 							<tr>
 								<tr th:each="pd : ${mapin.value}">
