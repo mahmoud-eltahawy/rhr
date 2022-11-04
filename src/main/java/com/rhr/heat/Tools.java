@@ -199,22 +199,23 @@ public class Tools {
 	}
 	
 	
-	public static Map<Machine, List<ProblemDetail>> getMachinesProblems(List<ProblemDetail> allDetails){
-		Map<Machine, List<ProblemDetail>> mp = new HashMap<>();
+	//inputs must be on the same category
+	public static Map<Integer, List<ProblemDetail>> getMachinesProblems(List<ProblemDetail> allDetails){
+		Map<Integer, List<ProblemDetail>> mp = new HashMap<>();
 		if(allDetails != null) {
 			for (ProblemDetail pd : allDetails) {
-				if(mp.get(pd.getMachine()) == null) {
+				Integer num = pd.getMachine().getNumber();
+				if(mp.get(num) == null) {
 					List<ProblemDetail> pds = new ArrayList<>();
 					pds.add(pd);
-					mp.put(pd.getMachine(), pds);
+					mp.put(num, pds);
 				} else {
-					List<ProblemDetail> pds = mp.get(pd.getMachine());
+					List<ProblemDetail> pds = mp.get(num);
 					pds.add(pd);
-					mp.put(pd.getMachine(), pds);
+					mp.put(num, pds);
 				}
 			}
 		}
-		
 		return mp;
 	}
 	
@@ -237,10 +238,10 @@ public class Tools {
 		return mp;
 	}
 	
-	public static Map<String, Map<Machine, List<ProblemDetail>>>
+	public static Map<String, Map<Integer, List<ProblemDetail>>>
 		getCategoryMachines(List<ProblemDetail> allDetails){
 		
-		Map<String, Map<Machine, List<ProblemDetail>>> result = new HashMap<>();
+		Map<String, Map<Integer, List<ProblemDetail>>> result = new HashMap<>();
 		Map<String, List<ProblemDetail>> cp = getCategoryProblems(allDetails);
 		
 		for (String cat : cp.keySet()) {

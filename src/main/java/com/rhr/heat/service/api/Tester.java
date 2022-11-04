@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.rhr.heat.Tools;
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.MachineRepo;
 import com.rhr.heat.dao.ProblemRepo;
@@ -1681,7 +1682,7 @@ public class Tester {
 				"mohammed greeting", 192, 202);
 
 		Shift shift973 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
-				List.of(pd12,pd13),
+				List.of(pd1,pd2,pd3,pd4,pd5,pd6,pd7,pd8,pd9,pd10,pd11,pd12,pd13,pd14,pd15,pd16,pd17,pd18,pd19),
 				List.of(emp2,emp5),
 				List.of(tf7,tf5),
 				"mahmoud and ehab greeting", 173, 195);
@@ -1760,7 +1761,7 @@ public class Tester {
 				shift971,shift972,shift973));
 	}
 
-	public Shift emp() {
-		return shiftRepo.findLast(2, true).get(0);
+	public Object emp() {
+		return Tools.getCategoryMachines(shiftRepo.findLast(2, true).get(0).getProblems());
 	}
 }
