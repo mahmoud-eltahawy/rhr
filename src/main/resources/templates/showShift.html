@@ -43,34 +43,6 @@
 		</ul>
 	</div>
 </div>
-
-<h5><button for="accounting" onclick="toggle('p')">Project suspending</button></h5>
-<div id="p">
-	<table>
-		<tr>
-			<th>Stoped at</th>
-			<th>Started at</th>
-			<th>Problems</th>
-		</tr>
-	</table>
-	<table>
-		<tr>
-			<td th:if="${p}==null" class="kilenData">The Project works fine for the whole shift</td>
-			<td th:unless="${p}==null">
-				<table>
-					<tr th:each="P :${p}">
-						<td class="kilenData" th:text="${P.beginTime}">Stoped at</td>
-						<td class="kilenData" th:text="${P.endTime}">Started at</td>
-						<td class="kilenData"><ul th:each="l : ${P.problems}">
-							<li th:text="${l.title}">problem number</li>
-						</ul></td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</table>
-</div>
-
 <h5><button for="accounting" onclick="toggle('f')">Total Flow</button></h5>
 <div id="f">
 	<table>
