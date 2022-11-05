@@ -21,6 +21,7 @@ import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.enums.EmployeePosition;
 import com.rhr.heat.enums.ShiftOrder;
+import com.rhr.heat.service.CommonService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,6 +32,7 @@ public class Tester {
 	private final ShiftRepo shiftRepo;
 	private final ProblemRepo problemRepo;
 	private final MachineRepo machineRepo;
+	private final CommonService commonService;
 
 	public void insertData() {
 		Employee emp1 = new Employee(null,"mahmoud","mohammed","sabry",EmployeePosition.Engineer,"mahmoud_sabry","1234");
@@ -1762,6 +1764,6 @@ public class Tester {
 	}
 
 	public Object emp() {
-		return Tools.getCategoryMachines(shiftRepo.findLast(2, true).get(0).getProblems());
+		return commonService.getCategoryMachines(shiftRepo.findLast(2, true).get(1).getProblems());
 	}
 }

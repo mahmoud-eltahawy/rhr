@@ -23,9 +23,19 @@ public class MachineRepo {
 		return jdbcTemplate.query(sql, new MachineRowMapper());
 	}
 	
-	public List<Machine> findAllCatagory(String catagory) {
+	public List<Machine> findByCatagory(String catagory) {
 		String sql = "SELECT * FROM machine WHERE catagory = ?";
 		return jdbcTemplate.query(sql, new MachineRowMapper(), catagory);
+	}
+	
+	public List<Integer> findCatagoryAllNums(String catagory) {
+		String sql = "SELECT DISTINCT num FROM machine WHERE catagory = ?";
+		return jdbcTemplate.queryForList(sql, Integer.class, catagory);
+	}
+	
+	public List<String> findAllCatagories() {
+		String sql = "SELECT DISTINCT catagory FROM machine";
+		return jdbcTemplate.queryForList(sql, String.class);
 	}
 	
 	public Optional<Machine> findById(UUID id) {

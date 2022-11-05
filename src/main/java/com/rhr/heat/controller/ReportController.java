@@ -17,6 +17,7 @@ import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.entity.TotalFlow;
+import com.rhr.heat.service.CommonService;
 import com.rhr.heat.service.ReportService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,13 +27,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ReportController {
 	private final ReportService service;
+	private final CommonService commonService;
 
 	@RequestMapping("/")
 	public ModelAndView reportPage() {
 		ModelAndView mv = new ModelAndView();
 		Shift shift = service.getCurrentShift();
 		
-		mv = Tools.completeShift(mv, shift);
+		mv = commonService.completeShift(mv, shift);
 		
 		mv.addObject("allEmps", service.usernames());
 		List<Employee> ems = service.getCurrentShift().getEmployees();

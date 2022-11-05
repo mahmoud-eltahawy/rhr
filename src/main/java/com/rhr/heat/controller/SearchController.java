@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.rhr.heat.Tools;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.model.StringModel;
+import com.rhr.heat.service.CommonService;
 import com.rhr.heat.service.SearchService;
 
 import lombok.RequiredArgsConstructor;
@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SearchController {
 	private final SearchService service;
+	private final CommonService commonService;
 
 	@GetMapping("/")
 	public ModelAndView searchPage() {
@@ -57,7 +58,7 @@ public class SearchController {
 			Shift shift =  s.get();
 			
 			mv.setViewName("showShift");
-			mv = Tools.completeShift(mv, shift);
+			mv = commonService.completeShift(mv, shift);
 			
 			
 		} else {
@@ -80,7 +81,7 @@ public class SearchController {
 			Shift shift =  s.get();
 			
 			mv.setViewName("showShift");
-			mv = Tools.completeShift(mv, shift);
+			mv = commonService.completeShift(mv, shift);
 			
 		} else {
 			mv.setViewName("errorPage");
