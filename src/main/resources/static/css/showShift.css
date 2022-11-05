@@ -5,9 +5,11 @@ html{
 	color: #bd93f9;
 	}
 
-p{
-	width: 100%;
-	margin: 10px;
+p   {
+	position: absolute;
+    right: 20%;
+	width: 60%;
+	margin: 20px;
 	padding: 10px;
 	background: #262626;
 	font-size: 18px;
@@ -37,10 +39,15 @@ table {
 	}
 
 th {
-	background: #3498db;
+	background: rgb(0, 73, 51);
 	color: black;
 	font-weight: bold;
 	}
+
+td{
+	background: rgb(0, 73, 51);
+	color: #ffff88;
+}
 
 td, th {
 	padding: 10px;
@@ -59,4 +66,8 @@ td, th {
 
 .issubsub{
 	width: 70%;
+}
+
+.ghost{
+	display: none;
 }

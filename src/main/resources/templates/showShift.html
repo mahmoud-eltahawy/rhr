@@ -8,17 +8,27 @@
 </head>
 <body>
 <p th:object="${theId}">Shift: <span th:text="*{shift}">order</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDate: <span th:text="*{date}">the date</span></p><br>
-<h1><button class="notsub" onclick="toggle('m')">Machines Status</button></h1><br>
-<div id="m">
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDate: <span th:text="*{date}">the date</span></p><br><br><br><br><br>
+<h1><button class="notsub"  id="problems-section-btn">PROBLEMS SECTION</button></h1><br>
+<div id="problems-section">
 	<div>
 		<ul th:each="cat : ${cats}">
 			<li>
-				<h2><button class="issub" th:text="${cat.key}">category title</button></h2>
-				<ul th:each="mapin : ${cat.value}">
+				<h2>
+					<button id="category-btn" th:id="${cat.key}+'-btn'" class="issub">
+						<span th:text="${cat.key}">CATEGORY</span>
+						<span>SECTION</span>
+					</button>
+				</h2>
+				<ul id="category" th:id="${cat.key}" th:each="mapin : ${cat.value}">
 					<li>
-						<h3 th:unless="${mapin.key}==0"><button class="issubsub" th:text="${mapin.key}">machine title<button></h3><br>
-						<table>
+						<h3 th:unless="${mapin.key}==0">
+							<button id="category-number-btn" th:id="${cat.key}+'-'+${mapin.key}+'-btn'" class="issubsub">
+								<span th:text="${cat.key}">CATEGORY</span>
+								<span th:text="${mapin.key}">NUMBER</span>
+							<button>
+						</h3><br>
+						<table id="category-number" th:id="${cat.key}+'-'+${mapin.key}">
 							<thead>
 								<tr>
 									<th>begin at</th>
@@ -44,42 +54,55 @@
 		</ul>
 	</div>
 </div>
-<h5><button for="accounting" onclick="toggle('f')">Total Flow</button></h5>
-<div id="f">
-	<table>
-		<tr>
-			<th>Suspended machines</th>
-			<th>Max total flow</th>
-			<th>Min total flow</th>
-			<th>Start time</th>
-			<th>End time</th>
-		</tr>
-	</table>
-	<table>
-		<tr th:each="t : ${flow}">
-			<td class="kilenData"><ul th:each="m : ${t.suspendedMachines}">
-				<li th:text="${m}">machine number</li>
-			</ul></td>
-			<td class="kilenData" th:text="${t.maxFlow}">Max flow</td>
-			<td class="kilenData" th:text="${t.minFlow}">Min flow</td>
-			<td class="kilenData" th:text="${t.caseBeginTime}">Start time</td>
-			<td class="kilenData" th:text="${t.caseEndTime}">End time</td>
-		</tr>
-	</table>
-</div><br><br>
+<h1><button class="notsub" id="records-section-btn">RECORDS SECTION</button></h1><br>
+<div id="records-section-btn">
+	<h2><button class="issub" id="flow-btn">Total Flow</button></h2>
+	<div id="flow">
+		<table>
+			<thead>
+				<tr>
+					<th>Suspended machines</th>
+					<th>Max total flow</th>
+					<th>Min total flow</th>
+					<th>Start time</th>
+					<th>End time</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="t : ${flow}">
+					<td class="kilenData"><ul th:each="m : ${t.suspendedMachines}">
+						<li th:text="${m}">machine number</li>
+					</ul></td>
+					<td class="kilenData" th:text="${t.maxFlow}">Max flow</td>
+					<td class="kilenData" th:text="${t.minFlow}">Min flow</td>
+					<td class="kilenData" th:text="${t.caseBeginTime}">Start time</td>
+					<td class="kilenData" th:text="${t.caseEndTime}">End time</td>
+				</tr>
+			</tbody>
+		</table>
+	</div><br><br>
 
-<h4><pre>Max Temp: <span th:text="${maxT}">max</span>   Min Temp: <span th:text="${minT}">min</span></pre></h4><br><br>
+	<h2><button class="issub" id="temp-btn">TEMPERATURE</button></h2>
+	<div id="temp">
+		<p>
+			MAXIMUM : <span th:text="${maxT}">max</span>
+			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+			MINIMUM : <span th:text="${minT}">min</span>
+		</p>
+	</div>
 
-
-<p class="kilenData" th:text="${note}?:'no additional notes'">notes</p>
-<h5><button for="accounting" onclick="toggle('e')">Employees</button></h5>
-<div id="e">
-	<table>
-		<tr th:each="n : ${names}">
-			<td class="kilenHead">Name</td>
-			<td class="kilenData" th:text="${n}">name</td>
-		</tr>
-	</table>
+	<h2><button class="issub" id="note-btn">NOTE</button></h2>
+	<div id="note">
+		<p th:text="${note}?:'no additional notes'">NOTE</p>
+	</div>
+</div><br><br><br><br>
+<h1><button class="notsub" id="emp-btn">EMPLOYEES SECTION</button></h1><br>
+<div id="emp">
+	<ul>
+		<li th:each="n : ${names}">
+			<p th:text="${n}">name</p>
+		</li>
+	</ul>
 </div>
 </body>
 </html>
