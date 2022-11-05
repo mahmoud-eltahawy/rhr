@@ -15,43 +15,45 @@ Date: <span th:text="*{date}">the date</span></p><br><br><br><br><br>
 	<div>
 		<ul th:each="cat : ${cats}">
 			<li>
-				<h2>
-					<button id="category-btn" th:id="${cat.key}+'-btn'" class="issub">
-						<span th:text="${cat.key}">CATEGORY</span>
-						<span>PROBLEMS</span>
-					</button>
-				</h2>
-				<div class="ghost" id="category" th:id="${cat.key}">
-					<ul th:each="mapin : ${cat.value}">
-						<li>
-							<h3 th:unless="${mapin.key}==0">
-								<button id="category-number-btn" th:id="${cat.key}+'-'+${mapin.key}+'-btn'" class="issubsub">
-									<span th:text="${cat.key}">CATEGORY</span>
-									<span th:text="${mapin.key}">NUMBER</span>
-								<button>
-							</h3><br>
-							<table class="" th:classappend="${mapin.key}!=0 ? 'ghost'" id="category-number" th:id="${cat.key}+'-'+${mapin.key}">
-								<thead>
-									<tr>
-										<th>begin at</th>
-										<th>ended at</th>
-										<th>problems</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:each="pd : ${mapin.value}">
-										<td th:text="${pd.beginTime}">problem begin time</td>
-										<td th:text="${pd.endTime}">problem end time</td>
-										<td>
-											<ol type="1">
-												<li th:each="p : ${pd.problems}"><span th:text="${p.title}"></span></li>
-											</ol>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</li>
-					</ul>
+				<div th:unless="${cat.value}==null">
+					<h2>
+						<button id="category-btn" th:id="${cat.key}+'-btn'" class="issub">
+							<span th:text="${cat.key}">CATEGORY</span>
+							<span>PROBLEMS</span>
+						</button>
+					</h2>
+					<div class="ghost" id="category" th:id="${cat.key}">
+						<ul th:each="mapin : ${cat.value}">
+							<li>
+								<h3 th:unless="${mapin.key}==0">
+									<button id="category-number-btn" th:id="${cat.key}+'-'+${mapin.key}+'-btn'" class="issubsub">
+										<span th:text="${cat.key}">CATEGORY</span>
+										<span th:text="${mapin.key}">NUMBER</span>
+									<button>
+								</h3><br>
+								<table class="" th:classappend="${mapin.key}!=0 ? 'ghost'" id="category-number" th:id="${cat.key}+'-'+${mapin.key}">
+									<thead>
+										<tr>
+											<th>begin at</th>
+											<th>ended at</th>
+											<th>problems</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="pd : ${mapin.value}">
+											<td th:text="${pd.beginTime}">problem begin time</td>
+											<td th:text="${pd.endTime}">problem end time</td>
+											<td>
+												<ol type="1">
+													<li th:each="p : ${pd.problems}"><span th:text="${p.title}"></span></li>
+												</ol>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</li>
 		</ul>
