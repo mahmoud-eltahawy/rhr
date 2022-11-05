@@ -74,7 +74,7 @@ public class CommonService {
 		return mp;
 	}
 	
-	public Map<String,List<Integer>> getStandardCategoryNums(){
+	private Map<String,List<Integer>> getStandardCategoryNums(){
 		Map<String,List<Integer>> result = new HashMap<>();
 		
 		machineRepo.findAllCatagories().forEach(c -> {

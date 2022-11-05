@@ -10,9 +10,9 @@
 <p th:object="${theId}">Shift: <span th:text="*{shift}">order</span>
 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 Date: <span th:text="*{date}">the date</span></p><br><br><br><br><br>
-<h1><button class="notsub"  id="problems-section-btn">PROBLEMS SECTION</button></h1><br>
-<div class="ghost" id="problems-section">
-	<div>
+<div th:unless="${cats.isEmpty()}">
+	<h1><button class="notsub"  id="problems-section-btn">PROBLEMS SECTION</button></h1><br>
+	<div class="ghost" id="problems-section">
 		<ul th:each="cat : ${cats}">
 			<li>
 				<div th:unless="${cat.value}==null">
