@@ -7,10 +7,11 @@
   <script type="text/javascript" src="../static/js/showShift.js" th:src="@{/js/showShift.js}" async></script>
 </head>
 <body>
-<p th:object="${theId}">Shift: <span th:text="*{shift}">order</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDate: <span th:text="*{date}">the date</span></p><br><br><br><br><br>
+<p th:object="${theId}">Shift: <span th:text="*{shift}">order</span>
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+Date: <span th:text="*{date}">the date</span></p><br><br><br><br><br>
 <h1><button class="notsub"  id="problems-section-btn">PROBLEMS SECTION</button></h1><br>
-<div id="problems-section">
+<div class="ghost" id="problems-section">
 	<div>
 		<ul th:each="cat : ${cats}">
 			<li>
@@ -20,7 +21,7 @@
 						<span>PROBLEMS</span>
 					</button>
 				</h2>
-				<div id="category" th:id="${cat.key}">
+				<div class="ghost" id="category" th:id="${cat.key}">
 					<ul th:each="mapin : ${cat.value}">
 						<li>
 							<h3 th:unless="${mapin.key}==0">
@@ -29,7 +30,7 @@
 									<span th:text="${mapin.key}">NUMBER</span>
 								<button>
 							</h3><br>
-							<table id="category-number" th:id="${cat.key}+'-'+${mapin.key}">
+							<table class="" th:classappend="${mapin.key}!=0 ? 'ghost'" id="category-number" th:id="${cat.key}+'-'+${mapin.key}">
 								<thead>
 									<tr>
 										<th>begin at</th>
@@ -57,9 +58,9 @@
 	</div>
 </div>
 <h1><button class="notsub" id="records-section-btn">RECORDS SECTION</button></h1><br>
-<div id="records-section">
+<div class="ghost" id="records-section">
 	<h2><button class="issub" id="flow-btn">Total Flow</button></h2>
-	<div id="flow">
+	<div class="ghost" id="flow">
 		<table>
 			<thead>
 				<tr>
@@ -73,7 +74,7 @@
 			<tbody>
 				<tr th:each="t : ${flow}">
 					<td class="kilenData"><ul th:each="m : ${t.suspendedMachines}">
-						<li th:text="${m}">machine number</li>
+						<li th:text="${m.catagory}+'-'+${m.number}">machine number</li>
 					</ul></td>
 					<td class="kilenData" th:text="${t.maxFlow}">Max flow</td>
 					<td class="kilenData" th:text="${t.minFlow}">Min flow</td>
@@ -85,7 +86,7 @@
 	</div><br><br>
 
 	<h2><button class="issub" id="temp-btn">TEMPERATURE</button></h2>
-	<div id="temp">
+	<div class="ghost" id="temp">
 		<p>
 			MAXIMUM : <span th:text="${maxT}">max</span>
 			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -94,12 +95,12 @@
 	</div>
 
 	<h2><button class="issub" id="note-btn">NOTE</button></h2>
-	<div id="note">
+	<div class="ghost" id="note">
 		<p th:text="${note}?:'no additional notes'">NOTE</p>
 	</div>
 </div><br><br><br><br>
 <h1><button class="notsub" id="emp-btn">EMPLOYEES SECTION</button></h1><br>
-<div id="emp">
+<div class="ghost" id="emp">
 	<ul>
 		<li th:each="n : ${names}">
 			<p th:text="${n}">name</p>
