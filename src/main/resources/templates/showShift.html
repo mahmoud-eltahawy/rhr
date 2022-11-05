@@ -17,45 +17,47 @@
 				<h2>
 					<button id="category-btn" th:id="${cat.key}+'-btn'" class="issub">
 						<span th:text="${cat.key}">CATEGORY</span>
-						<span>SECTION</span>
+						<span>PROBLEMS</span>
 					</button>
 				</h2>
-				<ul id="category" th:id="${cat.key}" th:each="mapin : ${cat.value}">
-					<li>
-						<h3 th:unless="${mapin.key}==0">
-							<button id="category-number-btn" th:id="${cat.key}+'-'+${mapin.key}+'-btn'" class="issubsub">
-								<span th:text="${cat.key}">CATEGORY</span>
-								<span th:text="${mapin.key}">NUMBER</span>
-							<button>
-						</h3><br>
-						<table id="category-number" th:id="${cat.key}+'-'+${mapin.key}">
-							<thead>
-								<tr>
-									<th>begin at</th>
-									<th>ended at</th>
-									<th>problems</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="pd : ${mapin.value}">
-									<td th:text="${pd.beginTime}">problem begin time</td>
-									<td th:text="${pd.endTime}">problem end time</td>
-									<td>
-										<ol type="1">
-											<li th:each="p : ${pd.problems}"><span th:text="${p.title}"></span></li>
-										</ol>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</li>
-				</ul>
+				<div id="category" th:id="${cat.key}">
+					<ul th:each="mapin : ${cat.value}">
+						<li>
+							<h3 th:unless="${mapin.key}==0">
+								<button id="category-number-btn" th:id="${cat.key}+'-'+${mapin.key}+'-btn'" class="issubsub">
+									<span th:text="${cat.key}">CATEGORY</span>
+									<span th:text="${mapin.key}">NUMBER</span>
+								<button>
+							</h3><br>
+							<table id="category-number" th:id="${cat.key}+'-'+${mapin.key}">
+								<thead>
+									<tr>
+										<th>begin at</th>
+										<th>ended at</th>
+										<th>problems</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="pd : ${mapin.value}">
+										<td th:text="${pd.beginTime}">problem begin time</td>
+										<td th:text="${pd.endTime}">problem end time</td>
+										<td>
+											<ol type="1">
+												<li th:each="p : ${pd.problems}"><span th:text="${p.title}"></span></li>
+											</ol>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</li>
+					</ul>
+				</div>
 			</li>
 		</ul>
 	</div>
 </div>
 <h1><button class="notsub" id="records-section-btn">RECORDS SECTION</button></h1><br>
-<div id="records-section-btn">
+<div id="records-section">
 	<h2><button class="issub" id="flow-btn">Total Flow</button></h2>
 	<div id="flow">
 		<table>
