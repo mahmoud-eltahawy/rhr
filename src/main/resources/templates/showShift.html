@@ -9,7 +9,7 @@
 <body>
 <p th:object="${theId}">Shift: <span th:text="*{shift}">order</span>
 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-Date: <span th:text="*{date}">the date</span></p><br><br><br><br><br>
+Date: <span th:text="*{date}">the date</span></p><br>
 <div th:unless="${cats.isEmpty()}">
 	<h1><button class="notsub"  id="problems-section-btn">PROBLEMS SECTION</button></h1><br>
 	<div class="ghost" id="problems-section">
@@ -32,26 +32,28 @@ Date: <span th:text="*{date}">the date</span></p><br><br><br><br><br>
 											<span th:text="${mapin.key}">NUMBER</span>
 										</button>
 									</h3><br>
-									<table class="" th:classappend="${mapin.key}!=0 ? 'ghost'" id="category-number" th:id="${cat.key}+'-'+${mapin.key}">
-										<thead>
-											<tr>
-												<th>begin at</th>
-												<th>ended at</th>
-												<th>problems</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr th:each="pd : ${mapin.value}">
-												<td th:text="${pd.beginTime}">problem begin time</td>
-												<td th:text="${pd.endTime}">problem end time</td>
-												<td>
-													<ol type="1">
-														<li th:each="p : ${pd.problems}"><span th:text="${p.title}"></span></li>
-													</ol>
-												</td>
-											</tr>
-										</tbody>
-									</table>
+									<div class="" th:classappend="${mapin.key}!=0 ? 'ghost'" id="category-number" th:id="${cat.key}+'-'+${mapin.key}">
+										<table>
+											<thead>
+												<tr>
+													<th>begin at</th>
+													<th>ended at</th>
+													<th>problems</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="pd : ${mapin.value}">
+													<td th:text="${pd.beginTime}">problem begin time</td>
+													<td th:text="${pd.endTime}">problem end time</td>
+													<td>
+														<ol type="1">
+															<li th:each="p : ${pd.problems}"><span th:text="${p.title}"></span></li>
+														</ol>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</li>
 						</ul>
@@ -60,7 +62,7 @@ Date: <span th:text="*{date}">the date</span></p><br><br><br><br><br>
 			</li>
 		</ul>
 	</div>
-</div>
+</div><br>
 <h1><button class="notsub" id="records-section-btn">RECORDS SECTION</button></h1><br>
 <div class="ghost" id="records-section">
 	<h2><button class="issub" id="flow-btn">Total Flow</button></h2>
@@ -87,8 +89,7 @@ Date: <span th:text="*{date}">the date</span></p><br><br><br><br><br>
 				</tr>
 			</tbody>
 		</table>
-	</div><br><br>
-
+	</div><br>
 	<h2><button class="issub" id="temp-btn">TEMPERATURE</button></h2>
 	<div class="ghost" id="temp">
 		<p>
@@ -102,7 +103,7 @@ Date: <span th:text="*{date}">the date</span></p><br><br><br><br><br>
 	<div class="ghost" id="note">
 		<p th:text="${note}?:'no additional notes'">NOTE</p>
 	</div>
-</div><br><br><br><br>
+</div><br>
 <h1><button class="notsub" id="emp-btn">EMPLOYEES SECTION</button></h1><br>
 <div class="ghost" id="emp">
 	<ul>
@@ -110,6 +111,6 @@ Date: <span th:text="*{date}">the date</span></p><br><br><br><br><br>
 			<p th:text="${n}">name</p>
 		</li>
 	</ul>
-</div>
+</div><br>
 </body>
 </html>
