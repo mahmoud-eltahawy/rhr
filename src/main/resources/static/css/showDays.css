@@ -1,36 +1,12 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>last week summary</title>
-<style>
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
-
-* {
-	box-sizing: border-box;
-}
-
-body {
-	background-color: #f6f5f7;
-	font-family: 'Open Sans', sans-serif;
-	margin-bottom: 50px;
-}
-
-.text-center {
-	text-align: center;
-}
-
-.pricing-box-container {
+.box-container {
 	display: flex;
-	align-items: center;
-	justify-content: center;
 	flex-wrap: wrap;
 }
 
-.pricing-box {
-	background-color: #ffffff;
+.inner-box {
+	background-color: rgb(0, 73, 51);
 	box-shadow: 0px 2px 15px 0px rgba(0,0,0,0.5);
-	border-radius: 4px;
+	border-radius: 4rem;
 	flex: 1;
 	padding: 0 30px 30px;
 	margin: 2%;
@@ -38,167 +14,43 @@ body {
 	max-width: 350px;
 }
 
-.pricing-box h5 {
+.inner-box h5 {
 	text-transform: uppercase;
 }
 
-.price {
+.note {
 	margin: 24px 0;
-	font-size: 36px;
+	font-size: 2rem;
 	font-weight: 900;
 }
 
-.price sub, .price sup {
-	font-size: 16px;
+.note sub, .note sup {
+	font-size: 1rem;
 	font-weight: 100;
-}
-
-.features-list {
-	padding: 0;
-	list-style-type: none;
-}
-
-.features-list li {
-	font-weight: 100;
-	padding: 12px 0;
-	font-weight: 100;
-}
-
-.features-list li:not(:last-of-type) {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .btn-primary {
-	border-radius: 25px;
+	border-radius: 2rem;
 	border: none;
-	background-color: #EC1362;
+	background-color: blueviolet;
 	color: #ffffff;
 	cursor: pointer;
-	padding: 10px 15px;
-	margin-top: 20px;
+	padding: .5em .75em;
+	margin-top: .1em;
 	text-transform: uppercase;
 	transition: all 0.1s ease-in-out;
 }
 
 .btn-primary:hover {
 	box-shadow: 0px 2px 15px 0px rgba(0,0,0,0.5);
-	transform: translateY(-3px);
 }
 
-.pricing-box-bg-image {
-	background-color: #EC1362;
-	background-size: cover;
-	background-position: center center;
+.middle-box {
+	background-color: blueviolet;
 	color: #ffffff;
 }
 
-.pricing-box-bg-image .features-list li {
-	border-bottom-color: rgba(255, 255, 255, 1);
+.middle-box .btn-primary {
+	background-color: rgb(0, 73, 51);
+	color: #ffffff;
 }
-
-.pricing-box-bg-image .btn-primary {
-	background-color: #ffffff;
-	color: #000;
-}
-
-footer {
-	background-color: #222;
-	color: #fff;
-	font-size: 14px;
-	bottom: 0;
-	position: fixed;
-	left: 0;
-	right: 0;
-	text-align: center;
-}
-
-footer p {
-	margin: 10px 0;
-}
-
-footer i {
-	color: red;
-}
-
-footer a {
-	color: #3C97BF;
-	text-decoration: none;
-}
-</style>
-</head>
-<body>
-<h1 class="text-center" th:text="${title}"> Last what</h1>
-
-<div class="pricing-box-container">
-	<div class="pricing-box text-center">
-		<a href="#" th:href="@{/show/week(week=${next})}"><button class="btn-primary">Go to older</button></a>
-	</div>
-	<div class="pricing-box text-center">
-		<a href="#" th:href="@{/}"><button class="btn-primary">Go to Home</button></a>
-	</div>
-	<div class="pricing-box text-center">
-		<a href="#" th:href="@{/show/week(week=${prev})}"><button class="btn-primary">Go to newer</button></a>
-	</div>
-</div>
-
-<div class="pricing-box-container" th:each="ins :${week}">
-	<div th:unless="${ins.value.one}==null">
-		<div class="pricing-box text-center" th:object="${ins.value.one}">
-			<h5 th:text="*{shiftId.shift}">two</h5>
-			<h4 th:text="*{shiftId.date}">date</h4>
-			<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-				<sub th:text="*{minTemperature}">min</sub></p>
-
-			<p th:text="*{exceptionalNote}">notes</p>
-
-			<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-		</div>
-	</div>
-	<div th:unless="${ins.value.two}==null">
-		<div class="pricing-box pricing-box-bg-image text-center" th:object="${ins.value.two}">
-			<h5 th:text="*{shiftId.shift}">three</h5>
-			<h4 th:text="*{shiftId.date}">date</h4>
-			<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-				<sub th:text="*{minTemperature}">min</sub></p>
-
-			<p th:text="*{exceptionalNote}">notes</p>
-
-			<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-		</div>
-	</div>
-	<div th:unless="${ins.value.three}==null">
-		<div class="pricing-box text-center" th:object="${ins.value.three}">
-			<h5 th:text="*{shiftId.shift}">one</h5>
-			<h4 th:text="*{shiftId.date}">date</h4>
-			<p class="price"><sup th:text="*{maxTemperature}">max</sup>/
-				<sub th:text="*{minTemperature}">min</sub></p>
-
-			<p th:text="*{exceptionalNote}">notes</p>
-
-			<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
-		</div>
-	</div>
-</div>
-
-<div class="pricing-box-container">
-	<div class="pricing-box text-center">
-		<a href="#" th:href="@{/show/week(week=${next})}"><button class="btn-primary">Go to older</button></a>
-	</div>
-	<div class="pricing-box text-center">
-		<a href="#" th:href="@{/comming}"><button class="btn-primary">Go to Home</button></a>
-	</div>
-	<div class="pricing-box text-center">
-		<a href="#" th:href="@{/show/week(week=${prev})}"><button class="btn-primary">Go to newer</button></a>
-	</div>
-</div>
-
-<footer>
-	<p>
-		Created <i class="fa fa-heart"></i> by
-		<b th:text="#{developer.name}">developer name</b>
-		- Read the source code of the project
-		<a target="_blank" href="https://github.com/mahmoud-eltahawy/rhr">in this Github page</a>
-	</p>
-</footer>
-</body>
-</html>
