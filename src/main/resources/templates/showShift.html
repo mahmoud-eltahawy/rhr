@@ -3,20 +3,21 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>shift show</title>
+		<link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
 		<link rel="stylesheet" href="../static/css/showShift.css" th:href="@{/css/showShift.css}">
 		<script type="text/javascript" src="../static/js/showShift.js" th:src="@{/js/showShift.js}" async></script>
 	</head>
 	<body>
-		<p th:object="${theId}">Shift: <span th:text="*{shift}">order</span>
+		<p th:object="${theId}" class="short-important-p">Shift: <span th:text="*{shift}">order</span>
 		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 		Date: <span th:text="*{date}">the date</span></p><br>
-		<p th:if="${cats}==null">there is no problems through the whole shift</p>
+		<p th:if="${cats}==null" class="short-important-p">there is no problems through the whole shift</p>
 		<div th:unless="${cats}==null">
 			<h1><button class="notsub"  id="problems-section-btn">PROBLEMS SECTION</button></h1><br>
 			<div class="ghost" id="problems-section">
 				<ul th:each="cat : ${cats}">
 					<li>
-						<p th:if="${cat.value}==null">
+						<p th:if="${cat.value}==null" class="short-important-p">
 							<span th:text="${cat.key}">CATEGORY</span>
 							<span>has no problems</span>
 						</p>
@@ -30,7 +31,7 @@
 							<div class="ghost" id="category" th:id="${cat.key}">
 								<ul th:each="mapin : ${cat.value}">
 									<li>
-										<p th:if="${mapin.value}==null">
+										<p th:if="${mapin.value}==null" class="short-important-p">
 											<span th:text="${cat.key}">CATEGORY</span>
 											<span th:text="${mapin.key}">NUMBER</span>
 											<span>has no problems</span>
@@ -102,7 +103,7 @@
 			</div><br>
 			<h2><button class="issub" id="temp-btn">TEMPERATURE</button></h2>
 			<div class="ghost" id="temp">
-				<p>
+				<p class="short-important-p">
 					MAXIMUM : <span th:text="${maxT}">max</span>
 					&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 					MINIMUM : <span th:text="${minT}">min</span>
@@ -111,14 +112,14 @@
 
 			<h2><button class="issub" id="note-btn">NOTE</button></h2>
 			<div class="ghost" id="note">
-				<p th:text="${note}?:'no additional notes'">NOTE</p>
+				<p th:text="${note}?:'no additional notes'" class="short-important-p">NOTE</p>
 			</div>
 		</div><br>
 		<h1><button class="notsub" id="emp-btn">EMPLOYEES SECTION</button></h1><br>
 		<div class="ghost" id="emp">
 			<ul>
 				<li th:each="n : ${names}">
-					<p th:text="${n}">name</p>
+					<p th:text="${n}" class="short-important-p">name</p>
 				</li>
 			</ul>
 		</div><br>
