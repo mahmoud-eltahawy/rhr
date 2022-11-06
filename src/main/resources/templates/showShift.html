@@ -10,11 +10,16 @@
 		<p th:object="${theId}">Shift: <span th:text="*{shift}">order</span>
 		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 		Date: <span th:text="*{date}">the date</span></p><br>
+		<p th:if="${cats}==null">there is no problems through the whole shift</p>
 		<div th:unless="${cats}==null">
 			<h1><button class="notsub"  id="problems-section-btn">PROBLEMS SECTION</button></h1><br>
 			<div class="ghost" id="problems-section">
 				<ul th:each="cat : ${cats}">
 					<li>
+						<p th:if="${cat.value}==null">
+							<span th:text="${cat.key}">CATEGORY</span>
+							<span>has no problems</span>
+						</p>
 						<div th:unless="${cat.value}==null">
 							<h2>
 								<button id="category-btn" th:id="${cat.key}+'-btn'" class="issub">
@@ -25,6 +30,11 @@
 							<div class="ghost" id="category" th:id="${cat.key}">
 								<ul th:each="mapin : ${cat.value}">
 									<li>
+										<p th:if="${mapin.value}==null">
+											<span th:text="${cat.key}">CATEGORY</span>
+											<span th:text="${mapin.key}">NUMBER</span>
+											<span>has no problems</span>
+										</p>
 										<div th:unless="${mapin.value}==null">
 											<h3 th:unless="${mapin.key}==0">
 												<button id="category-number-btn" th:id="${cat.key}+'-'+${mapin.key}+'-btn'" class="issubsub">
