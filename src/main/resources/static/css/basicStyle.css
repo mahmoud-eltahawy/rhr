@@ -92,3 +92,12 @@ footer a {
 .ghost{
 	display: none;
 }
+
+.top-bottom-border{
+	border-top: .6em double;
+	border-top: .6em double;
+	border-bottom: .2rem double;
+	border-top-color: blueviolet;
+	border-bottom-color: whitesmoke;
+	border-radius: 6rem;
+}
