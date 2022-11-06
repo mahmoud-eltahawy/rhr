@@ -2,6 +2,7 @@ package com.rhr.heat.service.api;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -1678,7 +1679,7 @@ public class Tester {
 				"taha greeting", 181, 201);
 
 		Shift shift972 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
-				List.of(pd13,pd14),
+				new ArrayList<>(),
 				List.of(emp4),
 				List.of(tf5,tf3),
 				"mohammed greeting", 192, 202);

@@ -21,8 +21,14 @@ public class CommonService {
 	private final MachineRepo machineRepo;
 	
 	public ModelAndView completeShift(ModelAndView mv,Shift shift) {
+		Map<String, Map<Integer, List<ProblemDetail>>>	cats =
+				getCategoryMachines(shift.getProblems());
 		mv.addObject("theId",shift.getShiftId());
-		mv.addObject("cats",getCategoryMachines(shift.getProblems()));
+		if(!cats.isEmpty()) {
+			mv.addObject("cats",cats);
+		} else {
+			mv.addObject("cats",null);
+		}
 		mv.addObject("flow",shift.getTotalFlowAverage());
 		mv.addObject("maxT",shift.getMaxTemperature());
 		mv.addObject("minT",shift.getMinTemperature());
@@ -94,17 +100,19 @@ public class CommonService {
 		}
 		
 		Map<String,List<Integer>> standard = getStandardCategoryNums();
-		standard.keySet().forEach(category ->{
-			if(result.get(category) == null) {
-				result.put(category, null);
-			} else {
-				standard.get(category).forEach(num->{
-					if(result.get(category).get(num) ==null) {
-						result.get(category).put(num, null);
-					};
-				});	
-			}
-		});
+		if(!result.isEmpty()) {
+			standard.keySet().forEach(category ->{
+				if(result.get(category) == null) {
+					result.put(category, null);
+				} else {
+					standard.get(category).forEach(num->{
+						if(result.get(category).get(num) ==null) {
+							result.get(category).put(num, null);
+						};
+					});	
+				}
+			});
+		}
 		return result;
 	}
 }

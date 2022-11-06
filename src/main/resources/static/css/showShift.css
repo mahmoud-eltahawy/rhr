@@ -34,7 +34,7 @@ button {
 	border-radius: 2em;
 	}
 
-button:hover, button:focus{
+button:hover{
 	background-color: black;
 	color: white;
 	font-size: 2em;
