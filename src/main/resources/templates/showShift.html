@@ -54,11 +54,17 @@
 													</thead>
 													<tbody>
 														<tr th:each="pd : ${mapin.value}">
-															<td th:text="${pd.beginTime}">problem begin time</td>
-															<td th:text="${pd.endTime}">problem end time</td>
+															<td th:text="${pd.beginTime}">
+																problem begin time
+															</td>
+															<td th:text="${pd.endTime}">
+																problem end time
+															</td>
 															<td>
 																<ol type="1">
-																	<li th:each="p : ${pd.problems}"><span th:text="${p.title}"></span></li>
+																	<li th:each="p : ${pd.problems}">
+																		<span th:text="${p.title}">problem</span>
+																	</li>
 																</ol>
 															</td>
 														</tr>
