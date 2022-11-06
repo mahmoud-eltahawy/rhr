@@ -39,19 +39,20 @@ public class ProblemRepo {
 		return jdbcTemplate.query(sql, new ProblemRowMapper(),id);
 	}
 	
-	public List<ProblemProfile> findProblemsProfiles(String p,Integer begin,Integer end){
+	public List<ProblemProfile> findProblemsProfiles(String pr,Integer begin,Integer end){
 		return jdbcTemplate.query("select si.shift_date ,si.shift_order, "
-				+ "pd.machine ,pd.begin_time ,pd.end_time "
-				+ "from problem p "
+				+ "m.catagory, m.num, pd.begin_time ,pd.end_time "
+				+ "from problem p \n"
 				+ "join problem_detail_problem pdp "
 				+ "on p.title = pdp.problem_title "
 				+ "join problem_detail pd "
 				+ "on pd.id = pdp.problem_detail_id "
 				+ "join shift_problem sp on sp.problem_id = pd.id "
 				+ "join shift_id si on si.id = sp.shift_id "
+				+ "join machine m on m.id = pd.machine_id "
 				+ "where p.title = ? "
-				+ "order by si.shift_date desc offset ? limit ?",
-				new ProblemProfileRowMapper(),p,begin,end);
+				+ "order by si.shift_date desc offset ? limit ?;",
+				new ProblemProfileRowMapper(),pr,begin,end);
 	}
 	
 	public List<MachineProfile> findMachinesProfiles(String p,Integer begin,Integer end){

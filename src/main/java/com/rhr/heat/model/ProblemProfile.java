@@ -18,5 +18,5 @@ public class ProblemProfile {
 	private ShiftOrder shift;
 	private Time beginTime;
 	private Time endTime;
-	private Machine machine;
+	private String machine;
 }
