@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.rhr.heat.dao.rowMappers.MachineProfileRowMapper;
 import com.rhr.heat.dao.rowMappers.ProblemProfileRowMapper;
 import com.rhr.heat.dao.rowMappers.ProblemRowMapper;
+import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Problem;
 import com.rhr.heat.model.MachineProfile;
 import com.rhr.heat.model.ProblemProfile;
@@ -42,7 +43,7 @@ public class ProblemRepo {
 	public List<ProblemProfile> findProblemsProfiles(String pr,Integer begin,Integer end){
 		return jdbcTemplate.query("select si.shift_date ,si.shift_order, "
 				+ "m.catagory, m.num, pd.begin_time ,pd.end_time "
-				+ "from problem p \n"
+				+ "from problem p "
 				+ "join problem_detail_problem pdp "
 				+ "on p.title = pdp.problem_title "
 				+ "join problem_detail pd "
@@ -55,18 +56,33 @@ public class ProblemRepo {
 				new ProblemProfileRowMapper(),pr,begin,end);
 	}
 	
-	public List<MachineProfile> findMachinesProfiles(String p,Integer begin,Integer end){
+	public List<MachineProfile> findMachinesProfiles(UUID id,Integer begin,Integer end){
 		return jdbcTemplate.query("select si.shift_date ,si.shift_order, "
 				+ "pd.begin_time ,pd.end_time,pd.id "
 				+ "from problem_detail pd "
 				+ "join shift_problem sp on sp.problem_id = pd.id "
 				+ "join shift_id si on si.id = sp.shift_id "
-				+ "where pd.id in (select id "
-				+ "from problem_detail pd2 where pd2.machine  = ?) "
+				+ "join machine m on m.id = pd.machine_id "
+				+ "where m.id = ? "
 				+ "order by si.shift_date desc offset ? limit ?",
-				new MachineProfileRowMapper(),p,begin,end).stream().map(m -> {
-					m.setProblems(findProblemDetailProblems(m.getId()));
-					return m;
+				new MachineProfileRowMapper(),id,begin,end)
+				.stream().map(c -> { c.setProblems(findProblemDetailProblems(c.getId()));
+					return c;
+				}).collect(Collectors.toList());
+	}
+	
+	public List<MachineProfile> findMachinesProfiles(Machine m,Integer begin,Integer end){
+		return jdbcTemplate.query("select si.shift_date ,si.shift_order, "
+				+ "pd.begin_time ,pd.end_time,pd.id "
+				+ "from problem_detail pd "
+				+ "join shift_problem sp on sp.problem_id = pd.id "
+				+ "join shift_id si on si.id = sp.shift_id "
+				+ "join machine m on m.id = pd.machine_id "
+				+ "where m.catagory = ? and m.num = ? "
+				+ "order by si.shift_date desc offset ? limit ?",
+				new MachineProfileRowMapper(),m.getCatagory(),m.getNumber(),begin,end)
+				.stream().map(c -> { c.setProblems(findProblemDetailProblems(c.getId()));
+					return c;
 				}).collect(Collectors.toList());
 	}
 	

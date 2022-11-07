@@ -89,27 +89,13 @@
 	<div id="m" class="pricing-box pricing-box-bg-image text-center ghost">
 		<div class="center">
 		<h1>insert Machine Name</h1>
-		<form action="#" th:action="@{/show/machine}" th:object="${HModel}" method="post">
+		<form action="#" th:action="@{/show/machine}" method="post">
 			<div class="select">
-        <select required="required" th:field="*{holder}">
-          <option value="KILEN_ONE"  selected>kilen one</option>
-          <option value="KILEN_TWO"         >kilen two</option>
-          <option value="KILEN_THREE"       >kilen three</option>
-          <option value="KILEN_FOUR"        >kilen four</option>
-          <option value="KILEN_FIVE"        >kilen five</option>
-          <option value="DRAYER_ONE"        >drayer one</option>
-          <option value="DRAYER_TWO"        >drayer two</option>
-          <option value="DRAYER_THREE"      >drayer three</option>
-          <option value="DRAYER_FOUR"       >drayer four</option>
-          <option value="DRAYER_FIVE"       >drayer five</option>
-          <option value="DRAYER_SIX"        >drayer six</option>
-          <option value="DRAYER_SEVEN"      >drayer seven</option>
-          <option value="ATM_ONE"           >atm one</option>
-          <option value="ATM_TWO"           >atm two</option>
-          <option value="PROJECT"           >project</option>
+        <select required="required" id="machine-id" name="machine-id">
+          <option th:each="m: ${machines}" th:value="${m.id}" th:text="${m.catagory}+'-'+${m.number}">machine</option>
         </select>
 			</div><br>
-      <input type="hidden" name="num" value="0">
+      <input type="hidden" id="page" name="page" value="0">
 			  <button class="inputbox" type="submit">Submit </button>
 			</div>
 		</form>

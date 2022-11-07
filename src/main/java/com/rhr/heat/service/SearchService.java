@@ -12,6 +12,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.rhr.heat.dao.EmployeeRepo;
+import com.rhr.heat.dao.MachineRepo;
 import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.dao.ShiftRepo;
 import com.rhr.heat.entity.Employee;
@@ -32,6 +33,16 @@ public class SearchService {
 	private final ShiftRepo shiftRepo;
 	private final ProblemRepo problemRepo;
 	private final EmployeeRepo employeeRepo;
+	private final MachineRepo machineRepo;
+	
+	
+	public Optional<Machine> getMachine(UUID id) {
+		return machineRepo.findById(id);
+	}
+	
+	public List<Machine> allmachines(){
+		return machineRepo.findAll();
+	}
 	
 	public List<String> problemsTitles(){
 		return problemRepo.findAllTitles();
@@ -83,8 +94,8 @@ public class SearchService {
 		return Day.getDays(shiftRepo.findAll(date, false));
 	}
 	
-	public List<MachineProfile> pickLastMachineProblems(String machine,Integer num){
-		return  problemRepo.findMachinesProfiles(machine, num * 7, 7);
+	public List<MachineProfile> pickLastMachineProblems(UUID id,Integer num){
+		return  problemRepo.findMachinesProfiles(id, num * 7, 7);
 	}
 	
 	public List<EmpSect> pickLastEmployeeSections(String username,Integer num){

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rhr.heat.entity.Employee;
+import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.model.StringModel;
@@ -36,6 +37,7 @@ public class SearchController {
 		mv.addObject("HModel", new StringModel());
 		mv.addObject("names", service.usernames());
 		mv.addObject("pTitles", service.problemsTitles());
+		mv.addObject("machines",service.allmachines());
 		return mv;
 	}
 
@@ -154,17 +156,19 @@ public class SearchController {
 	}
 
 	@PostMapping("/machine")
-	public ModelAndView showMachine(@ModelAttribute("machine")StringModel machine,
-			@RequestParam("num")Integer num) {
-		if(num < 0) {
-			num = 0;
+	public ModelAndView showMachine(
+			@RequestParam("machine-id")UUID id,
+			@RequestParam("page")Integer page) {
+		if(page < 0) {
+			page = 0;
 		}
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("showMachines");
-		mv.addObject("next",num + 1);
-		mv.addObject("prev",num - 1);
-		mv.addObject("machine", machine);
-		mv.addObject("machineProblems",service.pickLastMachineProblems(machine.getHolder(), num));
+		mv.addObject("machine",service.getMachine(id).get());
+		mv.addObject("machineProblems",
+				service.pickLastMachineProblems(id, page));
+		mv.addObject("next",page + 1);
+		mv.addObject("prev",page - 1);
 		return mv;
 	}
 }

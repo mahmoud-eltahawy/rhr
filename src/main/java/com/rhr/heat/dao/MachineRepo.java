@@ -19,33 +19,33 @@ public class MachineRepo {
 	private final JdbcTemplate jdbcTemplate;
 
 	public List<Machine> findAll() {
-		String sql = "SELECT * FROM machine";
+		String sql = "SELECT m.id, m.catagory, m.num FROM machine m";
 		return jdbcTemplate.query(sql, new MachineRowMapper());
 	}
 	
 	public List<Machine> findByCatagory(String catagory) {
-		String sql = "SELECT * FROM machine WHERE catagory = ?";
+		String sql = "SELECT m.id, m.catagory, m.num FROM machine m WHERE m.catagory = ?";
 		return jdbcTemplate.query(sql, new MachineRowMapper(), catagory);
 	}
 	
 	public List<Integer> findCatagoryAllNums(String catagory) {
-		String sql = "SELECT DISTINCT num FROM machine WHERE catagory = ?";
+		String sql = "SELECT DISTINCT m.num FROM machine m WHERE m.catagory = ?";
 		return jdbcTemplate.queryForList(sql, Integer.class, catagory);
 	}
 	
 	public List<String> findAllCatagories() {
-		String sql = "SELECT DISTINCT catagory FROM machine";
+		String sql = "SELECT DISTINCT m.catagory FROM machine m";
 		return jdbcTemplate.queryForList(sql, String.class);
 	}
 	
 	public Optional<Machine> findById(UUID id) {
-		String sql = "SELECT * FROM machine where id = ?";
+		String sql = "SELECT m.id, m.catagory, m.num FROM machine m where m.id = ?";
 		return jdbcTemplate.query(sql,
 				new MachineRowMapper(), id).stream().findFirst();
 	}
 	
 	public Optional<Machine> findByTheId(String catagory,Integer num) {
-		String sql = "SELECT * FROM machine where catagory = ? AND num = ?";
+		String sql = "SELECT m.id, m.catagory, m.num FROM machine m where m.catagory = ? AND m.num = ?";
 		return jdbcTemplate.query(sql,
 				new MachineRowMapper(), catagory, num).stream().findFirst();
 	}
