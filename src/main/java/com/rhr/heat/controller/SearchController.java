@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.ShiftOrder;
-import com.rhr.heat.model.StringModel;
 import com.rhr.heat.service.CommonService;
 import com.rhr.heat.service.SearchService;
 
@@ -33,7 +32,6 @@ public class SearchController {
 	public ModelAndView searchPage() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("searchButtons");
-		mv.addObject("HModel", new StringModel());
 		mv.addObject("names", service.usernames());
 		mv.addObject("pTitles", service.problemsTitles());
 		mv.addObject("machines",service.allmachines());
