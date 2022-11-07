@@ -11,84 +11,66 @@
 <h1 class="text-center" >what you are looking for</h1>
 
 <div class="box-container">
-    <button class="btn-primary">SHIFT</button>
-    <button class="btn-primary">DAY</button>
-    <button class="btn-primary">PROBLEM !!</button>
-    <button class="btn-primary">MACHINE</button>
-    <button class="btn-primary">EMPLOYEE</button>
+    <button id="shift-cont-btn"   >SHIFT     </button>
+    <button id="day-cont-btn"     >DAY       </button>
+    <button id="problem-cont-btn" >PROBLEM !!</button>
+    <button id="machine-cont-btn" >MACHINE   </button>
+    <button id="employee-cont-btn">EMPLOYEE  </button>
 </div>
 
-<div id="action-place"></div>
+<div class="inner-box" id="action-place"></div>
 
-<div class="">
-	<div id="s" class="inner-box">
+<div class="ghost">
+	<div id="shift-cont">
 		<h1>insert Date and Order</h1>
 		<form action="#" th:action="@{/show/shft}">
-			<div class="inputbox">
 			<input type="date" id="{date}" name="date" required="required">
-			</div>
-			<div class="select">
-        <select required="required" id="{order}" name="order">
-          <option value="FIRST"  selected>first shift</option>
-          <option value="SECOND"         >second shift</option>
-          <option value="THIRD"          >third shift</option>
-        </select>
-			</div><br>
-			<div class="inputbox">
-			  <button class="inputbox" type="submit">Submit</button>
-			</div>
+            <select required="required" id="{order}" name="order">
+                <option value="FIRST"  selected>first shift</option>
+                <option value="SECOND"         >second shift</option>
+                <option value="THIRD"          >third shift</option>
+            </select>
+			<button type="submit">Submit</button>
 		</form>
 	</div>
-	<div id="d" class="inner-box">
+	<div id="day-cont">
 		<h1>insert Date</h1>
 		<form action="#" th:action="@{/show/day}">
-			<div class="inputbox">
-			<input type="date" id="{date}" name="date" required="required">
-			</div>
-			<div class="inputbox">
-			  <button class="inputbox" type="submit">Submit </button>
-			</div>
+            <input type="date" id="{date}" name="date" required="required">
+			<button type="submit">Submit </button>
 		</form>
 	</div>
-	<div id="p" class="inner-box">
+	<div id="problem-cont">
 		<h1>insert Problem Name</h1>
 		<form action="#" th:action="@{/show/problem}" method="post">
-			<div class="select">
-        <select required="required" id="problem-title" name="problem-title">
-          <option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
-        </select>
-			</div><br>
-      <input type="hidden" id="page" name="page" value="0">
-			  <button class="inputbox" type="submit">Submit </button>
+            <select required="required" id="problem-title" name="problem-title">
+                <option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
+            </select>
+            <input type="hidden" id="page" name="page" value="0">
+            <button type="submit">Submit </button>
 		</form>
 	</div>
-
-	<div id="m" class="inner-box">
+	<div id="machine-cont">
 		<h1>insert Machine Name</h1>
 		<form action="#" th:action="@{/show/machine}" method="post">
-			<div class="select">
-        <select required="required" id="machine-id" name="machine-id">
-          <option th:each="m: ${machines}" th:value="${m.id}" th:text="${m.catagory}+'-'+${m.number}">machine</option>
-        </select>
-			</div><br>
-      <input type="hidden" id="page" name="page" value="0">
-			  <button class="inputbox" type="submit">Submit </button>
-			</div>
-		</form>
-        <div id="e" class="inner-box">
-            <h1>insert username</h1>
-            <form action="#" th:action="@{/show/emp}" method="post">
-                <div class="select">
-                <select required="required" id="username" name="username">
-                    <option th:each="n : ${names}" th:value="${n}" th:text="${n}"> username</option>
+                <select required="required" id="machine-id" name="machine-id">
+                    <option th:each="m: ${machines}" th:value="${m.id}" th:text="${m.catagory}+'-'+${m.number}">machine</option>
                 </select>
-                </div><br>
-                <input type="hidden" name="month" value="0">
-                <button class="inputbox" type="submit">Submit </button>
-                </div>
-            </form>
-        </div>
-	</div>
+                <input type="hidden" id="page" name="page" value="0">
+                <button type="submit">Submit </button>
+		</form>
+    </div>
+    <div id="employee-cont">
+        <h1>insert username</h1>
+        <form action="#" th:action="@{/show/emp}" method="post">
+            <select required="required" id="username" name="username">
+                <option th:each="n : ${names}" th:value="${n}" th:text="${n}"> username</option>
+            </select>
+            <input type="hidden" name="month" value="0">
+            <button type="submit">Submit </button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <footer>
