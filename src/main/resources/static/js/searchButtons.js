@@ -1,12 +1,10 @@
-
-function addToAction(id){
-  document.querySelector("#action-place").innerHTML = document.getElementById(id).innerHTML;
-}
-
 const allButtons = document.getElementsByTagName("button")
+
 
 for(let i = 0; i < allButtons.length ; i++){
   allButtons[i].addEventListener("click", function(){
-    addToAction(allButtons[i].getAttribute("id").slice(0,-4))
+    document.querySelector("#action-place")
+            .innerHTML = document
+      .getElementById(allButtons[i].getAttribute("id").slice(0,-4)).innerHTML;
   })
 }

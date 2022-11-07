@@ -10,8 +10,7 @@ function toggle(id) {
 const allButtons = document.getElementsByTagName("button")
 
 for(let i = 0; i< allButtons.length ; i++){
-  const button = allButtons[i]
-  button.addEventListener("click", function(){
-    toggle(button.getAttribute("id").slice(0,-4))
+  allButtons[i].addEventListener("click", function(){
+    toggle(allButtons[i].getAttribute("id").slice(0,-4))
   })
 }
