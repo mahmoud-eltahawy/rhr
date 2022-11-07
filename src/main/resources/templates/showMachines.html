@@ -44,6 +44,27 @@
 	</div>
 </div>
 
+<div class="pricing-box-container">
+	<div class="pricing-box text-center">
+		<form action="#" th:action="@{/show/machine}" th:object="${machine}" method="post">
+        <input type="hidden" th:value="${machine.id}" name="machine-id" id="machine-id">
+        <input type="hidden" name="page" id="page" th:value="${next}">
+			  <button class="btn-primary" type="submit" >go to older</button>
+		</form>
+	</div>
+
+	<div class="pricing-box text-center">
+		<a href="#" th:href="@{/}"><button>HOME</button></a>
+	</div>
+
+	<div class="pricing-box text-center">
+		<form action="#" th:action="@{/show/machine}" th:object="${machine}" method="post">
+        <input type="hidden" th:value="${machine.id}" name="machine-id" id="machine-id">
+        <input type="hidden" name="page" id="page" th:value="${prev}">
+			  <button class="btn-primary" type="submit" >go to newer</button>
+		</form>
+	</div>
+</div>
 
 <footer>
 	<p>

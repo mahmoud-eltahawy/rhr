@@ -17,6 +17,7 @@ import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.dao.ShiftRepo;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Machine;
+import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.ShiftOrder;
@@ -86,8 +87,8 @@ public class SearchService {
 		return  problemRepo.findProblemsProfiles(problem, problemNum * 7, 7);
 	}
 	
-	public String findProblemDescription(String title) {
-		return problemRepo.findByTitle(title).get().getDescription();
+	public Problem findProblem(String title) {
+		return problemRepo.findByTitle(title).get();
 	}
 	
 	public TreeMap<Date, Day> findDay(Date date) {

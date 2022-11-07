@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rhr.heat.entity.Employee;
-import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.model.StringModel;
@@ -42,7 +41,7 @@ public class SearchController {
 	}
 
 	@GetMapping("/last/week")
-	public ModelAndView index() {
+	public ModelAndView lastWeek() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("showDays");
 		mv.addObject("title","Welcom to index page");
@@ -140,18 +139,17 @@ public class SearchController {
 	}
 
 	@PostMapping("/problem")
-	public ModelAndView showProblem(@ModelAttribute("problem")StringModel problem,
-			@RequestParam("num")Integer num) {
-		if(num < 0) {
-			num = 0;
+	public ModelAndView showProblem(@RequestParam("problem-title")String problem,
+			@RequestParam("page")Integer page) {
+		if(page < 0) {
+			page = 0;
 		}
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("showProblems");
-		mv.addObject("next",num + 1);
-		mv.addObject("prev",num - 1);
-		mv.addObject("problem", problem);
-		mv.addObject("description", service.findProblemDescription(problem.getHolder()));
-		mv.addObject("problems",service.pickLastProblems(problem.getHolder(), num));
+		mv.addObject("problem", service.findProblem(problem));
+		mv.addObject("problems",service.pickLastProblems(problem, page));
+		mv.addObject("next",page + 1);
+		mv.addObject("prev",page - 1);
 		return mv;
 	}
 

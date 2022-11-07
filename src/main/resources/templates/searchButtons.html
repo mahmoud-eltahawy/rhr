@@ -35,7 +35,7 @@
         </select>
 			</div><br>
 			<div class="inputbox">
-			  <button class="inputbox" type="submit">Submit </button>
+			  <button class="inputbox" type="submit">Submit</button>
 			</div>
 		</form>
 		</div>
@@ -74,13 +74,13 @@
 	<div id="p" class="pricing-box text-center ghost">
 		<div class="center">
 		<h1>insert Problem Name</h1>
-		<form action="#" th:action="@{/show/problem}" th:object="${HModel}" method="post">
+		<form action="#" th:action="@{/show/problem}" method="post">
 			<div class="select">
-        <select required="required" th:field="*{holder}">
+        <select required="required" id="problem-title" name="problem-title">
           <option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
         </select>
 			</div><br>
-      <input type="hidden" name="num" value="0">
+      <input type="hidden" id="page" name="page" value="0">
 			  <button class="inputbox" type="submit">Submit </button>
 		</form>
 		</div>

@@ -11,22 +11,22 @@
 <div class="pricing-box-container">
 	<div class="pricing-box text-center">
 		<form action="#" th:action="@{/show/problem}" th:object="${problem}" method="post">
-        <input type="hidden" th:value="${problem.holder}" name="holder" id="holder">
-        <input type="hidden" name="num" id="num" th:value="${next}">
-			  <button class="btn-primary" type="submit" >go to older</button>
+            <input type="hidden" th:value="${problem.title}" name="problem-title" id="problem-title">
+            <input type="hidden" name="page" id="page" th:value="${next}">
+			<button class="btn-primary" type="submit" >go to older</button>
 		</form>
 	</div>
 
 	<div class="pricing-box pricing-box-bg-image text-center">
-		<h1 th:text="${problem.holder}"> title</h1>
-		<p th:text="${description}">description</p>
+		<h1 th:text="${problem.title}"> title</h1>
+		<p th:text="${problem.description}">description</p>
 	</div>
 
 	<div class="pricing-box text-center">
 		<form action="#" th:action="@{/show/problem}" th:object="${problem}" method="post">
-        <input type="hidden" th:value="${problem.holder}" name="holder" id="holder">
-        <input type="hidden" name="num" id="num" th:value="${prev}">
-			  <button class="btn-primary" type="submit" >go to newer</button>
+            <input type="hidden" th:value="${problem.title}" name="problem-title" id="problem-title">
+            <input type="hidden" name="page" id="page" th:value="${prev}">
+			<button class="btn-primary" type="submit" >go to newer</button>
 		</form>
 	</div>
 </div>
@@ -47,21 +47,22 @@
 <div class="pricing-box-container">
 	<div class="pricing-box text-center">
 		<form action="#" th:action="@{/show/problem}" th:object="${problem}" method="post">
-        <input type="hidden" th:value="${problem.holder}" name="holder" id="holder">
-        <input type="hidden" name="num" id="num" th:value="${next}">
-			  <button class="btn-primary" type="submit" >go to older</button>
+            <input type="hidden" th:value="${problem.title}" name="problem-title" id="problem-title">
+            <input type="hidden" name="page" id="page" th:value="${next}">
+			<button class="btn-primary" type="submit" >go to older</button>
 		</form>
 	</div>
 
 	<div class="pricing-box pricing-box-bg-image text-center">
-		<a href="#" th:href="@{/comming}"><button>report</button></a>
+		<h1 th:text="${problem.title}"> title</h1>
+		<p th:text="${problem.description}">description</p>
 	</div>
 
 	<div class="pricing-box text-center">
 		<form action="#" th:action="@{/show/problem}" th:object="${problem}" method="post">
-        <input type="hidden" th:value="${problem.holder}" name="holder" id="holder">
-        <input type="hidden" name="num" id="num" th:value="${prev}">
-			  <button class="btn-primary" type="submit" >go to newer</button>
+            <input type="hidden" th:value="${problem.title}" name="problem-title" id="problem-title">
+            <input type="hidden" name="page" id="page" th:value="${prev}">
+			<button class="btn-primary" type="submit" >go to newer</button>
 		</form>
 	</div>
 </div>
