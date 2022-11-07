@@ -30,9 +30,8 @@ public class CommonService {
 			mv.addObject("cats",null);
 		}
 		mv.addObject("flow",shift.getTotalFlowAverage());
-		mv.addObject("maxT",shift.getMaxTemperature());
-		mv.addObject("minT",shift.getMinTemperature());
-		mv.addObject("note",shift.getExceptionalNote());
+		mv.addObject("temps",shift.getTemps());
+		mv.addObject("notes",shift.getNotes());
 		if(shift.getEmployees() != null) {
 			mv.addObject("names",shift.getEmployees().stream().map(e ->{
 				return e.getFirstName()+" "+e.getMiddleName()+" "+e.getLastName();

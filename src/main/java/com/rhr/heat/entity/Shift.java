@@ -14,9 +14,8 @@ public class Shift {
 	private List<ProblemDetail> problems;
 	private List<Employee> employees;
 	private List<TotalFlow> totalFlowAverage;
-	private String exceptionalNote;
-	private Integer minTemperature;
-	private Integer maxTemperature;
+	private List<Temperature> temps;
+	private List<String> notes;
 	
 	public Boolean isPushable() {
 		if(shiftId == null) {
@@ -37,10 +36,10 @@ public class Shift {
 		if(totalFlowAverage.size() == 0) {
 			return false;
 		}
-		if(minTemperature == null) {
+		if(temps == null) {
 			return false;
 		}
-		if(maxTemperature == null) {
+		if(temps == null) {
 			return false;
 		}
 		return true;
