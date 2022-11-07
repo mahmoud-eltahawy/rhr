@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <title>last week summary</title>
+  <link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
   <link rel="stylesheet" href="../static/css/searchButtons.css" th:href="@{/css/searchButtons.css}">
   <script type="text/javascript" src="../static/js/searchButtons.js" th:src="@{/js/searchButtons.js}" async></script>
 </head>
 <body>
 <h1 class="text-center" >what you are looking for</h1>
 
-<div class="pricing-box-container">
-	<div class="pricing-box pricing-box-bg-image text-center">
-		<a onclick="toggle('s')"><button class="btn-primary">SHIFT</button></a>
-	</div>
-
-	<div class="pricing-box pricing-box-bg-image text-center">
-		<a onclick="toggle('d')"><button class="btn-primary">DAY</button></a>
-	</div>
+<div class="box-container">
+    <button class="btn-primary">SHIFT</button>
+    <button class="btn-primary">DAY</button>
+    <button class="btn-primary">PROBLEM !!</button>
+    <button class="btn-primary">MACHINE</button>
+    <button class="btn-primary">EMPLOYEE</button>
 </div>
 
-<div class="pricing-box-container">
-	<div id="s" class="pricing-box pricing-box-bg-image text-center ghost">
-		<div class="center">
+<div id="action-place"></div>
+
+<div class="">
+	<div id="s" class="inner-box">
 		<h1>insert Date and Order</h1>
 		<form action="#" th:action="@{/show/shft}">
 			<div class="inputbox">
@@ -38,11 +38,8 @@
 			  <button class="inputbox" type="submit">Submit</button>
 			</div>
 		</form>
-		</div>
 	</div>
-
-	<div id="d" class="pricing-box pricing-box-bg-image text-center ghost">
-		<div class="center">
+	<div id="d" class="inner-box">
 		<h1>insert Date</h1>
 		<form action="#" th:action="@{/show/day}">
 			<div class="inputbox">
@@ -52,27 +49,8 @@
 			  <button class="inputbox" type="submit">Submit </button>
 			</div>
 		</form>
-		</div>
 	</div>
-</div>
-
-<div class="pricing-box-container">
-	<div class="pricing-box text-center">
-		<a onclick="toggle('p')"><button class="btn-primary">PROBLEM !!</button></a>
-	</div>
-
-	<div class="pricing-box pricing-box-bg-image text-center">
-		<a onclick="toggle('m')"><button class="btn-primary">MACHINE</button></a>
-	</div>
-
-	<div class="pricing-box text-center">
-		<a onclick="toggle('e')"><button class="btn-primary">EMPLOYEE</button></a>
-	</div>
-</div>
-
-<div class="pricing-box-container">
-	<div id="p" class="pricing-box text-center ghost">
-		<div class="center">
+	<div id="p" class="inner-box">
 		<h1>insert Problem Name</h1>
 		<form action="#" th:action="@{/show/problem}" method="post">
 			<div class="select">
@@ -83,11 +61,9 @@
       <input type="hidden" id="page" name="page" value="0">
 			  <button class="inputbox" type="submit">Submit </button>
 		</form>
-		</div>
 	</div>
 
-	<div id="m" class="pricing-box pricing-box-bg-image text-center ghost">
-		<div class="center">
+	<div id="m" class="inner-box">
 		<h1>insert Machine Name</h1>
 		<form action="#" th:action="@{/show/machine}" method="post">
 			<div class="select">
@@ -99,24 +75,19 @@
 			  <button class="inputbox" type="submit">Submit </button>
 			</div>
 		</form>
-		</div>
-	</div>
-
-	<div id="e" class="pricing-box text-center ghost">
-		<div class="center">
-		<h1>insert username</h1>
-		<form action="#" th:action="@{/show/emp}" method="post">
-			<div class="select">
-        <select required="required" id="username" name="username">
-            <option th:each="n : ${names}" th:value="${n}" th:text="${n}"> username</option>
-        </select>
-			</div><br>
-			</div><br>
-      <input type="hidden" name="month" value="0">
-			  <button class="inputbox" type="submit">Submit </button>
-			</div>
-		</form>
-		</div>
+        <div id="e" class="inner-box">
+            <h1>insert username</h1>
+            <form action="#" th:action="@{/show/emp}" method="post">
+                <div class="select">
+                <select required="required" id="username" name="username">
+                    <option th:each="n : ${names}" th:value="${n}" th:text="${n}"> username</option>
+                </select>
+                </div><br>
+                <input type="hidden" name="month" value="0">
+                <button class="inputbox" type="submit">Submit </button>
+                </div>
+            </form>
+        </div>
 	</div>
 </div>
 
