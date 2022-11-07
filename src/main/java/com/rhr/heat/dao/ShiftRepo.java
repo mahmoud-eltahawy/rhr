@@ -6,14 +6,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.rhr.heat.dao.rowMappers.EmployeeRowMapper;
-import com.rhr.heat.dao.rowMappers.ProblemDetailRowMapper;
-import com.rhr.heat.dao.rowMappers.ShiftRowMapper;
-import com.rhr.heat.dao.rowMappers.TotalFlowRowMapper;
 import com.rhr.heat.entity.Shift;
+import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.enums.ShiftOrder;
 
 import lombok.RequiredArgsConstructor;
@@ -21,202 +17,61 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
 public class ShiftRepo {
-	private final JdbcTemplate jdbcTemplate;
 	private final EmployeeRepo employeeRepo;
 	private final ProblemDetailsRepo problemDetailsRepo;
 	private final ShiftIdRepo shiftIdRepo;
 	private final TotalFlowRepo totalFlowRepo;
 
-	public List<Shift> findAll(Boolean perfect) {
-		 List<Shift> shifts = jdbcTemplate.query(
-				 "select si.id as shift_id, si.shift_order,"
-				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
-				+ "from shift s join shift_id si on s.shift_id = si.id",
-				new ShiftRowMapper());
-		 if(perfect) {
-			 shifts = shifts.stream()
-					 .map(s ->{return fullFill(s);})
-					 .collect(Collectors.toList());
-		 }
-		 return shifts;
+	public List<Shift> findAll() {
+		 return null;
 	}
 	
-	public List<Shift> findAll(Date date,Boolean perfect) {
-		 List<Shift> shifts = jdbcTemplate.query(
-				 "select si.id as shift_id, si.shift_order,"
-				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
-				+ "from shift s join shift_id si on s.shift_id = si.id "
-				+ "where si.shift_date = ?",
-				new ShiftRowMapper(), date);
-		 if(perfect) {
-			 shifts = shifts.stream()
-					 .map(s ->{return fullFill(s);})
-					 .collect(Collectors.toList());
-		 }
-		 return shifts;
+	public List<Shift> findAll(Date date) {
+		 return null;
 	}
 
-	public List<Shift> findAll(ShiftOrder order,Boolean perfect) {
-		 List<Shift> shifts = jdbcTemplate.query(
-				 "select si.id as shift_id, si.shift_order,"
-				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
-				+ "from shift s join shift_id si on s.shift_id = si.id "
-				+ "where si.shift_order = ?",
-				new ShiftRowMapper(), order.toString());
-		 if(perfect) {
-			 shifts = shifts.stream()
-					 .map(s ->{return fullFill(s);})
-					 .collect(Collectors.toList());
-		 }
-		 return shifts;
+	public List<Shift> findAll(ShiftOrder order) {
+		 return null;
 	}
 
-	public Optional<Shift> findById(UUID id,Boolean perfect) {
-		 Optional<Shift> s = jdbcTemplate.query(
-				 "select si.id as shift_id, si.shift_order,"
-				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
-				+ "from shift s join shift_id si on s.shift_id = si.id "
-				+ "where si.id = ?",
-				new ShiftRowMapper(),id).stream().findFirst();
-		 if(s.isPresent() & perfect) {
-			 return Optional.of(fullFill(s.get()));
-		 } else {
-			 return s;
-		 }
+	public Optional<Shift> findById(UUID id) {
+			 return null;
 	}
 
-	public Optional<Shift> findById(Date date, ShiftOrder order,Boolean perfect) {
-		 Optional<Shift> s = jdbcTemplate.query(
-				 "select si.id as shift_id, si.shift_order,"
-				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
-				+ "from shift s join shift_id si on s.shift_id = si.id "
-				+ "where si.shift_date = ? and si.shift_order = ?",
-				new ShiftRowMapper(),date,order.toString()).stream().findFirst();
-		 if(s.isPresent() & perfect) {
-			 return Optional.of(fullFill(s.get()));
-		 } else {
-			 return s;
-		 }
+	public Optional<Shift> findById(Date date, ShiftOrder order) {
+		return null;
 	}
 
-	public List<Shift> findOlderThan(Date date,Boolean perfect) {
-		 List<Shift> shifts = jdbcTemplate.query(
-				 "select si.id as shift_id, si.shift_order,"
-				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
-				+ "from shift s join shift_id si on s.shift_id = si.id "
-				+ "where si.shift_date <= ?",
-				new ShiftRowMapper(),date);
-		 if(perfect) {
-			 shifts = shifts.stream()
-					 .map(s ->{return fullFill(s);})
-					 .collect(Collectors.toList());
-		 }
-		 return shifts;
+	public List<Shift> findOlderThan(Date date) {
+		 return null;
 	}
 
-	public List<Shift> findOlderThan(Date date,ShiftOrder order,Boolean perfect) {
-		 List<Shift> shifts = jdbcTemplate.query(
-				 "select si.id as shift_id, si.shift_order,"
-				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
-				+ "from shift s join shift_id si on s.shift_id = si.id "
-				+ "where si.shift_date <= ? and si.shift_order = ?",
-				new ShiftRowMapper(),date ,order.toString());
-		 if(perfect) {
-			 shifts = shifts.stream()
-					 .map(s ->{return fullFill(s);})
-					 .collect(Collectors.toList());
-		 }
-		 return shifts;
+	public List<Shift> findOlderThan(Date date,ShiftOrder order) {
+		 return null;
 	}
 
-	public List<Shift> findRecent(Date date,Boolean perfect) {
-		 List<Shift> shifts = jdbcTemplate.query(
-				 "select si.id as shift_id, si.shift_order,"
-				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
-				+ "from shift s join shift_id si on s.shift_id = si.id "
-				+ "where si.shift_date >= ?",
-				new ShiftRowMapper(),date);
-		 if(perfect) {
-			 shifts = shifts.stream()
-					 .map(s ->{return fullFill(s);})
-					 .collect(Collectors.toList());
-		 }
-		 return shifts;
+	public List<Shift> findRecent(Date date) {
+		 return null;
 	}
 
-	public List<Shift> findRecent(Date date, ShiftOrder order,Boolean perfect) {
-		 List<Shift> shifts = jdbcTemplate.query(
-				 "select si.id as shift_id, si.shift_order,"
-				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
-				+ "from shift s join shift_id si on s.shift_id = si.id "
-				+ "where si.shift_date >= ? and si.shift_order = ?",
-				new ShiftRowMapper(),date ,order.toString());
-		 if(perfect) {
-			 shifts = shifts.stream()
-					 .map(s ->{return fullFill(s);})
-					 .collect(Collectors.toList());
-		 }
-		 return shifts;
+	public List<Shift> findRecent(Date date, ShiftOrder order) {
+		 return null;
 	}
 
-	public List<Shift> findLast(Integer num,Boolean perfect) {
-		 List<Shift> shifts = jdbcTemplate.query(
-				 "select si.id as shift_id, si.shift_order,"
-				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
-				+ "from shift s join shift_id si on s.shift_id = si.id "
-				+ " order by si.shift_date desc limit ?",
-				new ShiftRowMapper(), num);
-		 if(perfect) {
-			 shifts = shifts.stream()
-					 .map(s ->{return fullFill(s);})
-					 .collect(Collectors.toList());
-		 }
-		 return shifts;
+	public List<Shift> findLast(Integer num) {
+		 return null;
 	}
 
-	public List<Shift> findFromTo(Integer from,Integer to,Boolean perfect) {
-		 List<Shift> shifts = jdbcTemplate.query(
-				 "select si.id as shift_id, si.shift_order,"
-				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
-				+ "from shift s join shift_id si on s.shift_id = si.id "
-				+ " order by si.shift_date desc offset ? limit ?",
-				new ShiftRowMapper(), from, to);
-		 if(perfect) {
-			 shifts = shifts.stream()
-					 .map(s ->{return fullFill(s);})
-					 .collect(Collectors.toList());
-		 }
-		 return shifts;
+	public List<Shift> findFromTo(Integer from,Integer to) {
+		 return null;
 	}
 
-	public List<Shift> findBetween(Date older,Date newer,Boolean perfect) {
-		 List<Shift> shifts = jdbcTemplate.query(
-				 "select si.id as shift_id, si.shift_order,"
-				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
-				+ "from shift s join shift_id si on s.shift_id = si.id "
-				+ "where si.shift_date between ? and ?",
-				new ShiftRowMapper(),older,newer);
-		 if(perfect) {
-			 shifts = shifts.stream()
-					 .map(s -> {return fullFill(s);})
-					 .collect(Collectors.toList());
-		 }
-		 return shifts;
+	public List<Shift> findBetween(Date older,Date newer) {
+		 return null;
 	}
 
-	public List<Shift> findBetween(Date older, Date newer, ShiftOrder order,Boolean perfect) {
-		 List<Shift> shifts = jdbcTemplate.query(
-				 "select si.id as shift_id, si.shift_order,"
-				+ "si.shift_date, s.max_temp, s.min_temp, s.notes "
-				+ "from shift s join shift_id si on s.shift_id = si.id "
-				+ "where si.shift_date between ? and ? and si.shift_order = ?",
-				new ShiftRowMapper(),older,newer,order.toString());
-		 if(perfect) {
-			 shifts = shifts.stream()
-					 .map(s -> {return fullFill(s);})
-					 .collect(Collectors.toList());
-		 }
-		 return shifts;
+	public List<Shift> findBetween(Date older, Date newer, ShiftOrder order) {
+		 return null;
 	}
 
 	public List<UUID> saveAll(List<Shift> shifts) {
@@ -230,73 +85,19 @@ public class ShiftRepo {
 		if(theId == null) {
 			return theId;
 		} else {
-			jdbcTemplate.update("INSERT INTO shift"
-					+ "(shift_id,max_temp,min_temp,notes)"
-					+ " VALUES(?,?,?,?)",
-					theId,
-					s.getMaxTemperature(),
-					s.getMinTemperature(),
-					s.getExceptionalNote());
-			
-			s.getProblems().forEach(p -> {
-				UUID pId = null;
-				if(p.getId() != null) {
-					pId = p.getId();
-				} else {
-					pId = problemDetailsRepo.save(p);
-				}
-				jdbcTemplate.update("INSERT INTO shift_problem"
-						+ "(shift_id,problem_id) VALUES(?,?)",theId,pId);
-			});
-			
-			s.getEmployees().forEach(e ->{
-				UUID eId = null;
-				if(e.getId() != null) {
-					eId = e.getId();
-				} else {
-					eId = employeeRepo.save(e);
-				}
-				jdbcTemplate.update("INSERT INTO shift_employee"
-						+ "(shift_id,emp_id) VALUES(?,?)",theId,eId);
-			});
-			
-			s.getTotalFlowAverage().forEach(t ->{
-				UUID tId = null;
-				if(t.getId() != null) {
-					tId = t.getId();
-				} else {
-					tId = totalFlowRepo.save(t);
-				}
-				jdbcTemplate.update("INSERT INTO shift_total_flow"
-						+ "(shift_id,flow_id) VALUES(?,?)",theId,tId);
-			});
+			s.getProblems().forEach(p -> problemDetailsRepo.saveToShift(p, theId));
+			s.getEmployees().forEach(e -> employeeRepo.saveToShift(e, theId));
+			s.getTotalFlowAverage().forEach(t -> totalFlowRepo.saveToShift(t, theId));
 			return theId;
 		}
 	}
 	
-	private Shift fullFill(Shift s) {
-		 s.setEmployees(jdbcTemplate.query(
-				 "SELECT e.id,e.first_name,e.middle_name,e.last_name,e.username,"
-				 + "e.emp_position,e.password FROM employee e JOIN shift_employee "
-				 + "se ON e.id = se.emp_id JOIN shift_id si ON se.shift_id = si.id "
-				 + "where si.id = ?",
-			 new EmployeeRowMapper(),s.getShiftId().getId()));
-		 s.setProblems(jdbcTemplate.query(
-				 "SELECT pd.id, pd.machine_id, pd.begin_time,"
-				 +"pd.end_time FROM problem_detail pd JOIN shift_problem "
-				 +"sp ON pd.id = sp.problem_id JOIN shift_id si ON sp.shift_id = si.id "
-				 +"where si.id = ?", 
-				 new ProblemDetailRowMapper(),s.getShiftId().getId()).stream().map(pd ->{
-					 return problemDetailsRepo.fullFill(pd);
-				 }).collect(Collectors.toList()));
-		 s.setTotalFlowAverage(jdbcTemplate.query(
-				 "SELECT tf.id, tf.begin_time, tf.end_time,"
-				 +"tf.min_flow, tf.max_flow FROM total_flow tf JOIN shift_total_flow "
-				 +"sf ON tf.id = sf.flow_id JOIN shift_id si ON sf.shift_id = si.id "
-				 +"where si.id = ?", 
-				 new TotalFlowRowMapper(), s.getShiftId().getId()).stream().map(tf -> {
-					 return totalFlowRepo.fullFill(tf);
-				 }).collect(Collectors.toList()));
-		 return s;
+	private Shift fullFill(ShiftId id) {
+		Shift shift = new Shift();
+		shift.setShiftId(id);
+		shift.setEmployees(employeeRepo.findInShift(id.getId()));
+		shift.setProblems(problemDetailsRepo.findInShift(id.getId()));
+		shift.setTotalFlowAverage(totalFlowRepo.findInShift(id.getId()));
+		 return shift;
 	}
 }

@@ -25,6 +25,14 @@ public class TotalFlowRepo {
 				.stream().map(tf -> fullFill(tf)).collect(Collectors.toList());
 	}
 	
+	public List<TotalFlow> findInShift(UUID id){
+		String sql = "SELECT tf.* FROM total_flow tf "
+				+ "join shift_total_flow stf on tf.id = stf.total_flow_id "
+				+ "where stf.shift_id =? ";
+		return jdbcTemplate.query(sql, new TotalFlowRowMapper(),id)
+				.stream().map(tf -> fullFill(tf)).collect(Collectors.toList());
+	}
+	
 	public Optional<TotalFlow> findById(UUID id) {
 		String sql = "SELECT * FROM total_flow WHERE id = ?";
 		Optional<TotalFlow> tf = jdbcTemplate.query(sql, 
@@ -61,6 +69,16 @@ public class TotalFlowRepo {
 		});
 		
 		return uuid;
+	}
+	public void saveToShift(TotalFlow tf,UUID shiftId) {
+				UUID tId = null;
+				if(tf.getId() != null) {
+					tId = tf.getId();
+				} else {
+					tId = save(tf);
+				}
+				jdbcTemplate.update("INSERT INTO shift_total_flow"
+						+ "(shift_id,total_flow_id) VALUES(?,?)",shiftId,tId);
 	}
 	
 	public TotalFlow fullFill(TotalFlow tf) {

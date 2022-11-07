@@ -26,6 +26,14 @@ public class ProblemDetailsRepo {
 				.stream().map(pd -> fullFill(pd)).collect(Collectors.toList());
 	}
 	
+	public List<ProblemDetail> findInShift(UUID id){
+		String sql = "SELECT pd.* FROM problem_detail pd "
+				+ "join shift_problem sp on sp.problem_detail_id = pd.id "
+				+ "where sp.shift_id = ?";
+		return jdbcTemplate.query(sql, new ProblemDetailRowMapper())
+				.stream().map(pd -> fullFill(pd)).collect(Collectors.toList());
+	}
+	
 	public Optional<ProblemDetail> findById(UUID id) {
 		String sql = "SELECT * FROM problem_detail WHERE id = ?";
 		Optional<ProblemDetail> pd  = jdbcTemplate.query(sql, 
@@ -64,6 +72,17 @@ public class ProblemDetailsRepo {
 					uuid,m.getTitle());
 		});
 		return uuid;
+	}
+
+	public void saveToShift(ProblemDetail pd,UUID shiftId) {
+		UUID pdId = null;
+		if(pd.getId() != null) {
+			pdId = pd.getId();
+		} else {
+			pdId = save(pd);
+		}
+		jdbcTemplate.update("INSERT INTO shift_problem"
+				+ "(shift_id,problem_id) VALUES(?,?)",shiftId,pdId);
 	}
 	
 	public ProblemDetail fullFill(ProblemDetail pd) {

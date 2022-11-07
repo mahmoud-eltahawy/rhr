@@ -26,6 +26,14 @@ public class EmployeeRepo{
 		return jdbcTemplate.query(sql, new EmployeeRowMapper());
 	}
 	
+	public List<Employee> findInShift(UUID id){
+		String sql = "SELECT e.* FROM employee e "
+				+ "join shift_employee se on e.id = se.employee_id "
+				+ "and where se.shift_id =?";
+		return jdbcTemplate.query(sql,
+				new EmployeeRowMapper(), id);
+	}
+	
 	public List<String> findAllUserNames() {
 		String sql = "SELECT username FROM employee";
 		return jdbcTemplate.queryForList(sql, String.class);
@@ -44,32 +52,36 @@ public class EmployeeRepo{
 	}
 	
 	public List<ShiftId> findHisShifts(String username) {
-		return jdbcTemplate.query("SELECT si.id,si.shift_date,si.shift_order "
-				+ "FROM shift_id si "
-				+ "JOIN shift s ON s.shift_id = si.id "
-				+ "JOIN shift_employee se ON s.shift_id = se.shift_id "
-				+ "JOIN employee e ON e.id = se.emp_id "
-				+ "WHERE e.username = ? ORDER BY si.shift_date DESC", new ShiftIdRowMapper(), username);
+		return jdbcTemplate.query(
+				"SELECT s.id,s.shift_date,s.shift_order "
+				+ "FROM shift s "
+				+ "JOIN shift_employee se ON s.id = se.shift_id "
+				+ "JOIN employee e ON e.id = se.employee_id "
+				+ "WHERE e.username = ? "
+				+ "ORDER BY s.shift_date DESC",
+				new ShiftIdRowMapper(), username);
 	}
 	
 	public List<ShiftId> findhisShiftsOn(String username,Date older,Date newer) {
-		return jdbcTemplate.query("SELECT si.id,si.shift_date,si.shift_order "
-				+ "FROM shift_id si "
-				+ "JOIN shift s ON s.shift_id = si.id "
-				+ "JOIN shift_employee se ON s.shift_id = se.shift_id "
-				+ "JOIN employee e ON e.id = se.emp_id "
-				+ "WHERE e.username = ? and (si.shift_date >= ? "
-				+ "and si.shift_date <= ?) ORDER BY si.shift_date DESC",
+		return jdbcTemplate.query(
+				"SELECT s.id,s.shift_date,s.shift_order "
+				+ "FROM shift s "
+				+ "JOIN shift_employee se ON s.id = se.shift_id "
+				+ "JOIN employee e ON e.id = se.employee_id "
+				+ "WHERE e.username = ? "
+				+ "and (s.shift_date >= ? and s.shift_date <= ?) "
+				+ "ORDER BY s.shift_date DESC",
 				new ShiftIdRowMapper(), username,older,newer);
 	}
 	
 	public List<ShiftId> findHisLastShifts(String username,Integer set,Integer limit) {
-		return jdbcTemplate.query("SELECT si.id,si.shift_date,si.shift_order "
-				+ "FROM shift_id si "
-				+ "JOIN shift s ON s.shift_id = si.id "
-				+ "JOIN shift_employee se ON s.shift_id = se.shift_id "
-				+ "JOIN employee e ON e.id = se.emp_id "
-				+ "WHERE e.username = ? ORDER BY si.shift_date DESC OFFSET ? LIMIT ?",
+		return jdbcTemplate.query(
+				"SELECT s.id,s.shift_date,s.shift_order "
+				+ "FROM shift s "
+				+ "JOIN shift_employee se ON s.id = se.shift_id "
+				+ "JOIN employee e ON e.id = se.employee_id "
+				+ "WHERE e.username = ? "
+				+ "ORDER BY s.shift_date DESC OFFSET ? LIMIT ?",
 				new ShiftIdRowMapper(), username, set, limit);
 	}
 	
@@ -79,7 +91,7 @@ public class EmployeeRepo{
 	}
 	
 	public int deleteByUsername(String username) {
-		String sql = "DELETE FROM employee where id =?";
+		String sql = "DELETE FROM employee where username =?";
 		return jdbcTemplate.update(sql, username);
 	}
 
@@ -107,5 +119,16 @@ public class EmployeeRepo{
 					emp.getPassword());
 			return uuid;
 		}
+	}
+	
+	public void saveToShift(Employee emp,UUID empId) {
+		UUID eId = null;
+		if(emp.getId() != null) {
+			eId = emp.getId();
+		} else {
+			eId = save(emp);
+		}
+		jdbcTemplate.update("INSERT INTO shift_employee"
+				+ "(shift_id,employee_id) VALUES(?,?)",empId,eId);
 	}
 }

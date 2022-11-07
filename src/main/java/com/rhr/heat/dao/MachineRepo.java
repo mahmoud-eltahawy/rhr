@@ -19,33 +19,34 @@ public class MachineRepo {
 	private final JdbcTemplate jdbcTemplate;
 
 	public List<Machine> findAll() {
-		String sql = "SELECT m.id, m.catagory, m.num FROM machine m";
+		String sql = "SELECT m.id, m.category, m.num FROM machine m";
 		return jdbcTemplate.query(sql, new MachineRowMapper());
 	}
 	
 	public List<Machine> findByCatagory(String catagory) {
-		String sql = "SELECT m.id, m.catagory, m.num FROM machine m WHERE m.catagory = ?";
+		String sql = "SELECT m.id, m.category, m.num FROM machine m WHERE m.catagory = ?";
 		return jdbcTemplate.query(sql, new MachineRowMapper(), catagory);
 	}
 	
 	public List<Integer> findCatagoryAllNums(String catagory) {
-		String sql = "SELECT DISTINCT m.num FROM machine m WHERE m.catagory = ?";
+		String sql = "SELECT DISTINCT m.num FROM machine m WHERE m.category = ?";
 		return jdbcTemplate.queryForList(sql, Integer.class, catagory);
 	}
 	
 	public List<String> findAllCatagories() {
-		String sql = "SELECT DISTINCT m.catagory FROM machine m";
+		String sql = "SELECT DISTINCT m.category FROM machine m";
 		return jdbcTemplate.queryForList(sql, String.class);
 	}
 	
 	public Optional<Machine> findById(UUID id) {
-		String sql = "SELECT m.id, m.catagory, m.num FROM machine m where m.id = ?";
+		String sql = "SELECT m.id, m.category, m.num FROM machine m where m.id = ?";
 		return jdbcTemplate.query(sql,
 				new MachineRowMapper(), id).stream().findFirst();
 	}
 	
 	public Optional<Machine> findByTheId(String catagory,Integer num) {
-		String sql = "SELECT m.id, m.catagory, m.num FROM machine m where m.catagory = ? AND m.num = ?";
+		String sql = "SELECT m.id, m.category, m.num FROM machine m "
+				+ "WHERE m.category = ? AND m.num = ?";
 		return jdbcTemplate.query(sql,
 				new MachineRowMapper(), catagory, num).stream().findFirst();
 	}
@@ -56,7 +57,7 @@ public class MachineRepo {
 	}
 	
 	public int deleteBytheId(String catagory,Integer num) {
-		String sql = "DELETE FROM machine where catagory = ? and num = ?";
+		String sql = "DELETE FROM machine WHERE category = ? and num = ?";
 		return jdbcTemplate.update(sql, catagory, num);
 	}
 
@@ -73,8 +74,8 @@ public class MachineRepo {
 		} else {
 			UUID uuid = UUID.randomUUID();
 			jdbcTemplate.update("INSERT INTO machine"
-					+ "(id,catagory, num) VALUES(?,?,?) "
-					+ "ON CONFLICT(catagory,num) DO NOTHING",
+					+ "(id,category, num) VALUES(?,?,?) "
+					+ "ON CONFLICT(category,num) DO NOTHING",
 					uuid,
 					machine.getCatagory(),
 					machine.getNumber());
