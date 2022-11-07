@@ -105,9 +105,9 @@
 	<div id="e" class="pricing-box text-center ghost">
 		<div class="center">
 		<h1>insert username</h1>
-		<form action="#" th:action="@{/show/emp}" th:object="${HModel}" method="post">
+		<form action="#" th:action="@{/show/emp}" method="post">
 			<div class="select">
-        <select required="required" th:field="*{holder}">
+        <select required="required" id="username" name="username">
             <option th:each="n : ${names}" th:value="${n}" th:text="${n}"> username</option>
         </select>
 			</div><br>

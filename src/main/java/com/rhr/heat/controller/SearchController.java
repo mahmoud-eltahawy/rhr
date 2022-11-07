@@ -119,12 +119,12 @@ public class SearchController {
 	@PostMapping("/emp")
 	public ModelAndView showEmp(
 			@RequestParam("month")Integer month,
-			@ModelAttribute("username")StringModel username) {
+			@ModelAttribute("username")String username) {
 		System.out.println(month +" " + username);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("employeeDays");
 		mv.addObject("title","Employee review");
-		Employee emp = service.getEmployee(username.getHolder()).get();
+		Employee emp = service.getEmployee(username).get();
 		mv.addObject("fullname",emp.getFirstName()+" "+emp.getMiddleName()+" "+emp.getLastName());
 		mv.addObject("position",emp.getPosition());
 		mv.addObject("next",month + 1);
@@ -134,7 +134,7 @@ public class SearchController {
 			mv.addObject("prev",month);
 		}
 		mv.addObject("username", username);
-		mv.addObject("months",service.pickLastEmployeeSections(username.getHolder(), month));
+		mv.addObject("months",service.pickLastEmployeeSections(username, month));
 		return mv;
 	}
 

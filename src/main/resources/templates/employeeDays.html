@@ -58,8 +58,8 @@
 
 <div class="pricing-box-container">
 	<div class="pricing-box text-center">
-		<form action="#" th:action="@{/show/emp}" th:object="${username}" method="post">
-        <input type="hidden" th:value="*{holder}" name="holder" id="holder">
+		<form action="#" th:action="@{/show/emp}" method="post">
+        <input type="hidden" th:value="${username}" name="username" id="username">
         <input type="hidden" name="month" id="month" th:value="${next}">
 			  <button class="btn-primary" type="submit" >go to older</button>
 		</form>
@@ -71,7 +71,7 @@
 
 	<div class="pricing-box text-center">
 		<form action="#" th:action="@{/show/emp}" th:object="${username}" method="post">
-        <input type="hidden" th:value="*{holder}" name="holder" id="holder">
+        <input type="hidden" th:value="${username}" name="username" id="username">
         <input type="hidden" name="month" id="month" th:value="${prev}">
 			  <button class="btn-primary" type="submit" >go to newer</button>
 		</form>
