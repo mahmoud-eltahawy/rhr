@@ -102,7 +102,7 @@ public class SearchService {
 	}
 	
 	public List<EmpSect> pickLastEmployeeSections(String username,Integer num){
-		return EmpSect.days(employeeRepo.findHisLastShifts(username, num * 30, 30));
+		return EmpSect.days(employeeRepo.findHisLastShifts(username, num * 16, 16));
 	}
 	
 	public Optional<Employee> getEmployee(String username) {

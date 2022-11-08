@@ -94,7 +94,6 @@ public class SearchController {
 	public ModelAndView showWeek(@RequestParam("week")Integer week) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("showDays");
-		mv.addObject("title","last week page");
 		mv.addObject("next",week + 1);
 		if(week > 0) {
 			mv.addObject("prev",week - 1);
@@ -119,10 +118,9 @@ public class SearchController {
 	public ModelAndView showEmp(
 			@RequestParam("month")Integer month,
 			@ModelAttribute("username")String username) {
-		System.out.println(month +" " + username);
+		System.out.println(month +" "+ username);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("employeeDays");
-		mv.addObject("title","Employee review");
 		Employee emp = service.getEmployee(username).get();
 		mv.addObject("fullname",emp.getFirstName()+" "+emp.getMiddleName()+" "+emp.getLastName());
 		mv.addObject("position",emp.getPosition());

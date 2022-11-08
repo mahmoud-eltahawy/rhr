@@ -5,10 +5,9 @@
   <title>last week summary</title>
   <link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
   <link rel="stylesheet" href="../static/css/showDays.css" th:href="@{/css/showDays.css}">
-  <script type="text/javascript" src="../static/js/showDays.js" th:src="@{/js/showDays.js}" async></script>
 </head>
 <body>
-<h1 th:text="${title}"> Last what</h1>
+<h1>Last Week Template</h1>
 
 <div class="box-container">
 	<div class="inner-box">
@@ -22,7 +21,7 @@
 	</div>
 </div>
 
-<div th:each="ins :${week}">
+<div class="top-bottom-border" th:each="ins :${week}">
 	<div>
 		<h4 th:text="${ins.value.one.date}">date</h4>
 	</div>
