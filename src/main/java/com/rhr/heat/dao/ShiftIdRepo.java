@@ -21,8 +21,9 @@ public class ShiftIdRepo {
 	private final JdbcTemplate jdbcTemplate;
 	
 	public List<ShiftId> findAll() {
-		String sql = "SELECT * FROM shift";
-		return jdbcTemplate.query(sql, new ShiftIdRowMapper());
+		return jdbcTemplate.query(
+				"SELECT * FROM shift",
+				new ShiftIdRowMapper());
 	}
 	
 	public List<ShiftId> findAll(Date date) {
@@ -38,14 +39,13 @@ public class ShiftIdRepo {
 	}
 	
 	public Optional<ShiftId> findById(UUID id) {
-		String sql = "SELECT * FROM shift WHERE id = ?";
-		return jdbcTemplate.query(sql,
+		return jdbcTemplate.query("SELECT * FROM shift WHERE id = ?",
 				new ShiftIdRowMapper(), id).stream().findFirst();
 	}
 	
 	public Optional<ShiftId> findById(Date date,ShiftOrder order) {
-		String sql = "SELECT s* FROM shift s WHERE s.shift_date = ? and s.shift_order = ?";
-		return jdbcTemplate.query(sql,
+		return jdbcTemplate.query(
+				"SELECT s* FROM shift s WHERE s.shift_date = ? and s.shift_order = ?",
 				new ShiftIdRowMapper(), date,order.toString()).stream().findFirst();
 	}
 
@@ -108,13 +108,12 @@ public class ShiftIdRepo {
 	}
 	
 	public int deleteById(UUID id) {
-		String sql = "DELETE FROM shift WHERE id =?";
-		return jdbcTemplate.update(sql, id);
+		return jdbcTemplate.update("DELETE FROM shift WHERE id =?", id);
 	}
 
 	public List<UUID> saveAll(List<ShiftId> ids) {
 		return ids.stream()
-				.map(i -> {return save(i);})
+				.map(i -> save(i))
 				.collect(Collectors.toList());
 	}
 

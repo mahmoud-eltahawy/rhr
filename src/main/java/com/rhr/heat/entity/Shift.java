@@ -15,7 +15,7 @@ public class Shift {
 	private List<Employee> employees;
 	private List<TotalFlow> totalFlowAverage;
 	private List<Temperature> temps;
-	private List<String> notes;
+	private List<Note> notes;
 	
 	public Boolean isPushable() {
 		if(shiftId == null) {

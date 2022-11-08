@@ -9,10 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Temperature {
+public class Note {
 	private UUID id;
 	private ShiftId shiftId;
-	private Machine machine;
-	private Integer max;
-	private Integer min;
+	private String note;
 }

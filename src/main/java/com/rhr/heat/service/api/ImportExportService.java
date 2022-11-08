@@ -28,24 +28,25 @@ public class ImportExportService {
 
 	
 	public void exportAfter(Date date) {
-		exportThat(shiftRepo.findRecent(date,true),"After"+date.toString());
+		exportThat(shiftRepo.findRecent(date),"After"+date.toString());
 	}
 	
 	public void exportDay(Date date){
-		exportThat(shiftRepo.findAll(date,true),"the-day"+date.toString());
+		exportThat(shiftRepo.findAll(date),"the-day"+date.toString());
 	}
 	
 	public void exportShift(Date date,String order){
 		exportThat(List.of(shiftRepo.findById(date,
-				ShiftOrder.valueOf(order),true).get()),"the-shift"+date.toString()+order);
+				ShiftOrder.valueOf(order)).get()),
+				"the-shift"+date.toString()+order);
 	}
 	
 	public void exportBefore(Date date) {
-		exportThat(shiftRepo.findOlderThan(date,true),"Before"+date.toString());
+		exportThat(shiftRepo.findOlderThan(date),"Before"+date.toString());
 	}
 	
 	public void exportBetween(Date older, Date newer) {
-		exportThat(shiftRepo.findBetween(older,newer,true),
+		exportThat(shiftRepo.findBetween(older,newer),
 				"Between"+older.toString()+"And"+newer.toString());
 	}
 	
@@ -53,7 +54,7 @@ public class ImportExportService {
 		FileWriter fw;
 		try {
 			fw = new FileWriter(dataFiles.get("allShifts"));
-			new Gson().toJson(shiftRepo.findAll(true).stream().map(s -> {
+			new Gson().toJson(shiftRepo.findAll().stream().map(s -> {
 				ShiftId si = s.getShiftId();
 				si.setId(null);
 				s.setShiftId(si);

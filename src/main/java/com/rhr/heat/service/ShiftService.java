@@ -20,10 +20,10 @@ public class ShiftService {
 	public final ProblemRepo problemRepo;
 	
 	public TreeMap<Date ,Day> pickLastWeeks(Integer weekNum){
-		return Day.getDays(shiftRepo.findFromTo(weekNum * 21, 21 ,false));
+		return Day.getDays(shiftRepo.findFromTo(weekNum * 21, 21));
 	}
 	
 	public TreeMap<Date ,Day> pickLastdays(Integer days){
-		return Day.getDays(shiftRepo.findLast(days * 3,false));
+		return Day.getDays(shiftRepo.findLast(days * 3));
 	}
 }

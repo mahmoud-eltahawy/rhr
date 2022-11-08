@@ -19,23 +19,36 @@ public class TotalFlowRepo {
 	private final JdbcTemplate jdbcTemplate;
 	private final MachineRepo machineRepo;
 	
-	public List<TotalFlow> findAll(){
-		String sql = "SELECT * FROM total_flow";
-		return jdbcTemplate.query(sql, new TotalFlowRowMapper())
-				.stream().map(tf -> fullFill(tf)).collect(Collectors.toList());
+	public void saveToShift(TotalFlow tf,UUID shiftId) {
+				UUID tId = null;
+				if(tf.getId() != null) {
+					tId = tf.getId();
+				} else {
+					tId = save(tf);
+				}
+				jdbcTemplate.update("INSERT INTO shift_total_flow"
+						+ "(shift_id,total_flow_id) VALUES(?,?)",shiftId,tId);
 	}
 	
-	public List<TotalFlow> findInShift(UUID id){
-		String sql = "SELECT tf.* FROM total_flow tf "
-				+ "join shift_total_flow stf on tf.id = stf.total_flow_id "
-				+ "where stf.shift_id =? ";
-		return jdbcTemplate.query(sql, new TotalFlowRowMapper(),id)
+	public List<TotalFlow> findByShiftId(UUID id){
+		return jdbcTemplate.query("""
+				SELECT tf.* FROM total_flow tf
+				JOIN shift_total_flow stf 
+				ON tf.id = stf.total_flow_id
+				WHERE stf.shift_id =?
+				""", new TotalFlowRowMapper(),id)
+				.stream().map(tf -> fullFill(tf))
+				.collect(Collectors.toList());
+	}
+	
+	public List<TotalFlow> findAll(){
+		return jdbcTemplate.query("SELECT * FROM total_flow", new TotalFlowRowMapper())
 				.stream().map(tf -> fullFill(tf)).collect(Collectors.toList());
 	}
 	
 	public Optional<TotalFlow> findById(UUID id) {
-		String sql = "SELECT * FROM total_flow WHERE id = ?";
-		Optional<TotalFlow> tf = jdbcTemplate.query(sql, 
+		Optional<TotalFlow> tf = jdbcTemplate.query(
+				"SELECT * FROM total_flow WHERE id = ?", 
 				new TotalFlowRowMapper(),id)
 				.stream().findFirst();
 		if(tf.isPresent()) {
@@ -53,37 +66,30 @@ public class TotalFlowRepo {
 
 	public UUID save(TotalFlow tf) {
 		UUID uuid = UUID.randomUUID();
-		jdbcTemplate.update("INSERT INTO total_flow(id,"
-							+ "begin_time, end_time, min_flow, max_flow) "
-							+ "VALUES(?,?,?,?,?)",
-							uuid,
-							tf.getCaseBeginTime(),
-							tf.getCaseEndTime(),
-							tf.getMinFlow(),
-							tf.getMaxFlow());
+		jdbcTemplate.update("""
+				INSERT INTO total_flow(id,
+				begin_time, end_time, min_flow, max_flow) 
+				VALUES(?,?,?,?,?)
+				""",uuid,
+				tf.getCaseBeginTime(),
+				tf.getCaseEndTime(),
+				tf.getMinFlow(),
+				tf.getMaxFlow());
 		
 		tf.getSuspendedMachines().forEach(m ->{
-			jdbcTemplate.update("INSERT INTO "
-					+ "total_flow_machine(total_flow_id,machine_id) values(?,?) "
-					+ "ON CONFLICT(total_flow_id,machine_id) DO NOTHING",uuid,m.getId());
+			jdbcTemplate.update("""
+					INSERT INTO total_flow_machine(total_flow_id,machine_id)
+					values(?,?) ON CONFLICT(total_flow_id,machine_id) DO NOTHING
+					""",uuid,m.getId());
 		});
-		
 		return uuid;
 	}
-	public void saveToShift(TotalFlow tf,UUID shiftId) {
-				UUID tId = null;
-				if(tf.getId() != null) {
-					tId = tf.getId();
-				} else {
-					tId = save(tf);
-				}
-				jdbcTemplate.update("INSERT INTO shift_total_flow"
-						+ "(shift_id,total_flow_id) VALUES(?,?)",shiftId,tId);
-	}
-	
+
 	public TotalFlow fullFill(TotalFlow tf) {
-		tf.setSuspendedMachines(jdbcTemplate.queryForList("SELECT machine_id FROM "
-				+ "total_flow_machine where total_flow_id = ?",UUID.class,tf.getId())
+		tf.setSuspendedMachines(jdbcTemplate.queryForList("""
+				SELECT machine_id FROM
+				total_flow_machine where total_flow_id = ?
+				""",UUID.class,tf.getId())
 				.stream().map(uuid -> machineRepo.findById(uuid).orElseThrow())
 				.collect(Collectors.toList()));
 		return tf;

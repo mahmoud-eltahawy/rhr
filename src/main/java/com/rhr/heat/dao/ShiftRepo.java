@@ -21,6 +21,7 @@ public class ShiftRepo {
 	private final ProblemDetailsRepo problemDetailsRepo;
 	private final ShiftIdRepo shiftIdRepo;
 	private final TotalFlowRepo totalFlowRepo;
+	private final TemperatureRepo temperatureRepo;
 
 	public List<Shift> findAll() {
 		 return null;
@@ -92,12 +93,13 @@ public class ShiftRepo {
 		}
 	}
 	
-	private Shift fullFill(ShiftId id) {
-		Shift shift = new Shift();
-		shift.setShiftId(id);
-		shift.setEmployees(employeeRepo.findInShift(id.getId()));
-		shift.setProblems(problemDetailsRepo.findInShift(id.getId()));
-		shift.setTotalFlowAverage(totalFlowRepo.findInShift(id.getId()));
-		 return shift;
+	private Shift fullFill(ShiftId shiftId) {
+		UUID id = shiftId.getId();
+		return new Shift(shiftId,
+				problemDetailsRepo.findByShiftId(id),
+				employeeRepo.findByShiftId(id),
+				totalFlowRepo.findByShiftId(id),
+				temperatureRepo.findByShiftId(id),
+				null);
 	}
 }

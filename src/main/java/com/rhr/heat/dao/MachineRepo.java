@@ -19,51 +19,54 @@ public class MachineRepo {
 	private final JdbcTemplate jdbcTemplate;
 
 	public List<Machine> findAll() {
-		String sql = "SELECT m.id, m.category, m.num FROM machine m";
-		return jdbcTemplate.query(sql, new MachineRowMapper());
+		return jdbcTemplate.query(
+				"SELECT m.* FROM machine m",
+				new MachineRowMapper());
 	}
 	
 	public List<Machine> findByCatagory(String catagory) {
-		String sql = "SELECT m.id, m.category, m.num FROM machine m WHERE m.catagory = ?";
-		return jdbcTemplate.query(sql, new MachineRowMapper(), catagory);
+		return jdbcTemplate.query(
+				"SELECT m.* FROM machine m WHERE m.category = ?",
+				new MachineRowMapper(), catagory);
 	}
 	
-	public List<Integer> findCatagoryAllNums(String catagory) {
-		String sql = "SELECT DISTINCT m.num FROM machine m WHERE m.category = ?";
-		return jdbcTemplate.queryForList(sql, Integer.class, catagory);
+	public List<Integer> findCatagoryAllNums(String category) {
+		return jdbcTemplate.queryForList(
+				"SELECT DISTINCT m.num FROM machine m WHERE m.category = ?",
+				Integer.class, category);
 	}
 	
 	public List<String> findAllCatagories() {
-		String sql = "SELECT DISTINCT m.category FROM machine m";
-		return jdbcTemplate.queryForList(sql, String.class);
+		return jdbcTemplate.queryForList(
+				"SELECT DISTINCT m.category FROM machine m", String.class);
 	}
 	
 	public Optional<Machine> findById(UUID id) {
-		String sql = "SELECT m.id, m.category, m.num FROM machine m where m.id = ?";
-		return jdbcTemplate.query(sql,
+		return jdbcTemplate.query(
+				"SELECT m.* FROM machine m where m.id = ?",
 				new MachineRowMapper(), id).stream().findFirst();
 	}
 	
 	public Optional<Machine> findByTheId(String catagory,Integer num) {
-		String sql = "SELECT m.id, m.category, m.num FROM machine m "
-				+ "WHERE m.category = ? AND m.num = ?";
-		return jdbcTemplate.query(sql,
+		return jdbcTemplate.query("""
+				SELECT m.* FROM machine m
+				WHERE m.category = ? AND m.num = ?
+				""",
 				new MachineRowMapper(), catagory, num).stream().findFirst();
 	}
 	
 	public int deleteById(UUID id) {
-		String sql = "DELETE FROM machine where id =?";
-		return jdbcTemplate.update(sql, id);
+		return jdbcTemplate.update("DELETE FROM machine where id =?", id);
 	}
 	
 	public int deleteBytheId(String catagory,Integer num) {
-		String sql = "DELETE FROM machine WHERE category = ? and num = ?";
-		return jdbcTemplate.update(sql, catagory, num);
+		return jdbcTemplate.update(
+				"DELETE FROM machine WHERE category = ? and num =?", catagory, num);
 	}
 
 	public List<UUID> saveAll(List<Machine> emps) {
 		return emps.stream()
-				.map(e -> {return save(e);})
+				.map(e -> save(e))
 				.collect(Collectors.toList());
 	}
 
@@ -73,9 +76,11 @@ public class MachineRepo {
 			return m.get().getId();
 		} else {
 			UUID uuid = UUID.randomUUID();
-			jdbcTemplate.update("INSERT INTO machine"
-					+ "(id,category, num) VALUES(?,?,?) "
-					+ "ON CONFLICT(category,num) DO NOTHING",
+			jdbcTemplate.update("""
+					INSERT INTO machine
+					(id,category, num) VALUES(?,?,?)
+					ON CONFLICT(category,num) DO NOTHING
+					""",
 					uuid,
 					machine.getCatagory(),
 					machine.getNumber());

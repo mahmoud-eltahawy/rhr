@@ -54,11 +54,11 @@ public class SearchService {
 	}
 	
 	public Optional<Shift> getShift(UUID id) {
-		return shiftRepo.findById(id, true);
+		return shiftRepo.findById(id);
 	}
 	
 	public Optional<Shift> getShift(Date date,ShiftOrder order) {
-		return shiftRepo.findById(date, order,true);
+		return shiftRepo.findById(date, order);
 	}
 	
 	
@@ -80,7 +80,7 @@ public class SearchService {
 	}
 	
 	public TreeMap<Date ,Day> pickLastWeeks(Integer weekNum){
-		return Day.getDays(shiftRepo.findFromTo(weekNum * 21, 21 ,false));
+		return Day.getDays(shiftRepo.findFromTo(weekNum * 21, 21));
 	}
 	
 	public List<ProblemProfile> pickLastProblems(String problem,Integer problemNum){
@@ -92,7 +92,7 @@ public class SearchService {
 	}
 	
 	public TreeMap<Date, Day> findDay(Date date) {
-		return Day.getDays(shiftRepo.findAll(date, false));
+		return Day.getDays(shiftRepo.findAll(date));
 	}
 	
 	public List<MachineProfile> pickLastMachineProblems(UUID id,Integer num){

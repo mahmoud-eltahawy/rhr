@@ -5,7 +5,6 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.rhr.heat.entity.Machine;
 import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.model.ProblemProfile;
 
@@ -21,7 +20,7 @@ public class ProblemProfileRowMapper implements RowMapper<ProblemProfile> {
 				ShiftOrder.valueOf(rs.getString("shift_order")),
 				rs.getTime("begin_time"),
 				rs.getTime("end_time"),
-				rs.getString("catagory")+ext);
+				rs.getString("category")+ext);
 	}
 }
 

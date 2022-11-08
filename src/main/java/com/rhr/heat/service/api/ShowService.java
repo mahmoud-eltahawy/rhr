@@ -17,23 +17,23 @@ public class ShowService {
 	private final ShiftRepo shiftRepo;
 	
 	public List<Shift> shiftsNewerThan(Date date){
-		return shiftRepo.findRecent(date,false);
+		return shiftRepo.findRecent(date);
 	}
 	
 	public List<Shift> shiftsOlderThan(Date date){
-		return shiftRepo.findOlderThan(date,false);
+		return shiftRepo.findOlderThan(date);
 	}
 	
 	public List<Shift> getDay(Date date){
-		return shiftRepo.findAll(date,false);
+		return shiftRepo.findAll(date);
 	}
 	
 	public Shift getShift(Date date,String order){
 		return shiftRepo.findById(date, ShiftOrder
-				.valueOf(order),false).get();
+				.valueOf(order)).get();
 	}
 	
 	public List<Shift> shiftsBetween(Date date1,Date date2){
-		return shiftRepo.findBetween(date1, date2,false);
+		return shiftRepo.findBetween(date1, date2);
 	}
 }

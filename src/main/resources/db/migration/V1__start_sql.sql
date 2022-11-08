@@ -54,17 +54,19 @@ CREATE TABLE IF NOT EXISTS problem_detail (
 
 CREATE TABLE IF NOT EXISTS temperature (
     id         UUID    PRIMARY KEY,
+    shift_id   UUID    NOT NULL,
     machine_id UUID    NOT NULL,
     max_temp   INTEGER NOT NULL,
     min_temp   INTEGER NOT NULL,
     FOREIGN KEY(machine_id) REFERENCES machine(id) ON DELETE CASCADE,
-    FOREIGN KEY(id) REFERENCES shift(id) ON DELETE CASCADE
+    FOREIGN KEY(shift_id)   REFERENCES shift(id)   ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS notes (
-    id   UUID   PRIMARY KEY,
-    note varchar(200) NOT NULL,
-    FOREIGN KEY(id) REFERENCES shift(id) ON DELETE CASCADE
+    id       UUID   PRIMARY KEY,
+    shift_id UUID   NOT NULL,
+    note     varchar(200) NOT NULL,
+    FOREIGN  KEY(shift_id) REFERENCES shift(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS total_flow_machine(
