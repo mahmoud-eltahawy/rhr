@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title> Coming soon</title>
-<link rel="stylesheet" href="../static/css/commingSoon.css" th:href="@{/css/commingSoon.css}">
-<script type="text/javascript" src="../static/js/commingSoon.js" th:src="@{/js/commingSoon.js}" async></script>
+  <meta charset="UTF-8">
+  <title> Coming soon</title>
+  <link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
+  <link rel="stylesheet" href="../static/css/commingSoon.css" th:href="@{/css/commingSoon.css}">
+  <script type="text/javascript" src="../static/js/commingSoon.js" th:src="@{/js/commingSoon.js}" async></script>
 </head>
 <body>
- <div class="bgimg">
-  <div class="topleft">
-    <p>Heat Recovery</p>
+  <div class="box-container">
+    <div class="topleft">
+      <p>Heat Recovery</p>
+    </div>
+    <div class="middle">
+      <h1>COMING SOON</h1>
+      <hr>
+      <p id="time"></p>
+    </div>
+    <div class="bottomleft">
+      <p th:text="${message}"></p>
+    </div>
   </div>
-  <div class="middle">
-    <h1>COMING SOON</h1>
-    <hr>
-    <p id="time"></p>
-  </div>
-  <div class="bottomleft">
-    <p th:text="${message}"></p>
-  </div>
-</div>
 </body>
 </html>
