@@ -11,9 +11,11 @@ import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.dao.ShiftRepo;
 import com.rhr.heat.entity.Employee;
+import com.rhr.heat.entity.Note;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
 import com.rhr.heat.entity.ShiftId;
+import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
 
 import lombok.RequiredArgsConstructor;
@@ -64,9 +66,8 @@ public class ReportService {
 		oldShift.setProblems(newShift.getProblems());
 		oldShift.setTotalFlowAverage(newShift.getTotalFlowAverage());
 		oldShift.setEmployees(newShift.getEmployees());
-		oldShift.setExceptionalNote(newShift.getExceptionalNote());
-		oldShift.setMinTemperature(newShift.getMinTemperature());
-		oldShift.setMaxTemperature(newShift.getMaxTemperature());
+		oldShift.setNotes(newShift.getNotes());
+		oldShift.setTemps(newShift.getTemps());
 		
 	tool.writeShift(oldShift);
 		return oldShift;
@@ -96,21 +97,40 @@ public class ReportService {
 		return oldShift;
 	}
 	
-	public Shift setTemperature(Integer max, Integer min) {
+	
+	public Shift addTemp(Temperature temp) {
 		Shift oldShift = tool.getCurrentShift();
-		oldShift.setMaxTemperature(max);
-		oldShift.setMinTemperature(min);
+		oldShift.setTemps(tool.addTo(temp, oldShift.getTemps()));
 		tool.writeShift(oldShift);
 		return oldShift;
 	}
 	
-	public Shift setNote(String note) {
+	public Shift addNote(Note note) {
 		Shift oldShift = tool.getCurrentShift();
-		oldShift.setExceptionalNote(note);
+		oldShift.setNotes(tool.addTo(note, oldShift.getNotes()));
+		tool.writeShift(oldShift);
+		return oldShift;
+	}
+	
+	public Shift removeTemp(Temperature temp) {
+		Shift oldShift = tool.getCurrentShift();
+		List<Temperature> tms = oldShift.getTemps();
+		tms = tool.removeFrom(temp, tms);
+		oldShift.setTemps(tms);
+		tool.writeShift(oldShift);
+		return oldShift;
+	}
+	
+	public Shift removeNote(Note note) {
+		Shift oldShift = tool.getCurrentShift();
+		List<Note> nts = oldShift.getNotes();
+		nts = tool.removeFrom(note, nts);
+		oldShift.setNotes(nts);
 		tool.writeShift(oldShift);
 		return oldShift;
 	}
 
+	
 	public Shift removeTotalFlow(TotalFlow totalFlow) {
 		Shift oldShift = tool.getCurrentShift();
 		List<TotalFlow> tfs = oldShift.getTotalFlowAverage();

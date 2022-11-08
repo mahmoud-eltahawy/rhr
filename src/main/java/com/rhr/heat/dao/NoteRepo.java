@@ -11,9 +11,6 @@ import org.springframework.stereotype.Repository;
 import com.rhr.heat.dao.rowMappers.NoteRowMapper;
 import com.rhr.heat.entity.Note;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Repository
@@ -64,7 +61,7 @@ public class NoteRepo {
 		jdbcTemplate.update("""
 				INSERT INTO notes
 				(id,shift_id,note)
-				VALUES(?,?,?,?,?) ON CONFLICT(id) DO NOTHING
+				VALUES(?,?,?) ON CONFLICT(id) DO NOTHING
 				""",theId,
 				note.getShiftId().getId(),
 				note.getNote());

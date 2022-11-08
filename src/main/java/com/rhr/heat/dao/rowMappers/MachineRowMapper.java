@@ -14,7 +14,7 @@ public class MachineRowMapper implements RowMapper<Machine> {
 	public Machine mapRow(ResultSet rs, int rowNum) throws SQLException {
 		return new Machine(
 				(UUID) rs.getObject("id")
-				,rs.getString("catagory"),
+				,rs.getString("category"),
 				rs.getInt("num"));
 	}
 

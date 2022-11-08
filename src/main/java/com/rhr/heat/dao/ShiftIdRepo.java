@@ -45,13 +45,13 @@ public class ShiftIdRepo {
 	
 	public Optional<ShiftId> findById(Date date,ShiftOrder order) {
 		return jdbcTemplate.query(
-				"SELECT s* FROM shift s WHERE s.shift_date = ? and s.shift_order = ?",
+				"SELECT s.* FROM shift s WHERE s.shift_date = ? and s.shift_order = ?",
 				new ShiftIdRowMapper(), date,order.toString()).stream().findFirst();
 	}
 
 	public List<ShiftId> findOlderThan(Date date) {
 		 return jdbcTemplate.query(
-				 "select * from shift s "
+				 "select s.* from shift s "
 				+ "where s.shift_date <= ?",
 				new ShiftIdRowMapper(),date);
 	}
@@ -82,14 +82,14 @@ public class ShiftIdRepo {
 	public List<ShiftId> findLast(Integer num) {
 		 return jdbcTemplate.query(
 				 "select * from shift s "
-				+ " order by si.shift_date desc limit ?",
+				+ " order by s.shift_date desc limit ?",
 				new ShiftIdRowMapper(), num);
 	}
 
 	public List<ShiftId> findFromTo(Integer from,Integer to) {
 		 return jdbcTemplate.query(
 				 "select * from shift s "
-				+ " order by si.shift_date desc offset ? limit ?",
+				+ " order by s.shift_date desc offset ? limit ?",
 				new ShiftIdRowMapper(), from, to);
 	}
 

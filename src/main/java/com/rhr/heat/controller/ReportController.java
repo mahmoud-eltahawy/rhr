@@ -1,6 +1,7 @@
 package com.rhr.heat.controller;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
@@ -13,9 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.rhr.heat.Tools;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Machine;
+import com.rhr.heat.entity.Note;
 import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Shift;
+import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.service.CommonService;
 import com.rhr.heat.service.ReportService;
@@ -96,15 +99,16 @@ public class ReportController {
 	@PostMapping("/temp")
 	public String temperature(
 			@RequestParam("max")Integer max ,
-			@RequestParam("min")Integer min) {
-		service.setTemperature(max, min);
+			@RequestParam("min")Integer min ,
+			@RequestParam("machine")UUID id) {
+		service.addTemp(new Temperature(null, null, new Machine(id, null, null), max, min));
 		return "redirect:/report/";
 	}
 
 	@PostMapping("/note")
 	public String note(
 			@RequestParam("note")String note) {
-		service.setNote(note);
+		service.addNote(new Note(null, null, note));
 		return "redirect:/report/";
 	}
 

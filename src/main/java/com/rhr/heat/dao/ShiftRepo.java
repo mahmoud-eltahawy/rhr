@@ -22,62 +22,95 @@ public class ShiftRepo {
 	private final ShiftIdRepo shiftIdRepo;
 	private final TotalFlowRepo totalFlowRepo;
 	private final TemperatureRepo temperatureRepo;
+	private final NoteRepo noteRepo;
 
 	public List<Shift> findAll() {
-		 return null;
+		 return shiftIdRepo.findAll().stream()
+				 .map(id -> fullFill(id))
+				 .collect(Collectors.toList());
 	}
 	
 	public List<Shift> findAll(Date date) {
-		 return null;
+		 return shiftIdRepo.findAll(date).stream()
+				 .map(id -> fullFill(id))
+				 .collect(Collectors.toList());
 	}
 
 	public List<Shift> findAll(ShiftOrder order) {
-		 return null;
+		 return shiftIdRepo.findAll(order).stream()
+				 .map(id -> fullFill(id))
+				 .collect(Collectors.toList());
 	}
 
-	public Optional<Shift> findById(UUID id) {
-			 return null;
+	public Optional<Shift> findById(UUID uuid) {
+		 Optional<ShiftId> shiftId = shiftIdRepo.findById(uuid);
+		 if(shiftId.isPresent()) {
+			return Optional.of(fullFill(shiftId.get())); 
+		 } else {
+			return Optional.of(null); 
+		 }
 	}
 
 	public Optional<Shift> findById(Date date, ShiftOrder order) {
-		return null;
+		 Optional<ShiftId> shiftId = shiftIdRepo.findById(date,order);
+		 if(shiftId.isPresent()) {
+			return Optional.of(fullFill(shiftId.get())); 
+		 } else {
+			return Optional.of(null); 
+		 }
 	}
 
 	public List<Shift> findOlderThan(Date date) {
-		 return null;
+		 return shiftIdRepo.findOlderThan(date).stream()
+				 .map(id -> fullFill(id))
+				 .collect(Collectors.toList());
 	}
 
 	public List<Shift> findOlderThan(Date date,ShiftOrder order) {
-		 return null;
+		 return shiftIdRepo.findOlderThan(date,order).stream()
+				 .map(id -> fullFill(id))
+				 .collect(Collectors.toList());
 	}
 
 	public List<Shift> findRecent(Date date) {
-		 return null;
+		 return shiftIdRepo.findRecent(date).stream()
+				 .map(id -> fullFill(id))
+				 .collect(Collectors.toList());
 	}
 
 	public List<Shift> findRecent(Date date, ShiftOrder order) {
-		 return null;
+		 return shiftIdRepo.findRecent(date,order).stream()
+				 .map(id -> fullFill(id))
+				 .collect(Collectors.toList());
 	}
 
 	public List<Shift> findLast(Integer num) {
-		 return null;
+		 return shiftIdRepo.findLast(num).stream()
+				 .map(id -> fullFill(id))
+				 .collect(Collectors.toList());
 	}
 
 	public List<Shift> findFromTo(Integer from,Integer to) {
-		 return null;
+		 return shiftIdRepo.findFromTo(from,to).stream()
+				 .map(id -> fullFill(id))
+				 .collect(Collectors.toList());
 	}
 
 	public List<Shift> findBetween(Date older,Date newer) {
-		 return null;
+		 return shiftIdRepo.findBetween(older,newer).stream()
+				 .map(id -> fullFill(id))
+				 .collect(Collectors.toList());
 	}
 
 	public List<Shift> findBetween(Date older, Date newer, ShiftOrder order) {
-		 return null;
+		 return shiftIdRepo.findBetween(older,newer,order).stream()
+				 .map(id -> fullFill(id))
+				 .collect(Collectors.toList());
 	}
 
 	public List<UUID> saveAll(List<Shift> shifts) {
 		return shifts.stream()
-				.map(s -> {return save(s);})
+				.map(s ->  save(s))
 				.collect(Collectors.toList());
 	}
 
@@ -89,6 +122,14 @@ public class ShiftRepo {
 			s.getProblems().forEach(p -> problemDetailsRepo.saveToShift(p, theId));
 			s.getEmployees().forEach(e -> employeeRepo.saveToShift(e, theId));
 			s.getTotalFlowAverage().forEach(t -> totalFlowRepo.saveToShift(t, theId));
+			s.getTemps().forEach(t -> {
+				t.setShiftId(new ShiftId(theId, null, null));
+				temperatureRepo.save(t);
+			});
+			s.getNotes().forEach(n -> {
+				n.setShiftId(new ShiftId(theId, null, null));
+				noteRepo.save(n);
+			});
 			return theId;
 		}
 	}
@@ -100,6 +141,6 @@ public class ShiftRepo {
 				employeeRepo.findByShiftId(id),
 				totalFlowRepo.findByShiftId(id),
 				temperatureRepo.findByShiftId(id),
-				null);
+				noteRepo.findByShiftId(id));
 	}
 }

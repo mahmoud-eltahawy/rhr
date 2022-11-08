@@ -32,7 +32,8 @@ public class ProblemDetailsRepo {
 		return jdbcTemplate.query("""
 				SELECT pd.* FROM problem_detail pd
 				join shift_problem sp on sp.problem_detail_id = pd.id
-				where sp.shift_id = ?""", new ProblemDetailRowMapper())
+				where sp.shift_id = ?
+				""", new ProblemDetailRowMapper(),id)
 				.stream().map(pd -> fullFill(pd)).collect(Collectors.toList());
 	}
 	
@@ -61,7 +62,7 @@ public class ProblemDetailsRepo {
 	public UUID save(ProblemDetail pd) {
 		UUID uuid = UUID.randomUUID();
 		jdbcTemplate.update("""
-				INSERT INTO problem_detail(id,machine_id
+				INSERT INTO problem_detail(id,machine_id,
 				begin_time, end_time) VALUES(?,?,?,?)
 				""",uuid,
 					pd.getMachine().getId(),
@@ -86,7 +87,7 @@ public class ProblemDetailsRepo {
 		}
 		jdbcTemplate.update("""
 				INSERT INTO shift_problem
-				(shift_id,problem_id) VALUES(?,?)
+				(shift_id,problem_detail_id) VALUES(?,?)
 				""",shiftId,pdId);
 	}
 	

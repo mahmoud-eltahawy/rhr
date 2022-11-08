@@ -222,25 +222,25 @@ public class Tester {
 				List.of(pd1,pd2),
 				List.of(emp3),
 				List.of(tf1,tf2),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		Shift shift012 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd6,pd4),
 				List.of(emp4),
 				List.of(tf6,tf2),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		Shift shift013 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf1,tf2),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		cal.set(Calendar.DAY_OF_MONTH, 29);
 		d = new Date(cal.getTime().getTime());
@@ -249,25 +249,25 @@ public class Tester {
 				List.of(pd2,pd3),
 				List.of(emp3,emp5),
 				List.of(tf4,tf3),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		Shift shift022 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd3,pd4),
 				List.of(emp4),
 				List.of(tf1,tf2),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		Shift shift023 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		cal.set(Calendar.DAY_OF_MONTH, 30);
 		d = new Date(cal.getTime().getTime());
@@ -276,25 +276,25 @@ public class Tester {
 				List.of(pd2,pd3),
 				List.of(emp5),
 				List.of(tf4,tf3),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		Shift shift032 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd3,pd4),
 				List.of(emp4),
 				List.of(tf1,tf2),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		Shift shift033 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		cal.set(Calendar.MONTH, Calendar.OCTOBER);
 		cal.set(Calendar.DAY_OF_MONTH, 1);
@@ -304,25 +304,25 @@ public class Tester {
 				List.of(pd2,pd3),
 				List.of(emp5),
 				List.of(tf4,tf3),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		Shift shift042 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd3,pd4),
 				List.of(emp5),
 				List.of(tf1,tf2),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		Shift shift043 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		cal.set(Calendar.DAY_OF_MONTH, 2);
 		d = new Date(cal.getTime().getTime());
@@ -331,25 +331,25 @@ public class Tester {
 				List.of(pd10,pd9),
 				List.of(emp5),
 				List.of(tf4,tf3),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		Shift shift052 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd7,pd8),
 				List.of(emp4,emp5),
 				List.of(tf1,tf2),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		Shift shift053 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf4,tf5),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		cal.set(Calendar.DAY_OF_MONTH, 3);
 		d = new Date(cal.getTime().getTime());
@@ -358,25 +358,25 @@ public class Tester {
 				List.of(pd13,pd12),
 				List.of(emp5),
 				List.of(tf4,tf3),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		Shift shift062 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd13,pd14),
 				List.of(emp4),
 				List.of(tf1,tf2),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		Shift shift063 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd11,pd12),
 				List.of(emp5),
 				List.of(tf4,tf5),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		cal.set(Calendar.DAY_OF_MONTH, 4);
 		d = new Date(cal.getTime().getTime());
@@ -385,25 +385,25 @@ public class Tester {
 				List.of(pd1,pd2,pd15,pd16,pd17,pd18,pd19,pd3),
 				List.of(emp5),
 				List.of(tf4,tf3),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		Shift shift072 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd13,pd14),
 				List.of(emp4),
 				List.of(tf5,tf3),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		Shift shift073 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd12,pd13),
 				List.of(emp2,emp5),
 				List.of(tf7,tf5),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		cal.set(Calendar.DAY_OF_MONTH, 5);
 		d = new Date(cal.getTime().getTime());
@@ -412,25 +412,25 @@ public class Tester {
 				List.of(pd1,pd2),
 				List.of(emp3),
 				List.of(tf1,tf2),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		Shift shift112 = new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
 				List.of(pd6,pd4),
 				List.of(emp4),
 				List.of(tf6,tf2),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		Shift shift113 = new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
 				List.of(pd5,pd6),
 				List.of(emp2),
 				List.of(tf1,tf2),
-				List.of(new Temperature(null,PROJECT,205,195),
-						new Temperature(null,KILEN_FIVE,206,194)),
-				List.of(new Note(null,"greeting")));
+				List.of(new Temperature(null,null,PROJECT,205,195),
+						new Temperature(null,null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,null,"greeting")));
 
 		shiftRepo.saveAll(List.of(
 				shift011,shift012,shift013,

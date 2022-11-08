@@ -16,7 +16,7 @@ public class TemperatureRowMapper implements RowMapper<Temperature> {
 	public Temperature mapRow(ResultSet rs, int rowNum) throws SQLException {
 		return new Temperature((UUID) rs.getObject("id"),
 				new ShiftId((UUID) rs.getObject("shift_id"),null,null),
-				new Machine((UUID) rs.getObject("machine_d"),null, null),
+				new Machine((UUID) rs.getObject("machine_id"),null, null),
 				rs.getInt("max_temp"),
 				rs.getInt("min_temp"));
 	}
