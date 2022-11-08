@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <title>last week summary</title>
-  <link rel="stylesheet" href="../static/css/showDay.css" th:href="@{/css/showDay.css}">
-  <script type="text/javascript" src="../static/js/showDay.js" th:src="@{/js/showDay.js}" async></script>
+  <link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
+  <link rel="stylesheet" href="../static/css/showDays.css" th:href="@{/css/showDays.css}">
 </head>
 <body>
-<h1 class="text-center" th:text="${title}"> Last what</h1>
+<h1 class="text-center" th:text="${title}"> date</h1>
 
-<div class="pricing-box-container">
-	<div class="pricing-box pricing-box-bg-image text-center">
-		<a href="#" th:href="@{/searchPage}"><button class="btn-primary">Search</button></a>
+<div class="box-container">
+	<div class="inner-box">
+		<a href="#" th:href="@{/show/}"><button class="btn-primary">SEARCH</button></a>
+	</div>
+	<div class="inner-box">
+		<a href="#" th:href="@{/}"><button class="btn-primary">HOME</button></a>
 	</div>
 </div>
 
 <div th:each="ins :${week}">
-	<div>
-		<h4 th:text="${ins.value.one.date}">date</h4>
-	</div>
 	<div class="box-container">
 		<div th:unless="${ins.value.one}==null" class="inner-box" th:object="${ins.value.one}">
 			<h5 th:text="*{shift}">one</h5>

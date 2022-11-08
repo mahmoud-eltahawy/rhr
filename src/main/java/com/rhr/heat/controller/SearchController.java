@@ -1,5 +1,6 @@
 package com.rhr.heat.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
@@ -109,7 +110,7 @@ public class SearchController {
 			@DateTimeFormat(pattern = "yyyy-MM-dd")Date date) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("showDay");
-		mv.addObject("title",date);
+		mv.addObject("title",new SimpleDateFormat("dd/MM/yyyy").format(date));
 		mv.addObject("week",service.findDay(new java.sql.Date(date.getTime())));
 		return mv;
 	}
