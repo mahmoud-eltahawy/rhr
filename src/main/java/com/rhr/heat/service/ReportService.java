@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
 import com.rhr.heat.Tools;
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.ProblemRepo;
-import com.rhr.heat.dao.ShiftRepo;
+import com.rhr.heat.dao.topLayer.ShiftRepo;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Note;
 import com.rhr.heat.entity.ProblemDetail;
-import com.rhr.heat.entity.Shift;
 import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
+import com.rhr.heat.entity.topLayer.Shift;
 
 import lombok.RequiredArgsConstructor;
 

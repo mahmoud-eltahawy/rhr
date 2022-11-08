@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.rhr.heat.dao.ShiftRepo;
-import com.rhr.heat.entity.Shift;
+import com.rhr.heat.dao.topLayer.ShiftRepo;
+import com.rhr.heat.entity.topLayer.Shift;
 import com.rhr.heat.enums.ShiftOrder;
 
 import lombok.RequiredArgsConstructor;

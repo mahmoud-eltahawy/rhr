@@ -3,9 +3,9 @@ package com.rhr.heat.service.api;
 import org.springframework.stereotype.Service;
 
 import com.rhr.heat.dao.EmployeeRepo;
-import com.rhr.heat.dao.ShiftRepo;
+import com.rhr.heat.dao.topLayer.ShiftRepo;
 import com.rhr.heat.entity.Employee;
-import com.rhr.heat.entity.Shift;
+import com.rhr.heat.entity.topLayer.Shift;
 
 import lombok.RequiredArgsConstructor;
 

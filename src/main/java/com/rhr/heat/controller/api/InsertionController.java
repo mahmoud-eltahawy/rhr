@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rhr.heat.entity.Employee;
-import com.rhr.heat.entity.Shift;
+import com.rhr.heat.entity.topLayer.Shift;
 import com.rhr.heat.service.api.InsertionService;
 
 import lombok.RequiredArgsConstructor;

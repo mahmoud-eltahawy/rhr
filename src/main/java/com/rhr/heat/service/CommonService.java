@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.rhr.heat.dao.MachineRepo;
 import com.rhr.heat.entity.ProblemDetail;
-import com.rhr.heat.entity.Shift;
+import com.rhr.heat.entity.topLayer.Shift;
 
 import lombok.RequiredArgsConstructor;
 

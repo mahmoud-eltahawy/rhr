@@ -27,10 +27,10 @@
 		<div class="inner-box" th:object="${ins.value.one}">
 			<h5 th:text="*{shiftId.shift}">two</h5>
 			<h4 th:text="*{shiftId.date}">date</h4>
-			<p class="note"><sup th:text="*{maxTemperature}">max</sup>/
-				<sub th:text="*{minTemperature}">min</sub></p>
+			<p class="note"><sup th:text="*{temps}">max</sup>/
+				<sub th:text="*{temps}">min</sub></p>
 
-			<p th:text="*{exceptionalNote}">notes</p>
+			<p th:text="*{notes}">notes</p>
 
 			<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
 		</div>
@@ -39,10 +39,10 @@
 		<div class="inner-box middle-box" th:object="${ins.value.two}">
 			<h5 th:text="*{shiftId.shift}">three</h5>
 			<h4 th:text="*{shiftId.date}">date</h4>
-			<p class="note"><sup th:text="*{maxTemperature}">max</sup>/
-				<sub th:text="*{minTemperature}">min</sub></p>
+			<p class="note"><sup th:text="*{temps}">max</sup>/
+				<sub th:text="*{temps}">min</sub></p>
 
-			<p th:text="*{exceptionalNote}">notes</p>
+			<p th:text="*{notes}">notes</p>
 
 			<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
 		</div>
@@ -51,10 +51,10 @@
 		<div class="inner-box" th:object="${ins.value.three}">
 			<h5 th:text="*{shiftId.shift}">one</h5>
 			<h4 th:text="*{shiftId.date}">date</h4>
-			<p class="note"><sup th:text="*{maxTemperature}">max</sup>/
-				<sub th:text="*{minTemperature}">min</sub></p>
+			<p class="note"><sup th:text="*{temps}">max</sup>/
+				<sub th:text="*{temps}">min</sub></p>
 
-			<p th:text="*{exceptionalNote}">notes</p>
+			<p th:text="*{notes}">notes</p>
 
 			<a href="#" th:href="@{/show/shift(id=*{shiftId.id})}"><button class="btn-primary">Go</button></a>
 		</div>

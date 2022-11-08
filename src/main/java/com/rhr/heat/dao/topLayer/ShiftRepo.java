@@ -1,4 +1,4 @@
-package com.rhr.heat.dao;
+package com.rhr.heat.dao.topLayer;
 
 import java.sql.Date;
 import java.util.List;
@@ -8,8 +8,14 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
-import com.rhr.heat.entity.Shift;
+import com.rhr.heat.dao.EmployeeRepo;
+import com.rhr.heat.dao.NoteRepo;
+import com.rhr.heat.dao.ProblemDetailsRepo;
+import com.rhr.heat.dao.ShiftIdRepo;
+import com.rhr.heat.dao.TemperatureRepo;
+import com.rhr.heat.dao.TotalFlowRepo;
 import com.rhr.heat.entity.ShiftId;
+import com.rhr.heat.entity.topLayer.Shift;
 import com.rhr.heat.enums.ShiftOrder;
 
 import lombok.RequiredArgsConstructor;

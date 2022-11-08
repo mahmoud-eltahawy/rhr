@@ -5,24 +5,22 @@ import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
 
-import com.rhr.heat.entity.Shift;
+import com.rhr.heat.entity.topLayer.ShiftFamily;
 import com.rhr.heat.enums.ShiftOrder;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Day {
-	private Shift one;
-	private Shift two;
-	private Shift three;
+	private ShiftFamily one;
+	private ShiftFamily two;
+	private ShiftFamily three;
 	
-	public static TreeMap<Date, Day> getDays(List<Shift> shifts){
+	public static <T extends ShiftFamily> TreeMap<Date, Day> getDays(List<T> shifts){
 		TreeMap<Date, Day> days = new TreeMap<Date,Day>(Collections.reverseOrder());
-		for (Shift shift : shifts) {
+		for (T shift : shifts) {
 			if(days.get(shift.getShiftId().getDate()) == null) {
 				Day day = new Day();
 				if(shift.getShiftId().getShift() == ShiftOrder.FIRST) {

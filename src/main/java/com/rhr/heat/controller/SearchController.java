@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rhr.heat.entity.Employee;
-import com.rhr.heat.entity.Shift;
+import com.rhr.heat.entity.topLayer.Shift;
 import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.service.CommonService;
 import com.rhr.heat.service.SearchService;
