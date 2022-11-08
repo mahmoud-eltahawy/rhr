@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.MachineRepo;
 import com.rhr.heat.dao.ProblemRepo;
-import com.rhr.heat.dao.topLayer.MiniShiftRepo;
+import com.rhr.heat.dao.ShiftIdRepo;
 import com.rhr.heat.dao.topLayer.ShiftRepo;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Machine;
@@ -33,7 +33,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SearchService {
 	private final ShiftRepo shiftRepo;
-	private final MiniShiftRepo miniShiftRepo;
+	private final ShiftIdRepo shiftIdRepo;
 	private final ProblemRepo problemRepo;
 	private final EmployeeRepo employeeRepo;
 	private final MachineRepo machineRepo;
@@ -82,7 +82,7 @@ public class SearchService {
 	}
 	
 	public TreeMap<Date ,Day> pickLastWeeks(Integer weekNum){
-		return Day.getDays(miniShiftRepo.findFromTo(weekNum * 21, 21));
+		return Day.getDays(shiftIdRepo.findFromTo(weekNum * 21, 21));
 	}
 	
 	public List<ProblemProfile> pickLastProblems(String problem,Integer problemNum){
@@ -94,7 +94,7 @@ public class SearchService {
 	}
 	
 	public TreeMap<Date, Day> findDay(Date date) {
-		return Day.getDays(shiftRepo.findAll(date));
+		return Day.getDays(shiftIdRepo.findAll(date));
 	}
 	
 	public List<MachineProfile> pickLastMachineProblems(UUID id,Integer num){

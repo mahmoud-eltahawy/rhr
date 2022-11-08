@@ -62,7 +62,7 @@ public class ShiftRepo {
 		 if(shiftId.isPresent()) {
 			return Optional.of(fullFill(shiftId.get())); 
 		 } else {
-			return Optional.of(null); 
+			return Optional.ofNullable(null); 
 		 }
 	}
 

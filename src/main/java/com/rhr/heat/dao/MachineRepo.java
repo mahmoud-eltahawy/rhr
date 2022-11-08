@@ -72,7 +72,7 @@ public class MachineRepo {
 
 	public UUID save(Machine machine) {
 		Optional<Machine> m;
-		if((m =findByTheId(machine.getCatagory(),machine.getNumber())).isPresent()) {
+		if((m =findByTheId(machine.getCategory(),machine.getNumber())).isPresent()) {
 			return m.get().getId();
 		} else {
 			UUID uuid = UUID.randomUUID();
@@ -82,7 +82,7 @@ public class MachineRepo {
 					ON CONFLICT(category,num) DO NOTHING
 					""",
 					uuid,
-					machine.getCatagory(),
+					machine.getCategory(),
 					machine.getNumber());
 			return uuid;
 		}

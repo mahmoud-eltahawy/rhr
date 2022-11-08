@@ -75,7 +75,8 @@ public class SearchController {
 			@RequestParam("order")
 			String order) {
 		ModelAndView mv = new ModelAndView();
-		Optional<Shift> s =  service.getShift(new java.sql.Date(date.getTime()),ShiftOrder.valueOf(order));
+		Optional<Shift> s =  service.getShift(new java.sql.Date(date.getTime()),
+				ShiftOrder.valueOf(order));
 		if(s.isPresent()) {
 			Shift shift =  s.get();
 			

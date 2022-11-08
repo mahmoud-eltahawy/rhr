@@ -97,7 +97,7 @@
 					<tbody>
 						<tr th:each="t : ${flow}">
 							<td class="kilenData"><ul th:each="m : ${t.suspendedMachines}">
-								<li th:text="${m.catagory}+'-'+${m.number}">machine number</li>
+								<li th:text="${m.category}+'-'+${m.number}">machine number</li>
 							</ul></td>
 							<td class="kilenData" th:text="${t.maxFlow}">Max flow</td>
 							<td class="kilenData" th:text="${t.minFlow}">Min flow</td>
@@ -109,16 +109,26 @@
 			</div><br>
 			<h2><button class="issub" id="temp-btn">TEMPERATURE</button></h2>
 			<div class="ghost top-bottom-border" id="temp">
-				<p class="short-important-p">
-					MAXIMUM : <span th:text="${maxT}">max</span>
-					&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-					MINIMUM : <span th:text="${minT}">min</span>
-				</p>
+				<ul th:each="temp :${temps}">
+					<p class="short-important-p">
+						MACHINE :
+						<span th:object="${temp.machine}">
+							<span th:text="*{category}">category</span>
+							<span th:unless="*{number}==0" th:text="*{number}">number</span>
+						</span>
+						&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+						MAXIMUM : <span th:text="${temp.max}">max</span>
+						&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+						MINIMUM : <span th:text="${temp.min}">min</span>
+					</p>
+				</ul>
 			</div>
 
 			<h2><button class="issub" id="note-btn">NOTE</button></h2>
 			<div class="ghost top-bottom-border" id="note">
-				<p th:text="${note}?:'no additional notes'" class="short-important-p">NOTE</p>
+				<ul th:each="note :${notes}">
+					<p th:text="${note.note}" class="short-important-p">NOTE</p>
+				</ul>
 			</div>
 		</div><br>
 		<h1><button class="notsub" id="emp-btn">EMPLOYEES SECTION</button></h1><br>

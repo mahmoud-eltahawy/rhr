@@ -64,7 +64,7 @@ public class CommonService {
 		Map<String, List<ProblemDetail>> mp = new HashMap<>();
 		if(allDetails != null) {
 			for (ProblemDetail pd : allDetails) {
-				String cat = pd.getMachine().getCatagory();
+				String cat = pd.getMachine().getCategory();
 				if(mp.get(cat) == null) {
 					List<ProblemDetail> pds = new ArrayList<>();
 					pds.add(pd);

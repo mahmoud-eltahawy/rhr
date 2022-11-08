@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Machine {
 	private UUID id;
-	private String catagory;
+	private String category;
 	private Integer number;
 	
 	@Override
@@ -24,10 +24,10 @@ public class Machine {
 		if (getClass() != obj.getClass())
 			return false;
 		Machine other = (Machine) obj;
-		return Objects.equals(catagory, other.catagory) && Objects.equals(number, other.number);
+		return Objects.equals(category, other.category) && Objects.equals(number, other.number);
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(catagory, number);
+		return Objects.hash(category, number);
 	}
 }
