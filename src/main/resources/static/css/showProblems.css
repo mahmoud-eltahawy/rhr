@@ -22,6 +22,18 @@
 	width: 80% auto;
 }
 
+li{
+	margin: 0% auto;
+	width: 25%;
+	height: 3rem;
+	font-size: 1.5rem;
+	border-top-color: darkviolet;
+	border-bottom-color: darkviolet;
+	border-top: 2px solid;
+	border-bottom: 2px solid;
+	border-radius: 5rem;
+}
+
 .my-p{
 	font-size: 2rem;
 	width: 80% auto;

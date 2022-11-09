@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>last week summary</title>
-  <link rel="stylesheet" href="../static/css/showMachines.css" th:href="@{/css/showMachines.css}">
-  <script type="text/javascript" src="../static/js/showMachines.js" th:src="@{/js/showMachines.js}" async></script>
+  <link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
+  <link rel="stylesheet" href="../static/css/showProblems.css" th:href="@{/css/showProblems.css}">
 </head>
 <body>
-<h1 class="text-center pricing-box" th:text="${machine.category}+'-'+${machine.number}"> title</h1>
 
-<div class="pricing-box-container">
-	<div class="pricing-box text-center">
+<div class="box-container">
+	<div class="inner-box">
 		<form action="#" th:action="@{/show/machine}" th:object="${machine}" method="post">
         <input type="hidden" th:value="${machine.id}" name="machine-id" id="machine-id">
         <input type="hidden" name="page" id="page" th:value="${next}">
@@ -18,11 +17,11 @@
 		</form>
 	</div>
 
-	<div class="pricing-box text-center">
-		<a href="#" th:href="@{/}"><button>HOME</button></a>
+	<div class="inner-box">
+        <h1 class="text-center pricing-box" th:text="${machine.category}+'-'+${machine.number}"> title</h1>
 	</div>
 
-	<div class="pricing-box text-center">
+	<div class="inner-box">
 		<form action="#" th:action="@{/show/machine}" th:object="${machine}" method="post">
         <input type="hidden" th:value="${machine.id}" name="machine-id" id="machine-id">
         <input type="hidden" name="page" id="page" th:value="${prev}">
@@ -31,21 +30,32 @@
 	</div>
 </div>
 
-<div class="pricing-box-container" th:each="p :${machineProblems}">
-		<div class="pricing-box pricing-box-bg-image text-center" th:object="${p}">
-			<pre class="price">Date : <span th:text="*{date}">date</span>  shift : <span th:text="*{shift}">shift</span> </pre><br>
-
-			<pre class="price">From : <span th:text="*{beginTime}">begin</span> To : <span th:text="*{endTime}">end</span></pre>
-
-			<pre class="price">Problems : <ul th:each="p :*{problems}"> <li th:text="${p.title}">problem</li></ul></pre>
+<div class="box-container" th:each="p :${machineProblems}">
+		<div class="inner-box" th:object="${p}">
+			<p class="my-p">
+                Date : <span th:text="*{date}">date</span>
+                <span class="my-p">----</span>
+                shift : <span th:text="*{shift}">shift</span>
+            </p>
+			<p class="my-p">
+                From : <span th:text="*{beginTime}">begin</span>
+                <span class="my-p">----</span>
+                To : <span th:text="*{endTime}">end</span>
+            </p>
+			<p class="my-p">
+                Problems :
+                <ol th:each="p :*{problems}">
+                    <li th:text="${p.title}">problem</li>
+                </ol>
+            </p>
 
 			<a href="#" th:href="@{/show/shft(date=*{date},order=*{shift})}"><button class="btn-primary">Go to shift</button></a>
 		</div>
 	</div>
 </div>
 
-<div class="pricing-box-container">
-	<div class="pricing-box text-center">
+<div class="box-container">
+	<div class="inner-box">
 		<form action="#" th:action="@{/show/machine}" th:object="${machine}" method="post">
         <input type="hidden" th:value="${machine.id}" name="machine-id" id="machine-id">
         <input type="hidden" name="page" id="page" th:value="${next}">
@@ -53,11 +63,11 @@
 		</form>
 	</div>
 
-	<div class="pricing-box text-center">
-		<a href="#" th:href="@{/}"><button>HOME</button></a>
+	<div class="inner-box">
+		<a href="#" th:href="@{/}"><button class="btn-primary">HOME</button></a>
 	</div>
 
-	<div class="pricing-box text-center">
+	<div class="inner-box">
 		<form action="#" th:action="@{/show/machine}" th:object="${machine}" method="post">
         <input type="hidden" th:value="${machine.id}" name="machine-id" id="machine-id">
         <input type="hidden" name="page" id="page" th:value="${prev}">
