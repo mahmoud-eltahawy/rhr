@@ -11,15 +11,22 @@
 		<p th:object="${theId}" class="short-important-p">Shift: <span th:text="*{shift}">order</span>
 		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 		Date: <span th:text="*{date}">the date</span></p><br>
-		<p th:if="${cats}==null" class="short-important-p">there is no problems through the whole shift</p>
+		<p th:if="${cats}==null" class="short-important-p">
+			<button class="notsub"  id="add-problems-btn">
+				ADD PROBLEM
+			</button>
+		</p>
 		<div th:unless="${cats}==null">
 			<h1><button class="notsub"  id="problems-section-btn">PROBLEMS SECTION</button></h1><br>
 			<div class="ghost top-bottom-border" id="problems-section">
 				<ul th:each="cat : ${cats}">
 					<li>
 						<p th:if="${cat.value}==null" class="short-important-p">
-							<span th:text="${cat.key}">CATEGORY</span>
-							<span>has no problems</span>
+							<button class="issub">
+								<span>add</span>
+								<span th:text="${cat.key}">CATEGORY</span>
+								<span>problem</span>
+							</button>
 						</p>
 						<div th:unless="${cat.value}==null">
 							<h2>
@@ -32,16 +39,21 @@
 								<ul th:each="mapin : ${cat.value}">
 									<li>
 										<p th:if="${mapin.value}==null" class="short-important-p">
-											<span th:text="${cat.key}">CATEGORY</span>
-											<span th:text="${mapin.key}">NUMBER</span>
-											<span>has no problems</span>
+											<button class="issubsub">
+												<span>add</span>
+												<span th:text="${cat.key}">CATEGORY</span>
+												<span th:text="${mapin.key}">NUMBER</span>
+												<span>problem</span>
+											</button>
 										</p>
 										<div th:unless="${mapin.value}==null">
 											<h3 th:unless="${mapin.key}==0">
+												<button class="issubsub">-</button>
 												<button id="category-number-btn" th:id="${cat.key}+'-'+${mapin.key}+'-btn'" class="issubsub">
 													<span th:text="${cat.key}">CATEGORY</span>
 													<span th:text="${mapin.key}">NUMBER</span>
 												</button>
+												<button class="issubsub">+</button>
 											</h3><br>
 											<div class="top-bottom-border" th:classappend="${mapin.key}!=0 ? 'ghost'" id="category-number" th:id="${cat.key}+'-'+${mapin.key}">
 												<table>
@@ -63,7 +75,11 @@
 															<td>
 																<ol type="1">
 																	<li th:each="p : ${pd.problems}">
+																		<span><button class="issubsub">-</button><span>
 																		<span th:text="${p.title}">problem</span>
+																	</li>
+																	<li>
+																		<button class="issubsub">+</button>
 																	</li>
 																</ol>
 															</td>
@@ -81,17 +97,33 @@
 			</div>
 		</div><br>
 		<p th:if="${flow.isEmpty()} AND ${temps.isEmpty()} AND ${notes.isEmpty()}"
-		   class="short-important-p">there is no records</p>
+		   class="short-important-p">
+			<button class="notsub" id="add-record-btn">
+				ADD RECORD
+			</button>
+		</p>
 		<div th:unless="${flow.isEmpty()} AND ${temps.isEmpty()} AND ${notes.isEmpty()}">
 			<h1><button class="notsub" id="records-section-btn">RECORDS SECTION</button></h1><br>
 			<div class="ghost top-bottom-border" id="records-section">
-				<p th:if="${flow.isEmpty()}" class="short-important-p">there is no total flow records</p>
+				<p th:if="${flow.isEmpty()}" class="short-important-p">
+					<button class="issub" id="add-flow-btn">
+						ADD TOTAL FLOW RECORD
+					</button>
+				</p>
 				<div th:unless="${flow.isEmpty()}">
-					<h2><button class="issub" id="flow-btn">Total Flow</button></h2>
+					<h2>
+						<span>
+							<button class="issub" id="flow-btn">
+								Total Flow
+							</button>
+						</span>
+						<span><button class="issubsub">+</button></span>
+					</h2>
 					<div class="ghost top-bottom-border" id="flow">
 						<table>
 							<thead>
 								<tr>
+									<th>-</th>
 									<th>Suspended machines</th>
 									<th>Max total flow</th>
 									<th>Min total flow</th>
@@ -101,9 +133,20 @@
 							</thead>
 							<tbody>
 								<tr th:each="t : ${flow}">
-									<td class="kilenData"><ul th:each="m : ${t.suspendedMachines}">
-										<li th:text="${m.category}+'-'+${m.number}">machine number</li>
-									</ul></td>
+									<td>
+										<span><button class="issubsub">-</button></span>
+									</td>
+									<td class="kilenData">
+										<ul th:each="m : ${t.suspendedMachines}">
+											<li>
+												<span><button class="issubsub">-</button></span>
+												<span th:text="${m.category}+'-'+${m.number}">
+													machine number
+												</span>
+											</li>
+											<li><button class="issubsub">+</button></li>
+										</ul>
+									</td>
 									<td class="kilenData" th:text="${t.maxFlow}">Max flow</td>
 									<td class="kilenData" th:text="${t.minFlow}">Min flow</td>
 									<td class="kilenData" th:text="${t.caseBeginTime}">Start time</td>
@@ -114,12 +157,24 @@
 					</div>
 				</div>
 				<br>
-				<p th:if="${temps.isEmpty()}" class="short-important-p">there is no temperature records</p>
+				<p th:if="${temps.isEmpty()}" class="short-important-p">
+					<button class="issub" id="add-temp-btn">
+						ADD TEMPERATURE RECORD
+					</button>
+				</p>
 				<div th:unless="${temps.isEmpty()}">
-					<h2><button class="issub" id="temp-btn">TEMPERATURE</button></h2>
+					<h2>
+						<span>
+							<button class="issub" id="temp-btn">
+								TEMPERATURE
+							</button>
+							<span><button class="issubsub">+</button></span>
+						</span>
+					</h2>
 					<div class="ghost top-bottom-border" id="temp">
 						<ul th:each="temp :${temps}">
 							<p class="short-important-p">
+								<span><button class="issubsub">-</button></span>
 								MACHINE :
 								<span th:object="${temp.machine}">
 									<span th:text="*{category}">category</span>
@@ -133,25 +188,54 @@
 						</ul>
 					</div>
 				</div>
-				<p th:if="${notes.isEmpty()}" class="short-important-p">there is no notes</p>
+				<p th:if="${notes.isEmpty()}" class="short-important-p">
+					<button class="issub" id="add-note-btn">
+						ADD NOTE
+					</button>
+				</p>
 				<div th:unless="${notes.isEmpty()}">
-					<h2><button class="issub" id="note-btn">NOTE</button></h2>
+					<h2>
+						<span>
+							<button class="issub" id="note-btn">
+								NOTE
+							</button>
+						</span>
+						<span><button class="issubsub">+</button></span>
+					</h2>
 					<div class="ghost top-bottom-border" id="note">
 						<ul th:each="note :${notes}">
-							<p th:text="${note.note}" class="short-important-p">NOTE</p>
+							<p class="short-important-p">
+								<span><button class="issubsub">-</button></span>
+								<span th:text="${note.note}">NOTE</span>
+							</p>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
 		<br>
-		<p th:if="${names.isEmpty()}" class="short-important-p">there is no employees</p>
+		<p th:if="${names.isEmpty()}" class="short-important-p">
+			<button class="notsub" id="add-emp-btn">
+				ADD EMPLOYEE
+			</button>
+		</p>
 		<div th:unless="${names.isEmpty()}">
-			<h1><button class="notsub" id="emp-btn">EMPLOYEES SECTION</button></h1><br>
+			<h1>
+				<span>
+					<button class="notsub" id="emp-btn">
+						EMPLOYEES SECTION
+					</button>
+				</span>
+				<span><button class="issubsub">+</button></span>
+			</h1>
+			<br>
 			<div class="ghost top-bottom-border" id="emp">
 				<ul>
 					<li th:each="n : ${names}">
-						<p th:text="${n}" class="short-important-p">name</p>
+						<p class="short-important-p">
+							<span><button class="issubsub">-</button></span>
+							<span th:text="${n}">name</span>
+						</p>
 					</li>
 				</ul>
 			</div>
