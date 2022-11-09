@@ -29,13 +29,27 @@ public class CommonService {
 		} else {
 			mv.addObject("cats",null);
 		}
-		mv.addObject("flow",shift.getTotalFlowAverage());
-		mv.addObject("temps",shift.getTemps());
-		mv.addObject("notes",shift.getNotes());
+		if(shift.getTotalFlowAverage() != null) {
+			mv.addObject("flow",shift.getTotalFlowAverage());
+		} else {
+			mv.addObject("flow",new ArrayList<>());
+		}
+		if(shift.getTotalFlowAverage() != null) {
+			mv.addObject("temps",shift.getTemps());
+		} else {
+			mv.addObject("temps",new ArrayList<>());
+		}
+		if(shift.getTotalFlowAverage() != null) {
+			mv.addObject("notes",shift.getNotes());
+		} else {
+			mv.addObject("notes",new ArrayList<>());
+		}
 		if(shift.getEmployees() != null) {
 			mv.addObject("names",shift.getEmployees().stream().map(e ->{
 				return e.getFirstName()+" "+e.getMiddleName()+" "+e.getLastName();
 			}).collect(Collectors.toList()));
+		} else {
+			mv.addObject("names",new ArrayList<>());
 		}
 		return mv;
 	}
