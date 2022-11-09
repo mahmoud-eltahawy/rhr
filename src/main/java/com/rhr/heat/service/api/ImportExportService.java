@@ -26,6 +26,9 @@ public class ImportExportService {
 	private final ShiftRepo shiftRepo;
 	private final Map<String, File> dataFiles;
 
+	public void exportLastShift() {
+		exportThat(shiftRepo.findLast(1),"lastRecordedShift");
+	}
 	
 	public void exportAfter(Date date) {
 		exportThat(shiftRepo.findRecent(date),"After"+date.toString());

@@ -79,6 +79,12 @@ public class ImportExportController {
 		importExportService.exportShift(date, order);
 		return "exported";
 	}
+
+	@GetMapping("/xshift/last")
+	public String shift() {
+		importExportService.exportLastShift();
+		return "exported";
+	}
 	
 	@GetMapping("/xbetween")
 	public String exportBetween(@RequestParam("oyear")Integer oyear,@RequestParam("nyear")Integer nyear,

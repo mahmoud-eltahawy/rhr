@@ -5,17 +5,20 @@
 		<title>shift show</title>
 		<link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
 		<link rel="stylesheet" href="../static/css/showShift.css" th:href="@{/css/showShift.css}">
+		<link rel="stylesheet" href="../static/css/reportPage.css" th:href="@{/css/reportPage.css}">
 		<script type="text/javascript" src="../static/js/showShift.js" th:src="@{/js/showShift.js}" async></script>
 	</head>
 	<body>
-		<p th:object="${theId}" class="short-important-p">Shift: <span th:text="*{shift}">order</span>
-		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-		Date: <span th:text="*{date}">the date</span></p><br>
+		<p th:object="${theId}" class="short-important-p">
+			Shift: <span th:text="*{shift}">order</span>
+			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+			Date: <span th:text="*{date}">the date</span></p><br>
 		<p th:if="${cats}==null" class="short-important-p">
-			<button class="notsub"  id="add-problems-btn">
+			<button class="notsub"  id="add-problem-btn">
 				ADD PROBLEM
 			</button>
 		</p>
+		<div id="add-problem-btn-field"></div>
 		<div th:unless="${cats}==null">
 			<h1><button class="notsub"  id="problems-section-btn">PROBLEMS SECTION</button></h1><br>
 			<div class="ghost top-bottom-border" id="problems-section">
@@ -48,17 +51,19 @@
 										</p>
 										<div th:unless="${mapin.value}==null">
 											<h3 th:unless="${mapin.key}==0">
-												<button class="issubsub">-</button>
-												<button id="category-number-btn" th:id="${cat.key}+'-'+${mapin.key}+'-btn'" class="issubsub">
+												<button class="mini-button">-</button>
+												<button id="category-number-btn" th:id="${cat.key}+'-'+${mapin.key}+'-btn'"
+														class="main-button">
 													<span th:text="${cat.key}">CATEGORY</span>
 													<span th:text="${mapin.key}">NUMBER</span>
 												</button>
-												<button class="issubsub">+</button>
+												<button class="mini-button">+</button>
 											</h3><br>
 											<div class="top-bottom-border" th:classappend="${mapin.key}!=0 ? 'ghost'" id="category-number" th:id="${cat.key}+'-'+${mapin.key}">
 												<table>
 													<thead>
 														<tr>
+															<th class="mini-button">-</th>
 															<th>begin at</th>
 															<th>ended at</th>
 															<th>problems</th>
@@ -66,6 +71,7 @@
 													</thead>
 													<tbody>
 														<tr th:each="pd : ${mapin.value}">
+															<td><button class="mini-button" style="width: 100%">-</button></td>
 															<td th:text="${pd.beginTime}">
 																problem begin time
 															</td>
@@ -75,11 +81,13 @@
 															<td>
 																<ol type="1">
 																	<li th:each="p : ${pd.problems}">
-																		<span><button class="issubsub">-</button><span>
+																		<span>
+																			<button class="mini-button">-</button>
+																		</span>
 																		<span th:text="${p.title}">problem</span>
 																	</li>
 																	<li>
-																		<button class="issubsub">+</button>
+																		<button class="mini-button">+</button>
 																	</li>
 																</ol>
 															</td>
@@ -241,5 +249,6 @@
 			</div>
 		</div>
 		<br>
+		<p id="catsContainer" th:text="${catValue}"></p>
 	</body>
 </html>

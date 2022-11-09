@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.rhr.heat.dao.MachineRepo;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.topLayer.Shift;
@@ -24,6 +25,7 @@ public class CommonService {
 		Map<String, Map<Integer, List<ProblemDetail>>>	cats =
 				getCategoryMachines(shift.getProblems());
 		mv.addObject("theId",shift.getShiftId());
+		mv.addObject("catValue",new Gson().toJson(cats));
 		if(!cats.isEmpty()) {
 			mv.addObject("cats",cats);
 		} else {
