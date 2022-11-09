@@ -1,33 +1,27 @@
 /**/
 :root {
-  --main-color: #eaeaea;
-  --stroke-color: black;
+  --main-color: blueviolet;
+  --stroke-color: white;
 
 }
-/**/
-body {
-  background: var(--main-color);
+button{
+  width: 20%;
+  padding: 2%;
+  margin: 2%;
+  color: blueviolet;
+  font-size: 3rem; line-height: 3rem;
+  font-weight: 900;
 }
 h1 {
-  margin: 100px auto 0 auto;
-  color: var(--stroke-color);
-  font-family: 'Encode Sans Semi Condensed', Verdana, sans-serif;
-  font-size: 10rem; line-height: 10rem;
-  font-weight: 200;
+  margin: 4rem;
+  color: var(--main-color);
+  font-size: 5rem; line-height: 5rem;
+  font-weight: 900;
   text-align: center;
-}
-h2 {
-  margin: 20px auto 30px auto;
-  font-family: 'Encode Sans Semi Condensed', Verdana, sans-serif;
-  font-size: 1.5rem;
-  font-weight: 200;
-  text-align: center;
-}
-h1, h2 {
   -webkit-transition: opacity 0.5s linear, margin-top 0.5s linear; /* Safari */
   transition: opacity 0.5s linear, margin-top 0.5s linear;
 }
-.loading h1, .loading h2 {
+.loading h1 {
   margin-top: 0px;
   opacity: 0;
 }

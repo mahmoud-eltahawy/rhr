@@ -20,6 +20,7 @@ import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
+import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.topLayer.Shift;
 import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.model.Day;
@@ -94,7 +95,12 @@ public class SearchService {
 	}
 	
 	public TreeMap<Date, Day> findDay(Date date) {
-		return Day.getDays(shiftIdRepo.findAll(date));
+		List<ShiftId> shifts = shiftIdRepo.findAll(date);
+		if(!shifts.isEmpty()) {
+			return Day.getDays(shifts);
+		} else {
+			return null;
+		}
 	}
 	
 	public List<MachineProfile> pickLastMachineProblems(UUID id,Integer num){

@@ -3,6 +3,7 @@ package com.rhr.heat.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
+import java.util.TreeMap;
 import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.topLayer.Shift;
 import com.rhr.heat.enums.ShiftOrder;
+import com.rhr.heat.model.Day;
 import com.rhr.heat.service.CommonService;
 import com.rhr.heat.service.SearchService;
 
@@ -52,9 +54,10 @@ public class SearchController {
 
 	@GetMapping("/shift")
 	public ModelAndView showShift(@RequestParam("id")UUID id) {
-		ModelAndView mv = new ModelAndView();
+		ModelAndView mv;
 		Optional<Shift> s =  service.getShift(id);
 		if(s.isPresent()) {
+			mv = new ModelAndView();
 			Shift shift =  s.get();
 			
 			mv.setViewName("showShift");
@@ -62,7 +65,7 @@ public class SearchController {
 			
 			
 		} else {
-			mv.setViewName("errorPage");
+			mv = new ModelAndView("redirect:/myerror");
 			mv.addObject("message","this shift is not recorded");
 		}
 		return mv;
@@ -75,17 +78,18 @@ public class SearchController {
 			Date date,
 			@RequestParam("order")
 			String order) {
-		ModelAndView mv = new ModelAndView();
+		ModelAndView mv;
 		Optional<Shift> s =  service.getShift(new java.sql.Date(date.getTime()),
 				ShiftOrder.valueOf(order));
 		if(s.isPresent()) {
+			mv = new ModelAndView();
 			Shift shift =  s.get();
 			
 			mv.setViewName("showShift");
 			mv = commonService.completeShift(mv, shift);
 			
 		} else {
-			mv.setViewName("errorPage");
+			mv = new ModelAndView("redirect:/myerror");
 			mv.addObject("message","this shift is not recorded");
 		}
 		return mv;
@@ -106,12 +110,19 @@ public class SearchController {
 	}
 
 	@GetMapping("/day")
-	public ModelAndView showWeek(@RequestParam("date")
+	public ModelAndView showDay(@RequestParam("date")
 			@DateTimeFormat(pattern = "yyyy-MM-dd")Date date) {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("showDay");
-		mv.addObject("title",new SimpleDateFormat("dd/MM/yyyy").format(date));
-		mv.addObject("week",service.findDay(new java.sql.Date(date.getTime())));
+		ModelAndView mv;
+		TreeMap<java.sql.Date, Day> tree = service.findDay(new java.sql.Date(date.getTime()));
+		if(tree != null) {
+			mv = new ModelAndView();
+			mv.setViewName("showDay");
+			mv.addObject("title",new SimpleDateFormat("dd/MM/yyyy").format(date));
+			mv.addObject("week", tree);
+		} else {
+			mv = new ModelAndView("redirect:/myerror");
+			mv.addObject("message","this day does not exists");
+		}
 		return mv;
 	}
 
