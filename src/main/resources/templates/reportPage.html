@@ -6,8 +6,8 @@
 		<link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
 		<link rel="stylesheet" href="../static/css/showShift.css" th:href="@{/css/showShift.css}">
 		<link rel="stylesheet" href="../static/css/reportPage.css" th:href="@{/css/reportPage.css}">
-		<script type="text/javascript" src="../static/js/showShift.js" th:src="@{/js/showShift.js}" async></script>
-		<script type="text/javascript" src="../static/js/reportPage.js" th:src="@{/js/reportPage.js}" async></script>
+		<script type="text/javascript" src="../static/js/showShift.js" th:src="@{/js/showShift.js}" defer></script>
+		<script type="text/javascript" src="../static/js/reportPage.js" th:src="@{/js/reportPage.js}" defer></script>
 	</head>
 	<body>
 		<div id="catsContainer" th:text="${catValue}" class="ghost"></div>
@@ -18,6 +18,7 @@
 		</p><br>
 		<button th:if="${cats}==null" class="notsub"  id="add-problem-field-btn">ADD PROBLEM</button>
 		<div id="add-problem-field" class="ghost"></div>
+		<div id="add-category-field"></div>
 		<div th:unless="${cats}==null">
 			<h1><button class="notsub"  id="problems-section-btn">PROBLEMS SECTION</button></h1><br>
 			<div class="ghost top-bottom-border" id="problems-section">
