@@ -25,7 +25,7 @@ public class CommonService {
 		Map<String, Map<Integer, List<ProblemDetail>>>	cats =
 				getCategoryMachines(shift.getProblems());
 		mv.addObject("theId",shift.getShiftId());
-		mv.addObject("catValue",new Gson().toJson(cats));
+		mv.addObject("catValue",new Gson().toJson(getStandardCategoryNums()));
 		if(!cats.isEmpty()) {
 			mv.addObject("cats",cats);
 		} else {

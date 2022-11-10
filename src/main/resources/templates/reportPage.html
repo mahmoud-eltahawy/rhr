@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="../static/css/showShift.css" th:href="@{/css/showShift.css}">
 		<link rel="stylesheet" href="../static/css/reportPage.css" th:href="@{/css/reportPage.css}">
 		<script type="text/javascript" src="../static/js/showShift.js" th:src="@{/js/showShift.js}" async></script>
+		<script type="text/javascript" src="../static/js/reportPage.js" th:src="@{/js/reportPage.js}" async></script>
 	</head>
 	<body>
 		<p th:object="${theId}" class="short-important-p">
@@ -14,11 +15,11 @@
 			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 			Date: <span th:text="*{date}">the date</span></p><br>
 		<p th:if="${cats}==null" class="short-important-p">
-			<button class="notsub"  id="add-problem-btn">
+			<button class="notsub"  id="add-problem-field-btn">
 				ADD PROBLEM
 			</button>
 		</p>
-		<div id="add-problem-btn-field"></div>
+		<div id="add-problem-field" class="ghost"></div>
 		<div th:unless="${cats}==null">
 			<h1><button class="notsub"  id="problems-section-btn">PROBLEMS SECTION</button></h1><br>
 			<div class="ghost top-bottom-border" id="problems-section">
@@ -106,10 +107,15 @@
 		</div><br>
 		<p th:if="${flow.isEmpty()} AND ${temps.isEmpty()} AND ${notes.isEmpty()}"
 		   class="short-important-p">
-			<button class="notsub" id="add-record-btn">
+			<button class="notsub" id="record-section-add-field-btn">
 				ADD RECORD
 			</button>
 		</p>
+		<div id="record-section-add-field" class="ghost">
+			<button class="cat-button" id="add-flow-btn">total flow</button>
+			<button class="cat-button" id="add-temp-btn">temperture</button>
+			<button class="cat-button" id="add-note-btn">Note</button>
+		</div>
 		<div th:unless="${flow.isEmpty()} AND ${temps.isEmpty()} AND ${notes.isEmpty()}">
 			<h1><button class="notsub" id="records-section-btn">RECORDS SECTION</button></h1><br>
 			<div class="ghost top-bottom-border" id="records-section">
@@ -125,7 +131,7 @@
 								Total Flow
 							</button>
 						</span>
-						<span><button class="issubsub">+</button></span>
+						<span><button class="mini-button">+</button></span>
 					</h2>
 					<div class="ghost top-bottom-border" id="flow">
 						<table>
@@ -145,14 +151,14 @@
 										<span><button class="issubsub">-</button></span>
 									</td>
 									<td class="kilenData">
-										<ul th:each="m : ${t.suspendedMachines}">
-											<li>
-												<span><button class="issubsub">-</button></span>
+										<ul>
+											<li th:each="m : ${t.suspendedMachines}">
+												<span><button class="mini-button">-</button></span>
 												<span th:text="${m.category}+'-'+${m.number}">
 													machine number
 												</span>
 											</li>
-											<li><button class="issubsub">+</button></li>
+											<li><button class="mini-button">+</button></li>
 										</ul>
 									</td>
 									<td class="kilenData" th:text="${t.maxFlow}">Max flow</td>
@@ -176,13 +182,13 @@
 							<button class="issub" id="temp-btn">
 								TEMPERATURE
 							</button>
-							<span><button class="issubsub">+</button></span>
+							<span><button class="mini-button">+</button></span>
 						</span>
 					</h2>
 					<div class="ghost top-bottom-border" id="temp">
 						<ul th:each="temp :${temps}">
 							<p class="short-important-p">
-								<span><button class="issubsub">-</button></span>
+								<span><button class="mini-button">-</button></span>
 								MACHINE :
 								<span th:object="${temp.machine}">
 									<span th:text="*{category}">category</span>
@@ -208,12 +214,12 @@
 								NOTE
 							</button>
 						</span>
-						<span><button class="issubsub">+</button></span>
+						<span><button class="mini-button">+</button></span>
 					</h2>
 					<div class="ghost top-bottom-border" id="note">
 						<ul th:each="note :${notes}">
 							<p class="short-important-p">
-								<span><button class="issubsub">-</button></span>
+								<span><button class="mini-button">-</button></span>
 								<span th:text="${note.note}">NOTE</span>
 							</p>
 						</ul>
@@ -234,14 +240,14 @@
 						EMPLOYEES SECTION
 					</button>
 				</span>
-				<span><button class="issubsub">+</button></span>
+				<span><button class="mini-button">+</button></span>
 			</h1>
 			<br>
 			<div class="ghost top-bottom-border" id="emp">
 				<ul>
 					<li th:each="n : ${names}">
 						<p class="short-important-p">
-							<span><button class="issubsub">-</button></span>
+							<span><button class="mini-button">-</button></span>
 							<span th:text="${n}">name</span>
 						</p>
 					</li>
@@ -249,6 +255,8 @@
 			</div>
 		</div>
 		<br>
-		<p id="catsContainer" th:text="${catValue}"></p>
+		<p id="catsContainer"
+		   th:text="${catValue}"
+		   class="ghost"></p>
 	</body>
 </html>
