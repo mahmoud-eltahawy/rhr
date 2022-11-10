@@ -1,5 +1,4 @@
-
-function toggling(){
+function togglingButtons(){
   const allButtons = document.getElementsByTagName("button")
 
   for(let i = 0; i< allButtons.length ; i++){
@@ -14,4 +13,4 @@ function toggling(){
   }
 }
 
-toggling()
+ togglingButtons()

@@ -1,4 +1,4 @@
-function toggling(){
+function actionPlacetoggling(){
   const allButtons = document.getElementsByTagName("button")
   for(let i = 0; i < allButtons.length ; i++){
     allButtons[i].addEventListener("click", function(){
@@ -7,4 +7,4 @@ function toggling(){
     })
   }
 }
-toggling()
+actionPlacetoggling()
