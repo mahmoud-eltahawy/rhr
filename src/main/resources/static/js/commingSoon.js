@@ -13,6 +13,6 @@ const x = setInterval(function() {
 
   if (distance < 0) {
     clearInterval(x);
-    document.getElementById("demo").innerHTML = "EXPIRED";
+    document.getElementById("message").innerHTML = "DEADLINE MISSED";
   }
 }, 1000);

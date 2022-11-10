@@ -6,8 +6,6 @@
 		<link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
 		<link rel="stylesheet" href="../static/css/showShift.css" th:href="@{/css/showShift.css}">
 		<link rel="stylesheet" href="../static/css/reportPage.css" th:href="@{/css/reportPage.css}">
-		<script type="text/javascript" src="../static/js/showShift.js" th:src="@{/js/showShift.js}" defer></script>
-		<script type="text/javascript" src="../static/js/reportPage.js" th:src="@{/js/reportPage.js}" defer></script>
 	</head>
 	<body>
 		<div id="catsContainer" th:text="${catValue}" class="ghost"></div>
@@ -16,7 +14,7 @@
 			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 			Date: <span th:text="*{date}">the date</span>
 		</p><br>
-		<button th:if="${cats}==null" class="notsub"  id="add-problem-field-btn">ADD PROBLEM</button>
+		<button th:if="${cats}==null" class="notsub"  onclick="toggle('add-problem-field')">ADD PROBLEM</button>
 		<div id="add-problem-field" class="ghost"></div>
 		<div id="add-category-field"></div>
 		<div th:unless="${cats}==null">
@@ -126,7 +124,7 @@
 								Total Flow
 							</button>
 						</span>
-						<span><button class="mini-button">+</button></span>
+						<span><button id="flow-record-plus-btn" class="mini-button">+</button></span>
 					</h2>
 					<div class="ghost top-bottom-border" id="flow">
 						<table>
@@ -142,24 +140,24 @@
 							</thead>
 							<tbody>
 								<tr th:each="t : ${flow}">
-									<td>
-										<span><button class="issubsub">-</button></span>
+									<td class="mini-button">
+										<span><button id="flow-record-minus-btn" style="width:100%">-</button></span>
 									</td>
 									<td class="kilenData">
 										<ul>
 											<li th:each="m : ${t.suspendedMachines}">
-												<span><button class="mini-button">-</button></span>
+												<span><button id="flow-machine-minus-btn" class="mini-button">-</button></span>
 												<span th:text="${m.category}+'-'+${m.number}">
 													machine number
 												</span>
 											</li>
-											<li><button class="mini-button">+</button></li>
+											<li><button id="flow-machine-plus-btn" class="mini-button">+</button></li>
 										</ul>
 									</td>
-									<td class="kilenData" th:text="${t.maxFlow}">Max flow</td>
-									<td class="kilenData" th:text="${t.minFlow}">Min flow</td>
-									<td class="kilenData" th:text="${t.caseBeginTime}">Start time</td>
-									<td class="kilenData" th:text="${t.caseEndTime}">End time</td>
+									<td th:text="${t.maxFlow}">Max flow</td>
+									<td th:text="${t.minFlow}">Min flow</td>
+									<td th:text="${t.caseBeginTime}">Start time</td>
+									<td th:text="${t.caseEndTime}">End time</td>
 								</tr>
 							</tbody>
 						</table>
@@ -177,13 +175,13 @@
 							<button class="issub" id="temp-btn">
 								TEMPERATURE
 							</button>
-							<span><button class="mini-button">+</button></span>
+							<span><button id="temperature-plus-btn" class="mini-button">+</button></span>
 						</span>
 					</h2>
 					<div class="ghost top-bottom-border" id="temp">
 						<ul th:each="temp :${temps}">
 							<p class="short-important-p">
-								<span><button class="mini-button">-</button></span>
+								<span><button id="temperature-minus-btn" class="mini-button">-</button></span>
 								MACHINE :
 								<span th:object="${temp.machine}">
 									<span th:text="*{category}">category</span>
@@ -209,12 +207,12 @@
 								NOTE
 							</button>
 						</span>
-						<span><button class="mini-button">+</button></span>
+						<span><button id="note-plus-btn" class="mini-button">+</button></span>
 					</h2>
 					<div class="ghost top-bottom-border" id="note">
 						<ul th:each="note :${notes}">
 							<p class="short-important-p">
-								<span><button class="mini-button">-</button></span>
+								<span><button id="note-minus-btn" class="mini-button">-</button></span>
 								<span th:text="${note.note}">NOTE</span>
 							</p>
 						</ul>
@@ -225,19 +223,17 @@
 		<br>
 		<div>
 			<h1>
-				<span>
-					<button class="notsub" id="emp-toggle-btn">
-						EMPLOYEES SECTION
-					</button>
-				</span>
-				<span><button class="mini-button">+</button></span>
+				<button class="notsub" id="employee-section-btn">
+					EMPLOYEES SECTION
+				</button>
+				<button id="employee-plus-btn" class="mini-button">+</button>
 			</h1>
 			<br>
-			<div class="ghost top-bottom-border" id="emp-toggle">
+			<div class="ghost top-bottom-border" id="employee-section">
 				<ul>
 					<li th:each="n : ${names}">
 						<p class="short-important-p">
-							<span><button class="mini-button">-</button></span>
+							<span><button id="employee-minus-btn" class="mini-button">-</button></span>
 							<span th:text="${n}">name</span>
 						</p>
 					</li>
@@ -245,5 +241,6 @@
 			</div>
 		</div>
 		<br>
+		<script type="text/javascript" src="../static/js/reportPage.js" th:src="@{/js/reportPage.js}"></script>
 	</body>
 </html>
