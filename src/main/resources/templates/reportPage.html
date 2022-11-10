@@ -10,15 +10,13 @@
 		<script type="text/javascript" src="../static/js/reportPage.js" th:src="@{/js/reportPage.js}" async></script>
 	</head>
 	<body>
+		<div id="catsContainer" th:text="${catValue}" class="ghost"></div>
 		<p th:object="${theId}" class="short-important-p">
 			Shift: <span th:text="*{shift}">order</span>
 			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-			Date: <span th:text="*{date}">the date</span></p><br>
-		<p th:if="${cats}==null" class="short-important-p">
-			<button class="notsub"  id="add-problem-field-btn">
-				ADD PROBLEM
-			</button>
-		</p>
+			Date: <span th:text="*{date}">the date</span>
+		</p><br>
+		<button th:if="${cats}==null" class="notsub"  id="add-problem-field-btn">ADD PROBLEM</button>
 		<div id="add-problem-field" class="ghost"></div>
 		<div th:unless="${cats}==null">
 			<h1><button class="notsub"  id="problems-section-btn">PROBLEMS SECTION</button></h1><br>
@@ -105,16 +103,12 @@
 				</ul>
 			</div>
 		</div><br>
-		<p th:if="${flow.isEmpty()} AND ${temps.isEmpty()} AND ${notes.isEmpty()}"
-		   class="short-important-p">
-			<button class="notsub" id="record-section-add-field-btn">
-				ADD RECORD
-			</button>
-		</p>
+		<button th:if="${flow.isEmpty()} AND ${temps.isEmpty()} AND ${notes.isEmpty()}"
+				class="notsub" id="record-section-add-field-btn">ADD RECORD</button>
 		<div id="record-section-add-field" class="ghost">
-			<button class="cat-button" id="add-flow-btn">total flow</button>
-			<button class="cat-button" id="add-temp-btn">temperture</button>
-			<button class="cat-button" id="add-note-btn">Note</button>
+			<button class="cat-button" id="add-flow-form-btn">total flow</button>
+			<button class="cat-button" id="add-temp-form-btn">temperture</button>
+			<button class="cat-button" id="add-note-form-btn">Note</button>
 		</div>
 		<div th:unless="${flow.isEmpty()} AND ${temps.isEmpty()} AND ${notes.isEmpty()}">
 			<h1><button class="notsub" id="records-section-btn">RECORDS SECTION</button></h1><br>
@@ -228,22 +222,17 @@
 			</div>
 		</div>
 		<br>
-		<p th:if="${names.isEmpty()}" class="short-important-p">
-			<button class="notsub" id="add-emp-btn">
-				ADD EMPLOYEE
-			</button>
-		</p>
-		<div th:unless="${names.isEmpty()}">
+		<div>
 			<h1>
 				<span>
-					<button class="notsub" id="emp-btn">
+					<button class="notsub" id="emp-toggle-btn">
 						EMPLOYEES SECTION
 					</button>
 				</span>
 				<span><button class="mini-button">+</button></span>
 			</h1>
 			<br>
-			<div class="ghost top-bottom-border" id="emp">
+			<div class="ghost top-bottom-border" id="emp-toggle">
 				<ul>
 					<li th:each="n : ${names}">
 						<p class="short-important-p">
@@ -255,8 +244,5 @@
 			</div>
 		</div>
 		<br>
-		<p id="catsContainer"
-		   th:text="${catValue}"
-		   class="ghost"></p>
 	</body>
 </html>

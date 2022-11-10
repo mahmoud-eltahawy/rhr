@@ -1,10 +1,10 @@
-const allButtons = document.getElementsByTagName("button")
-
-
-for(let i = 0; i < allButtons.length ; i++){
-  allButtons[i].addEventListener("click", function(){
-    document.querySelector("#action-place")
-            .innerHTML = document
-      .getElementById(allButtons[i].getAttribute("id").slice(0,-4)).innerHTML;
-  })
+function toggling(){
+  const allButtons = document.getElementsByTagName("button")
+  for(let i = 0; i < allButtons.length ; i++){
+    allButtons[i].addEventListener("click", function(){
+      document.querySelector("#action-place").innerHTML = document
+        .getElementById(allButtons[i].getAttribute("id").slice(0,-4)).innerHTML
+    })
+  }
 }
+toggling()
