@@ -49,7 +49,8 @@ public class ReportController {
 
 	@PostMapping("/problem")
 	public String problem(
-			@RequestParam("machine")Machine machine,
+			@RequestParam("category")String category,
+			@RequestParam("number")Integer number,
 			@RequestParam("problems")List<String> problems,
 			@RequestParam("beginTime")String beginTime,
 			@RequestParam("endTime")String endTime) {
@@ -57,7 +58,7 @@ public class ReportController {
 		ProblemDetail pd = new ProblemDetail(null,
 				problems.stream().map(p -> new Problem(p,null))
 				.collect(Collectors.toList()),
-				machine,
+				new Machine(null, category, number),
 				Tools.getTime(beginTime),
 				Tools.getTime(endTime));
 		service.addProblem(pd);

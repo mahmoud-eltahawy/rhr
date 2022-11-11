@@ -17,8 +17,9 @@ function replaceForm(machine,number){
 		<div class="box-container">
 			<div class="form-container">
 				<h1>${title}</h1>
-				<form action="#" th:action="@{/report/problem}" method="post">
-				<input type="hidden" id="machine" name="machine" value="${machine}-${number}">
+				<form action="/report/problem" method="post">
+				<input type="hidden" id="category" name="category" value="${machine}">
+				<input type="hidden" id="number" name="number" value="${number}">
 				<label name="problems" id="problems">which problem</label>
 				<select multiple="multiple" name="problems" id="problems" required>
           ${options}
