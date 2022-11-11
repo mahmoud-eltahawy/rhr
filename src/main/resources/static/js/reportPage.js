@@ -32,7 +32,7 @@ function replaceForm(machine,number,fieldId){
 
 function replaceButtons(catName,fieldId){
   let arr = jsonMap.get(catName)
-  if(arr[0] == 0){
+  if(!arr[0]){
     replaceForm(catName,0,fieldId)
   } else {
     document.getElementById(fieldId).innerHTML = (function(){
@@ -49,12 +49,12 @@ function replaceButtons(catName,fieldId){
 }
 
 function addButtons(){
-  const mainField = document.getElementById("add-problem-field")
-
+  let btnString = ""
   for (let catName of jsonMap.keys()) {
-    mainField.innerHTML += `<button class="cat-button"
-                              onclick="replaceButtons('${catName}','add-category-field')">${catName}</button>`
+    btnString += `<button class="cat-button"
+                              onclick="replaceButtons('${catName}','add-problem-field')">${catName}</button>`
   }
+  document.getElementById("add-problem-field").innerHTML = btnString
 }
 
 addButtons()

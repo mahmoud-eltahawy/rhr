@@ -7,14 +7,12 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.rhr.heat.dao.topLayer.ShiftRepo;
-import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.topLayer.Shift;
 import com.rhr.heat.enums.ShiftOrder;
 
@@ -57,24 +55,7 @@ public class ImportExportService {
 		FileWriter fw;
 		try {
 			fw = new FileWriter(dataFiles.get("allShifts"));
-			new Gson().toJson(shiftRepo.findAll().stream().map(s -> {
-				ShiftId si = s.getShiftId();
-				si.setId(null);
-				s.setShiftId(si);
-				s.setEmployees(s.getEmployees().stream().map(e ->{
-					e.setId(null);
-					return e;
-				}).collect(Collectors.toList()));
-				s.setProblems(s.getProblems().stream().map(p ->{
-					p.setId(null);
-					return p;
-				}).collect(Collectors.toList()));
-				s.setTotalFlowAverage(s.getTotalFlowAverage().stream().map(t ->{
-					t.setId(null);
-					return t;
-				}).collect(Collectors.toList()));
-				return s;
-			}).collect(Collectors.toList()),fw);
+			new Gson().toJson(shiftRepo.findAll(),fw);
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -84,25 +65,9 @@ public class ImportExportService {
 	public void exportThat(List<Shift> shifts,String name) {
 		FileWriter fw;
 		try {
-			fw = new FileWriter(new File(dataFiles.get("home").getAbsolutePath()+File.separator+name+".json"));
-			new Gson().toJson(shifts.stream().map(s -> {
-				ShiftId si = s.getShiftId();
-				si.setId(null);
-				s.setShiftId(si);
-				s.setEmployees(s.getEmployees().stream().map(e ->{
-					e.setId(null);
-					return e;
-				}).collect(Collectors.toList()));
-				s.setProblems(s.getProblems().stream().map(p ->{
-					p.setId(null);
-					return p;
-				}).collect(Collectors.toList()));
-				s.setTotalFlowAverage(s.getTotalFlowAverage().stream().map(t ->{
-					t.setId(null);
-					return t;
-				}).collect(Collectors.toList()));
-				return s;
-			}).collect(Collectors.toList()),fw);
+			fw = new FileWriter(new File(dataFiles.get("home")
+					.getAbsolutePath()+File.separator+name+".json"));
+			new Gson().toJson(shifts,fw);
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();

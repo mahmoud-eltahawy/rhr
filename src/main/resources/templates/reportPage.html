@@ -18,7 +18,6 @@
 		</p><br>
 		<button th:if="${cats}==null" class="notsub"  onclick="toggle('add-problem-field')">ADD PROBLEM</button>
 		<div id="add-problem-field" class="ghost top-bottom-border"></div>
-		<div id="add-category-field" class="top-bottom-border"></div>
 		<div th:unless="${cats}==null">
 			<h1><button class="notsub"  onclick="toggle('problems-section')">PROBLEMS SECTION</button></h1><br>
 			<div class="ghost top-bottom-border" id="problems-section">
