@@ -6,9 +6,11 @@
 		<link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
 		<link rel="stylesheet" href="../static/css/showShift.css" th:href="@{/css/showShift.css}">
 		<link rel="stylesheet" href="../static/css/reportPage.css" th:href="@{/css/reportPage.css}">
+		<script type="text/javascript" src="../static/js/reportPage.js" th:src="@{/js/reportPage.js}" async></script>
 	</head>
 	<body>
 		<div id="catsContainer" th:text="${catValue}" class="ghost"></div>
+		<div id="problemsContainer" th:text="${problemsValue}" class="ghost"></div>
 		<p th:object="${theId}" class="short-important-p">
 			Shift: <span th:text="*{shift}">order</span>
 			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -241,6 +243,5 @@
 			</div>
 		</div>
 		<br>
-		<script type="text/javascript" src="../static/js/reportPage.js" th:src="@{/js/reportPage.js}"></script>
 	</body>
 </html>

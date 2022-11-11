@@ -20,7 +20,7 @@ import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.entity.topLayer.Shift;
-import com.rhr.heat.service.CommonService;
+import com.rhr.heat.service.ReportControllerDealer;
 import com.rhr.heat.service.ReportService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,23 +30,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ReportController {
 	private final ReportService service;
-	private final CommonService commonService;
+	private final ReportControllerDealer dealer;
 
 	@RequestMapping("/")
 	public ModelAndView reportPage() {
 		ModelAndView mv = new ModelAndView();
 		Shift shift = service.getCurrentShift();
-		
-		mv = commonService.completeShift(mv, shift);
-		
-		mv.addObject("allEmps", service.usernames());
-		List<Employee> ems = service.getCurrentShift().getEmployees();
-		if(ems != null) {
-			mv.addObject("emps", ems.stream().map(e -> e.getUsername())
-				.collect(Collectors.toList()));
-		}
-		mv.addObject("pTitles", service.problemsTitles());
-		mv.addObject("pushable", shift.isPushable());
+		mv = dealer.completeShift(mv, shift);
 		mv.setViewName("reportPage");
 		return mv;
 	}

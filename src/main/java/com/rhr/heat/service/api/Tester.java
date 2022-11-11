@@ -22,7 +22,7 @@ import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.entity.topLayer.Shift;
 import com.rhr.heat.enums.EmployeePosition;
 import com.rhr.heat.enums.ShiftOrder;
-import com.rhr.heat.service.CommonService;
+import com.rhr.heat.service.Dealer;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +33,7 @@ public class Tester {
 	private final ShiftRepo shiftRepo;
 	private final ProblemRepo problemRepo;
 	private final MachineRepo machineRepo;
-	private final CommonService commonService;
+	private final Dealer commonService;
 
 	public void insertData() {
 		Employee emp1 = new Employee(null,"mahmoud","mohammed","sabry",EmployeePosition.Engineer,"mahmoud_sabry","1234");

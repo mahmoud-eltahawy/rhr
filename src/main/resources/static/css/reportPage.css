@@ -13,3 +13,54 @@
     width: 20%;
     font-size: 2rem;
 }
+
+.form-container{
+    width: 80%;
+    margin: .1em auto;
+    padding: .1em;
+    border-radius: 9rem;
+    background: gray;
+    font-size: 2.2rem;
+    color: black;
+}
+
+.form-container h1{
+    display: block;
+    margin-top: .2em;
+    margin: .1em auto;
+    padding: .1em;
+}
+.form-container input{
+    display: block;
+    margin-top: .4em auto;
+    margin: .1em auto;
+    padding: .5em;
+    font-size: 1.5rem;
+    width: 70%;
+	color: #bd93f9;
+	background-color: #282a36;
+}
+.form-container select{
+    display: block;
+    margin-top: .4em auto;
+    margin: .1em auto;
+    padding: .5em;
+    font-size: 1.5rem;
+    width: 70%;
+	color: #bd93f9;
+	background-color: #282a36;
+}
+
+.form-container label{
+    display: block;
+	color: inherit;
+    margin: 0px auto;
+}
+.form-container button{
+    display: block;
+    margin: 1em auto;
+    padding: 1em;
+    width: 30%;
+    font-size: 2rem;
+	color: #bd93f9;
+}

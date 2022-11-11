@@ -19,7 +19,7 @@ import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.topLayer.Shift;
 import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.model.Day;
-import com.rhr.heat.service.CommonService;
+import com.rhr.heat.service.SearchControllerDealer;
 import com.rhr.heat.service.SearchService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SearchController {
 	private final SearchService service;
-	private final CommonService commonService;
+	private final SearchControllerDealer dealer;
 
 	@GetMapping("/")
 	public ModelAndView searchPage() {
@@ -61,7 +61,7 @@ public class SearchController {
 			Shift shift =  s.get();
 			
 			mv.setViewName("showShift");
-			mv = commonService.completeShift(mv, shift);
+			mv = dealer.completeShift(mv, shift);
 			
 			
 		} else {
@@ -86,7 +86,7 @@ public class SearchController {
 			Shift shift =  s.get();
 			
 			mv.setViewName("showShift");
-			mv = commonService.completeShift(mv, shift);
+			mv = dealer.completeShift(mv, shift);
 			
 		} else {
 			mv = new ModelAndView("redirect:/myerror");

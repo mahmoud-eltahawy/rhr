@@ -7,20 +7,26 @@ function replaceForm(machine,number){
   } else {
     title = machine + " " + number + " PROBLEM"
   }
+
+  let options =""
+  const problems = JSON.parse(document.getElementById("problemsContainer").innerText)
+  for (let p of problems){
+    options += `<option value="${p}" >${p}</option>`
+  }
   document.getElementById("add-category-field").innerHTML = `
 		<div class="box-container">
-			<div class="inner-box">
+			<div class="form-container">
 				<h1>${title}</h1>
 				<form action="#" th:action="@{/report/problem}" method="post">
 				<input type="hidden" id="machine" name="machine" value="${machine}-${number}">
-				<label name="problems" id="problems">which problem</label><br>
+				<label name="problems" id="problems">which problem</label>
 				<select multiple="multiple" name="problems" id="problems" required>
-					<option th:each="" th:value="" th:text="">title</option>
-				</select><br>
+          ${options}
+				</select>
 				<label name="beginTime" id="beginTime">Problem begin</label>
-				<input type="time" id="beginTime" name="beginTime" required><br>
+				<input type="time" id="beginTime" name="beginTime" required>
 				<label name="endTime" id="endTime">Problem end</label>
-				<input type="time" id="endTime" name="endTime"   required><br>
+				<input type="time" id="endTime" name="endTime"   required>
 				<button type="submit">Submit</button>
 				</form>
 			</div>
