@@ -1,13 +1,6 @@
 const jsonMap = new Map(Object.entries(JSON.parse(document.getElementById("catsContainer").innerText)))
 
 function replaceForm(machine,number,fieldId){
-  let title = "";
-  if(number == 0){
-    title = machine;
-  } else {
-    title = machine + " " + number + " PROBLEM"
-  }
-
   let options =""
   const problems = JSON.parse(document.getElementById("problemsContainer").innerText)
   for (let p of problems){
@@ -16,7 +9,7 @@ function replaceForm(machine,number,fieldId){
   document.getElementById(fieldId).innerHTML = `
 		<div class="box-container">
 			<div class="form-container">
-				<h1>${title}</h1>
+				<h1>${number == 0? machine: machine+' '+number} PROBLEM</h1>
 				<form action="/report/problem" method="post">
 				<input type="hidden" id="category" name="category" value="${machine}">
 				<input type="hidden" id="number" name="number" value="${number}">
