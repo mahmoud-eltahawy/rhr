@@ -1,6 +1,6 @@
 const jsonMap = new Map(Object.entries(JSON.parse(document.getElementById("catsContainer").innerText)))
 
-function replaceForm(machine,number){
+function replaceForm(machine,number,fieldId){
   let title = "";
   if(number == 0){
     title = machine;
@@ -13,7 +13,7 @@ function replaceForm(machine,number){
   for (let p of problems){
     options += `<option value="${p}" >${p}</option>`
   }
-  document.getElementById("add-category-field").innerHTML = `
+  document.getElementById(fieldId).innerHTML = `
 		<div class="box-container">
 			<div class="form-container">
 				<h1>${title}</h1>
@@ -35,16 +35,16 @@ function replaceForm(machine,number){
 `
 }
 
-function replaceButtons(catName){
+function replaceButtons(catName,fieldId){
   let arr = jsonMap.get(catName)
   if(arr[0] == 0){
-    replaceForm(catName,0)
+    replaceForm(catName,0,fieldId)
   } else {
-    document.getElementById("add-category-field").innerHTML = (function(){
+    document.getElementById(fieldId).innerHTML = (function(){
       let buttons = ""
       for (let n of arr){
         buttons +=`<button class="cat-button"
-                      onclick="replaceForm('${catName}','${n}')">
+                      onclick="replaceForm('${catName}','${n}','${fieldId}')">
                       ${catName} ${n}
                     </button>`
       }
@@ -58,7 +58,7 @@ function addButtons(){
 
   for (let catName of jsonMap.keys()) {
     mainField.innerHTML += `<button class="cat-button"
-                              onclick="replaceButtons('${catName}')">${catName}</button>`
+                              onclick="replaceButtons('${catName}','add-category-field')">${catName}</button>`
   }
 }
 
