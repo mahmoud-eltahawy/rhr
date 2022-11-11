@@ -56,7 +56,7 @@
 													<span th:text="${cat.key}">CATEGORY</span>
 													<span th:text="${mapin.key}">NUMBER</span>
 												</button>
-												<button class="mini-button">+</button>
+												<button class="mini-button" th:attr="onclick=|replaceForm('${cat.key}',${mapin.key},'${cat.key}-${mapin.key}-show')|">+</button>
 											</h3><br>
 											<div class="top-bottom-border" th:classappend="${mapin.key}!=0 ? 'ghost'" th:id="${cat.key}+'-'+${mapin.key}+'-show'">
 												<table>
