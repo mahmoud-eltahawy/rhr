@@ -1,11 +1,6 @@
 const jsonMap = new Map(Object.entries(JSON.parse(document.getElementById("catsContainer").innerText)))
 
 function replaceForm(machine,number,fieldId){
-  let options =""
-  const problems = JSON.parse(document.getElementById("problemsContainer").innerText)
-  for (let p of problems){
-    options += `<option value="${p}" >${p}</option>`
-  }
   document.getElementById(fieldId).innerHTML = `
 		<div class="box-container">
 			<div class="form-container">
@@ -15,7 +10,14 @@ function replaceForm(machine,number,fieldId){
 				<input type="hidden" id="number" name="number" value="${number}">
 				<label name="problems" id="problems">which problem</label>
 				<select multiple="multiple" name="problems" id="problems" required>
-          ${options}
+          ${(function (){
+              let options =""
+              const problems = JSON.parse(document.getElementById("problemsContainer").innerText)
+              for (let p of problems){
+                options += `<option value="${p}" >${p}</option>`
+              }
+              return options
+            })()}
 				</select>
 				<label name="beginTime" id="beginTime">Problem begin</label>
 				<input type="time" id="beginTime" name="beginTime" required>
