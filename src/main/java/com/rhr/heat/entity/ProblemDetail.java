@@ -22,8 +22,14 @@ public class ProblemDetail {
 	private Time endTime;
 	
 	public Boolean isPushable() {
-		if(machine.isPushable() && beginTime != null && endTime != null && problems != null) {
-			if(problems.size() > 0 && endTime.before(beginTime)) {
+		if(!machine.equals(null) && !beginTime.equals(null) &&
+				!endTime.equals(null) && !problems.equals(null)) {
+			if(problems.size() > 0 && endTime.after(beginTime) && machine.isPushable()) {
+				for (Problem problem : problems) {
+					if(!problem.isPushable()) {
+						return false;
+					}
+				}
 				return true;
 			}
 		}

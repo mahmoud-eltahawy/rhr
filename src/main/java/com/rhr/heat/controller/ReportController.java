@@ -2,10 +2,10 @@ package com.rhr.heat.controller;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +15,6 @@ import com.rhr.heat.Tools;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Note;
-import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
@@ -33,10 +32,11 @@ public class ReportController {
 	private final ReportControllerDealer dealer;
 
 	@RequestMapping("/")
-	public ModelAndView reportPage() {
+	public ModelAndView reportPage(@PathVariable(name = "message",required = false)String message) {
 		ModelAndView mv = new ModelAndView();
 		Shift shift = service.getCurrentShift();
 		mv = dealer.completeShift(mv, shift);
+		mv.addObject("message", message);
 		mv.setViewName("reportPage");
 		return mv;
 	}
@@ -55,8 +55,8 @@ public class ReportController {
 			@RequestParam("beginTime")String beginTime,
 			@RequestParam("endTime")String endTime) {
 		
-		service.reportProblem(category, number, problems, beginTime, endTime);
-		return "redirect:/report/";
+		return "redirect:/report/?message="+service
+				.reportProblem(category, number, problems, beginTime, endTime);
 	}
 
 	@PostMapping("/flow")

@@ -67,19 +67,6 @@ public class ReportService {
 		return oldShift;
 	}
 	
-	public Shift stashShift(Shift newShift) {
-		Shift oldShift = tool.getCurrentShift();
-		oldShift.setProblems(newShift.getProblems());
-		oldShift.setTotalFlowAverage(newShift.getTotalFlowAverage());
-		oldShift.setEmployees(newShift.getEmployees());
-		oldShift.setNotes(newShift.getNotes());
-		oldShift.setTemps(newShift.getTemps());
-		
-	tool.writeShift(oldShift);
-		return oldShift;
-	}
-	
-	
 	public String reportProblem(String category,Integer number,
 			List<String> problems,String beginTime,String endTime) {
 		ProblemDetail pd = new ProblemDetail();
@@ -107,7 +94,7 @@ public class ReportService {
 		if(pd.isPushable()) {
 			System.out.println("final pass");
 			addProblem(pd);
-			return "problems "+pbs.toString()+" on machine "+category+" "+number+" stored succesfully";
+			return "problems stored succesfully";
 		} else {
 			return "problem is unvalid";
 		}

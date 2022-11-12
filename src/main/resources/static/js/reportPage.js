@@ -1,5 +1,11 @@
 const jsonMap = new Map(Object.entries(JSON.parse(document.getElementById("catsContainer").innerText)))
 
+let url_string = window.location.href
+let url = new URL(url_string)
+let message = url.searchParams.get("message")
+document.getElementById("messager").innerText = message
+
+
 function replaceForm(machine,number,fieldId){
   document.getElementById(fieldId).innerHTML = `
 		<div class="box-container">

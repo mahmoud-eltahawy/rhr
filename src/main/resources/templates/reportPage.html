@@ -9,8 +9,9 @@
 		<script type="text/javascript" src="../static/js/reportPage.js" th:src="@{/js/reportPage.js}" async></script>
 	</head>
 	<body>
-		<div id="catsContainer" th:text="${catValue}" class="ghost"></div>
-		<div id="problemsContainer" th:text="${problemsValue}" class="ghost"></div>
+		<div id="catsContainer" th:text="${catValue}" class="ghost">[]</div>
+		<div id="problemsContainer" th:text="${problemsValue}" class="ghost">[]</div>
+		<div id="messager">static message</div>
 		<p th:object="${theId}" class="short-important-p">
 			Shift: <span th:text="*{shift}">order</span>
 			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
