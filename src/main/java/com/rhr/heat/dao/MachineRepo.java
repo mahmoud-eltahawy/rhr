@@ -17,6 +17,22 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MachineRepo {
 	private final JdbcTemplate jdbcTemplate;
+	
+	public void saveToTotalFlow(UUID tfId,UUID mId) {
+		jdbcTemplate.update("""
+					INSERT INTO total_flow_machine(total_flow_id,machine_id)
+					values(?,?) ON CONFLICT(total_flow_id,machine_id) DO NOTHING
+				""",tfId,mId);
+	}
+	
+	public List<Machine> findFromTotalFlow(UUID tfId) {
+		return jdbcTemplate.queryForList("""
+				SELECT machine_id FROM
+				total_flow_machine where total_flow_id = ?
+				""",UUID.class,tfId)
+				.stream().map(uuid -> findById(uuid).orElseThrow())
+				.collect(Collectors.toList());
+	}
 
 	public List<Machine> findAll() {
 		return jdbcTemplate.query(
@@ -74,8 +90,13 @@ public class MachineRepo {
 		Optional<Machine> m;
 		if((m =findByTheId(machine.getCategory(),machine.getNumber())).isPresent()) {
 			return m.get().getId();
-		} else {
-			UUID uuid = UUID.randomUUID();
+		} else if(machine.isPushable()) {
+			UUID uuid = null;
+			if(machine.getId() != null) {
+				uuid = machine.getId();
+			} else {
+				uuid = UUID.randomUUID();
+			}
 			jdbcTemplate.update("""
 					INSERT INTO machine
 					(id,category, num) VALUES(?,?,?)
@@ -86,5 +107,6 @@ public class MachineRepo {
 					machine.getNumber());
 			return uuid;
 		}
+		return null;
 	}
 }

@@ -21,17 +21,11 @@ import lombok.RequiredArgsConstructor;
 public class EmployeeRepo{
 	private final JdbcTemplate jdbcTemplate;
 
-	public void saveToShift(Employee emp,UUID empId) {
-		UUID eId = null;
-		if(emp.getId() != null) {
-			eId = emp.getId();
-		} else {
-			eId = save(emp);
-		}
+	public void saveToShift(UUID empId,UUID shiftId) {
 		jdbcTemplate.update("""
 				INSERT INTO shift_employee
 				(shift_id,employee_id) VALUES(?,?)
-				""",empId,eId);
+				""",shiftId,empId);
 	}
 	
 	public List<Employee> findByShiftId(UUID id){
@@ -118,8 +112,13 @@ public class EmployeeRepo{
 		Optional<Employee> e;
 		if((e =findByUsername(emp.getUsername())).isPresent()) {
 			return e.get().getId();
-		} else {
-			UUID uuid = UUID.randomUUID();
+		} else if(emp.isPushable()) {
+			UUID uuid = null;
+			if(emp.getId() != null) {
+				uuid =emp.getId();
+			} else {
+				uuid = UUID.randomUUID();
+			}
 			jdbcTemplate.update("""
 					INSERT INTO employee
 					(id,first_name,middle_name,last_name,emp_position,username,password)
@@ -133,6 +132,8 @@ public class EmployeeRepo{
 					emp.getUsername(),
 					emp.getPassword());
 			return uuid;
+		} else {
+			return null;
 		}
 	}
 }

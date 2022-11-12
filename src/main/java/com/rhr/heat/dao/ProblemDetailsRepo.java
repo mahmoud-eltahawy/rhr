@@ -19,13 +19,12 @@ public class ProblemDetailsRepo {
 	private final JdbcTemplate jdbcTemplate;
 	private final ProblemRepo  problemRepo;
 	private final MachineRepo machineRepo;
-	
-	public List<ProblemDetail> findAll(){
-		return jdbcTemplate.query(
-				"SELECT * FROM problem_detail",
-				new ProblemDetailRowMapper())
-				.stream().map(pd -> fullFill(pd))
-				.collect(Collectors.toList());
+
+	public void saveToShift(UUID PdId,UUID shiftId) {
+		jdbcTemplate.update("""
+				INSERT INTO shift_problem
+				(shift_id,problem_detail_id) VALUES(?,?)
+				""",shiftId,PdId);
 	}
 	
 	public List<ProblemDetail> findByShiftId(UUID id){
@@ -35,6 +34,14 @@ public class ProblemDetailsRepo {
 				where sp.shift_id = ?
 				""", new ProblemDetailRowMapper(),id)
 				.stream().map(pd -> fullFill(pd)).collect(Collectors.toList());
+	}
+	
+	public List<ProblemDetail> findAll(){
+		return jdbcTemplate.query(
+				"SELECT * FROM problem_detail",
+				new ProblemDetailRowMapper())
+				.stream().map(pd -> fullFill(pd))
+				.collect(Collectors.toList());
 	}
 	
 	public Optional<ProblemDetail> findById(UUID id) {
@@ -60,35 +67,26 @@ public class ProblemDetailsRepo {
 	}
 
 	public UUID save(ProblemDetail pd) {
-		UUID uuid = UUID.randomUUID();
-		jdbcTemplate.update("""
-				INSERT INTO problem_detail(id,machine_id,
-				begin_time, end_time) VALUES(?,?,?,?)
-				""",uuid,
-					pd.getMachine().getId(),
-					pd.getBeginTime(),
-					pd.getEndTime());
-		
-		pd.getProblems().forEach(m ->{
+		final UUID uuid;
+		if(pd.isPushable()) {
+			if(pd.getId() != null) {
+				uuid = pd.getId();
+			} else {
+				uuid = UUID.randomUUID();
+			}
 			jdbcTemplate.update("""
-					INSERT INTO problem_detail_problem
-					(problem_detail_id,problem_title) values(?,?)
-					""",uuid,m.getTitle());
-		});
-		return uuid;
-	}
-
-	public void saveToShift(ProblemDetail pd,UUID shiftId) {
-		UUID pdId = null;
-		if(pd.getId() != null) {
-			pdId = pd.getId();
-		} else {
-			pdId = save(pd);
-		}
-		jdbcTemplate.update("""
-				INSERT INTO shift_problem
-				(shift_id,problem_detail_id) VALUES(?,?)
-				""",shiftId,pdId);
+					INSERT INTO problem_detail(id,machine_id,
+					begin_time, end_time) VALUES(?,?,?,?)
+					""",uuid,
+						machineRepo.save(pd.getMachine()),
+						pd.getBeginTime(),
+						pd.getEndTime());
+			
+			pd.getProblems().forEach(p ->problemRepo
+					.saveToProblemDetail(p.getTitle(), uuid));
+			return uuid;
+		} 
+		return null;
 	}
 	
 	public ProblemDetail fullFill(ProblemDetail pd) {

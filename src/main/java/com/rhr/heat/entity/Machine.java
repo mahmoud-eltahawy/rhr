@@ -15,6 +15,12 @@ public class Machine {
 	private String category;
 	private Integer number;
 	
+	public Boolean isPushable() {
+		if(category != null && number != null) {
+			return true;
+		}
+		return false;
+	}
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

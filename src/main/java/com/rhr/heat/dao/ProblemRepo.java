@@ -23,14 +23,11 @@ import lombok.RequiredArgsConstructor;
 public class ProblemRepo {
 	private final JdbcTemplate jdbcTemplate;
 
-	public List<Problem> findAll(){
-		return jdbcTemplate.query(
-				"SELECT * FROM problem", new ProblemRowMapper());
-	}
-
-	public List<String> findAllTitles(){
-		return jdbcTemplate.queryForList(
-				"SELECT p.title FROM problem p",String.class);
+	public void saveToProblemDetail(String title,UUID PdId) {
+		jdbcTemplate.update("""
+					INSERT INTO problem_detail_problem
+					(problem_detail_id,problem_title) values(?,?)
+				""",PdId,title);
 	}
 
 	public List<Problem> findProblemDetailProblems(UUID id){
@@ -39,6 +36,16 @@ public class ProblemRepo {
 				join problem_detail_problem pdp on p.title = pdp.problem_title
 				where pdp.problem_detail_id = ?
 				""", new ProblemRowMapper(),id);
+	}
+
+	public List<Problem> findAll(){
+		return jdbcTemplate.query(
+				"SELECT * FROM problem", new ProblemRowMapper());
+	}
+
+	public List<String> findAllTitles(){
+		return jdbcTemplate.queryForList(
+				"SELECT p.title FROM problem p",String.class);
 	}
 	
 	public List<ProblemProfile> findProblemsProfiles(String pr,Integer begin,Integer end){
@@ -105,9 +112,13 @@ public class ProblemRepo {
 	}
 
 	public String save(Problem p) {
+		if(p.isPushable()) {
 		jdbcTemplate.update("INSERT INTO problem(title,description) VALUES(?,?)",
 							p.getTitle(),
 							p.getDescription());
 		return p.getTitle();
+		} else {
+			return null;
+		}
 	}
 }

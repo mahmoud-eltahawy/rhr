@@ -19,15 +19,9 @@ public class TotalFlowRepo {
 	private final JdbcTemplate jdbcTemplate;
 	private final MachineRepo machineRepo;
 	
-	public void saveToShift(TotalFlow tf,UUID shiftId) {
-				UUID tId = null;
-				if(tf.getId() != null) {
-					tId = tf.getId();
-				} else {
-					tId = save(tf);
-				}
-				jdbcTemplate.update("INSERT INTO shift_total_flow"
-						+ "(shift_id,total_flow_id) VALUES(?,?)",shiftId,tId);
+	public void saveToShift(UUID tfId,UUID shiftId) {
+		jdbcTemplate.update("INSERT INTO shift_total_flow"
+				+ "(shift_id,total_flow_id) VALUES(?,?)",shiftId,tfId);
 	}
 	
 	public List<TotalFlow> findByShiftId(UUID id){
@@ -65,33 +59,33 @@ public class TotalFlowRepo {
 	}
 
 	public UUID save(TotalFlow tf) {
-		UUID uuid = UUID.randomUUID();
-		jdbcTemplate.update("""
-				INSERT INTO total_flow(id,
-				begin_time, end_time, min_flow, max_flow) 
-				VALUES(?,?,?,?,?)
-				""",uuid,
-				tf.getCaseBeginTime(),
-				tf.getCaseEndTime(),
-				tf.getMinFlow(),
-				tf.getMaxFlow());
-		
-		tf.getSuspendedMachines().forEach(m ->{
+		final UUID uuid;
+		if(tf.isPushable()) {
+			if(tf.getId() != null) {
+				uuid = tf.getId();
+			} else {
+				uuid = UUID.randomUUID();
+			}
 			jdbcTemplate.update("""
-					INSERT INTO total_flow_machine(total_flow_id,machine_id)
-					values(?,?) ON CONFLICT(total_flow_id,machine_id) DO NOTHING
-					""",uuid,m.getId());
-		});
-		return uuid;
+					INSERT INTO total_flow(id,
+					begin_time, end_time, min_flow, max_flow) 
+					VALUES(?,?,?,?,?) ON CONFLICT(id) DO NOTHING
+					""",uuid,
+					tf.getCaseBeginTime(),
+					tf.getCaseEndTime(),
+					tf.getMinFlow(),
+					tf.getMaxFlow());
+			
+			tf.getSuspendedMachines().forEach(m ->machineRepo
+					.saveToTotalFlow(uuid, machineRepo.save(m)));
+			return uuid;
+		} else {
+			return null;
+		}
 	}
 
 	public TotalFlow fullFill(TotalFlow tf) {
-		tf.setSuspendedMachines(jdbcTemplate.queryForList("""
-				SELECT machine_id FROM
-				total_flow_machine where total_flow_id = ?
-				""",UUID.class,tf.getId())
-				.stream().map(uuid -> machineRepo.findById(uuid).orElseThrow())
-				.collect(Collectors.toList()));
+		tf.setSuspendedMachines(machineRepo.findFromTotalFlow(tf.getId()));
 		return tf;
 	}
 }

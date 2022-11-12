@@ -121,8 +121,13 @@ public class ShiftIdRepo {
 		Optional<ShiftId> si;
 		if((si = findById(id.getDate(), id.getShift())).isPresent()) {
 			return si.get().getId();
-		} else {
-			UUID uuid = UUID.randomUUID();
+		} else if(id.isPushable()) {
+			UUID uuid = null;
+			if(id.getId() != null) {
+				uuid = id.getId();
+			} else {
+				uuid = UUID.randomUUID();
+			}
 			jdbcTemplate.update("INSERT INTO shift"
 					+ "(id,shift_order,shift_date) VALUES(?,?,?) "
 					+ "ON CONFLICT (shift_order,shift_date) DO NOTHING",
@@ -131,5 +136,6 @@ public class ShiftIdRepo {
 					id.getDate());
 			return uuid;
 		}
+		return null;
 	}
 }

@@ -20,6 +20,16 @@ public class ProblemDetail {
 	private Machine machine;
 	private Time beginTime;
 	private Time endTime;
+	
+	public Boolean isPushable() {
+		if(machine.isPushable() && beginTime != null && endTime != null && problems != null) {
+			if(problems.size() > 0 && endTime.after(beginTime)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

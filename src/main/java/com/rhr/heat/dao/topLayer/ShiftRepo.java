@@ -125,15 +125,19 @@ public class ShiftRepo {
 		if(theId == null) {
 			return theId;
 		} else {
-			s.getProblems().forEach(p -> problemDetailsRepo.saveToShift(p, theId));
-			s.getEmployees().forEach(e -> employeeRepo.saveToShift(e, theId));
-			s.getTotalFlowAverage().forEach(t -> totalFlowRepo.saveToShift(t, theId));
+			s.getShiftId().setId(theId);
+			s.getProblems().forEach(p -> problemDetailsRepo
+					.saveToShift(problemDetailsRepo.save(p), theId));
+			s.getEmployees().forEach(e -> employeeRepo
+					.saveToShift(employeeRepo.save(e), theId));
+			s.getTotalFlowAverage().forEach(t -> totalFlowRepo
+					.saveToShift(totalFlowRepo.save(t), theId));
 			s.getTemps().forEach(t -> {
-				t.setShiftId(new ShiftId(theId, null, null));
+				t.setShiftId(s.getShiftId());
 				temperatureRepo.save(t);
 			});
 			s.getNotes().forEach(n -> {
-				n.setShiftId(new ShiftId(theId, null, null));
+				n.setShiftId(s.getShiftId());
 				noteRepo.save(n);
 			});
 			return theId;

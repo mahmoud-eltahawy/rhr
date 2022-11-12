@@ -57,15 +57,23 @@ public class NoteRepo {
 	}
 
 	public UUID save(Note note) {
-		UUID theId = UUID.randomUUID();
-		jdbcTemplate.update("""
-				INSERT INTO notes
-				(id,shift_id,note)
-				VALUES(?,?,?) ON CONFLICT(id) DO NOTHING
-				""",theId,
-				note.getShiftId().getId(),
-				note.getNote());
-		return theId;
+		if(note.isPushable()) {
+			UUID theId = null;
+			if(note.getId()!= null) {
+				theId = note.getId();
+			} else {
+				theId = UUID.randomUUID();
+			}
+			jdbcTemplate.update("""
+					INSERT INTO notes
+					(id,shift_id,note)
+					VALUES(?,?,?) ON CONFLICT(id) DO NOTHING
+					""",theId,
+					note.getShiftId().getId(),
+					note.getNote());
+			return theId;
+		}
+		return null;
 	}
 	
 	private Note fullFill(Note note) {

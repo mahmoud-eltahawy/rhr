@@ -21,6 +21,14 @@ public class Employee {
 	private EmployeePosition position;
 	private String username;
 	private String password;
+	
+	public Boolean isPushable() {
+		if(firstName != null && middleName != null && lastName != null &&
+				position != null && username != null && password != null) {
+			return true;
+		}
+		return false;
+	}
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

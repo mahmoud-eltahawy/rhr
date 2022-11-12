@@ -25,31 +25,40 @@ public class Shift {
 	private List<Note> notes;
 	
 	public Boolean isPushable() {
-		if(shiftId == null) {
-			return false;
+		if(shiftId != null && problems != null && employees != null &&
+				totalFlowAverage != null && temps != null && notes != null) {
+			if(!shiftId.isPushable()) {
+				return false;
+			} 
+			for (Employee employee : employees) {
+				if(!employee.isPushable()) {
+					return false;
+				}
+			}
+			for (ProblemDetail pd : problems) {
+				if(!pd.isPushable()) {
+					return false;
+				}
+			}
+			for (TotalFlow tf : totalFlowAverage) {
+				if(!tf.isPushable()) {
+					return false;
+				}
+			}
+			for (Temperature tmp :temps) {
+				if(!tmp.isPushable()) {
+					return false;
+				}
+			}
+			for (Note n: notes) {
+				if(!n.isPushable()) {
+					return false;
+				}
+			}
+			if(employees.size() > 0 && totalFlowAverage.size()> 0 && temps.size() > 0) {
+				return true;
+			}
 		}
-		if(shiftId.getDate() == null || shiftId.getShift() == null) {
-			return false;
-		}
-		if(employees == null) {
-			return false;
-		}
-		if(employees.size() == 0) {
-			return false;
-		}
-		if(totalFlowAverage == null) {
-			return false;
-		}
-		if(totalFlowAverage.size() == 0) {
-			return false;
-		}
-		if(temps == null) {
-			return false;
-		}
-		if(temps == null) {
-			return false;
-		}
-		return true;
+		return false;
 	}
-
 }

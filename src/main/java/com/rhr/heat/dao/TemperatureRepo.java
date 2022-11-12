@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.rhr.heat.dao.rowMappers.TemperatureRowMapper;
+import com.rhr.heat.entity.Machine;
+import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.Temperature;
 
 import lombok.RequiredArgsConstructor;
@@ -76,22 +78,35 @@ public class TemperatureRepo {
 	}
 
 	public UUID save(Temperature temperature) {
-		UUID theId = UUID.randomUUID();
-		jdbcTemplate.update("""
-				INSERT INTO temperature
-				(id,shift_id,machine_id,max_temp,min_temp)
-				VALUES(?,?,?,?,?) ON CONFLICT(id) DO NOTHING
-				""",theId,
-				temperature.getShiftId().getId(),
-				temperature.getMachine().getId(),
-				temperature.getMax(),
-				temperature.getMin());
-		return theId;
+		if(temperature.isPushable()) {
+			UUID theId = null;
+			if(temperature.getId() != null) {
+				theId = temperature.getId();
+			} else {
+				theId = UUID.randomUUID();
+			}
+			jdbcTemplate.update("""
+					INSERT INTO temperature
+					(id,shift_id,machine_id,max_temp,min_temp)
+					VALUES(?,?,?,?,?) ON CONFLICT(id) DO NOTHING
+					""",theId,
+					shiftIdRepo.save(temperature.getShiftId()),
+					machineRepo.save(temperature.getMachine()),
+					temperature.getMax(),
+					temperature.getMin());
+			return theId;
+		}
+		return null;
 	}
 	
 	private Temperature fullFill(Temperature temp) {
-		temp.setShiftId(shiftIdRepo.findById(temp.getShiftId().getId()).get());
-		temp.setMachine(machineRepo.findById(temp.getMachine().getId()).get());
-		return temp;
+		Optional<ShiftId> shiftId = shiftIdRepo.findById(temp.getShiftId().getId());
+		Optional<Machine> machine = machineRepo.findById(temp.getMachine().getId());
+		if(shiftId.isPresent() && machine.isPresent()) {
+			temp.setShiftId(shiftId.get());
+			temp.setMachine(machine.get());
+			return temp;
+		}
+		return null;
 	}
 }

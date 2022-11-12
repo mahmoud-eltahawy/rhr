@@ -13,4 +13,11 @@ public class Note {
 	private UUID id;
 	private ShiftId shiftId;
 	private String note;
+	
+	public Boolean isPushable() {
+		if(shiftId.getId() != null && note != null) {
+			return true;
+		}
+		return false;
+	}
 }

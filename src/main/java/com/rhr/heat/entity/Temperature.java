@@ -15,4 +15,13 @@ public class Temperature {
 	private Machine machine;
 	private Integer max;
 	private Integer min;
+	
+	public Boolean isPushable() {
+		if(shiftId != null && machine != null && max != null && min != null) {
+			if(shiftId.isPushable() && machine.isPushable() && max >= min) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

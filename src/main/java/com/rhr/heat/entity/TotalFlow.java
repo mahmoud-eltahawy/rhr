@@ -21,6 +21,21 @@ public class TotalFlow {
 	private Integer maxFlow;
 	private Time caseBeginTime;
 	private Time caseEndTime;
+	
+	public Boolean isPushable() {
+		if(suspendedMachines != null && minFlow != null &&
+				maxFlow != null && caseBeginTime != null && caseEndTime != null) {
+			for(Machine m : suspendedMachines) {
+				if(!m.isPushable()) {
+					return false;
+				}
+			}
+			if(maxFlow > minFlow) {
+				return true;
+			}
+		}
+		return false;
+	}
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

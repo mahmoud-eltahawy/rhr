@@ -19,6 +19,13 @@ public class ShiftId {
 	private Date date;
 	private ShiftOrder shift;
 	
+	public Boolean isPushable() {
+		if(date != null && shift != null) {
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
