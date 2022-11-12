@@ -55,13 +55,7 @@ public class ReportController {
 			@RequestParam("beginTime")String beginTime,
 			@RequestParam("endTime")String endTime) {
 		
-		ProblemDetail pd = new ProblemDetail(null,
-				problems.stream().map(p -> new Problem(p,null))
-				.collect(Collectors.toList()),
-				new Machine(null, category, number),
-				Tools.getTime(beginTime),
-				Tools.getTime(endTime));
-		service.addProblem(pd);
+		service.reportProblem(category, number, problems, beginTime, endTime);
 		return "redirect:/report/";
 	}
 

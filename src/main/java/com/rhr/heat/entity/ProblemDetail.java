@@ -23,7 +23,7 @@ public class ProblemDetail {
 	
 	public Boolean isPushable() {
 		if(machine.isPushable() && beginTime != null && endTime != null && problems != null) {
-			if(problems.size() > 0 && endTime.after(beginTime)) {
+			if(problems.size() > 0 && endTime.before(beginTime)) {
 				return true;
 			}
 		}

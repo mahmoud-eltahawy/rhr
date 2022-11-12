@@ -1,17 +1,22 @@
 package com.rhr.heat.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.rhr.heat.Tools;
 import com.rhr.heat.dao.EmployeeRepo;
+import com.rhr.heat.dao.MachineRepo;
 import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.dao.topLayer.ShiftRepo;
 import com.rhr.heat.entity.Employee;
+import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Note;
+import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.Temperature;
@@ -27,6 +32,7 @@ public class ReportService {
 	private final ShiftRepo shiftRepo;
 	private final EmployeeRepo employeeRepo;
 	private final ProblemRepo problemRepo;
+	private final MachineRepo machineRepo;
 	
 	public void save() {
 		Shift s = getCurrentShift();
@@ -73,7 +79,41 @@ public class ReportService {
 		return oldShift;
 	}
 	
-	public Shift addProblem(ProblemDetail problemDetail) {
+	
+	public String reportProblem(String category,Integer number,
+			List<String> problems,String beginTime,String endTime) {
+		ProblemDetail pd = new ProblemDetail();
+		pd.setId(UUID.randomUUID());
+		Optional<Machine> machine = machineRepo.findByTheId(category,number);
+		if(machine.isPresent()) {
+			if(machine.get().isPushable()) {
+				System.out.println(machine.get().getCategory() +" pass");
+				pd.setMachine(machine.get());
+			}
+		}
+		pd.setBeginTime(Tools.getTime(beginTime));
+		pd.setEndTime(Tools.getTime(endTime));
+		List<Problem> pbs = new ArrayList<>();
+		for (String p : problems) {
+			Optional<Problem> pr = problemRepo.findByTitle(p);
+			if(pr.isPresent()) {
+				if(pr.get().isPushable()) {
+					System.out.println(pr.get().getTitle()+" pass");
+					pbs.add(pr.get());
+				}
+			}
+		}
+		pd.setProblems(pbs);
+		if(pd.isPushable()) {
+			System.out.println("final pass");
+			addProblem(pd);
+			return "problems "+pbs.toString()+" on machine "+category+" "+number+" stored succesfully";
+		} else {
+			return "problem is unvalid";
+		}
+	}
+	
+	private Shift addProblem(ProblemDetail problemDetail) {
 		Shift oldShift = tool.getCurrentShift();
 		oldShift.setProblems(tool.addTo(problemDetail, oldShift.getProblems()));
 		tool.writeShift(oldShift);
