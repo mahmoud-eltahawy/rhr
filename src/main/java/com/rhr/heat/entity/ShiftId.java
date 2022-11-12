@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import com.rhr.heat.Tools;
+import com.rhr.heat.GF;
 import com.rhr.heat.enums.Pushable;
 import com.rhr.heat.enums.ShiftOrder;
 
@@ -45,7 +45,7 @@ public class ShiftId {
 		if (getClass() != obj.getClass())
 			return false;
 		ShiftId other = (ShiftId) obj;
-		return Tools.equals(date, other.date) && shift == other.shift;
+		return GF.equals(date, other.date) && shift == other.shift;
 	}
 	@Override
 	public int hashCode() {

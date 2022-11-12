@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -162,42 +161,4 @@ public class Tools {
 		return list;
 	}
 	
-	public static Boolean equals(Time one,Time two) {
-		Calendar calOne = Calendar.getInstance();
-		calOne.setTimeInMillis(one.getTime());
-		Calendar calTwo = Calendar.getInstance();
-		calTwo.setTimeInMillis(two.getTime());
-		
-		if(calOne.get(Calendar.HOUR) == calTwo.get(Calendar.HOUR) &
-				calOne.get(Calendar.MINUTE) == calTwo.get(Calendar.MINUTE) &
-				calOne.get(Calendar.SECOND) == calTwo.get(Calendar.SECOND) &
-				calOne.get(Calendar.MILLISECOND) == calTwo.get(Calendar.MILLISECOND)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public static Boolean equals(Date one,Date two) {
-		Calendar calOne = Calendar.getInstance();
-		calOne.setTimeInMillis(one.getTime());
-		Calendar calTwo = Calendar.getInstance();
-		calTwo.setTimeInMillis(two.getTime());
-		
-		if(calOne.get(Calendar.YEAR) == calTwo.get(Calendar.YEAR) &
-				calOne.get(Calendar.MONTH) == calTwo.get(Calendar.MONTH) &
-				calOne.get(Calendar.DAY_OF_MONTH) == calTwo.get(Calendar.DAY_OF_MONTH)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public static Time getTime(String str) {
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.HOUR, Integer.parseInt(str.substring(0, 2)));
-		cal.set(Calendar.MINUTE, Integer.parseInt(str.substring(3)));
-		cal.set(Calendar.SECOND, 0);
-		return new Time(cal.getTimeInMillis());
-	}
 }

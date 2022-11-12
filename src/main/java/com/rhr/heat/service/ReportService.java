@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.rhr.heat.GF;
 import com.rhr.heat.Tools;
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.MachineRepo;
@@ -77,8 +78,8 @@ public class ReportService {
 				messageParams.addAll(machine.get().isPushable());
 			}
 		}
-		pd.setBeginTime(Tools.getTime(beginTime));
-		pd.setEndTime(Tools.getTime(endTime));
+		pd.setBeginTime(GF.getTime(beginTime));
+		pd.setEndTime(GF.getTime(endTime));
 		List<Problem> pbs = new ArrayList<>();
 		for (String p : problems) {
 			Optional<Problem> pr = problemRepo.findByTitle(p);

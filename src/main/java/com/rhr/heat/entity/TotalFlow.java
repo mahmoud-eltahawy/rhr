@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import com.rhr.heat.Tools;
+import com.rhr.heat.GF;
 import com.rhr.heat.enums.Pushable;
 
 import lombok.AllArgsConstructor;
@@ -65,8 +65,8 @@ public class TotalFlow {
 		if (getClass() != obj.getClass())
 			return false;
 		TotalFlow other = (TotalFlow) obj;
-		return Tools.equals(caseBeginTime, other.caseBeginTime) &&
-				Tools.equals(caseEndTime, other.caseEndTime);
+		return GF.equals(caseBeginTime, other.caseBeginTime) &&
+				GF.equals(caseEndTime, other.caseEndTime);
 	}
 	@Override
 	public int hashCode() {

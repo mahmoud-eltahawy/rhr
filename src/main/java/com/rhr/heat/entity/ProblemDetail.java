@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import com.rhr.heat.Tools;
+import com.rhr.heat.GF;
 import com.rhr.heat.enums.Pushable;
 
 import lombok.AllArgsConstructor;
@@ -63,8 +63,8 @@ public class ProblemDetail {
 		if (getClass() != obj.getClass())
 			return false;
 		ProblemDetail other = (ProblemDetail) obj;
-		return Tools.equals(beginTime, other.beginTime) &&
-				Tools.equals(endTime, other.endTime)
+		return GF.equals(beginTime, other.beginTime) &&
+				GF.equals(endTime, other.endTime)
 				&& machine.equals(other.machine) && Objects.equals(problems, other.problems);
 	}
 	@Override

@@ -1,9 +1,11 @@
 const jsonMap = new Map(Object.entries(JSON.parse(document.getElementById("catsContainer").innerText)))
 
-let url_string = window.location.href
-let url = new URL(url_string)
-let message = url.searchParams.get("message")
-document.getElementById("messager").innerText = message
+
+function addMessage(){
+document.getElementById("messager")
+        .innerText = new URL(window.location.href)
+    .searchParams.get("message")
+}
 
 
 function replaceForm(machine,number,fieldId){
@@ -63,7 +65,6 @@ function addButtons(){
   document.getElementById("add-problem-field").innerHTML = btnString
 }
 
-addButtons()
 
 function toggle(id) {
   const x = document.getElementById(id);
@@ -73,3 +74,52 @@ function toggle(id) {
     x.style.display = "none";
   }
 }
+
+function getCategoriesContainers(){
+  const mList = new Map()
+  for (const [k,v] of jsonMap) {
+    mList.set(`${k}-btns-container`,{vsize: v.length, catnum:{cat: k,num: 0}})
+  }
+  return mList
+}
+
+function getCategoriesNumbersContainers(){
+  const mList = new Map()
+  for (let h of jsonMap.keys()) {
+    for(let m of jsonMap.get(h).keys()){
+      mList.set(`${h}-${m+1}-btns-container`,{cat : h, num: m+1})
+    }
+  }
+  return mList
+}
+
+function addPlusMinusButtons(element,catnum){
+  if(element != null){
+    element.innerHTML = `
+                      <button class="mini-button"
+                          onclick="replaceForm('${catnum.cat}',
+                                '${catnum.num}','${catnum.cat}-${catnum.num}-show')">+
+                      </button>
+                      <button class="mini-button">-</button>
+                      `
+  }
+}
+
+function addCategoriesNumbersButtons(){
+  for(const [key,value] of getCategoriesNumbersContainers()){
+    addPlusMinusButtons(document.getElementById(key),value)
+  }
+}
+
+function addCategoriesButtons(){
+  for(const [key,value] of getCategoriesContainers()){
+    if(value.vsize == 1){
+      addPlusMinusButtons(document.getElementById(key),value.catnum)
+    }
+  }
+}
+
+addMessage()
+addButtons()
+addCategoriesButtons()
+addCategoriesNumbersButtons()

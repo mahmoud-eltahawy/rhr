@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.rhr.heat.Tools;
+import com.rhr.heat.GF;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Note;
@@ -32,7 +32,8 @@ public class ReportController {
 	private final ReportControllerDealer dealer;
 
 	@RequestMapping("/")
-	public ModelAndView reportPage(@PathVariable(name = "message",required = false)String message) {
+	public ModelAndView reportPage(
+			@PathVariable(name = "message",required = false)String message) {
 		ModelAndView mv = new ModelAndView();
 		Shift shift = service.getCurrentShift();
 		mv = dealer.completeShift(mv, shift);
@@ -69,8 +70,8 @@ public class ReportController {
 		TotalFlow tf = new TotalFlow(null,
 				machines,
 				min, max,
-				Tools.getTime(beginTime),
-				Tools.getTime(endTime));
+				GF.getTime(beginTime),
+				GF.getTime(endTime));
 		service.addTotalFlow(tf);
 		return "redirect:/report/";
 	}
