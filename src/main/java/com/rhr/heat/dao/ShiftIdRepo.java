@@ -121,7 +121,7 @@ public class ShiftIdRepo {
 		Optional<ShiftId> si;
 		if((si = findById(id.getDate(), id.getShift())).isPresent()) {
 			return si.get().getId();
-		} else if(id.isPushable()) {
+		} else if(id.isPushable().isEmpty()) {
 			UUID uuid = null;
 			if(id.getId() != null) {
 				uuid = id.getId();

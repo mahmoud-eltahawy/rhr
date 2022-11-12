@@ -1,10 +1,13 @@
 package com.rhr.heat.entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 import com.rhr.heat.Tools;
+import com.rhr.heat.enums.Pushable;
 import com.rhr.heat.enums.ShiftOrder;
 
 import lombok.AllArgsConstructor;
@@ -19,11 +22,18 @@ public class ShiftId {
 	private Date date;
 	private ShiftOrder shift;
 	
-	public Boolean isPushable() {
-		if(date != null && shift != null) {
-			return true;
+	public List<Pushable> isPushable() {
+		List<Pushable> canPush = new ArrayList<>();
+		if(date == null) {
+			canPush.add(Pushable.SHIFT_DATE_IS_NULL);
 		}
-		return false;
+		if(shift == null) {
+			canPush.add(Pushable.SHIFT_ORDER_IS_NULL);
+		}
+		if(id == null) {
+			canPush.add(Pushable.SHIFT_ID_IS_NULL);
+		}
+		return canPush;
 	}
 	
 	@Override

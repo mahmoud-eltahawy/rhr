@@ -68,7 +68,7 @@ public class ProblemDetailsRepo {
 
 	public UUID save(ProblemDetail pd) {
 		final UUID uuid;
-		if(pd.isPushable()) {
+		if(pd.isPushable().isEmpty()) {
 			if(pd.getId() != null) {
 				uuid = pd.getId();
 			} else {

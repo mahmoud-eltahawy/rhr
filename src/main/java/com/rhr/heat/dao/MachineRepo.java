@@ -90,7 +90,7 @@ public class MachineRepo {
 		Optional<Machine> m;
 		if((m =findByTheId(machine.getCategory(),machine.getNumber())).isPresent()) {
 			return m.get().getId();
-		} else if(machine.isPushable()) {
+		} else if(machine.isPushable().isEmpty()) {
 			UUID uuid = null;
 			if(machine.getId() != null) {
 				uuid = machine.getId();

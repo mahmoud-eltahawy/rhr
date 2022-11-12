@@ -57,7 +57,7 @@ public class NoteRepo {
 	}
 
 	public UUID save(Note note) {
-		if(note.isPushable()) {
+		if(note.isPushable().isEmpty()) {
 			UUID theId = null;
 			if(note.getId()!= null) {
 				theId = note.getId();

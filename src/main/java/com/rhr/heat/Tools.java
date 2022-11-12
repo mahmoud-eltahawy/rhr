@@ -197,6 +197,7 @@ public class Tools {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.HOUR, Integer.parseInt(str.substring(0, 2)));
 		cal.set(Calendar.MINUTE, Integer.parseInt(str.substring(3)));
+		cal.set(Calendar.SECOND, 0);
 		return new Time(cal.getTimeInMillis());
 	}
 }

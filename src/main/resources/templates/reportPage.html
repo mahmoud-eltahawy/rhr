@@ -11,12 +11,12 @@
 	<body>
 		<div id="catsContainer" th:text="${catValue}" class="ghost">[]</div>
 		<div id="problemsContainer" th:text="${problemsValue}" class="ghost">[]</div>
-		<div id="messager">static message</div>
 		<p th:object="${theId}" class="short-important-p">
 			Shift: <span th:text="*{shift}">order</span>
 			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 			Date: <span th:text="*{date}">the date</span>
-		</p><br>
+		</p>
+		<p id="messager" class="short-important-p">static message</p>
 		<button th:if="${cats}==null" class="notsub"  onclick="toggle('add-problem-field')">ADD PROBLEM</button>
 		<div id="add-problem-field" class="ghost top-bottom-border"></div>
 		<div th:unless="${cats}==null">

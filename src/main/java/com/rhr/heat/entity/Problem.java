@@ -1,5 +1,10 @@
 package com.rhr.heat.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.rhr.heat.enums.Pushable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,10 +16,14 @@ public class Problem {
 	private String title;
 	private String description;
 	
-	public Boolean isPushable() {
-		if(title != null && description != null) {
-			return true;
+	public List<Pushable> isPushable() {
+		List<Pushable> canPush = new ArrayList<>();
+		if(title == null) {
+			canPush.add(Pushable.PROBLEM_TITLE_IS_NULL);
 		}
-		return false;
+		if(description == null) {
+			canPush.add(Pushable.PROBLEM_DESCRIPTION_IS_NULL);
+		}
+		return canPush;
 	}
 }

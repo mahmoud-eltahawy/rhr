@@ -60,7 +60,7 @@ public class TotalFlowRepo {
 
 	public UUID save(TotalFlow tf) {
 		final UUID uuid;
-		if(tf.isPushable()) {
+		if(tf.isPushable().isEmpty()) {
 			if(tf.getId() != null) {
 				uuid = tf.getId();
 			} else {

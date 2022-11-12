@@ -78,7 +78,7 @@ public class TemperatureRepo {
 	}
 
 	public UUID save(Temperature temperature) {
-		if(temperature.isPushable()) {
+		if(temperature.isPushable().isEmpty()) {
 			UUID theId = null;
 			if(temperature.getId() != null) {
 				theId = temperature.getId();

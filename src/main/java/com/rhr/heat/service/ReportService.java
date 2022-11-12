@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -22,6 +21,7 @@ import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.entity.topLayer.Shift;
+import com.rhr.heat.enums.Pushable;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,10 +36,7 @@ public class ReportService {
 	
 	public void save() {
 		Shift s = getCurrentShift();
-		s.setEmployees(s.getEmployees().stream()
-				.map(e -> employeeRepo.findByUsername(e.getUsername()).orElseThrow())
-				.collect(Collectors.toList()));
-		if(s.isPushable()) {
+		if(s.isPushable().isEmpty()) {
 			shiftRepo.save(s);
 		}
 	}
@@ -61,7 +58,7 @@ public class ReportService {
 	
 	public Shift saveShift() {
 		Shift oldShift = tool.getCurrentShift();
-		if(oldShift.isPushable()) {
+		if(oldShift.isPushable().isEmpty()) {
 			shiftRepo.save(oldShift);
 		}
 		return oldShift;
@@ -69,13 +66,15 @@ public class ReportService {
 	
 	public String reportProblem(String category,Integer number,
 			List<String> problems,String beginTime,String endTime) {
+		List<Pushable> messageParams = new ArrayList<>();
 		ProblemDetail pd = new ProblemDetail();
 		pd.setId(UUID.randomUUID());
 		Optional<Machine> machine = machineRepo.findByTheId(category,number);
 		if(machine.isPresent()) {
-			if(machine.get().isPushable()) {
-				System.out.println(machine.get().getCategory() +" pass");
+			if(machine.get().isPushable().isEmpty()) {
 				pd.setMachine(machine.get());
+			} else {
+				messageParams.addAll(machine.get().isPushable());
 			}
 		}
 		pd.setBeginTime(Tools.getTime(beginTime));
@@ -84,19 +83,20 @@ public class ReportService {
 		for (String p : problems) {
 			Optional<Problem> pr = problemRepo.findByTitle(p);
 			if(pr.isPresent()) {
-				if(pr.get().isPushable()) {
-					System.out.println(pr.get().getTitle()+" pass");
+				if(pr.get().isPushable().isEmpty()) {
 					pbs.add(pr.get());
+				} else {
+					messageParams.addAll(pr.get().isPushable());
 				}
 			}
 		}
 		pd.setProblems(pbs);
-		if(pd.isPushable()) {
-			System.out.println("final pass");
+		if(pd.isPushable().isEmpty()) {
 			addProblem(pd);
 			return "problems stored succesfully";
 		} else {
-			return "problem is unvalid";
+			messageParams.addAll(pd.isPushable());
+			return "failed beacause of "+ messageParams.get(0);
 		}
 	}
 	

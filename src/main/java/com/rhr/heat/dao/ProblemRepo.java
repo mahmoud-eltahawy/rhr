@@ -112,7 +112,7 @@ public class ProblemRepo {
 	}
 
 	public String save(Problem p) {
-		if(p.isPushable()) {
+		if(p.isPushable().isEmpty()) {
 		jdbcTemplate.update("INSERT INTO problem(title,description) VALUES(?,?)",
 							p.getTitle(),
 							p.getDescription());

@@ -1,7 +1,11 @@
 package com.rhr.heat.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+
+import com.rhr.heat.enums.Pushable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,11 +19,15 @@ public class Machine {
 	private String category;
 	private Integer number;
 	
-	public Boolean isPushable() {
-		if(category != null && number != null) {
-			return true;
+	public List<Pushable> isPushable() {
+		List<Pushable> canPush = new ArrayList<>();
+		if(category == null) {
+			canPush.add(Pushable.MACHINE_CATEGORY_NULL);
 		}
-		return false;
+		if(number == null) {
+			canPush.add(Pushable.MACHINE_NUMBER_NULL);
+		}
+		return canPush;
 	}
 	@Override
 	public boolean equals(Object obj) {

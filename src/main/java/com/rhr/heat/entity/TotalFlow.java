@@ -1,11 +1,13 @@
 package com.rhr.heat.entity;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 import com.rhr.heat.Tools;
+import com.rhr.heat.enums.Pushable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,19 +24,37 @@ public class TotalFlow {
 	private Time caseBeginTime;
 	private Time caseEndTime;
 	
-	public Boolean isPushable() {
-		if(suspendedMachines != null && minFlow != null &&
-				maxFlow != null && caseBeginTime != null && caseEndTime != null) {
-			for(Machine m : suspendedMachines) {
-				if(!m.isPushable()) {
-					return false;
+	public List<Pushable> isPushable() {
+		List<Pushable> canPush = new ArrayList<>();
+		if(suspendedMachines != null) {
+			if(suspendedMachines.size() != 0) {
+				for(Machine m : suspendedMachines) {
+					canPush.addAll(m.isPushable());
 				}
+			} else {
+				canPush.add(Pushable.TOTAL_FLOW_MACHINE_LIST_IS_EMPTY);
 			}
+		} else {
+			canPush.add(Pushable.TOTAL_FLOW_MACHINE_LIST_IS_NULL);
+		}
+		if(minFlow == null) {
+			canPush.add(Pushable.TOTAL_FLOW_MIN_IS_NULL);
+		}
+		if(maxFlow == null) {
+			canPush.add(Pushable.TOTAL_FLOW_MAX_IS_NULL);
+		}
+		if(caseBeginTime == null) {
+			canPush.add(Pushable.TOTAL_FLOW_BEGIN_TIME_IS_NULL);
+		}
+		if(caseEndTime == null) {
+			canPush.add(Pushable.TOTAL_FLOW_END_TIME_IS_NULL);
+		}
+		if(maxFlow != null && minFlow != null) {
 			if(maxFlow > minFlow) {
-				return true;
+				canPush.add(Pushable.TOTAL_FLOW_MAX_LESS_THAN_MIN);
 			}
 		}
-		return false;
+		return canPush;
 	}
 	@Override
 	public boolean equals(Object obj) {

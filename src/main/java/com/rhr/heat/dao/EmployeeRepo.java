@@ -112,7 +112,7 @@ public class EmployeeRepo{
 		Optional<Employee> e;
 		if((e =findByUsername(emp.getUsername())).isPresent()) {
 			return e.get().getId();
-		} else if(emp.isPushable()) {
+		} else if(emp.isPushable().isEmpty()) {
 			UUID uuid = null;
 			if(emp.getId() != null) {
 				uuid =emp.getId();
