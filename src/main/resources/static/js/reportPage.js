@@ -1,6 +1,5 @@
 const jsonMap = new Map(Object.entries(JSON.parse(document.getElementById("catsContainer").innerText)))
 
-
 function addMessage(){
 document.getElementById("messager")
         .innerText = new URL(window.location.href)

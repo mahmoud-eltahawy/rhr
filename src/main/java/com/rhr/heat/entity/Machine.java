@@ -19,6 +19,9 @@ public class Machine {
 	private String category;
 	private Integer number;
 	
+	public String name() {
+		return category+" "+number;
+	}
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();
 		if(category == null) {

@@ -94,10 +94,10 @@ public class ReportService {
 		pd.setProblems(pbs);
 		if(pd.isPushable().isEmpty()) {
 			addProblem(pd);
-			return "problems stored succesfully";
+			return pd.getMachine().name()+" problem stored succesfully";
 		} else {
 			messageParams.addAll(pd.isPushable());
-			return "failed beacause of "+ messageParams.get(0);
+			return "failed to store "+ pd.getMachine().name()+" problem beacause of "+ messageParams.get(0);
 		}
 	}
 	
