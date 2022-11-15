@@ -1,18 +1,27 @@
 "use strict";
-function togglingButtons() {
+(function () {
     const allButtons = document.getElementsByTagName("button");
     for (let i = 0; i < allButtons.length; i++) {
-        allButtons[i].addEventListener("click", function () {
-            const x = document.getElementById(allButtons[i].getAttribute("id").slice(0, -4));
-            if (x != null) {
-                if (x.style.display === "none") {
-                    x.style.display = "block";
+        const btn = allButtons[i];
+        btn.addEventListener("click", function () {
+            const btnId = btn.getAttribute("id");
+            if (btnId) {
+                const targetElement = document.getElementById(btnId.slice(0, -4));
+                if (targetElement) {
+                    if (targetElement.style.display === "none") {
+                        targetElement.style.display = "block";
+                    }
+                    else {
+                        targetElement.style.display = "none";
+                    }
                 }
                 else {
-                    x.style.display = "none";
+                    throw new Error(`target with the id ${targetElement} is null`);
                 }
+            }
+            else {
+                throw new Error(`button with the id ${btnId} is null`);
             }
         });
     }
-}
-togglingButtons();
+})();
