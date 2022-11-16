@@ -28,7 +28,7 @@ public class ReportControllerDealer {
 		mv.addObject("theId",shift.getShiftId());
 		mv.addObject("catValue",new Gson().toJson(service.getStandardCategoryNums()));
 		mv.addObject("problemsValue",new Gson().toJson(problemRepo.findAllTitles()));
-		mv.addObject("pushable", shift.isPushable());
+		mv.addObject("pushable", shift.isPushable().isEmpty());
 		if(!cats.isEmpty()) {
 			mv.addObject("cats",cats);
 		} else {

@@ -2,27 +2,36 @@ package com.rhr.heat.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 import com.rhr.heat.enums.EmployeePosition;
 import com.rhr.heat.enums.Pushable;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-public class Employee {
-	private UUID id;
+public class Employee extends Identity {
 	private String firstName;
 	private String middleName;
 	private String lastName;
 	private EmployeePosition position;
 	private String username;
 	private String password;
+	
+	public Employee(UUID id, String firstName, String middleName, String lastName, EmployeePosition position,
+			String username, String password) {
+		super(id);
+		this.firstName = firstName;
+		this.middleName = middleName;
+		this.lastName = lastName;
+		this.position = position;
+		this.username = username;
+		this.password = password;
+	}
 	
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();
@@ -45,20 +54,5 @@ public class Employee {
 			canPush.add(Pushable.EMPLOYEE_PASSWORD_NULL);
 		}
 		return canPush;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Employee other = (Employee) obj;
-		return Objects.equals(username, other.username);
-	}
-	@Override
-	public int hashCode() {
-		return Objects.hash(username);
 	}
 }

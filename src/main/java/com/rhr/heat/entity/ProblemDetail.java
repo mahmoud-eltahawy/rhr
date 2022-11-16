@@ -3,25 +3,30 @@ package com.rhr.heat.entity;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
-import com.rhr.heat.GF;
 import com.rhr.heat.enums.Pushable;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-public class ProblemDetail {
-	private UUID id;
+public class ProblemDetail extends Identity {
 	private List<Problem> problems;
 	private Machine machine;
 	private Time beginTime;
 	private Time endTime;
+
+	public ProblemDetail(UUID id, List<Problem> problems, Machine machine, Time beginTime, Time endTime) {
+		super(id);
+		this.problems = problems;
+		this.machine = machine;
+		this.beginTime = beginTime;
+		this.endTime = endTime;
+	}
 	
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();
@@ -52,23 +57,5 @@ public class ProblemDetail {
 			}
 		}
 		return canPush;
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ProblemDetail other = (ProblemDetail) obj;
-		return GF.equals(beginTime, other.beginTime) &&
-				GF.equals(endTime, other.endTime)
-				&& machine.equals(other.machine) && Objects.equals(problems, other.problems);
-	}
-	@Override
-	public int hashCode() {
-		return Objects.hash(beginTime, endTime, machine, problems);
 	}
 }

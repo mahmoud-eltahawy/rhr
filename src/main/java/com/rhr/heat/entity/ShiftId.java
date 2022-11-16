@@ -3,24 +3,27 @@ package com.rhr.heat.entity;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
-import com.rhr.heat.GF;
 import com.rhr.heat.enums.Pushable;
 import com.rhr.heat.enums.ShiftOrder;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-public class ShiftId {
-	private UUID id;
+public class ShiftId extends Identity {
 	private Date date;
 	private ShiftOrder shift;
+
+	public ShiftId(UUID id, Date date, ShiftOrder shift) {
+		super(id);
+		this.date = date;
+		this.shift = shift;
+	}
 	
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();
@@ -34,21 +37,5 @@ public class ShiftId {
 			canPush.add(Pushable.SHIFT_ID_IS_NULL);
 		}
 		return canPush;
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ShiftId other = (ShiftId) obj;
-		return GF.equals(date, other.date) && shift == other.shift;
-	}
-	@Override
-	public int hashCode() {
-		return Objects.hash(date, shift);
 	}
 }

@@ -6,17 +6,22 @@ import java.util.UUID;
 
 import com.rhr.heat.enums.Pushable;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-public class Note {
-	private UUID id;
+public class Note extends Identity {
 	private ShiftId shiftId;
 	private String note;
+
+	public Note(UUID id, ShiftId shiftId, String note) {
+		super(id);
+		this.shiftId = shiftId;
+		this.note = note;
+	}
 	
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();

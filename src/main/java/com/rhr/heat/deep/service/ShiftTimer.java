@@ -1,65 +1,23 @@
-package com.rhr.heat;
+package com.rhr.heat.deep.service;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Component;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
+import com.rhr.heat.entity.Identity;
 import com.rhr.heat.entity.ShiftId;
-import com.rhr.heat.entity.topLayer.Shift;
 import com.rhr.heat.enums.ShiftOrder;
 
-import lombok.RequiredArgsConstructor;
-
 @Component
-@RequiredArgsConstructor
-public class Tools {
-	private final Map<String, File> dataFiles;
+public class ShiftTimer {
 	
-	public Shift getCurrentShift() {
-		Shift currentShift = null;
-		try {
-			FileReader fr = new FileReader(dataFiles.get("currentShift"));
-			Gson gson = new Gson();
-			currentShift = gson.fromJson(fr, Shift.class);
-			if(replaceShift(currentShift)) {
-				FileWriter fw = new FileWriter(dataFiles.get("currentShift"));
-				currentShift = new Shift();
-				currentShift.setShiftId(thisShift());
-				gson.toJson(currentShift,fw);
-				fw.close();
-			}
-			//TODO what if the id is different
-			fr.close();
-		} catch (JsonSyntaxException | JsonIOException  | IOException e) {
-			e.printStackTrace();
-		}
-		return currentShift;
-	}
-	public Boolean replaceShift(Shift currentShift) {
-		if(currentShift == null )  {
-			return true;
-		} 
-		if(!currentShift.getShiftId().equals(thisShift())) {
-			return true;
-		}
-		return false;
-	}
-	
-	public ShiftId thisShift() {
+	public ShiftId currentShiftId() {
 			   if(workNow().after(shiftBegin(ShiftOrder.FIRST)) &
 				workNow().before(shiftBegin(ShiftOrder.SECOND))) {
 			return new ShiftId(null, new Date(workNow().getTime()), ShiftOrder.FIRST);
@@ -116,28 +74,16 @@ public class Tools {
 		return now;
 	}
 	
-	public void writeShift(Shift shift) {
-		try {
-			FileWriter fw = new FileWriter(dataFiles.get("currentShift"));
-			new Gson().toJson(shift,fw);
-			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public <T> Boolean exists(T comparable ,List<T> comparables){
-		Boolean exists = false;
+	public <T extends Identity> Boolean exists(T comparable ,List<T> comparables){
 		for (T c : comparables) {
-			if(c.equals(comparable)) {
-				exists = true;
-				break;
+			if(c.getId().equals(comparable.getId())) {
+				return true;
 			}
 		}
-		return exists;
+		return false;
 	}
 	
-	public <T> List<T> addTo(T element ,List<T> list){
+	public <T extends Identity> List<T> addTo(T element ,List<T> list){
 		if(list == null) {
 			list =new ArrayList<>();
 			list.add(element);
@@ -149,16 +95,15 @@ public class Tools {
 		return list;
 	}
 	
-	public <T> List<T> removeFrom(T element ,List<T> list){
+	public <T extends Identity> List<T> removeFrom(T element ,List<T> list){
 		if(list != null) {
 			Iterator<T> it = list.iterator();
 			while(it.hasNext()) {
-				if(it.next().equals(element)) {
+				if(it.next().getId().equals(element.getId())) {
 					it.remove();
 				}
 			}
 		}	
 		return list;
 	}
-	
 }

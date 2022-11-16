@@ -8,11 +8,12 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.rhr.heat.GF;
-import com.rhr.heat.Tools;
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.MachineRepo;
 import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.dao.topLayer.ShiftRepo;
+import com.rhr.heat.deep.service.DiskIO;
+import com.rhr.heat.deep.service.ShiftTimer;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Note;
@@ -29,7 +30,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ReportService {
-	private final Tools tool;
+	private final ShiftTimer tool;
+	private final DiskIO diskIO;
 	private final ShiftRepo shiftRepo;
 	private final EmployeeRepo employeeRepo;
 	private final ProblemRepo problemRepo;
@@ -42,11 +44,11 @@ public class ReportService {
 		}
 	}
 	public ShiftId getTheId() {
-		return tool.thisShift();
+		return tool.currentShiftId();
 	}
 	
 	public Shift getCurrentShift() {
-		return tool.getCurrentShift();
+		return diskIO.getCurrentShift();
 	}
 	
 	public List<String> problemsTitles(){
@@ -58,7 +60,7 @@ public class ReportService {
 	}
 	
 	public Shift saveShift() {
-		Shift oldShift = tool.getCurrentShift();
+		Shift oldShift = diskIO.getCurrentShift();
 		if(oldShift.isPushable().isEmpty()) {
 			shiftRepo.save(oldShift);
 		}
@@ -67,7 +69,6 @@ public class ReportService {
 	
 	public String reportProblem(String category,Integer number,
 			List<String> problems,String beginTime,String endTime) {
-		List<Pushable> messageParams = new ArrayList<>();
 		ProblemDetail pd = new ProblemDetail();
 		pd.setId(UUID.randomUUID());
 		Optional<Machine> machine = machineRepo.findByTheId(category,number);
@@ -75,8 +76,10 @@ public class ReportService {
 			if(machine.get().isPushable().isEmpty()) {
 				pd.setMachine(machine.get());
 			} else {
-				messageParams.addAll(machine.get().isPushable());
+				pd.isPushable().addAll(machine.get().isPushable());
 			}
+		} else {
+			pd.isPushable().add(Pushable.SPECIFIED_MACHINE_DOES_NOT_EXIST);
 		}
 		pd.setBeginTime(GF.getTime(beginTime));
 		pd.setEndTime(GF.getTime(endTime));
@@ -87,102 +90,105 @@ public class ReportService {
 				if(pr.get().isPushable().isEmpty()) {
 					pbs.add(pr.get());
 				} else {
-					messageParams.addAll(pr.get().isPushable());
+					pd.isPushable().addAll(pr.get().isPushable());
 				}
+			} else {
+				pd.isPushable().add(Pushable.SPECIFIED_PROBLEM_DOES_NOT_EXIST);
 			}
 		}
 		pd.setProblems(pbs);
 		if(pd.isPushable().isEmpty()) {
-			addProblem(pd);
+			diskIO.addProblem(pd);
 			return pd.getMachine().name()+" problem stored succesfully";
 		} else {
-			messageParams.addAll(pd.isPushable());
-			return "failed to store "+ pd.getMachine().name()+" problem beacause of "+ messageParams.get(0);
+			return "failed to store "+ pd.getMachine().name()
+					+" problem beacause of "+ pd.isPushable().get(0);
 		}
-	}
-	
-	private Shift addProblem(ProblemDetail problemDetail) {
-		Shift oldShift = tool.getCurrentShift();
-		oldShift.setProblems(tool.addTo(problemDetail, oldShift.getProblems()));
-		tool.writeShift(oldShift);
-		return oldShift;
 	}
 	
 	public Shift addTotalFlow(TotalFlow totalFlow) {
-		Shift oldShift = tool.getCurrentShift();
-		oldShift.setTotalFlowAverage(tool.addTo(totalFlow, oldShift.getTotalFlowAverage()));
-		tool.writeShift(oldShift);
-		return oldShift;
+//		Shift oldShift = tool.getCurrentShift();
+//		oldShift.setTotalFlowAverage(tool.addTo(totalFlow, oldShift.getTotalFlowAverage()));
+//		tool.writeShift(oldShift);
+		return null;
 	}
 	
 	public Shift addEmployee(String emp) {
-		Optional<Employee> employee = employeeRepo.findByUsername(emp);
-		Shift oldShift = tool.getCurrentShift();
-		if(employee.isPresent()) {
-			oldShift.setEmployees(tool.addTo(employee.get(), oldShift.getEmployees()));
-			tool.writeShift(oldShift);
-		}
-		return oldShift;
+//		Optional<Employee> employee = employeeRepo.findByUsername(emp);
+//		Shift oldShift = tool.getCurrentShift();
+//		if(employee.isPresent()) {
+//			oldShift.setEmployees(tool.addTo(employee.get(), oldShift.getEmployees()));
+//			tool.writeShift(oldShift);
+//		}
+//		return oldShift;
+		return null;
 	}
 	
 	
 	public Shift addTemp(Temperature temp) {
-		Shift oldShift = tool.getCurrentShift();
-		oldShift.setTemps(tool.addTo(temp, oldShift.getTemps()));
-		tool.writeShift(oldShift);
-		return oldShift;
+//		Shift oldShift = tool.getCurrentShift();
+//		oldShift.setTemps(tool.addTo(temp, oldShift.getTemps()));
+//		tool.writeShift(oldShift);
+//		return oldShift;
+		return null;
 	}
 	
 	public Shift addNote(Note note) {
-		Shift oldShift = tool.getCurrentShift();
-		oldShift.setNotes(tool.addTo(note, oldShift.getNotes()));
-		tool.writeShift(oldShift);
-		return oldShift;
+//		Shift oldShift = tool.getCurrentShift();
+//		oldShift.setNotes(tool.addTo(note, oldShift.getNotes()));
+//		tool.writeShift(oldShift);
+//		return oldShift;
+		return null;
 	}
 	
 	public Shift removeTemp(Temperature temp) {
-		Shift oldShift = tool.getCurrentShift();
-		List<Temperature> tms = oldShift.getTemps();
-		tms = tool.removeFrom(temp, tms);
-		oldShift.setTemps(tms);
-		tool.writeShift(oldShift);
-		return oldShift;
+//		Shift oldShift = tool.getCurrentShift();
+//		List<Temperature> tms = oldShift.getTemps();
+//		tms = tool.removeFrom(temp, tms);
+//		oldShift.setTemps(tms);
+//		tool.writeShift(oldShift);
+//		return oldShift;
+		return null;
 	}
 	
 	public Shift removeNote(Note note) {
-		Shift oldShift = tool.getCurrentShift();
-		List<Note> nts = oldShift.getNotes();
-		nts = tool.removeFrom(note, nts);
-		oldShift.setNotes(nts);
-		tool.writeShift(oldShift);
-		return oldShift;
+//		Shift oldShift = tool.getCurrentShift();
+//		List<Note> nts = oldShift.getNotes();
+//		nts = tool.removeFrom(note, nts);
+//		oldShift.setNotes(nts);
+//		tool.writeShift(oldShift);
+//		return oldShift;
+		return null;
 	}
 
 	
 	public Shift removeTotalFlow(TotalFlow totalFlow) {
-		Shift oldShift = tool.getCurrentShift();
-		List<TotalFlow> tfs = oldShift.getTotalFlowAverage();
-		tfs = tool.removeFrom(totalFlow, tfs);
-		oldShift.setTotalFlowAverage(tfs);
-		tool.writeShift(oldShift);
-		return oldShift;
+//		Shift oldShift = tool.getCurrentShift();
+//		List<TotalFlow> tfs = oldShift.getTotalFlowAverage();
+//		tfs = tool.removeFrom(totalFlow, tfs);
+//		oldShift.setTotalFlowAverage(tfs);
+//		tool.writeShift(oldShift);
+//		return oldShift;
+		return null;
 	}
 	
 	public Shift removeEmployee(Employee employee) {
-		Shift oldShift = tool.getCurrentShift();
-		List<Employee> ems = oldShift.getEmployees();
-		ems = tool.removeFrom(employee, ems);
-		oldShift.setEmployees(ems);
-		tool.writeShift(oldShift);
-		return oldShift;
+//		Shift oldShift = tool.getCurrentShift();
+//		List<Employee> ems = oldShift.getEmployees();
+//		ems = tool.removeFrom(employee, ems);
+//		oldShift.setEmployees(ems);
+//		tool.writeShift(oldShift);
+//		return oldShift;
+		return null;
 	}
 	
 	public Shift removeProblem(ProblemDetail problemDetail) {
-		Shift oldShift = tool.getCurrentShift();
-		List<ProblemDetail> pds = oldShift.getProblems();
-		pds = tool.removeFrom(problemDetail, pds);
-		oldShift.setProblems(pds);
-		tool.writeShift(oldShift);
-		return oldShift;
+//		Shift oldShift = tool.getCurrentShift();
+//		List<ProblemDetail> pds = oldShift.getProblems();
+//		pds = tool.removeFrom(problemDetail, pds);
+//		oldShift.setProblems(pds);
+//		tool.writeShift(oldShift);
+//		return oldShift;
+		return null;
 	}
 }

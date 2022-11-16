@@ -3,26 +3,33 @@ package com.rhr.heat.entity;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
-import com.rhr.heat.GF;
 import com.rhr.heat.enums.Pushable;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-public class TotalFlow {
-	private UUID id;
+public class TotalFlow extends Identity {
 	private List<Machine> suspendedMachines;
 	private Integer minFlow;
 	private Integer maxFlow;
 	private Time caseBeginTime;
 	private Time caseEndTime;
+
+	public TotalFlow(UUID id, List<Machine> suspendedMachines, Integer minFlow, Integer maxFlow, Time caseBeginTime,
+			Time caseEndTime) {
+		super(id);
+		this.suspendedMachines = suspendedMachines;
+		this.minFlow = minFlow;
+		this.maxFlow = maxFlow;
+		this.caseBeginTime = caseBeginTime;
+		this.caseEndTime = caseEndTime;
+	}
 	
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();
@@ -55,21 +62,5 @@ public class TotalFlow {
 			}
 		}
 		return canPush;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TotalFlow other = (TotalFlow) obj;
-		return GF.equals(caseBeginTime, other.caseBeginTime) &&
-				GF.equals(caseEndTime, other.caseEndTime);
-	}
-	@Override
-	public int hashCode() {
-		return Objects.hash(caseBeginTime, caseEndTime);
 	}
 }
