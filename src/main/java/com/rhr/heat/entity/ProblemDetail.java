@@ -7,18 +7,20 @@ import java.util.UUID;
 
 import com.rhr.heat.enums.Pushable;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor
+@Getter
+@Setter
 public class ProblemDetail extends Identity {
 	private List<Problem> problems;
 	private Machine machine;
 	private Time beginTime;
 	private Time endTime;
+
+	public ProblemDetail(UUID id) {
+		super(id);
+	}
 
 	public ProblemDetail(UUID id, List<Problem> problems, Machine machine, Time beginTime, Time endTime) {
 		super(id);
@@ -30,6 +32,9 @@ public class ProblemDetail extends Identity {
 	
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();
+		if(id == null) {
+			canPush.add(Pushable.PROBLEM_DETAIL_ID_IS_NULL);
+		}
 		if(machine != null) {
 			canPush.addAll(machine.isPushable());
 		} else {

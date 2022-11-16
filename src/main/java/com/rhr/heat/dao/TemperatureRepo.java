@@ -1,5 +1,6 @@
 package com.rhr.heat.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,6 +13,7 @@ import com.rhr.heat.dao.rowMappers.TemperatureRowMapper;
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.Temperature;
+import com.rhr.heat.enums.Pushable;
 
 import lombok.RequiredArgsConstructor;
 
@@ -71,32 +73,29 @@ public class TemperatureRepo {
 		return jdbcTemplate.update("DELETE FROM temperature t WHERE t.id =?", id);
 	}
 	
-	public List<UUID> saveAll(List<Temperature> tmps) {
-		return tmps.stream()
-				.map(t ->  save(t))
-				.collect(Collectors.toList());
+	public List<Pushable> saveAll(List<Temperature> tmps) {
+		List<Pushable> result = new ArrayList<>();
+		for (Temperature temperature : tmps) {
+			result.addAll(save(temperature));
+		}
+		return result;
 	}
 
-	public UUID save(Temperature temperature) {
-		if(temperature.isPushable().isEmpty()) {
-			UUID theId = null;
-			if(temperature.getId() != null) {
-				theId = temperature.getId();
-			} else {
-				theId = UUID.randomUUID();
-			}
+	public List<Pushable> save(Temperature temperature) {
+		List<Pushable> result = temperature.isPushable();
+		if(result.isEmpty()) {
 			jdbcTemplate.update("""
 					INSERT INTO temperature
 					(id,shift_id,machine_id,max_temp,min_temp)
 					VALUES(?,?,?,?,?) ON CONFLICT(id) DO NOTHING
-					""",theId,
-					shiftIdRepo.save(temperature.getShiftId()),
-					machineRepo.save(temperature.getMachine()),
+					""",
+					temperature.getId(),
+					temperature.getShiftId().getId(),
+					temperature.getMachine().getId(),
 					temperature.getMax(),
 					temperature.getMin());
-			return theId;
 		}
-		return null;
+		return result;
 	}
 	
 	private Temperature fullFill(Temperature temp) {

@@ -1,5 +1,6 @@
 package com.rhr.heat.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.rhr.heat.dao.rowMappers.NoteRowMapper;
 import com.rhr.heat.entity.Note;
+import com.rhr.heat.enums.Pushable;
 
 import lombok.RequiredArgsConstructor;
 
@@ -50,30 +52,26 @@ public class NoteRepo {
 		return jdbcTemplate.update("DELETE FROM notes n WHERE n.id =?", id);
 	}
 	
-	public List<UUID> saveAll(List<Note> tmps) {
-		return tmps.stream()
-				.map(t ->  save(t))
-				.collect(Collectors.toList());
+	public List<Pushable> saveAll(List<Note> notes) {
+		List<Pushable> result = new ArrayList<>();
+		for (Note note : notes) {
+			result.addAll(save(note));
+		}
+		return result;
 	}
 
-	public UUID save(Note note) {
-		if(note.isPushable().isEmpty()) {
-			UUID theId = null;
-			if(note.getId()!= null) {
-				theId = note.getId();
-			} else {
-				theId = UUID.randomUUID();
-			}
+	public List<Pushable> save(Note note) {
+		List<Pushable> result = note.isPushable();
+		if(result.isEmpty()) {
 			jdbcTemplate.update("""
-					INSERT INTO notes
-					(id,shift_id,note)
+					INSERT INTO notes(id,shift_id,note)
 					VALUES(?,?,?) ON CONFLICT(id) DO NOTHING
-					""",theId,
+					""",
+					note.getId(),
 					note.getShiftId().getId(),
 					note.getNote());
-			return theId;
 		}
-		return null;
+		return result;
 	}
 	
 	private Note fullFill(Note note) {

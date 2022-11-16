@@ -6,13 +6,11 @@ import java.util.UUID;
 
 import com.rhr.heat.enums.Pushable;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor
+@Getter
+@Setter
 public class Note extends Identity {
 	private ShiftId shiftId;
 	private String note;
@@ -21,6 +19,10 @@ public class Note extends Identity {
 		super(id);
 		this.shiftId = shiftId;
 		this.note = note;
+	}
+
+	public Note(UUID id) {
+		super(id);
 	}
 	
 	public List<Pushable> isPushable() {
@@ -32,6 +34,9 @@ public class Note extends Identity {
 			canPush.add(Pushable.NOTE_SHIFT_ID_IS_NULL);
 		}
 		
+		if(id == null) {
+			canPush.add(Pushable.NOTE_ID_NULL);
+		}
 		if(note == null) {
 			canPush.add(Pushable.NOTE_IS_EMPTY);
 		}

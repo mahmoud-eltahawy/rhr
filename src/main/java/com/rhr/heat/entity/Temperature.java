@@ -6,13 +6,11 @@ import java.util.UUID;
 
 import com.rhr.heat.enums.Pushable;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor
+@Getter
+@Setter
 public class Temperature extends Identity {
 	private ShiftId shiftId;
 	private Machine machine;
@@ -26,9 +24,16 @@ public class Temperature extends Identity {
 		this.max = max;
 		this.min = min;
 	}
+
+	public Temperature(UUID id) {
+		super(id);
+	}
 	
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();
+		if(id == null) {
+			canPush.add(Pushable.TEMPERATURE_ID_IS_NULL);
+		}
 		if(shiftId != null) {
 			canPush.addAll(shiftId.isPushable());
 		} else {

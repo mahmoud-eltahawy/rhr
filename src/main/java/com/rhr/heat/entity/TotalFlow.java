@@ -7,13 +7,11 @@ import java.util.UUID;
 
 import com.rhr.heat.enums.Pushable;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor
+@Getter
+@Setter
 public class TotalFlow extends Identity {
 	private List<Machine> suspendedMachines;
 	private Integer minFlow;
@@ -30,9 +28,16 @@ public class TotalFlow extends Identity {
 		this.caseBeginTime = caseBeginTime;
 		this.caseEndTime = caseEndTime;
 	}
+
+	public TotalFlow(UUID id) {
+		super(id);
+	}
 	
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();
+		if(id == null) {
+			canPush.add(Pushable.TOTAL_FLOW_ID_IS_NULL);
+		}
 		if(suspendedMachines != null) {
 			if(suspendedMachines.size() != 0) {
 				for(Machine m : suspendedMachines) {
@@ -57,7 +62,7 @@ public class TotalFlow extends Identity {
 			canPush.add(Pushable.TOTAL_FLOW_END_TIME_IS_NULL);
 		}
 		if(maxFlow != null && minFlow != null) {
-			if(maxFlow > minFlow) {
+			if(maxFlow <= minFlow) {
 				canPush.add(Pushable.TOTAL_FLOW_MAX_LESS_THAN_MIN);
 			}
 		}

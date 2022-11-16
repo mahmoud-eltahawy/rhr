@@ -1,5 +1,6 @@
 package com.rhr.heat.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -13,6 +14,7 @@ import com.rhr.heat.dao.rowMappers.ProblemProfileRowMapper;
 import com.rhr.heat.dao.rowMappers.ProblemRowMapper;
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Problem;
+import com.rhr.heat.enums.Pushable;
 import com.rhr.heat.model.MachineProfile;
 import com.rhr.heat.model.ProblemProfile;
 
@@ -106,19 +108,22 @@ public class ProblemRepo {
 		return jdbcTemplate.update("DELETE FROM problem WHERE title = ?",title);
 	}
 
-	public List<String> saveAll(List<Problem> problems) {
-		return problems.stream().map(p -> save(p))
-				.collect(Collectors.toList());
+	public List<Pushable> saveAll(List<Problem> problems) {
+		List<Pushable> result = new ArrayList<>();
+		for (Problem problem : problems) {
+			result.addAll(save(problem));
+		}
+		return result;
 	}
 
-	public String save(Problem p) {
-		if(p.isPushable().isEmpty()) {
-		jdbcTemplate.update("INSERT INTO problem(title,description) VALUES(?,?)",
-							p.getTitle(),
-							p.getDescription());
-		return p.getTitle();
-		} else {
-			return null;
+	public List<Pushable> save(Problem p) {
+		List<Pushable> result = p.isPushable();
+		if(result.isEmpty()) {
+			jdbcTemplate.update(
+					"INSERT INTO problem(title,description) VALUES(?,?)",
+					p.getTitle(),
+					p.getDescription());
 		}
+		return result;
 	}
 }

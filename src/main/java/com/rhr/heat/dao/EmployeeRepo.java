@@ -1,10 +1,10 @@
 package com.rhr.heat.dao;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -13,6 +13,7 @@ import com.rhr.heat.dao.rowMappers.EmployeeRowMapper;
 import com.rhr.heat.dao.rowMappers.ShiftIdRowMapper;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.ShiftId;
+import com.rhr.heat.enums.Pushable;
 
 import lombok.RequiredArgsConstructor;
 
@@ -102,38 +103,30 @@ public class EmployeeRepo{
 				"DELETE FROM employee WHERE username =?", username);
 	}
 
-	public List<UUID> saveAll(List<Employee> emps) {
-		return emps.stream()
-				.map(e -> save(e))
-				.collect(Collectors.toList());
+	public List<Pushable> saveAll(List<Employee> emps) {
+		List<Pushable> result = new ArrayList<>();
+		for (Employee employee : emps) {
+			 result.addAll(save(employee));
+		}
+		return result;
 	}
 
-	public UUID save(Employee emp) {
-		Optional<Employee> e;
-		if((e =findByUsername(emp.getUsername())).isPresent()) {
-			return e.get().getId();
-		} else if(emp.isPushable().isEmpty()) {
-			UUID uuid = null;
-			if(emp.getId() != null) {
-				uuid =emp.getId();
-			} else {
-				uuid = UUID.randomUUID();
-			}
+	public List<Pushable> save(Employee emp) {
+		List<Pushable> result = emp.isPushable();
+		if(result.isEmpty()) {
 			jdbcTemplate.update("""
 					INSERT INTO employee
 					(id,first_name,middle_name,last_name,emp_position,username,password)
 					VALUES(?,?,?,?,?,?,?) ON CONFLICT(username) DO NOTHING
 					""",
-					uuid,
+					emp.getId(),
 					emp.getFirstName(),
 					emp.getMiddleName(),
 					emp.getLastName(),
 					emp.getPosition().toString(),
 					emp.getUsername(),
 					emp.getPassword());
-			return uuid;
-		} else {
-			return null;
 		}
+		return result;
 	}
 }

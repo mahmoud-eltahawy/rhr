@@ -69,8 +69,7 @@ public class ReportService {
 	
 	public String reportProblem(String category,Integer number,
 			List<String> problems,String beginTime,String endTime) {
-		ProblemDetail pd = new ProblemDetail();
-		pd.setId(UUID.randomUUID());
+		ProblemDetail pd = new ProblemDetail(UUID.randomUUID());
 		Optional<Machine> machine = machineRepo.findByTheId(category,number);
 		if(machine.isPresent()) {
 			if(machine.get().isPushable().isEmpty()) {
@@ -98,7 +97,7 @@ public class ReportService {
 		}
 		pd.setProblems(pbs);
 		if(pd.isPushable().isEmpty()) {
-			diskIO.addProblem(pd);
+			diskIO.addElement(pd, ProblemDetail.class.toString());
 			return pd.getMachine().name()+" problem stored succesfully";
 		} else {
 			return "failed to store "+ pd.getMachine().name()

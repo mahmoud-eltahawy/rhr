@@ -1,5 +1,6 @@
 package com.rhr.heat.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.rhr.heat.dao.rowMappers.TotalFlowRowMapper;
 import com.rhr.heat.entity.TotalFlow;
+import com.rhr.heat.enums.Pushable;
 
 import lombok.RequiredArgsConstructor;
 
@@ -52,36 +54,32 @@ public class TotalFlowRepo {
 		}
 	}
 
-	public List<UUID> saveAll(List<TotalFlow> totalFlowAverage) {
-		return totalFlowAverage.stream()
-				.map(t -> {return save(t);})
-				.collect(Collectors.toList());
+	public List<Pushable> saveAll(List<TotalFlow> totalFlowAverage) {
+		List<Pushable> result = new ArrayList<>();
+		for (TotalFlow totalFlow : totalFlowAverage) {
+			result.addAll(save(totalFlow));
+		}
+		return result;
 	}
 
-	public UUID save(TotalFlow tf) {
-		final UUID uuid;
-		if(tf.isPushable().isEmpty()) {
-			if(tf.getId() != null) {
-				uuid = tf.getId();
-			} else {
-				uuid = UUID.randomUUID();
-			}
+	public List<Pushable> save(TotalFlow tf) {
+		List<Pushable> result = tf.isPushable();
+		if(result.isEmpty()) {
 			jdbcTemplate.update("""
 					INSERT INTO total_flow(id,
 					begin_time, end_time, min_flow, max_flow) 
 					VALUES(?,?,?,?,?) ON CONFLICT(id) DO NOTHING
-					""",uuid,
+					""",
+					tf.getId(),
 					tf.getCaseBeginTime(),
 					tf.getCaseEndTime(),
 					tf.getMinFlow(),
 					tf.getMaxFlow());
 			
 			tf.getSuspendedMachines().forEach(m ->machineRepo
-					.saveToTotalFlow(uuid, machineRepo.save(m)));
-			return uuid;
-		} else {
-			return null;
+					.saveToTotalFlow(tf.getId(), m.getId()));
 		}
+		return result;
 	}
 
 	public TotalFlow fullFill(TotalFlow tf) {

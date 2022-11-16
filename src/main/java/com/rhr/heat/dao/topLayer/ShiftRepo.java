@@ -1,6 +1,7 @@
 package com.rhr.heat.dao.topLayer;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,6 +17,7 @@ import com.rhr.heat.dao.TemperatureRepo;
 import com.rhr.heat.dao.TotalFlowRepo;
 import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.topLayer.Shift;
+import com.rhr.heat.enums.Pushable;
 import com.rhr.heat.enums.ShiftOrder;
 
 import lombok.RequiredArgsConstructor;
@@ -114,24 +116,24 @@ public class ShiftRepo {
 				 .collect(Collectors.toList());
 	}
 
-	public List<UUID> saveAll(List<Shift> shifts) {
-		return shifts.stream()
-				.map(s ->  save(s))
-				.collect(Collectors.toList());
+	public List<Pushable> saveAll(List<Shift> shifts) {
+		List<Pushable> result = new ArrayList<>();
+		for (Shift shift : shifts) {
+			result.addAll(save(shift));
+		}
+		return result;
 	}
 
-	public UUID save(Shift s) {
-		UUID theId = shiftIdRepo.save(s.getShiftId());
-		if(theId == null) {
-			return theId;
-		} else {
-			s.getShiftId().setId(theId);
+	public List<Pushable> save(Shift s) {
+		if(s.isPushable().isEmpty()) {
+			UUID id = s.getShiftId().getId();
+			shiftIdRepo.save(s.getShiftId());
 			s.getProblems().forEach(p -> problemDetailsRepo
-					.saveToShift(problemDetailsRepo.save(p), theId));
+					.saveToShift(p.getId(), id));
 			s.getEmployees().forEach(e -> employeeRepo
-					.saveToShift(employeeRepo.save(e), theId));
+					.saveToShift(e.getId(), id));
 			s.getTotalFlowAverage().forEach(t -> totalFlowRepo
-					.saveToShift(totalFlowRepo.save(t), theId));
+					.saveToShift(t.getId(), id));
 			s.getTemps().forEach(t -> {
 				t.setShiftId(s.getShiftId());
 				temperatureRepo.save(t);
@@ -140,8 +142,8 @@ public class ShiftRepo {
 				n.setShiftId(s.getShiftId());
 				noteRepo.save(n);
 			});
-			return theId;
 		}
+		return s.isPushable();
 	}
 	
 	private Shift fullFill(ShiftId shiftId) {

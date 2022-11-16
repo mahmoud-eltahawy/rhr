@@ -6,13 +6,11 @@ import java.util.UUID;
 
 import com.rhr.heat.enums.Pushable;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor
+@Getter
+@Setter
 public class Machine extends Identity {
 	private String category;
 	private Integer number;
@@ -22,6 +20,10 @@ public class Machine extends Identity {
 		this.category = category;
 		this.number = number;
 	}
+
+	public Machine(UUID id) {
+		super(id);
+	}
 	
 	public String name() {
 		return category+" "+number;
@@ -29,6 +31,9 @@ public class Machine extends Identity {
 	
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();
+		if(id == null) {
+			canPush.add(Pushable.MACHINE_id_NULL);
+		}
 		if(category == null) {
 			canPush.add(Pushable.MACHINE_CATEGORY_NULL);
 		}

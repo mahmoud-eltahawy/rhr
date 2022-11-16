@@ -8,13 +8,11 @@ import java.util.UUID;
 import com.rhr.heat.enums.Pushable;
 import com.rhr.heat.enums.ShiftOrder;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor
+@Getter
+@Setter
 public class ShiftId extends Identity {
 	private Date date;
 	private ShiftOrder shift;
@@ -23,6 +21,10 @@ public class ShiftId extends Identity {
 		super(id);
 		this.date = date;
 		this.shift = shift;
+	}
+
+	public ShiftId(UUID id) {
+		super(id);
 	}
 	
 	public List<Pushable> isPushable() {

@@ -1,5 +1,6 @@
 package com.rhr.heat.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.rhr.heat.dao.rowMappers.MachineRowMapper;
 import com.rhr.heat.entity.Machine;
+import com.rhr.heat.enums.Pushable;
 
 import lombok.RequiredArgsConstructor;
 
@@ -80,33 +82,26 @@ public class MachineRepo {
 				"DELETE FROM machine WHERE category = ? and num =?", catagory, num);
 	}
 
-	public List<UUID> saveAll(List<Machine> emps) {
-		return emps.stream()
-				.map(e -> save(e))
-				.collect(Collectors.toList());
+	public List<Pushable> saveAll(List<Machine> machines) {
+		List<Pushable> result = new ArrayList<>();
+		for (Machine machine : machines) {
+			result.addAll(save(machine));
+		}
+		return result;
 	}
 
-	public UUID save(Machine machine) {
-		Optional<Machine> m;
-		if((m =findByTheId(machine.getCategory(),machine.getNumber())).isPresent()) {
-			return m.get().getId();
-		} else if(machine.isPushable().isEmpty()) {
-			UUID uuid = null;
-			if(machine.getId() != null) {
-				uuid = machine.getId();
-			} else {
-				uuid = UUID.randomUUID();
-			}
+	public List<Pushable> save(Machine machine) {
+		List<Pushable> result = machine.isPushable();
+		if(result.isEmpty()) {
 			jdbcTemplate.update("""
 					INSERT INTO machine
 					(id,category, num) VALUES(?,?,?)
 					ON CONFLICT(category,num) DO NOTHING
 					""",
-					uuid,
+					machine.getId(),
 					machine.getCategory(),
 					machine.getNumber());
-			return uuid;
 		}
-		return null;
+		return result;
 	}
 }

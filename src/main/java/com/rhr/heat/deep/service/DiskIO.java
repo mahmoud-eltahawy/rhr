@@ -40,21 +40,30 @@ public class DiskIO {
 				getStoredElements(Note.class.toString()));
 	}
 	
-	public void addProblem(ProblemDetail problem) {
+	public <T extends Identity> void addElement(T element,String cls) {
 		check();
-		List<ProblemDetail> adds = getStoredElements(ProblemDetail.class.toString());
+		List<T> adds = getStoredElements(cls);
 		if(adds == null) {
 			adds  = new ArrayList<>();
 		}
-		adds.add(problem);
-		writeElements(adds, ProblemDetail.class);
+		adds.add(element);
+		writeElements(adds, cls);
+	}
+	
+	public <T extends Identity> void removeElement(T element,String cls) {
+		check();
+		List<T> adds = getStoredElements(cls);
+		if(adds != null) {
+			adds.remove(element);
+			writeElements(adds, cls);
+		}
 	}
 	
 	public <T extends Identity> List<T> getStoredElements(String cls){
 		List<T> result = null;
 		try {
 			FileReader fr = new FileReader(dataFiles.get(cls));
-			result = new Gson().fromJson(fr, getIdentityType(cls));
+			result = new Gson().fromJson(fr, getListType(cls));
 			fr.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -62,9 +71,9 @@ public class DiskIO {
 		return result;
 	}
 	
-	public <T extends Identity> void writeElements(List<T> elements,Class<T> cls) {
+	public <T extends Identity> void writeElements(List<T> elements,String cls) {
 		try {
-			FileWriter fw = new FileWriter(dataFiles.get(cls.toString()));
+			FileWriter fw = new FileWriter(dataFiles.get(cls));
 			new Gson().toJson(elements, fw);
 			fw.close();
 		} catch (IOException e) {
@@ -140,7 +149,7 @@ public class DiskIO {
 		}
 	}
 	
-	private Type getIdentityType(String cls) {
+	private Type getListType(String cls) {
 		if(ProblemDetail.class.toString().equals(cls)) {
 			return new TypeToken<List<ProblemDetail>>() {}.getType();
 		} else if(Employee.class.toString().equals(cls)) {

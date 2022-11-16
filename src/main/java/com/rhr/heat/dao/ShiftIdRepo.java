@@ -1,16 +1,17 @@
 package com.rhr.heat.dao;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.rhr.heat.dao.rowMappers.ShiftIdRowMapper;
 import com.rhr.heat.entity.ShiftId;
+import com.rhr.heat.enums.Pushable;
 import com.rhr.heat.enums.ShiftOrder;
 
 import lombok.RequiredArgsConstructor;
@@ -111,31 +112,24 @@ public class ShiftIdRepo {
 		return jdbcTemplate.update("DELETE FROM shift WHERE id =?", id);
 	}
 
-	public List<UUID> saveAll(List<ShiftId> ids) {
-		return ids.stream()
-				.map(i -> save(i))
-				.collect(Collectors.toList());
+	public List<Pushable> saveAll(List<ShiftId> ids) {
+		List<Pushable> result = new ArrayList<>();
+		for (ShiftId shiftId : ids) {
+			result.addAll(save(shiftId));
+		}
+		return result;
 	}
 
-	public UUID save(ShiftId id) {
-		Optional<ShiftId> si;
-		if((si = findById(id.getDate(), id.getShift())).isPresent()) {
-			return si.get().getId();
-		} else if(id.isPushable().isEmpty()) {
-			UUID uuid = null;
-			if(id.getId() != null) {
-				uuid = id.getId();
-			} else {
-				uuid = UUID.randomUUID();
-			}
+	public List<Pushable> save(ShiftId id) {
+		List<Pushable> result = id.isPushable();
+		if(result.isEmpty()) {
 			jdbcTemplate.update("INSERT INTO shift"
 					+ "(id,shift_order,shift_date) VALUES(?,?,?) "
 					+ "ON CONFLICT (shift_order,shift_date) DO NOTHING",
-					uuid,
+					id.getId(),
 					id.getShift().toString(),
 					id.getDate());
-			return uuid;
 		}
-		return null;
+		return result;
 	}
 }

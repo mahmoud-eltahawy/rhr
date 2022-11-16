@@ -11,13 +11,9 @@ import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.enums.Pushable;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Shift {
 	protected ShiftId shiftId;
 	private List<ProblemDetail> problems;
@@ -25,6 +21,19 @@ public class Shift {
 	private List<TotalFlow> totalFlowAverage;
 	private List<Temperature> temps;
 	private List<Note> notes;
+
+	public Shift(ShiftId shiftId, List<ProblemDetail> problems, List<Employee> employees,
+			List<TotalFlow> totalFlowAverage, List<Temperature> temps, List<Note> notes) {
+		this.shiftId = shiftId;
+		this.problems = problems;
+		this.employees = employees;
+		this.totalFlowAverage = totalFlowAverage;
+		this.temps = temps;
+		this.notes = notes;
+		
+		this.temps.forEach(t -> t.setShiftId(this.shiftId));
+		this.notes.forEach(n -> n.setShiftId(this.shiftId));
+	}
 	
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();

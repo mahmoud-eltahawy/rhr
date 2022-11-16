@@ -7,13 +7,11 @@ import java.util.UUID;
 import com.rhr.heat.enums.EmployeePosition;
 import com.rhr.heat.enums.Pushable;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor
+@Getter
+@Setter
 public class Employee extends Identity {
 	private String firstName;
 	private String middleName;
@@ -21,6 +19,10 @@ public class Employee extends Identity {
 	private EmployeePosition position;
 	private String username;
 	private String password;
+
+	public Employee(UUID id) {
+		super(id);
+	}
 	
 	public Employee(UUID id, String firstName, String middleName, String lastName, EmployeePosition position,
 			String username, String password) {
@@ -35,6 +37,9 @@ public class Employee extends Identity {
 	
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();
+		if(id == null) {
+			canPush.add(Pushable.EMPLOYEE_ID_NULL);
+		} 
 		if(firstName == null) {
 			canPush.add(Pushable.EMPLOYEE_FIRST_NAME_NULL);
 		} 

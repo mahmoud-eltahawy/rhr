@@ -1,5 +1,6 @@
 package com.rhr.heat.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.rhr.heat.dao.rowMappers.ProblemDetailRowMapper;
 import com.rhr.heat.entity.ProblemDetail;
+import com.rhr.heat.enums.Pushable;
 
 import lombok.RequiredArgsConstructor;
 
@@ -60,33 +62,30 @@ public class ProblemDetailsRepo {
 		return jdbcTemplate.update("DELETE FROM problem_detail WHERE id = ?",id);
 	}
 
-	public List<UUID> saveAll(List<ProblemDetail> problems) {
-		return problems.stream()
-				.map(p -> save(p))
-				.collect(Collectors.toList());
+	public List<Pushable> saveAll(List<ProblemDetail> problems) {
+		List<Pushable> result = new ArrayList<>();
+		for (ProblemDetail problemDetail : problems) {
+			result.addAll(save(problemDetail));
+		}
+		return result;
 	}
 
-	public UUID save(ProblemDetail pd) {
-		final UUID uuid;
-		if(pd.isPushable().isEmpty()) {
-			if(pd.getId() != null) {
-				uuid = pd.getId();
-			} else {
-				uuid = UUID.randomUUID();
-			}
+	public List<Pushable> save(ProblemDetail pd) {
+		List<Pushable> result = pd.isPushable();
+		if(result.isEmpty()) {
 			jdbcTemplate.update("""
 					INSERT INTO problem_detail(id,machine_id,
 					begin_time, end_time) VALUES(?,?,?,?)
-					""",uuid,
-						machineRepo.save(pd.getMachine()),
+					""",
+						pd.getId(),
+						pd.getMachine().getId(),
 						pd.getBeginTime(),
 						pd.getEndTime());
 			
 			pd.getProblems().forEach(p ->problemRepo
-					.saveToProblemDetail(p.getTitle(), uuid));
-			return uuid;
+					.saveToProblemDetail(p.getTitle(), pd.getId()));
 		} 
-		return null;
+		return result;
 	}
 	
 	public ProblemDetail fullFill(ProblemDetail pd) {
