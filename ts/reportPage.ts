@@ -95,12 +95,11 @@ function getCategoriesNumbersContainers() : Map<string,{cat: string, num: number
 
 function addPlusMinusButtons(element : HTMLElement,catnum : {cat: string, num : number}){
   if(element){
-    element.innerHTML = `
+    element.innerHTML += `
                       <button class="mini-button"
                           onclick="replaceForm('${catnum.cat}',
                                 '${catnum.num}','${catnum.cat}-${catnum.num}-show')">+
                       </button>
-                      <button class="mini-button">-</button>
                       `
   }
 }

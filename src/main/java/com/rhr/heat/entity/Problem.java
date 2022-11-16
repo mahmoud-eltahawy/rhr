@@ -2,6 +2,7 @@ package com.rhr.heat.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.rhr.heat.enums.Pushable;
 
@@ -15,6 +16,10 @@ import lombok.NoArgsConstructor;
 public class Problem {
 	private String title;
 	private String description;
+
+	public Problem(String title) {
+		this.title = title;
+	}
 	
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();
@@ -25,5 +30,22 @@ public class Problem {
 			canPush.add(Pushable.PROBLEM_DESCRIPTION_IS_NULL);
 		}
 		return canPush;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Problem other = (Problem) obj;
+		return Objects.equals(title, other.title);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(title);
 	}
 }

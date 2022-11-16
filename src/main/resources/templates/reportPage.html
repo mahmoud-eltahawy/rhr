@@ -56,7 +56,11 @@
 													<span th:text="${cat.key}">CATEGORY</span>
 													<span th:text="${mapin.key}">NUMBER</span>
 												</button>
-												<div th:id="${cat.key}+'-'+${mapin.key}+'-btns-container'"></div>
+												<div th:id="${cat.key}+'-'+${mapin.key}+'-btns-container'">
+													<a th:href="@{/report/remove/machine/problems/(cat=${cat.key},num=${mapin.key})}">
+														<button class="mini-button">-</button>
+													</a>
+												</div>
 											</h3><br>
 											<div class="top-bottom-border" th:classappend="${mapin.key}!=0 ? 'ghost'" th:id="${cat.key}+'-'+${mapin.key}+'-show'">
 												<table>
@@ -90,7 +94,9 @@
 																<ol type="1">
 																	<li th:each="p : ${pd.problems}">
 																		<span>
-																			<button class="mini-button">-</button>
+																			<a class="mini-button" th:href="@{/report/remove/problem/problem/(id=${pd.id},title=${p.title})}" method="post">
+																				<button class"mini-button">-</button>
+																			</a>
 																		</span>
 																		<span th:text="${p.title}">problem</span>
 																	</li>

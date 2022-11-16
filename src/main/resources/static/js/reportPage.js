@@ -91,12 +91,11 @@ function getCategoriesNumbersContainers() {
 }
 function addPlusMinusButtons(element, catnum) {
     if (element) {
-        element.innerHTML = `
+        element.innerHTML += `
                       <button class="mini-button"
                           onclick="replaceForm('${catnum.cat}',
                                 '${catnum.num}','${catnum.cat}-${catnum.num}-show')">+
                       </button>
-                      <button class="mini-button">-</button>
                       `;
     }
 }

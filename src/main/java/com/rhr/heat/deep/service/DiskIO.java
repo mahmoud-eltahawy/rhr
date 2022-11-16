@@ -16,7 +16,9 @@ import com.google.gson.reflect.TypeToken;
 import com.rhr.heat.GF;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Identity;
+import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Note;
+import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.Temperature;
@@ -48,6 +50,43 @@ public class DiskIO {
 		}
 		adds.add(element);
 		writeElements(adds, cls);
+	}
+	
+	public Boolean removeMachineProblems(Machine machine) {
+		check();
+		List<ProblemDetail> adds = getStoredElements(ProblemDetail.class.toString());
+		Boolean result = false;
+		List<ProblemDetail> toDelete = new ArrayList<>();
+		if(adds != null) {
+			for (ProblemDetail problemDetail : adds) {
+				if(problemDetail.getMachine().equals(machine)) {
+					toDelete.add(problemDetail);
+				}
+			}
+			if(!toDelete.isEmpty()) {
+				result = true;
+				for (ProblemDetail problemDetail : toDelete) {
+					adds.remove(problemDetail);
+				}
+			}
+			writeElements(adds, ProblemDetail.class.toString());
+		}
+		return result;
+	}
+	
+	public Boolean removeProblemProblem(ProblemDetail pd,Problem p) {
+		check();
+		List<ProblemDetail> adds = getStoredElements(ProblemDetail.class.toString());
+		Boolean result = false;
+		if(adds != null) {
+			for (ProblemDetail problemDetail : adds) {
+				if(problemDetail.equals(pd)) {
+					result = problemDetail.getProblems().remove(p);
+				}
+			}
+			writeElements(adds, ProblemDetail.class.toString());
+		}
+		return result;
 	}
 	
 	public <T extends Identity> Boolean removeElement(T element,String cls) {

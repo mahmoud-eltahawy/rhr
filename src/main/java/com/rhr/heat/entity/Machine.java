@@ -2,27 +2,26 @@ package com.rhr.heat.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import com.rhr.heat.enums.Pushable;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Machine extends Identity {
+@AllArgsConstructor
+public class Machine {
+	private UUID id;
 	private String category;
 	private Integer number;
 
-	public Machine(UUID id, String category, Integer number) {
-		super(id);
+	public Machine(String category, Integer number) {
 		this.category = category;
 		this.number = number;
-	}
-
-	public Machine(UUID id) {
-		super(id);
 	}
 	
 	public String name() {
@@ -41,5 +40,22 @@ public class Machine extends Identity {
 			canPush.add(Pushable.MACHINE_NUMBER_NULL);
 		}
 		return canPush;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(category, number);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Machine other = (Machine) obj;
+		return Objects.equals(category, other.category) && Objects.equals(number, other.number);
 	}
 }

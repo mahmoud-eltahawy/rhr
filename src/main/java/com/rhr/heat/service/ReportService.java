@@ -105,6 +105,22 @@ public class ReportService {
 		}
 	}
 	
+	public String removeMachineProblems(String cat, Integer num) {
+		if(diskIO.removeMachineProblems(new Machine(cat,num)))
+		{
+			return "deleted sucessfully";
+		}
+		return "failed";
+	}
+	
+	public String removeProblemProblem(UUID pdId,String title) {
+		if(diskIO.removeProblemProblem(new ProblemDetail(pdId), new Problem(title)))
+		{
+			return "deleted sucessfully";
+		}
+		return "failed";
+	}
+	
 	public String removeProblem(UUID id) {
 		if(diskIO.removeElement(new ProblemDetail(id), ProblemDetail.class.toString()))
 		{
