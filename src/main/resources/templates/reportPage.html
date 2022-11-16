@@ -70,7 +70,16 @@
 													</thead>
 													<tbody>
 														<tr th:each="pd : ${mapin.value}">
-															<td><button class="mini-button" style="width: 100%">-</button></td>
+															<td>
+																<form th:action="@{/report/remove/problem/(id=${pd.id})}" method="post">
+																	<button
+																			type="submit"
+																			class="mini-button"
+																			style="width: 100%">
+																		-
+																	</button>
+																</form>
+															</td>
 															<td th:text="${pd.beginTime}">
 																problem begin time
 															</td>

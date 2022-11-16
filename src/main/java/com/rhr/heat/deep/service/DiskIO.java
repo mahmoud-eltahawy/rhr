@@ -50,13 +50,15 @@ public class DiskIO {
 		writeElements(adds, cls);
 	}
 	
-	public <T extends Identity> void removeElement(T element,String cls) {
+	public <T extends Identity> Boolean removeElement(T element,String cls) {
 		check();
 		List<T> adds = getStoredElements(cls);
+		Boolean result = false;
 		if(adds != null) {
-			adds.remove(element);
+			result = adds.remove(element);
 			writeElements(adds, cls);
 		}
+		return result;
 	}
 	
 	public <T extends Identity> List<T> getStoredElements(String cls){

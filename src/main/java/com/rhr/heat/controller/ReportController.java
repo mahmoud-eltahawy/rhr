@@ -15,7 +15,6 @@ import com.rhr.heat.GF;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Note;
-import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.entity.topLayer.Shift;
@@ -99,11 +98,8 @@ public class ReportController {
 	}
 
 	@PostMapping("/remove/problem")
-	public ModelAndView removeProblem(@ModelAttribute("problem")ProblemDetail pd) {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("reportPage");
-		mv.addObject("pushable", service.removeProblem(pd).isPushable());
-		return mv;
+	public String removeProblem(@RequestParam("id")UUID id) {
+		return "redirect:/report/?message="+service.removeProblem(id);
 	}
 
 	@PostMapping("/remove/flow")

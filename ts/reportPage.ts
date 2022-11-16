@@ -1,7 +1,6 @@
 const jsonMap : Map<string,number[]> = new Map(Object
   .entries(JSON.parse(document.getElementById("catsContainer")!.innerText)))
 
-
 function replaceForm(machine : string ,number: number ,fieldId: string){
   const fieldDiv = document.getElementById(fieldId)
   if(fieldDiv){

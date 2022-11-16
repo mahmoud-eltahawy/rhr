@@ -105,6 +105,14 @@ public class ReportService {
 		}
 	}
 	
+	public String removeProblem(UUID id) {
+		if(diskIO.removeElement(new ProblemDetail(id), ProblemDetail.class.toString()))
+		{
+			return "deleted sucessfully";
+		}
+		return "failed";
+	}
+	
 	public Shift addTotalFlow(TotalFlow totalFlow) {
 //		Shift oldShift = tool.getCurrentShift();
 //		oldShift.setTotalFlowAverage(tool.addTo(totalFlow, oldShift.getTotalFlowAverage()));
@@ -176,16 +184,6 @@ public class ReportService {
 //		List<Employee> ems = oldShift.getEmployees();
 //		ems = tool.removeFrom(employee, ems);
 //		oldShift.setEmployees(ems);
-//		tool.writeShift(oldShift);
-//		return oldShift;
-		return null;
-	}
-	
-	public Shift removeProblem(ProblemDetail problemDetail) {
-//		Shift oldShift = tool.getCurrentShift();
-//		List<ProblemDetail> pds = oldShift.getProblems();
-//		pds = tool.removeFrom(problemDetail, pds);
-//		oldShift.setProblems(pds);
 //		tool.writeShift(oldShift);
 //		return oldShift;
 		return null;
