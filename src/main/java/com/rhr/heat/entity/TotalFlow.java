@@ -19,7 +19,8 @@ public class TotalFlow extends Identity {
 	private Time caseBeginTime;
 	private Time caseEndTime;
 
-	public TotalFlow(UUID id, List<Machine> suspendedMachines, Integer minFlow, Integer maxFlow, Time caseBeginTime,
+	public TotalFlow(UUID id, List<Machine> suspendedMachines,
+			Integer minFlow, Integer maxFlow, Time caseBeginTime,
 			Time caseEndTime) {
 		super(id);
 		this.suspendedMachines = suspendedMachines;
@@ -64,6 +65,11 @@ public class TotalFlow extends Identity {
 		if(maxFlow != null && minFlow != null) {
 			if(maxFlow <= minFlow) {
 				canPush.add(Pushable.TOTAL_FLOW_MAX_LESS_THAN_MIN);
+			}
+		}
+		if(caseBeginTime != null && caseEndTime != null) {
+			if(caseEndTime.before(caseBeginTime)) {
+				canPush.add(Pushable.TOTAL_FLOW_END_TIME_IS_BEFORE_BEGIN_TIME);
 			}
 		}
 		return canPush;
