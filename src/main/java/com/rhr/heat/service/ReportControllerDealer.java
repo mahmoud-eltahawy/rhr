@@ -1,6 +1,5 @@
 package com.rhr.heat.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,21 +33,9 @@ public class ReportControllerDealer {
 		} else {
 			mv.addObject("cats",null);
 		}
-		if(shift.getTotalFlowAverage() != null) {
-			mv.addObject("flow",shift.getTotalFlowAverage());
-		} else {
-			mv.addObject("flow",new ArrayList<>());
-		}
-		if(shift.getTotalFlowAverage() != null) {
-			mv.addObject("temps",shift.getTemps());
-		} else {
-			mv.addObject("temps",new ArrayList<>());
-		}
-		if(shift.getTotalFlowAverage() != null) {
-			mv.addObject("notes",shift.getNotes());
-		} else {
-			mv.addObject("notes",new ArrayList<>());
-		}
+		mv.addObject("flow",shift.getTotalFlowAverage());
+		mv.addObject("temps",shift.getTemps());
+		mv.addObject("notes",shift.getNotes());
 		if(shift.getEmployees() != null) {
 			mv.addObject("names",shift.getEmployees().stream().map(e ->{
 				return e.getFirstName()+" "+e.getMiddleName()+" "+e.getLastName();
@@ -58,8 +45,6 @@ public class ReportControllerDealer {
 				mv.addObject("emps", ems.stream().map(e -> e.getUsername())
 					.collect(Collectors.toList()));
 			}
-		} else {
-			mv.addObject("names",new ArrayList<>());
 		}
 		return mv;
 	}

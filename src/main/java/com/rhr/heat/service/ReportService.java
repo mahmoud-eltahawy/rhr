@@ -24,7 +24,6 @@ import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.entity.topLayer.Shift;
-import com.rhr.heat.enums.Pushable;
 
 import lombok.RequiredArgsConstructor;
 
@@ -68,18 +67,37 @@ public class ReportService {
 		return oldShift;
 	}
 	
+	public String reportTotalFlow(List<String> smachines,
+			Integer max,Integer min,String beginTime,String endTime) {
+		List<Machine> machines = smachines.stream()
+				.map(s -> parseMachine(s)).collect(Collectors.toList());
+		for (Machine machine : machines) {
+			if(machineRepo.findByTheId(machine.getCategory(), machine.getNumber()).isEmpty()) {
+				return "undefined machine";
+			}
+		}
+		TotalFlow tf = new TotalFlow(UUID.randomUUID(),machines,
+				min, max,GF.getTime(beginTime), GF.getTime(endTime));
+		if(tf.isPushable().isEmpty()) {
+			diskIO.addElement(tf, TotalFlow.class.toString());
+			return "total flow record stored successfully";
+		}
+		return "failed because of "+ tf.isPushable().get(0);
+	}
+	
+	private Machine parseMachine(String sm) {
+		String[] arr = sm.split("-");
+		return new Machine(UUID.randomUUID(),arr[0], Integer.parseInt(arr[1]));
+	}
+	
 	public String reportProblem(String category,Integer number,
 			List<String> problems,String beginTime,String endTime) {
 		ProblemDetail pd = new ProblemDetail(UUID.randomUUID());
 		Optional<Machine> machine = machineRepo.findByTheId(category,number);
 		if(machine.isPresent()) {
-			if(machine.get().isPushable().isEmpty()) {
-				pd.setMachine(machine.get());
-			} else {
-				pd.isPushable().addAll(machine.get().isPushable());
-			}
+			pd.setMachine(machine.get());
 		} else {
-			pd.isPushable().add(Pushable.SPECIFIED_MACHINE_DOES_NOT_EXIST);
+			return "unvalid machine";
 		}
 		pd.setBeginTime(GF.getTime(beginTime));
 		pd.setEndTime(GF.getTime(endTime));
@@ -90,20 +108,18 @@ public class ReportService {
 				if(pr.get().isPushable().isEmpty()) {
 					pbs.add(pr.get());
 				} else {
-					pd.isPushable().addAll(pr.get().isPushable());
+					return "failed because of "+ pr.get().isPushable().get(0);
 				}
-			} else {
-				pd.isPushable().add(Pushable.SPECIFIED_PROBLEM_DOES_NOT_EXIST);
 			}
+			return "define the problem "+pr.get().getTitle() +" and try again";
 		}
 		pd.setProblems(pbs);
 		if(pd.isPushable().isEmpty()) {
 			diskIO.addElement(pd, ProblemDetail.class.toString());
 			return pd.getMachine().name()+" problem stored succesfully";
-		} else {
-			return "failed to store "+ pd.getMachine().name()
-					+" problem beacause of "+ pd.isPushable().get(0);
 		}
+		return "failed to store "+ pd.getMachine().name()
+				+" problem beacause of "+ pd.isPushable().get(0);
 	}
 	
 	public String removeMachineProblems(String cat, Integer num) {
@@ -145,12 +161,18 @@ public class ReportService {
 		return "failed";
 	}
 	
-	public Shift addTotalFlow(TotalFlow totalFlow) {
-//		Shift oldShift = tool.getCurrentShift();
-//		oldShift.setTotalFlowAverage(tool.addTo(totalFlow, oldShift.getTotalFlowAverage()));
-//		tool.writeShift(oldShift);
-		return null;
+	public void removeAllFlow() {
+		diskIO.removeAllFlow();
 	}
+	
+	public String removeFlow(UUID id) {
+		if(diskIO.removeFlow(new TotalFlow(id)))
+		{
+			return "total flow record removed successfully";
+		} 
+		return "failed";
+	}
+
 	
 	public Shift addEmployee(String emp) {
 //		Optional<Employee> employee = employeeRepo.findByUsername(emp);
@@ -200,16 +222,6 @@ public class ReportService {
 		return null;
 	}
 
-	
-	public Shift removeTotalFlow(TotalFlow totalFlow) {
-//		Shift oldShift = tool.getCurrentShift();
-//		List<TotalFlow> tfs = oldShift.getTotalFlowAverage();
-//		tfs = tool.removeFrom(totalFlow, tfs);
-//		oldShift.setTotalFlowAverage(tfs);
-//		tool.writeShift(oldShift);
-//		return oldShift;
-		return null;
-	}
 	
 	public Shift removeEmployee(Employee employee) {
 //		Shift oldShift = tool.getCurrentShift();

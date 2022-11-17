@@ -116,6 +116,54 @@ function listProblems(uuid : string){
 `
 }
 
+
+function replaceFlowForm(id : string){
+  document.getElementById(id)!.innerHTML =`
+      <div class="box-container">
+        <div class="form-container">
+          <h1> Total Flow record</h1>
+          <form action="/report/flow" method="post">
+          <label name="machines" id="machines">suspended machines</label>
+          <select multiple="multiple" name="machines" id="machines" required>
+            ${
+              (function(){
+                const mList : string[] = []
+                jsonMap.forEach((v,k) =>{
+                  v.forEach(n =>{
+                    mList.push(`<option value="${k}-${n}">${k}${n?'-'+n:''}</option>`)
+                  })
+                })
+                return mList;
+              })()
+            }
+          </select>
+          <label name="max" id="max">maximum</label>
+          <input type="number" id="max" name="max" required>
+          <label name="min" id="min">minimum</label>
+          <input type="number" id="min" name="min" required>
+          <label name="beginTime" id="beginTime">record begin</label>
+          <input type="time" id="beginTime" name="beginTime" required>
+          <label name="endTime" id="endTime">record end</label>
+          <input type="time" id="endTime" name="endTime" required>
+          <button type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+`
+}
+
+function replaceTempForm(){
+  document.getElementById("record-section-add-field")!.innerHTML =`
+<h1>hello record form</h1>
+`
+}
+
+function replaceNoteForm(){
+  document.getElementById("record-section-add-field")!.innerHTML =`
+<h1>hello record form</h1>
+`
+}
+
 function addPlusButtons(element : HTMLElement,catnum : {cat: string, num : number}){
   if(element){
     element.innerHTML += `

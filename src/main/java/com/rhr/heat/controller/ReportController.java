@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.rhr.heat.GF;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Note;
 import com.rhr.heat.entity.Temperature;
-import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.entity.topLayer.Shift;
 import com.rhr.heat.service.ReportControllerDealer;
 import com.rhr.heat.service.ReportService;
@@ -61,18 +59,13 @@ public class ReportController {
 
 	@PostMapping("/flow")
 	public String flow(
-			@RequestParam("machines")List<Machine> machines,
+			@RequestParam("machines")List<String> machines,
 			@RequestParam("max")Integer max,
 			@RequestParam("min")Integer min,
 			@RequestParam("beginTime")String beginTime,
 			@RequestParam("endTime")String endTime) {
-		TotalFlow tf = new TotalFlow(null,
-				machines,
-				min, max,
-				GF.getTime(beginTime),
-				GF.getTime(endTime));
-		service.addTotalFlow(tf);
-		return "redirect:/report/";
+		return "redirect:/report/?message="
+			+service.reportTotalFlow(machines, max, min, beginTime, endTime);
 	}
 
 	@PostMapping("/emp")
@@ -104,6 +97,17 @@ public class ReportController {
 		return "redirect:/report/?message="+service.removeMachineProblems(cat,num);
 	}
 
+	@RequestMapping("/remove/all/flow")
+	public String removeAllFlow() {
+		service.removeAllFlow();
+		return "redirect:/report/?message=done";
+	}
+
+	@RequestMapping("/remove/flow")
+	public String removeFlow(@RequestParam("id")UUID id) {
+		return "redirect:/report/?message="+service.removeFlow(id);
+	}
+
 	@RequestMapping("/add/problem/problems")
 	public String addProblemProblems(
 			@RequestParam("id")UUID id,
@@ -121,14 +125,6 @@ public class ReportController {
 	@PostMapping("/remove/problem")
 	public String removeProblem(@RequestParam("id")UUID id) {
 		return "redirect:/report/?message="+service.removeProblem(id);
-	}
-
-	@PostMapping("/remove/flow")
-	public ModelAndView removeFlow(@ModelAttribute("flow")TotalFlow tf) {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("reportPage");
-		mv.addObject("pushable", service.removeTotalFlow(tf).isPushable());
-		return mv;
 	}
 
 	@PostMapping("/remove/emp")

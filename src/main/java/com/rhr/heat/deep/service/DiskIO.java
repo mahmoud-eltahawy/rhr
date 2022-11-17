@@ -42,6 +42,23 @@ public class DiskIO {
 				getStoredElements(Note.class.toString()));
 	}
 	
+	public void removeAllFlow() {
+		File flow =  dataFiles.get(TotalFlow.class.toString());
+		flow.delete();
+		try {
+			flow.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Boolean removeFlow(TotalFlow flow) {
+		List<TotalFlow> flows = getStoredElements(TotalFlow.class.toString());
+		Boolean result = flows.remove(flow);
+		writeElements(flows, TotalFlow.class.toString());
+		return result;
+	}
+	
 	public <T extends Identity> void addElement(T element,String cls) {
 		check();
 		List<T> adds = getStoredElements(cls);

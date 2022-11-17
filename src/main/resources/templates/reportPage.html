@@ -118,31 +118,30 @@
 				</ul>
 			</div>
 		</div><br>
-		<button th:if="${flow.isEmpty()} AND ${temps.isEmpty()} AND ${notes.isEmpty()}"
-				class="notsub" id="record-section-add-field-btn">ADD RECORD</button>
+		<button th:if="${flow==null} AND ${temps==null} AND ${notes==null}"
+				class="notsub" onclick="toggle('record-section-add-field')">ADD RECORD</button>
 		<div id="record-section-add-field" class="ghost">
-			<button class="cat-button" id="add-flow-form-btn">total flow</button>
-			<button class="cat-button" id="add-temp-form-btn">temperture</button>
-			<button class="cat-button" id="add-note-form-btn">Note</button>
+			<button class="cat-button" onclick="replaceFlowForm('record-section-add-field')">total flow</button>
+			<button class="cat-button" onclick="replaceTempForm('record-section-add-field')">temperture</button>
+			<button class="cat-button" onclick="replaceNoteForm('record-section-add-field')">Note</button>
 		</div>
-		<div th:unless="${flow.isEmpty()} AND ${temps.isEmpty()} AND ${notes.isEmpty()}">
-			<h1><button class="notsub" id="records-section-btn">RECORDS SECTION</button></h1><br>
+		<div th:unless="${flow==null} AND ${temps==null} AND ${notes==null}">
+			<h1><button class="notsub" onclick="toggle('records-section')">RECORDS SECTION</button></h1><br>
 			<div class="ghost top-bottom-border" id="records-section">
-				<p th:if="${flow.isEmpty()}" class="short-important-p">
-					<button class="issub" id="add-flow-btn">
-						ADD TOTAL FLOW RECORD
-					</button>
-				</p>
+				<button th:if="${flow.isEmpty()}" class="issub" onclick="replaceFlowForm('records-section')">
+					ADD TOTAL FLOW RECORD
+				</button>
 				<div th:unless="${flow.isEmpty()}">
-					<h2>
-						<span>
-							<button class="issub" id="flow-btn">
-								Total Flow
-							</button>
-						</span>
-						<span><button id="flow-record-plus-btn" class="mini-button">+</button></span>
-					</h2>
+					<button class="issub" onclick="toggle('flow')">
+						Total Flow records
+					</button>
 					<div class="ghost top-bottom-border" id="flow">
+						<div>
+							<a th:href="@{/report/remove/all/flow/}">
+								<button class="mini-button">-</button>
+							</a>
+							<button onclick="replaceFlowForm('flow')" class="mini-button">+</button>
+						</div>
 						<table>
 							<thead>
 								<tr>
@@ -156,8 +155,15 @@
 							</thead>
 							<tbody>
 								<tr th:each="t : ${flow}">
-									<td class="mini-button">
-										<span><button id="flow-record-minus-btn" style="width:100%">-</button></span>
+									<td>
+										<form th:action="@{/report/remove/flow/(id=${t.id})}" method="post">
+											<button
+													type="submit"
+													class="mini-button"
+													style="width: 100%">
+												-
+											</button>
+										</form>
 									</td>
 									<td class="kilenData">
 										<ul>
@@ -180,12 +186,10 @@
 					</div>
 				</div>
 				<br>
-				<p th:if="${temps.isEmpty()}" class="short-important-p">
-					<button class="issub" id="add-temp-btn">
-						ADD TEMPERATURE RECORD
-					</button>
-				</p>
-				<div th:unless="${temps.isEmpty()}">
+				<button th:if="${temps==null}" class="issub" id="add-temp-btn">
+					ADD TEMPERATURE RECORD
+				</button>
+				<div th:unless="${temps==null}">
 					<h2>
 						<span>
 							<button class="issub" id="temp-btn">
@@ -211,12 +215,10 @@
 						</ul>
 					</div>
 				</div>
-				<p th:if="${notes.isEmpty()}" class="short-important-p">
-					<button class="issub" id="add-note-btn">
-						ADD NOTE
-					</button>
-				</p>
-				<div th:unless="${notes.isEmpty()}">
+				<button th:if="${notes==null}" class="issub" id="add-note-btn">
+					ADD NOTE
+				</button>
+				<div th:unless="${notes==null}">
 					<h2>
 						<span>
 							<button class="issub" id="note-btn">
