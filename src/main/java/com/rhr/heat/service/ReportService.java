@@ -197,7 +197,7 @@ public class ReportService {
 			}
 		}
 		if(count == 0) {
-			return "all added succfully";
+			return "all added succssfully";
 		} else if(count == machines.size()) {
 			return "all machines need to be defined first";
 		} else {

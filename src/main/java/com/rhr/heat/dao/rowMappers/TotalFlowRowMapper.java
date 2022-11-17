@@ -13,6 +13,7 @@ public class TotalFlowRowMapper implements RowMapper<TotalFlow> {
 	public TotalFlow mapRow(ResultSet rs, int rowNum) throws SQLException {
 		return new TotalFlow(
 				(UUID) rs.getObject("id"),
+				(UUID) rs.getObject("shift_id"),
 				null,
 				rs.getInt("min_flow"),
 				rs.getInt("max_flow"),

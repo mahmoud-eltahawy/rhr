@@ -12,12 +12,19 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Note extends Identity {
-	private ShiftId shiftId;
 	private String note;
+	
+	@Override
+	public Boolean isSameAs(Identity identity) {
+		Note other = (Note) identity;
+		if(note.equals(other.note)) {
+			return true;
+		}
+		return false;
+	}
 
-	public Note(UUID id, ShiftId shiftId, String note) {
+	public Note(UUID id, String note) {
 		super(id);
-		this.shiftId = shiftId;
 		this.note = note;
 	}
 
@@ -27,12 +34,6 @@ public class Note extends Identity {
 	
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();
-		
-		if(shiftId != null) {
-			canPush = shiftId.isPushable();
-		} else {
-			canPush.add(Pushable.NOTE_SHIFT_ID_IS_NULL);
-		}
 		
 		if(id == null) {
 			canPush.add(Pushable.NOTE_ID_NULL);

@@ -12,12 +12,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Temperature extends Identity {
-	private ShiftId shiftId;
+	private UUID shiftId;
 	private Machine machine;
 	private Integer max;
 	private Integer min;
 
-	public Temperature(UUID id, ShiftId shiftId, Machine machine, Integer max, Integer min) {
+	public Temperature(UUID id, UUID shiftId, Machine machine, Integer max, Integer min) {
 		super(id);
 		this.shiftId = shiftId;
 		this.machine = machine;
@@ -29,15 +29,25 @@ public class Temperature extends Identity {
 		super(id);
 	}
 	
+	@Override
+	public Boolean isSameAs(Identity identity) {
+		Temperature other = (Temperature) identity;
+		if(machine.equals(other.machine) &&
+				max.equals(other.max)&&
+				min.equals(other.min)) {
+			return true;
+		}
+		return false;
+	}
+	
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();
 		if(id == null) {
 			canPush.add(Pushable.TEMPERATURE_ID_IS_NULL);
 		}
-		if(shiftId != null) {
-			canPush.addAll(shiftId.isPushable());
-		} else {
+		if(shiftId == null) {
 			canPush.add(Pushable.TEMPERATURE_SHIFT_ID_IS_NULL);
+		} else {
 		}
 		if(machine != null) {
 			canPush.addAll(machine.isPushable());

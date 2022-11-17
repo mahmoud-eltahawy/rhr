@@ -13,7 +13,9 @@ import com.rhr.heat.entity.ProblemDetail;
 public class ProblemDetailRowMapper implements RowMapper<ProblemDetail>{
 	@Override
 	public ProblemDetail mapRow(ResultSet rs, int rowNum) throws SQLException {
-		return new ProblemDetail((UUID) rs.getObject("id"),
+		return new ProblemDetail(
+				(UUID) rs.getObject("id"),
+				(UUID) rs.getObject("shift_id"),
 				null,
 				new Machine((UUID) rs.getObject("machine_id"), null, null),
 				rs.getTime("begin_time"),

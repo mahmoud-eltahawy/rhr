@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.rhr.heat.dao.rowMappers.TemperatureRowMapper;
 import com.rhr.heat.entity.Machine;
-import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.enums.Pushable;
 
@@ -22,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 public class TemperatureRepo {
 	private final JdbcTemplate jdbcTemplate;
 	private final MachineRepo machineRepo;
-	private final ShiftIdRepo shiftIdRepo;
 
 	public List<Temperature> findAll() {
 		return jdbcTemplate.query(
@@ -90,7 +88,6 @@ public class TemperatureRepo {
 					VALUES(?,?,?,?,?) ON CONFLICT(id) DO NOTHING
 					""",
 					temperature.getId(),
-					temperature.getShiftId().getId(),
 					temperature.getMachine().getId(),
 					temperature.getMax(),
 					temperature.getMin());
@@ -99,10 +96,10 @@ public class TemperatureRepo {
 	}
 	
 	private Temperature fullFill(Temperature temp) {
-		Optional<ShiftId> shiftId = shiftIdRepo.findById(temp.getShiftId().getId());
+//		Optional<ShiftId> shiftId = shiftIdRepo.findById(temp.getShiftId().getId());
 		Optional<Machine> machine = machineRepo.findById(temp.getMachine().getId());
-		if(shiftId.isPresent() && machine.isPresent()) {
-			temp.setShiftId(shiftId.get());
+		if( machine.isPresent()) {
+//			temp.setShiftId(shiftId.get());
 			temp.setMachine(machine.get());
 			return temp;
 		}

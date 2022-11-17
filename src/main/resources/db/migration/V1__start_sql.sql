@@ -31,6 +31,17 @@ CREATE TABLE IF NOT EXISTS employee (
 
 CREATE INDEX IF NOT EXISTS idx_by_username ON employee(username);
 
+CREATE TABLE IF NOT EXISTS problem_detail (
+    id           UUID       PRIMARY KEY,
+    shift_id     UUID       NOT NUll,
+    machine_id   UUID       NOT NULL,
+    begin_time   TIME       NOT NULL,
+    end_time     TIME       NOT NULL,
+    CONSTRAINT unique_problem_detail_to_shift UNIQUE(shift_id,machine_id,begin_time,end_time),
+    FOREIGN KEY(machine_id) REFERENCES machine(id) ON DELETE CASCADE,
+    FOREIGN KEY(shift_id)   REFERENCES shift(id)   ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS problem (
     title        VARCHAR(100) PRIMARY KEY,
     description  VARCHAR(255) NOT NULL
@@ -38,18 +49,13 @@ CREATE TABLE IF NOT EXISTS problem (
 
 CREATE TABLE IF NOT EXISTS total_flow (
     id             UUID        PRIMARY KEY,
+    shift_id       UUID        NOT NUll,
     begin_time     TIME        NOT NULL,
     end_time       TIME        NOT NULL,
     min_flow       INTEGER     NOT NULL,
-    max_flow       INTEGER     NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS problem_detail (
-    id           UUID       PRIMARY KEY,
-    machine_id   UUID       NOT NULL,
-    begin_time   TIME       NOT NULL,
-    end_time     TIME       NOT NULL,
-    FOREIGN KEY(machine_id) REFERENCES machine(id) ON DELETE CASCADE
+    max_flow       INTEGER     NOT NULL,
+    CONSTRAINT unique_total_flow_times UNIQUE(shift_id,begin_time,end_time),
+    FOREIGN KEY(shift_id)   REFERENCES shift(id)   ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS temperature (
@@ -58,14 +64,15 @@ CREATE TABLE IF NOT EXISTS temperature (
     machine_id UUID    NOT NULL,
     max_temp   INTEGER NOT NULL,
     min_temp   INTEGER NOT NULL,
+    CONSTRAINT unique_temperature_to_shift UNIQUE(shift_id,machine_id,max_temp,min_temp),
     FOREIGN KEY(machine_id) REFERENCES machine(id) ON DELETE CASCADE,
     FOREIGN KEY(shift_id)   REFERENCES shift(id)   ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS notes (
-    id       UUID   PRIMARY KEY,
+    note     varchar(200) PRIMARY KEY,
     shift_id UUID   NOT NULL,
-    note     varchar(200) NOT NULL,
+    CONSTRAINT unique_notes_to_shift UNIQUE(note,shift_id),
     FOREIGN  KEY(shift_id) REFERENCES shift(id) ON DELETE CASCADE
 );
 
@@ -83,22 +90,6 @@ CREATE TABLE IF NOT EXISTS problem_detail_problem (
     PRIMARY KEY(problem_detail_id,problem_title),
     FOREIGN KEY(problem_detail_id) REFERENCES problem_detail(id) ON DELETE CASCADE,
     FOREIGN KEY(problem_title)     REFERENCES problem(title)     ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS shift_problem (
-    shift_id   UUID        NOT NULL,
-    problem_detail_id UUID        NOT NULL,
-    PRIMARY KEY(shift_id,problem_detail_id),
-    FOREIGN KEY(shift_id)    REFERENCES shift(id)       ON DELETE CASCADE,
-    FOREIGN KEY(problem_detail_id)  REFERENCES problem_detail(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS shift_total_flow (
-    shift_id UUID        NOT NULL,
-    total_flow_id  UUID        NOT NULL,
-    PRIMARY  KEY(shift_id,total_flow_id),
-    FOREIGN  KEY(shift_id) REFERENCES shift(id) ON DELETE CASCADE,
-    FOREIGN  KEY(total_flow_id)  REFERENCES total_flow(id)  ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS shift_employee (

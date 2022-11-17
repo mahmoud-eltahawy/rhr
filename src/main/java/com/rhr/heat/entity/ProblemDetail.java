@@ -13,21 +13,36 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProblemDetail extends Identity {
+	private UUID shiftId;
 	private List<Problem> problems;
 	private Machine machine;
 	private Time beginTime;
 	private Time endTime;
 
-	public ProblemDetail(UUID id) {
+	public ProblemDetail(UUID id, UUID shiftId, List<Problem> problems,
+			Machine machine, Time beginTime, Time endTime) {
 		super(id);
-	}
-
-	public ProblemDetail(UUID id, List<Problem> problems, Machine machine, Time beginTime, Time endTime) {
-		super(id);
+		this.shiftId = shiftId;
 		this.problems = problems;
 		this.machine = machine;
 		this.beginTime = beginTime;
 		this.endTime = endTime;
+	}
+
+	public ProblemDetail(UUID id) {
+		super(id);
+	}
+
+	@Override
+	public Boolean isSameAs(Identity identity) {
+		ProblemDetail other = (ProblemDetail) identity;
+		if(problems.equals(other.problems) &&
+				machine.equals(other.machine) &&
+						beginTime.equals(other.beginTime) && 
+								endTime.equals(other.endTime)) {
+			return true;
+		}
+		return false;
 	}
 	
 	public List<Pushable> isPushable() {

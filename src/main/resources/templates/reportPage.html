@@ -9,6 +9,7 @@
 		<script type="text/javascript" src="../static/js/reportPage.js" th:src="@{/js/reportPage.js}" async></script>
 	</head>
 	<body>
+		<div th:text="${beginAt}" class="ghost" id="beginTime"></div>
 		<div id="catsContainer" th:text="${catValue}" class="ghost">[]</div>
 		<div id="problemsContainer" th:text="${problemsValue}" class="ghost">[]</div>
 		<p th:object="${theId}" class="short-important-p">
@@ -37,7 +38,6 @@
 									<span th:text="${cat.key}">CATEGORY</span>
 									<span>PROBLEMS</span>
 								</button>
-								<div th:id="${cat.key}+'-btns-container'"></div>
 							</h2>
 							<div class="ghost top-bottom-border" id="category" th:id="${cat.key}">
 								<ul th:each="mapin : ${cat.value}">
@@ -56,13 +56,14 @@
 													<span th:text="${cat.key}">CATEGORY</span>
 													<span th:text="${mapin.key}">NUMBER</span>
 												</button>
+											</h3><br>
+											<div class="top-bottom-border" th:classappend="${mapin.key}!=0 ? 'ghost'" th:id="${cat.key}+'-'+${mapin.key}+'-show'">
+												<div th:id="${cat.key}+'-btns-container'"></div>
 												<div th:id="${cat.key}+'-'+${mapin.key}+'-btns-container'">
 													<a th:href="@{/report/remove/machine/problems/(cat=${cat.key},num=${mapin.key})}">
 														<button class="mini-button">-</button>
 													</a>
 												</div>
-											</h3><br>
-											<div class="top-bottom-border" th:classappend="${mapin.key}!=0 ? 'ghost'" th:id="${cat.key}+'-'+${mapin.key}+'-show'">
 												<table>
 													<thead>
 														<tr>
@@ -92,14 +93,16 @@
 															</td>
 															<td th:id="${pd.id}+'-problems'">
 																<ol type="1">
-																	<li th:each="p : ${pd.problems}">
-																		<span>
-																			<a class="mini-button" th:href="@{/report/remove/problem/problem/(id=${pd.id},title=${p.title})}" method="post">
-																				<button class"mini-button">-</button>
-																			</a>
-																		</span>
-																		<span th:text="${p.title}">problem</span>
-																	</li>
+																	<div th:each="p : ${pd.problems}">
+																		<a style="display:inline-block;"
+																		   th:href="@{/report/remove/problem/problem/(id=${pd.id},title=${p.title})}"
+																		   method="post">
+																			<button>-</button>
+																		</a>
+																		<li style="display:inline-block;">
+																			<span th:text="${p.title}">problem</span>
+																		</li>
+																	</div>
 																	<li>
 																		<button th:attr="onclick=|listProblems('${pd.id}')|" class="mini-button">+</button>
 																	</li>
@@ -183,7 +186,7 @@
 									<td th:text="${t.maxFlow}">Max flow</td>
 									<td th:text="${t.minFlow}">Min flow</td>
 									<td th:text="${t.caseBeginTime}">Start time</td>
-									<td th:text="${t.caseEndTime}">End time</td>
+									<td name="flow-end-time" th:text="${t.caseEndTime}">End time</td>
 								</tr>
 							</tbody>
 						</table>

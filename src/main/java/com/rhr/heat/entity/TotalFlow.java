@@ -13,25 +13,36 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TotalFlow extends Identity {
+	private UUID shift_id;
 	private List<Machine> suspendedMachines;
 	private Integer minFlow;
 	private Integer maxFlow;
 	private Time caseBeginTime;
 	private Time caseEndTime;
 
-	public TotalFlow(UUID id, List<Machine> suspendedMachines,
-			Integer minFlow, Integer maxFlow, Time caseBeginTime,
-			Time caseEndTime) {
+	public TotalFlow(UUID id, UUID shift_id, List<Machine> suspendedMachines,
+			Integer minFlow, Integer maxFlow,Time caseBeginTime, Time caseEndTime) {
 		super(id);
+		this.shift_id = shift_id;
 		this.suspendedMachines = suspendedMachines;
 		this.minFlow = minFlow;
 		this.maxFlow = maxFlow;
 		this.caseBeginTime = caseBeginTime;
 		this.caseEndTime = caseEndTime;
 	}
-
+	
 	public TotalFlow(UUID id) {
 		super(id);
+	}
+	
+	@Override
+	public Boolean isSameAs(Identity identity) {
+		TotalFlow other = (TotalFlow) identity;
+		if(caseBeginTime.equals(other.caseBeginTime)&& 
+				caseEndTime.equals(other.caseEndTime)) {
+			return true;
+		}
+		return false;
 	}
 	
 	public List<Pushable> isPushable() {

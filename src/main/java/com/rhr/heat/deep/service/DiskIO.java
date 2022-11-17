@@ -43,54 +43,33 @@ public class DiskIO {
 	}
 	
 	public void removeAllFlow() {
-		File flow =  dataFiles.get(TotalFlow.class.toString());
-		flow.delete();
-		try {
-			flow.createNewFile();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		removeAll(TotalFlow.class.toString());
 	}
 	
 	public Boolean removeFlow(TotalFlow flow) {
-		List<TotalFlow> flows = getStoredElements(TotalFlow.class.toString());
-		Boolean result = flows.remove(flow);
-		writeElements(flows, TotalFlow.class.toString());
-		return result;
+		return removeElement(flow, TotalFlow.class.toString());
 	}
 	
 	public Boolean addFlowMachine(TotalFlow flow,Machine machine) {
-		List<TotalFlow> flows = getStoredElements(TotalFlow.class.toString());
-		Boolean result = false;
-		for (TotalFlow totalFlow : flows) {
-			if(totalFlow.equals(flow)) {
-				result = totalFlow.getSuspendedMachines().add(machine);
-			}
+		flow =fullFillElement(flow, TotalFlow.class.toString());
+		TotalFlow newFlow = flow;
+		if(newFlow.getSuspendedMachines() == null) {
+			newFlow.setSuspendedMachines(new ArrayList<>());
 		}
-		writeElements(flows, TotalFlow.class.toString());
-		return result;
+		if(!newFlow.getSuspendedMachines().contains(machine)) {
+			newFlow.getSuspendedMachines().add(machine);
+		}
+		return replaceElement(flow, newFlow, TotalFlow.class.toString());
 	}
 	
 	public Boolean removeFlowMachine(TotalFlow flow,Machine machine) {
-		List<TotalFlow> flows = getStoredElements(TotalFlow.class.toString());
-		Boolean result = false;
-		for (TotalFlow totalFlow : flows) {
-			if(totalFlow.equals(flow)) {
-				result = totalFlow.getSuspendedMachines().remove(machine);
-			}
+		flow =fullFillElement(flow, TotalFlow.class.toString());
+		TotalFlow newFlow = flow;
+		if(newFlow.getSuspendedMachines() == null) {
+			newFlow.setSuspendedMachines(new ArrayList<>());
 		}
-		writeElements(flows, TotalFlow.class.toString());
-		return result;
-	}
-	
-	public <T extends Identity> void addElement(T element,String cls) {
-		check();
-		List<T> adds = getStoredElements(cls);
-		if(adds == null) {
-			adds  = new ArrayList<>();
-		}
-		adds.add(element);
-		writeElements(adds, cls);
+		newFlow.getSuspendedMachines().remove(machine);
+		return replaceElement(flow, newFlow, TotalFlow.class.toString());
 	}
 	
 	public Boolean removeMachineProblems(Machine machine) {
@@ -122,12 +101,17 @@ public class DiskIO {
 		if(adds != null) {
 			for (ProblemDetail problemDetail : adds) {
 				if(problemDetail.equals(pd)) {
-					result = problemDetail.getProblems().addAll(problems);
+					for (Problem p : problems) {
+						if(!problemDetail.getProblems().contains(p)) {
+							result = problemDetail.getProblems().add(p);
+						}
+					}
+					writeElements(adds, ProblemDetail.class.toString());
+					return result;
 				}
 			}
-			writeElements(adds, ProblemDetail.class.toString());
 		}
-		return result;
+		return false;
 	}
 	
 	public Boolean removeProblemProblem(ProblemDetail pd,Problem p) {
@@ -143,6 +127,84 @@ public class DiskIO {
 			writeElements(adds, ProblemDetail.class.toString());
 		}
 		return result;
+	}
+	
+	public Boolean removeAll(String cls) {
+		File flow =  dataFiles.get(cls);
+		if(flow != null) {
+			flow.delete();
+			try {
+				flow.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
+	public <T extends Identity> T fullFillElement(T element,String cls) {
+		check();
+		List<T> adds = getStoredElements(cls);
+		for (T t : adds) {
+			if(element.equals(t)) {
+				element = t;
+			}
+		}
+		return element;
+	}
+	public <T extends Identity> Boolean addElement(T element,String cls) {
+		check();
+		List<T> adds = getStoredElements(cls);
+		Boolean addNew = true;
+		if(adds == null) {
+			adds  = new ArrayList<>();
+		} else {
+			for (T t : adds) {
+				if(t.isSameAs(element)) {
+					addNew = false;
+				}
+			}
+		}
+		if(addNew) {
+			adds.add(element);
+			writeElements(adds, cls);
+		}
+		return addNew;
+	}
+	
+	public <T extends Identity> Boolean replaceElement(T oldT,T newT,String cls) {
+		check();
+		List<T> adds = getStoredElements(cls);
+		Boolean removeOld = false;
+		
+		if(adds != null) {
+			removeOld = adds.remove(oldT);
+		}
+		
+		Boolean addNew = true;
+		if(adds == null) {
+			adds  = new ArrayList<>();
+		} else {
+			for (T t : adds) {
+				if(t.isSameAs(newT)) {
+					addNew = false;
+				}
+			}
+		}
+		
+		if(addNew) {
+			adds.add(newT);
+		}
+		
+		if(removeOld && addNew) {
+			writeElements(adds, cls);
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public <T extends Identity> Boolean removeElement(T element,String cls) {

@@ -27,6 +27,16 @@ public class ShiftId extends Identity {
 		super(id);
 	}
 	
+	@Override
+	public Boolean isSameAs(Identity identity) {
+		ShiftId other = (ShiftId) identity;
+		if(date.equals(other.date) &&
+				shift.equals(other.shift)) {
+			return true;
+		}
+		return false;
+	}
+	
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();
 		if(date == null) {

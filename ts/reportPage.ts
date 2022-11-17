@@ -23,9 +23,9 @@ function replaceForm(machine : string ,number: number ,fieldId: string){
               })()}
           </select>
           <label name="beginTime" id="beginTime">Problem begin</label>
-          <input type="time" id="beginTime" name="beginTime" required>
+          <input type="time" id="beginTime" name="beginTime" min="${shiftBegin()}" max="${shiftEnd()}" required>
           <label name="endTime" id="endTime">Problem end</label>
-          <input type="time" id="endTime" name="endTime"   required>
+          <input type="time" id="endTime" name="endTime" min="${shiftBegin()}" max="${shiftEnd()}" required>
           <button type="submit">Submit</button>
           </form>
         </div>
@@ -168,14 +168,38 @@ function replaceFlowForm(id : string){
           <label name="min" id="min">minimum</label>
           <input type="number" id="min" name="min" required>
           <label name="beginTime" id="beginTime">record begin</label>
-          <input type="time" id="beginTime" name="beginTime" required>
+          <input type="time" id="beginTime" name="beginTime" value="${flowMinTime()}" readonly>
           <label name="endTime" id="endTime">record end</label>
-          <input type="time" id="endTime" name="endTime" required>
+          <input type="time" id="endTime" name="endTime" min="${flowMinTime()}" max="${shiftEnd()}" required>
           <button type="submit">Submit</button>
           </form>
         </div>
       </div>
 `
+}
+
+function flowMinTime(){
+  const endTimes : string[] = []
+  document.getElementsByName('flow-end-time').forEach((e)=> endTimes.push(e.innerText))
+  if(endTimes[endTimes.length - 1] == null){
+    return shiftBegin()
+  } else {
+    return endTimes[endTimes.length - 1].slice(0,5)
+  }
+}
+
+function shiftBegin(){
+  const strTime = document.getElementById('beginTime')!.innerText
+  return strTime.slice(0,5)
+}
+
+function shiftEnd(){
+    const strTime = document.getElementById('beginTime')!.innerText
+    const newHour  = +strTime.slice(0,1) + 8
+    if(newHour < 10){
+      return '0'+newHour+':00'
+    }
+    return newHour+':00'
 }
 
 function replaceTempForm(){

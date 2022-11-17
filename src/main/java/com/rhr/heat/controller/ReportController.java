@@ -79,14 +79,14 @@ public class ReportController {
 			@RequestParam("max")Integer max ,
 			@RequestParam("min")Integer min ,
 			@RequestParam("machine")UUID id) {
-		service.addTemp(new Temperature(null, null, new Machine(id, null, null), max, min));
+		service.addTemp(new Temperature(null,null, new Machine(id, null, null), max, min));
 		return "redirect:/report/";
 	}
 
 	@PostMapping("/note")
 	public String note(
 			@RequestParam("note")String note) {
-		service.addNote(new Note(null, null, note));
+		service.addNote(new Note(null, note));
 		return "redirect:/report/";
 	}
 

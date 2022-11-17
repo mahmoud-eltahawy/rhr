@@ -35,6 +35,15 @@ public class Employee extends Identity {
 		this.password = password;
 	}
 	
+	@Override
+	public Boolean isSameAs(Identity identity) {
+		Employee other = (Employee) identity;
+		if(username.equals(other.username)) {
+			return true;
+		}
+		return false;
+	}
+	
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();
 		if(id == null) {

@@ -11,56 +11,20 @@ import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.enums.Pushable;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Shift {
-	@Setter
 	protected ShiftId shiftId;
-	@Setter
 	private List<ProblemDetail> problems;
-	@Setter
 	private List<Employee> employees;
-	@Setter
 	private List<TotalFlow> totalFlowAverage;
 	private List<Temperature> temps;
 	private List<Note> notes;
-
-	public Shift(ShiftId shiftId, List<ProblemDetail> problems, List<Employee> employees,
-			List<TotalFlow> totalFlowAverage, List<Temperature> temps, List<Note> notes) {
-		this.shiftId = shiftId;
-		this.problems = problems;
-		this.employees = employees;
-		this.totalFlowAverage = totalFlowAverage;
-		this.temps = temps;
-		this.notes = notes;
-		
-		if(temps != null) {
-			this.temps.forEach(t -> t.setShiftId(this.shiftId));
-		}
-		if(notes != null) {
-			this.notes.forEach(n -> n.setShiftId(this.shiftId));
-		}
-	}
-
-	public void setTemps(List<Temperature> temps) {
-		this.temps = temps;
-		
-		if(temps != null) {
-			this.temps.forEach(t -> t.setShiftId(this.shiftId));
-		}
-	}
-
-
-	public void setNotes(List<Note> notes) {
-		this.notes = notes;
-
-		if(notes != null) {
-			this.notes.forEach(n -> n.setShiftId(this.shiftId));
-		}
-	}
-	
 
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();
