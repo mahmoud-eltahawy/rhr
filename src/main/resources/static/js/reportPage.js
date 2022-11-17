@@ -89,7 +89,29 @@ function getCategoriesNumbersContainers() {
     }
     return mList;
 }
-function addPlusMinusButtons(element, catnum) {
+function listProblems(uuid) {
+    document.getElementById(uuid + "-problems").innerHTML = `
+      <div class="box-container">
+        <div class="form-container">
+          <form action="/report/add/problem/problems" method="post">
+          <input type="hidden" id="id" name="id" value="${uuid}">
+          <select multiple="multiple" name="titles" id="titles" required>
+            ${(function () {
+        let options = "";
+        const problems = JSON.parse(document.getElementById("problemsContainer").innerText);
+        for (let p of problems) {
+            options += `<option value="${p}" >${p}</option>`;
+        }
+        return options;
+    })()}
+          </select>
+          <button type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+`;
+}
+function addPlusButtons(element, catnum) {
     if (element) {
         element.innerHTML += `
                       <button class="mini-button"
@@ -120,11 +142,11 @@ if (true) {
     const cc = getCategoriesContainers();
     for (const [key, value] of cc) {
         if (value.vsize == 1) {
-            addPlusMinusButtons(document.getElementById(key), value.catnum);
+            addPlusButtons(document.getElementById(key), value.catnum);
         }
     }
     const cn = getCategoriesNumbersContainers();
     for (const [key, value] of cn) {
-        addPlusMinusButtons(document.getElementById(key), value);
+        addPlusButtons(document.getElementById(key), value);
     }
 })();

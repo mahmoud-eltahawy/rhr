@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -108,7 +109,7 @@ public class ReportService {
 	public String removeMachineProblems(String cat, Integer num) {
 		if(diskIO.removeMachineProblems(new Machine(cat,num)))
 		{
-			return "deleted sucessfully";
+			return cat +" "+ num+ " all problems deleted sucessfully";
 		}
 		return "failed";
 	}
@@ -116,7 +117,22 @@ public class ReportService {
 	public String removeProblemProblem(UUID pdId,String title) {
 		if(diskIO.removeProblemProblem(new ProblemDetail(pdId), new Problem(title)))
 		{
-			return "deleted sucessfully";
+			return "problem "+ title +" deleted sucessfully";
+		}
+		return "failed";
+	}
+	
+	public String addProblemProblems(UUID pdId,List<String> titles) {
+		if(diskIO.addProblemProblems(new ProblemDetail(pdId),
+				titles.stream().map(t -> new Problem(t))
+				.collect(Collectors.toList())))
+		{
+			String param = "";
+			for (String t : titles) {
+				param += t+" ";
+			}
+			
+			return param + " added sucessfully";
 		}
 		return "failed";
 	}
@@ -124,7 +140,7 @@ public class ReportService {
 	public String removeProblem(UUID id) {
 		if(diskIO.removeElement(new ProblemDetail(id), ProblemDetail.class.toString()))
 		{
-			return "deleted sucessfully";
+			return "problem deleted sucessfully";
 		}
 		return "failed";
 	}

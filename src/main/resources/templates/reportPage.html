@@ -90,7 +90,7 @@
 															<td th:text="${pd.endTime}">
 																problem end time
 															</td>
-															<td>
+															<td th:id="${pd.id}+'-problems'">
 																<ol type="1">
 																	<li th:each="p : ${pd.problems}">
 																		<span>
@@ -101,7 +101,7 @@
 																		<span th:text="${p.title}">problem</span>
 																	</li>
 																	<li>
-																		<button class="mini-button">+</button>
+																		<button th:attr="onclick=|listProblems('${pd.id}')|" class="mini-button">+</button>
 																	</li>
 																</ol>
 															</td>

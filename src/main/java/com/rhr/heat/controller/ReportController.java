@@ -104,6 +104,13 @@ public class ReportController {
 		return "redirect:/report/?message="+service.removeMachineProblems(cat,num);
 	}
 
+	@RequestMapping("/add/problem/problems")
+	public String addProblemProblems(
+			@RequestParam("id")UUID id,
+			@RequestParam("titles")List<String> titles) {
+		return "redirect:/report/?message="+service.addProblemProblems(id,titles);
+	}
+
 	@RequestMapping("/remove/problem/problem")
 	public String removeProblemProblem(
 			@RequestParam("id")UUID id,

@@ -74,6 +74,21 @@ public class DiskIO {
 		return result;
 	}
 	
+	public Boolean addProblemProblems(ProblemDetail pd,List<Problem> problems) {
+		check();
+		List<ProblemDetail> adds = getStoredElements(ProblemDetail.class.toString());
+		Boolean result = false;
+		if(adds != null) {
+			for (ProblemDetail problemDetail : adds) {
+				if(problemDetail.equals(pd)) {
+					result = problemDetail.getProblems().addAll(problems);
+				}
+			}
+			writeElements(adds, ProblemDetail.class.toString());
+		}
+		return result;
+	}
+	
 	public Boolean removeProblemProblem(ProblemDetail pd,Problem p) {
 		check();
 		List<ProblemDetail> adds = getStoredElements(ProblemDetail.class.toString());
