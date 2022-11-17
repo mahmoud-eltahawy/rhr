@@ -70,7 +70,7 @@ public class ReportService {
 	public String reportTotalFlow(List<String> smachines,
 			Integer max,Integer min,String beginTime,String endTime) {
 		List<Machine> machines = smachines.stream()
-				.map(s -> parseMachine(s)).collect(Collectors.toList());
+				.map(s -> parseMachine(s).orElseThrow()).collect(Collectors.toList());
 		for (Machine machine : machines) {
 			if(machineRepo.findByTheId(machine.getCategory(), machine.getNumber()).isEmpty()) {
 				return "undefined machine";
@@ -85,9 +85,9 @@ public class ReportService {
 		return "failed because of "+ tf.isPushable().get(0);
 	}
 	
-	private Machine parseMachine(String sm) {
+	private Optional<Machine> parseMachine(String sm) {
 		String[] arr = sm.split("-");
-		return new Machine(UUID.randomUUID(),arr[0], Integer.parseInt(arr[1]));
+		return machineRepo.findByTheId(arr[0], Integer.parseInt(arr[1]));
 	}
 	
 	public String reportProblem(String category,Integer number,
@@ -110,8 +110,9 @@ public class ReportService {
 				} else {
 					return "failed because of "+ pr.get().isPushable().get(0);
 				}
+			} else {
+				return "define the problem "+pr.get().getTitle() +" and try again";
 			}
-			return "define the problem "+pr.get().getTitle() +" and try again";
 		}
 		pd.setProblems(pbs);
 		if(pd.isPushable().isEmpty()) {
@@ -172,7 +173,37 @@ public class ReportService {
 		} 
 		return "failed";
 	}
-
+	
+	public String removeFlowMachine(UUID flowId,String machine) {
+		Optional<Machine> theMachine = parseMachine(machine);
+		if(theMachine.isPresent()) {
+			if(diskIO.removeFlowMachine(new TotalFlow(flowId), theMachine.get()))
+			{
+				return "total flow record "+ machine +" removed successfully";
+			} 
+		}
+		return "failed";
+	}
+	
+	public String addFlowMachines(UUID flowId,List<String> machines) {
+		List<Optional<Machine>> theMachines = machines.stream()
+				.map(m -> parseMachine(m)).collect(Collectors.toList());
+		int count = 0;
+		for (Optional<Machine> machine : theMachines) {
+			if(machine.isPresent()) {
+				diskIO.addFlowMachine(new TotalFlow(flowId), machine.get());
+			} else {
+				count++;
+			}
+		}
+		if(count == 0) {
+			return "all added succfully";
+		} else if(count == machines.size()) {
+			return "all machines need to be defined first";
+		} else {
+			return "some machines need to be defined first";
+		}
+	}
 	
 	public Shift addEmployee(String emp) {
 //		Optional<Employee> employee = employeeRepo.findByUsername(emp);

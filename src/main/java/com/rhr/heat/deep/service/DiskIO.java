@@ -59,6 +59,30 @@ public class DiskIO {
 		return result;
 	}
 	
+	public Boolean addFlowMachine(TotalFlow flow,Machine machine) {
+		List<TotalFlow> flows = getStoredElements(TotalFlow.class.toString());
+		Boolean result = false;
+		for (TotalFlow totalFlow : flows) {
+			if(totalFlow.equals(flow)) {
+				result = totalFlow.getSuspendedMachines().add(machine);
+			}
+		}
+		writeElements(flows, TotalFlow.class.toString());
+		return result;
+	}
+	
+	public Boolean removeFlowMachine(TotalFlow flow,Machine machine) {
+		List<TotalFlow> flows = getStoredElements(TotalFlow.class.toString());
+		Boolean result = false;
+		for (TotalFlow totalFlow : flows) {
+			if(totalFlow.equals(flow)) {
+				result = totalFlow.getSuspendedMachines().remove(machine);
+			}
+		}
+		writeElements(flows, TotalFlow.class.toString());
+		return result;
+	}
+	
 	public <T extends Identity> void addElement(T element,String cls) {
 		check();
 		List<T> adds = getStoredElements(cls);

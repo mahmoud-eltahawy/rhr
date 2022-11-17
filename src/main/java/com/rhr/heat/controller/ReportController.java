@@ -108,6 +108,20 @@ public class ReportController {
 		return "redirect:/report/?message="+service.removeFlow(id);
 	}
 
+	@RequestMapping("/remove/flow/machine")
+	public String removeFlowMachine(
+			@RequestParam("fid")UUID flowId,
+			@RequestParam("machine")String machine) {
+		return "redirect:/report/?message="+service.removeFlowMachine(flowId,machine);
+	}
+
+	@RequestMapping("/add/flow/machines")
+	public String addFlowMachines(
+			@RequestParam("id")UUID flowId,
+			@RequestParam("machines")List<String> machines) {
+		return "redirect:/report/?message="+service.addFlowMachines(flowId,machines);
+	}
+
 	@RequestMapping("/add/problem/problems")
 	public String addProblemProblems(
 			@RequestParam("id")UUID id,

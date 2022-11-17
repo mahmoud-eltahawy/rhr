@@ -116,6 +116,32 @@ function listProblems(uuid : string){
 `
 }
 
+function listMachines(uuid : string){
+  document.getElementById(uuid+"-machines")!.innerHTML = `
+      <div class="box-container">
+        <div class="form-container">
+          <form action="/report/add/flow/machines" method="post">
+          <input type="hidden" id="id" name="id" value="${uuid}">
+          <select multiple="multiple" name="machines" id="machines" required>
+            ${
+              (function(){
+                const mList : string[] = []
+                jsonMap.forEach((v,k) =>{
+                  v.forEach(n =>{
+                    mList.push(`<option value="${k}-${n}">${k}${n?'-'+n:''}</option>`)
+                  })
+                })
+                return mList;
+              })()
+            }
+          </select>
+          <button type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+`
+}
+
 
 function replaceFlowForm(id : string){
   document.getElementById(id)!.innerHTML =`

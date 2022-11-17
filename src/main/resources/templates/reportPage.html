@@ -165,15 +165,19 @@
 											</button>
 										</form>
 									</td>
-									<td class="kilenData">
+									<td class="kilenData" th:id="${t.id}+'-machines'">
 										<ul>
 											<li th:each="m : ${t.suspendedMachines}">
-												<span><button id="flow-machine-minus-btn" class="mini-button">-</button></span>
+												<span>
+													<a th:href="@{/report/remove/flow/machine/(fid=${t.id},machine=${m.category}+'-'+${m.number})}">
+														<button class="mini-button">-</button>
+													</a>
+												</span>
 												<span th:text="${m.category}+'-'+${m.number}">
 													machine number
 												</span>
 											</li>
-											<li><button id="flow-machine-plus-btn" class="mini-button">+</button></li>
+											<li><button th:attr="onclick=|listMachines('${t.id}')|" class="mini-button">+</button></li>
 										</ul>
 									</td>
 									<td th:text="${t.maxFlow}">Max flow</td>
