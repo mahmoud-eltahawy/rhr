@@ -25,7 +25,11 @@ public class Machine {
 	}
 	
 	public String name() {
-		return category+" "+number;
+		if(number != 0) {
+			return category+" "+number;
+		} else {
+			return category;
+		}
 	}
 	
 	public List<Pushable> isPushable() {

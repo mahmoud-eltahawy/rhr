@@ -240,6 +240,11 @@ if(true){
                               onclick="replaceButtons('${catName}','add-problem-field')">${catName}</button>`
   }
   document.getElementById("add-problem-field")!.innerHTML = btnString
+  // show last flow record delete button
+  const arr = document.getElementsByName('flow-end-time')
+  if(arr.length > 0){
+    document.getElementById(arr[arr.length - 1].id.slice(0,-4) +'-btn')!.style.display = 'block'
+  }
 }
 
 (function (){

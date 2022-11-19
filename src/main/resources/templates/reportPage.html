@@ -159,14 +159,18 @@
 							<tbody>
 								<tr th:each="t : ${flow}">
 									<td>
-										<form th:action="@{/report/remove/flow/(id=${t.id})}" method="post">
-											<button
-													type="submit"
-													class="mini-button"
-													style="width: 100%">
-												-
-											</button>
-										</form>
+										{
+										<div th:id="${t.id}+'-btn'" class="ghost">
+											<form th:action="@{/report/remove/flow/(id=${t.id})}" method="post">
+												<button
+														type="submit"
+														class="mini-button"
+														style="width: 100%">
+													-
+												</button>
+											</form>
+										</div>
+										}
 									</td>
 									<td class="kilenData" th:id="${t.id}+'-machines'">
 										<ul>
@@ -186,7 +190,7 @@
 									<td th:text="${t.maxFlow}">Max flow</td>
 									<td th:text="${t.minFlow}">Min flow</td>
 									<td th:text="${t.caseBeginTime}">Start time</td>
-									<td name="flow-end-time" th:text="${t.caseEndTime}">End time</td>
+									<td th:id="${t.id}+'-end'" name="flow-end-time" th:text="${t.caseEndTime}">End time</td>
 								</tr>
 							</tbody>
 						</table>
