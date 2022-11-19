@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS temperature (
     machine_id UUID    NOT NULL,
     max_temp   INTEGER NOT NULL,
     min_temp   INTEGER NOT NULL,
-    CONSTRAINT unique_temperature_to_shift UNIQUE(shift_id,machine_id,max_temp,min_temp),
+    CONSTRAINT unique_temperature_to_shift UNIQUE(shift_id,machine_id),
     FOREIGN KEY(machine_id) REFERENCES machine(id) ON DELETE CASCADE,
     FOREIGN KEY(shift_id)   REFERENCES shift(id)   ON DELETE CASCADE
 );

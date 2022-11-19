@@ -41,8 +41,8 @@ public class ReportControllerDealer {
 			mv.addObject("cats",null);
 		}
 		mv.addObject("flow",shift.getTotalFlowAverage());
-		mv.addObject("temps",shift.getTemps());
 		mv.addObject("notes",shift.getNotes());
+		mv.addObject("temps",shift.getTemps());
 		if(shift.getEmployees() != null) {
 			mv.addObject("names",shift.getEmployees().stream().map(e ->{
 				return e.getFirstName()+" "+e.getMiddleName()+" "+e.getLastName();

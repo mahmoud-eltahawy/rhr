@@ -202,15 +202,52 @@ function shiftEnd(){
     return newHour+':00'
 }
 
-function replaceTempForm(){
-  document.getElementById("record-section-add-field")!.innerHTML =`
-<h1>hello record form</h1>
+function replaceTempForm(id: string){
+  document.getElementById(id)!.innerHTML =`
+      <div class="box-container">
+        <div class="form-container">
+          <h1> Temperature record</h1>
+          <form action="/report/temp" method="post">
+          <label name="machine" id="machine">suspended machines</label>
+          <select name="machine" id="machine" required>
+            ${
+              (function(){
+                const mList : string[] = []
+                jsonMap.forEach((v,k) =>{
+                  if(k == 'KILEN' || k == 'PROJECT'){
+                    v.forEach(n =>{
+                      mList.push(`<option value="${k}-${n}">${k}${n?'-'+n:''}</option>`)
+                    })
+                  }
+                })
+                return mList;
+              })()
+            }
+          </select>
+          <label name="max" id="max">maximum</label>
+          <input type="number" id="max" name="max" required>
+          <label name="min" id="min">minimum</label>
+          <input type="number" id="min" name="min" required>
+          <button type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
 `
 }
 
-function replaceNoteForm(){
-  document.getElementById("record-section-add-field")!.innerHTML =`
-<h1>hello record form</h1>
+function replaceNoteForm(id :string){
+  document.getElementById(id)!.innerHTML =`
+      <div class="box-container">
+        <div class="form-container">
+          <form action="/report/note" method="post">
+          <label for="note">NOTE</label>
+          <textarea id="note" name="note" rows="4"
+                cols="50" class="short-important-p"
+                style="width:80%; margin:5%; color:white;">...</textarea>
+          <button type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
 `
 }
 

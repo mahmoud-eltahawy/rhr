@@ -89,6 +89,30 @@ public class ReportService {
 		String[] arr = sm.split("-");
 		return machineRepo.findByTheId(arr[0], Integer.parseInt(arr[1]));
 	}
+
+	public String reportTemperature(String machine, Integer max, Integer min) {
+		Temperature temp = new Temperature(UUID.randomUUID());
+		Optional<Machine> machin = parseMachine(machine);
+		if(machin.isPresent()) {
+			temp.setMachine(machin.get());
+		} else {
+			return "unvalid machine";
+		}
+		temp.setMax(max);
+		temp.setMin(min);
+		if(temp.isPushable().isEmpty()) {
+			diskIO.addElement(temp, Temperature.class.toString());
+			return "temperature record stored succesfully";
+		} else {
+			return "failed because of "+ temp.isPushable().get(0);
+		}
+	}
+	public void reportNote(String note) {
+		Note noteC = new Note(UUID.randomUUID(), note);
+		if(noteC.isPushable().isEmpty()) {
+			diskIO.addElement(noteC, Note.class.toString());
+		}
+	}
 	
 	public String reportProblem(String category,Integer number,
 			List<String> problems,String beginTime,String endTime) {
@@ -164,6 +188,17 @@ public class ReportService {
 	
 	public void removeAllFlow() {
 		diskIO.removeAllFlow();
+	}
+	public void removeAllTemp() {
+		diskIO.removeAllTemp();
+	}
+	
+	public String removeTemp(UUID id) {
+		if(diskIO.removeFlow(new Temperature(id)))
+		{
+			return "temperature record removed successfully";
+		} 
+		return "failed";
 	}
 	
 	public String removeFlow(UUID id) {

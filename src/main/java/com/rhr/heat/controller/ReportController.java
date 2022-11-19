@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rhr.heat.entity.Employee;
-import com.rhr.heat.entity.Machine;
-import com.rhr.heat.entity.Note;
-import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.topLayer.Shift;
 import com.rhr.heat.service.ReportControllerDealer;
 import com.rhr.heat.service.ReportService;
@@ -78,16 +75,16 @@ public class ReportController {
 	public String temperature(
 			@RequestParam("max")Integer max ,
 			@RequestParam("min")Integer min ,
-			@RequestParam("machine")UUID id) {
-		service.addTemp(new Temperature(null,null, new Machine(id, null, null), max, min));
-		return "redirect:/report/";
+			@RequestParam("machine")String machine) {
+		
+		return "redirect:/report/?message="+service.reportTemperature(machine,max,min);
 	}
 
 	@PostMapping("/note")
 	public String note(
 			@RequestParam("note")String note) {
-		service.addNote(new Note(null, note));
-		return "redirect:/report/";
+		service.reportNote(note);
+		return "redirect:/report/?message=note was added successfully";
 	}
 
 	@RequestMapping("/remove/machine/problems")
@@ -100,12 +97,23 @@ public class ReportController {
 	@RequestMapping("/remove/all/flow")
 	public String removeAllFlow() {
 		service.removeAllFlow();
-		return "redirect:/report/?message=done";
+		return "redirect:/report/?message=all total flow records removed";
+	}
+
+	@RequestMapping("/remove/all/temp")
+	public String removeAllTemp() {
+		service.removeAllTemp();
+		return "redirect:/report/?message=all temperature records removed";
 	}
 
 	@RequestMapping("/remove/flow")
 	public String removeFlow(@RequestParam("id")UUID id) {
 		return "redirect:/report/?message="+service.removeFlow(id);
+	}
+
+	@RequestMapping("/remove/temp")
+	public String removeTemp(@RequestParam("id")UUID id) {
+		return "redirect:/report/?message="+service.removeTemp(id);
 	}
 
 	@RequestMapping("/remove/flow/machine")

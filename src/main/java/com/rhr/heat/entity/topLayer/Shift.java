@@ -77,8 +77,8 @@ public class Shift {
 		}
 		if(notes != null) {
 			if(!notes.isEmpty()) {
-				for (Temperature temp : temps) {
-					canPush.addAll(temp.isPushable());
+				for (Note note : notes) {
+					canPush.addAll(note.isPushable());
 				}
 			} 
 		}

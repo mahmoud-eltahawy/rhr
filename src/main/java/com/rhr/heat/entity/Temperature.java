@@ -32,9 +32,7 @@ public class Temperature extends Identity {
 	@Override
 	public Boolean isSameAs(Identity identity) {
 		Temperature other = (Temperature) identity;
-		if(machine.equals(other.machine) &&
-				max.equals(other.max)&&
-				min.equals(other.min)) {
+		if(machine.equals(other.machine)) {
 			return true;
 		}
 		return false;

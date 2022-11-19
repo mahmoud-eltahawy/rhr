@@ -41,9 +41,17 @@ public class DiskIO {
 				getStoredElements(Temperature.class.toString()),
 				getStoredElements(Note.class.toString()));
 	}
+
+	public void removeAllTemp() {
+		removeAll(Temperature.class.toString());
+	}
 	
 	public void removeAllFlow() {
 		removeAll(TotalFlow.class.toString());
+	}
+
+	public boolean removeFlow(Temperature temp) {
+		return removeElement(temp, Temperature.class.toString());
 	}
 	
 	public Boolean removeFlow(TotalFlow flow) {

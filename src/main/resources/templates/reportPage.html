@@ -131,10 +131,7 @@
 		<div th:unless="${flow==null} AND ${temps==null} AND ${notes==null}">
 			<h1><button class="notsub" onclick="toggle('records-section')">RECORDS SECTION</button></h1><br>
 			<div class="ghost top-bottom-border" id="records-section">
-				<button th:if="${flow.isEmpty()}" class="issub" onclick="replaceFlowForm('records-section')">
-					ADD TOTAL FLOW RECORD
-				</button>
-				<div th:unless="${flow.isEmpty()}">
+				<div>
 					<button class="issub" onclick="toggle('flow')">
 						Total Flow records
 					</button>
@@ -172,7 +169,7 @@
 										</div>
 										}
 									</td>
-									<td class="kilenData" th:id="${t.id}+'-machines'">
+									<td th:id="${t.id}+'-machines'">
 										<ul>
 											<li th:each="m : ${t.suspendedMachines}">
 												<span>
@@ -196,49 +193,52 @@
 						</table>
 					</div>
 				</div>
-				<br>
-				<button th:if="${temps==null}" class="issub" id="add-temp-btn">
-					ADD TEMPERATURE RECORD
-				</button>
-				<div th:unless="${temps==null}">
-					<h2>
-						<span>
-							<button class="issub" id="temp-btn">
-								TEMPERATURE
+				<div>
+					<button class="issub" onclick="toggle('temp-section')">
+						TEMPERATURE
+					</button>
+					<div class="ghost top-bottom-border" id="temp-section">
+						<div>
+							<a th:href="@{/report/remove/all/temp/}">
+								<button class="mini-button">-</button>
+							</a>
+							<button class="mini-button"
+									onclick="replaceTempForm('temp-section')">+
 							</button>
-							<span><button id="temperature-plus-btn" class="mini-button">+</button></span>
-						</span>
-					</h2>
-					<div class="ghost top-bottom-border" id="temp">
+						</div>
 						<ul th:each="temp :${temps}">
-							<p class="short-important-p">
-								<span><button id="temperature-minus-btn" class="mini-button">-</button></span>
-								MACHINE :
-								<span th:object="${temp.machine}">
-									<span th:text="*{category}">category</span>
-									<span th:unless="*{number}==0" th:text="*{number}">number</span>
-								</span>
-								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-								MAXIMUM : <span th:text="${temp.max}">max</span>
-								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-								MINIMUM : <span th:text="${temp.min}">min</span>
-							</p>
+							<div>
+								<div class="mini-button" style="display:inline-block; width:7%; margin:2%;">
+									<form th:action="@{/report/remove/temp/(id=${temp.id})}" method="post">
+										<button type="submit" style="width:100%">-</button>
+									</form>
+								</div>
+								<p class="short-important-p" style="display:inline-block; width:77%; margin:2%;">
+									MACHINE :
+									<span th:object="${temp.machine}">
+										<span th:text="*{category}">category</span>
+										<span th:unless="*{number}==0" th:text="*{number}">number</span>
+									</span>
+									&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+									MAXIMUM : <span th:text="${temp.max}">max</span>
+									&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+									MINIMUM : <span th:text="${temp.min}">min</span>
+								</p>
+							</div>
 						</ul>
 					</div>
 				</div>
-				<button th:if="${notes==null}" class="issub" id="add-note-btn">
-					ADD NOTE
-				</button>
-				<div th:unless="${notes==null}">
-					<h2>
-						<span>
-							<button class="issub" id="note-btn">
-								NOTE
+				<div>
+					<button class="issub" onclick="toggle('note-section')">NOTE</button>
+					<div class="ghost top-bottom-border" id="note-section">
+						<div>
+							<a th:href="@{/report/remove/all/note/}">
+								<button class="mini-button">-</button>
+							</a>
+							<button class="mini-button"
+									onclick="replaceNoteForm('note-section')">+
 							</button>
-						</span>
-						<span><button id="note-plus-btn" class="mini-button">+</button></span>
-					</h2>
-					<div class="ghost top-bottom-border" id="note">
+						</div>
 						<ul th:each="note :${notes}">
 							<p class="short-important-p">
 								<span><button id="note-minus-btn" class="mini-button">-</button></span>
