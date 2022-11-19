@@ -4,8 +4,8 @@ CREATE TABLE IF NOT EXISTS shift (
     id          UUID          PRIMARY KEY,
     shift_order VARCHAR(7)    NOT NULL,
     shift_date  DATE          NOT NULL,
-    CONSTRAINT shift_identity UNIQUE(shift_order,shift_date),
-    CONSTRAINT shift_order_values CHECK(shift_order in ('FIRST', 'SECOND', 'THIRD'))
+    CONSTRAINT unique_shift_identity UNIQUE(shift_order,shift_date),
+    CONSTRAINT chk_shift_order_values CHECK(shift_order in ('FIRST', 'SECOND', 'THIRD'))
 );
 
 CREATE INDEX IF NOT EXISTS idx_by_shift_order ON shift(shift_order);
