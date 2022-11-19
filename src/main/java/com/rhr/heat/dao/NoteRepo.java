@@ -2,7 +2,6 @@ package com.rhr.heat.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,21 +24,18 @@ public class NoteRepo {
 				new NoteRowMapper());
 	}
 	
-	public Optional<Note> findById(UUID id) {
-		Optional<Note> temp = jdbcTemplate.query
-				("SELECT n.* FROM notes n WHERE n.id =?",
-				new NoteRowMapper(), id).stream().findFirst();
-		return temp;
+	public List<Note> findByShiftId(UUID id) {
+		return jdbcTemplate.query
+				("SELECT n.* FROM notes n WHERE n.shift_id =?",
+				new NoteRowMapper(), id);
 	}
 	
-	public List<Note> findByShiftId(UUID id){
-		return jdbcTemplate.query(
-				"SELECT n.* FROM notes n WHERE n.shift_id = ?"
-				, new NoteRowMapper(),id);
+	public int deleteByShiftId(UUID id) {
+		return jdbcTemplate.update("DELETE FROM notes n WHERE n.shift_id =?", id);
 	}
 	
-	public int deleteById(UUID id) {
-		return jdbcTemplate.update("DELETE FROM notes n WHERE n.id =?", id);
+	public int delete(String note) {
+		return jdbcTemplate.update("DELETE FROM notes n WHERE n.note =?", note);
 	}
 	
 	public List<Pushable> saveAll(List<Note> notes) {
@@ -55,7 +51,7 @@ public class NoteRepo {
 		if(result.isEmpty()) {
 			jdbcTemplate.update("""
 					INSERT INTO notes(shift_id,note)
-					VALUES(?,?,?) ON CONFLICT(id) DO NOTHING
+					VALUES(?,?) ON CONFLICT(shift_id,note) DO NOTHING
 					""",
 					note.getId(),
 					note.getNote());

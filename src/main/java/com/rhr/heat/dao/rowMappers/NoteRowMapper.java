@@ -12,7 +12,7 @@ public class NoteRowMapper implements RowMapper<Note> {
 
 	@Override
 	public Note mapRow(ResultSet rs, int rowNum) throws SQLException {
-		return new Note((UUID) rs.getObject("id"),rs.getString("note"));
+		return new Note((UUID) rs.getObject("shift_id"),rs.getString("note"));
 	}
 }
 

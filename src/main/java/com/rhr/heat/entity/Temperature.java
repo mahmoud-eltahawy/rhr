@@ -45,10 +45,6 @@ public class Temperature extends Identity {
 		if(id == null) {
 			canPush.add(Pushable.TEMPERATURE_ID_IS_NULL);
 		}
-		if(shiftId == null) {
-			canPush.add(Pushable.TEMPERATURE_SHIFT_ID_IS_NULL);
-		} else {
-		}
 		if(machine != null) {
 			canPush.addAll(machine.isPushable());
 		} else {

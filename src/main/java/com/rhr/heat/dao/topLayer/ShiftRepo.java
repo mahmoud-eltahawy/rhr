@@ -125,14 +125,15 @@ public class ShiftRepo {
 	}
 
 	public List<Pushable> save(Shift s) {
+		UUID uuid = UUID.randomUUID();
+		s.getShiftId().setId(uuid);
 		if(s.isPushable().isEmpty()) {
-			UUID id = s.getShiftId().getId();
 			shiftIdRepo.save(s.getShiftId());
-			s.getProblems().forEach(p -> problemDetailsRepo.saveToShift(p.getId(), id));
-			s.getEmployees().forEach(e -> employeeRepo.saveToShift(e.getId(), id));
-			s.getTotalFlowAverage().forEach(t -> totalFlowRepo.saveToShift(t.getId(), id));
-			s.getTemps().forEach(t -> temperatureRepo.save(t));
-			s.getNotes().forEach(n -> noteRepo.save(n));
+			s.getProblems().forEach(p -> {p.setShiftId(uuid); problemDetailsRepo.save(p);});
+			s.getEmployees().forEach(e -> employeeRepo.saveToShift(e.getId(),s.getShiftId().getId()));
+			s.getTotalFlowAverage().forEach(t -> {t.setShiftId(uuid); totalFlowRepo.save(t);});
+			s.getTemps().forEach(t -> {t.setShiftId(uuid); temperatureRepo.save(t);});
+			s.getNotes().forEach(n -> {n.setId(uuid); noteRepo.save(n);});
 		}
 		return s.isPushable();
 	}

@@ -38,6 +38,8 @@ public class Shift {
 				for (ProblemDetail pd : problems) {
 					canPush.addAll(pd.isPushable());
 				}
+			} else {
+				canPush.add(Pushable.SHIFT_PROBLEMS_LIST_IS_NULL);
 			}
 		}
 		if(employees != null) {

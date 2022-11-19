@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TotalFlow extends Identity {
-	private UUID shift_id;
+	private UUID shiftId;
 	private List<Machine> suspendedMachines;
 	private Integer minFlow;
 	private Integer maxFlow;
@@ -23,7 +23,7 @@ public class TotalFlow extends Identity {
 	public TotalFlow(UUID id, UUID shift_id, List<Machine> suspendedMachines,
 			Integer minFlow, Integer maxFlow,Time caseBeginTime, Time caseEndTime) {
 		super(id);
-		this.shift_id = shift_id;
+		this.shiftId = shift_id;
 		this.suspendedMachines = suspendedMachines;
 		this.minFlow = minFlow;
 		this.maxFlow = maxFlow;

@@ -76,7 +76,7 @@ public class ReportService {
 				return "undefined machine";
 			}
 		}
-		TotalFlow tf = new TotalFlow(UUID.randomUUID(),machines,
+		TotalFlow tf = new TotalFlow(UUID.randomUUID(),null,machines,
 				min, max,GF.getTime(beginTime), GF.getTime(endTime));
 		if(tf.isPushable().isEmpty()) {
 			diskIO.addElement(tf, TotalFlow.class.toString());

@@ -21,27 +21,6 @@ public class TotalFlowRepo {
 	private final JdbcTemplate jdbcTemplate;
 	private final MachineRepo machineRepo;
 	
-	public void saveToShift(UUID tfId,UUID shiftId) {
-		jdbcTemplate.update("INSERT INTO shift_total_flow"
-				+ "(shift_id,total_flow_id) VALUES(?,?)",shiftId,tfId);
-	}
-	
-	public List<TotalFlow> findByShiftId(UUID id){
-		return jdbcTemplate.query("""
-				SELECT tf.* FROM total_flow tf
-				JOIN shift_total_flow stf 
-				ON tf.id = stf.total_flow_id
-				WHERE stf.shift_id =?
-				""", new TotalFlowRowMapper(),id)
-				.stream().map(tf -> fullFill(tf))
-				.collect(Collectors.toList());
-	}
-	
-	public List<TotalFlow> findAll(){
-		return jdbcTemplate.query("SELECT * FROM total_flow", new TotalFlowRowMapper())
-				.stream().map(tf -> fullFill(tf)).collect(Collectors.toList());
-	}
-	
 	public Optional<TotalFlow> findById(UUID id) {
 		Optional<TotalFlow> tf = jdbcTemplate.query(
 				"SELECT * FROM total_flow WHERE id = ?", 
@@ -52,6 +31,20 @@ public class TotalFlowRepo {
 		} else {
 			return tf;
 		}
+	}
+	
+	public List<TotalFlow> findByShiftId(UUID id){
+		return jdbcTemplate.query("""
+				SELECT tf.* FROM total_flow tf
+				WHERE tf.shift_id =?
+				""", new TotalFlowRowMapper(),id)
+				.stream().map(tf -> fullFill(tf))
+				.collect(Collectors.toList());
+	}
+	
+	public List<TotalFlow> findAll(){
+		return jdbcTemplate.query("SELECT * FROM total_flow", new TotalFlowRowMapper())
+				.stream().map(tf -> fullFill(tf)).collect(Collectors.toList());
 	}
 
 	public List<Pushable> saveAll(List<TotalFlow> totalFlowAverage) {
@@ -66,11 +59,12 @@ public class TotalFlowRepo {
 		List<Pushable> result = tf.isPushable();
 		if(result.isEmpty()) {
 			jdbcTemplate.update("""
-					INSERT INTO total_flow(id,
+					INSERT INTO total_flow(id,shift_id,
 					begin_time, end_time, min_flow, max_flow) 
-					VALUES(?,?,?,?,?) ON CONFLICT(id) DO NOTHING
+					VALUES(?,?,?,?,?,?) ON CONFLICT(id) DO NOTHING
 					""",
 					tf.getId(),
+					tf.getShiftId(),
 					tf.getCaseBeginTime(),
 					tf.getCaseEndTime(),
 					tf.getMinFlow(),

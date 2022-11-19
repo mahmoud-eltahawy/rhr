@@ -98,101 +98,92 @@ public class Tester {
 		cal.set(Calendar.DAY_OF_MONTH, 28);
 		Date d = new Date(cal.getTime().getTime());
 
-		UUID uuid = UUID.randomUUID();
 		Shift shift011 =
-				new Shift(new ShiftId(uuid,d,ShiftOrder.FIRST),
-				List.of(new ProblemDetail(UUID.randomUUID(),uuid,List.of(P5,P6,P7),KILEN_FOUR,begin,end)),
+				new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(new ProblemDetail(UUID.randomUUID(),null,List.of(P5,P6,P7),KILEN_FOUR,begin,end)),
 				List.of(emp2),
-				List.of(new TotalFlow(UUID.randomUUID(),uuid,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end)),
-				List.of(new Temperature(UUID.randomUUID(),uuid,PROJECT,205,195),
-						new Temperature(UUID.randomUUID(),uuid,KILEN_FIVE,206,194)),
-				List.of(new Note(uuid,"greeting")));
+				List.of(new TotalFlow(UUID.randomUUID(),null,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end)),
+				List.of(new Temperature(UUID.randomUUID(),null,PROJECT,205,195),
+						new Temperature(UUID.randomUUID(),null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,"greeting")));
 
-		uuid = UUID.randomUUID();
 		Shift shift012 =
-				new Shift(new ShiftId(uuid,d,ShiftOrder.FIRST),
-				List.of(new ProblemDetail(UUID.randomUUID(),uuid,List.of(P5,P6,P7),KILEN_FOUR,begin,end)),
+				new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(new ProblemDetail(UUID.randomUUID(),null,List.of(P5,P6,P7),KILEN_FOUR,begin,end)),
 				List.of(emp3),
-				List.of(new TotalFlow(UUID.randomUUID(),uuid,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end)),
-				List.of(new Temperature(UUID.randomUUID(),uuid,PROJECT,205,195),
-						new Temperature(UUID.randomUUID(),uuid,KILEN_FIVE,206,194)),
-				List.of(new Note(uuid,"greeting")));
+				List.of(new TotalFlow(UUID.randomUUID(),null,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end)),
+				List.of(new Temperature(UUID.randomUUID(),null,PROJECT,205,195),
+						new Temperature(UUID.randomUUID(),null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,"greeting")));
 
-		uuid = UUID.randomUUID();
 		Shift shift013 =
-				new Shift(new ShiftId(uuid,d,ShiftOrder.FIRST),
-				List.of(new ProblemDetail(UUID.randomUUID(),uuid,List.of(P5,P6,P7),KILEN_FOUR,begin,end)),
+				new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(new ProblemDetail(UUID.randomUUID(),null,List.of(P5,P6,P7),KILEN_FOUR,begin,end)),
 				List.of(emp4),
-				List.of(new TotalFlow(UUID.randomUUID(),uuid,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end)),
-				List.of(new Temperature(UUID.randomUUID(),uuid,PROJECT,205,195),
-						new Temperature(UUID.randomUUID(),uuid,KILEN_FIVE,206,194)),
-				List.of(new Note(uuid,"greeting")));
+				List.of(new TotalFlow(UUID.randomUUID(),null,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end)),
+				List.of(new Temperature(UUID.randomUUID(),null,PROJECT,205,195),
+						new Temperature(UUID.randomUUID(),null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,"greeting")));
 
 		cal.set(Calendar.DAY_OF_MONTH, 29);
 		d = new Date(cal.getTime().getTime());
 
-		uuid = UUID.randomUUID();
 		Shift shift021 =
-				new Shift(new ShiftId(uuid,d,ShiftOrder.FIRST),
-				List.of(new ProblemDetail(UUID.randomUUID(),uuid,List.of(P5,P6,P7),KILEN_FOUR,begin,end)),
+				new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(new ProblemDetail(UUID.randomUUID(),null,List.of(P5,P6,P7),KILEN_FOUR,begin,end)),
 				List.of(emp5),
-				List.of(new TotalFlow(UUID.randomUUID(),uuid,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end)),
-				List.of(new Temperature(UUID.randomUUID(),uuid,PROJECT,205,195),
-						new Temperature(UUID.randomUUID(),uuid,KILEN_FIVE,206,194)),
-				List.of(new Note(uuid,"greeting")));
+				List.of(new TotalFlow(UUID.randomUUID(),null,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end)),
+				List.of(new Temperature(UUID.randomUUID(),null,PROJECT,205,195),
+						new Temperature(UUID.randomUUID(),null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,"greeting")));
 
-		uuid = UUID.randomUUID();
 		Shift shift022 =
-				new Shift(new ShiftId(uuid,d,ShiftOrder.FIRST),
-				List.of(new ProblemDetail(UUID.randomUUID(),uuid,List.of(P5,P6,P7),KILEN_FOUR,begin,end)),
+				new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(new ProblemDetail(UUID.randomUUID(),null,List.of(P5,P6,P7),KILEN_FOUR,begin,end)),
 				List.of(emp2),
-				List.of(new TotalFlow(UUID.randomUUID(),uuid,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end)),
-				List.of(new Temperature(UUID.randomUUID(),uuid,PROJECT,205,195),
-						new Temperature(UUID.randomUUID(),uuid,KILEN_FIVE,206,194)),
-				List.of(new Note(uuid,"greeting")));
+				List.of(new TotalFlow(UUID.randomUUID(),null,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end)),
+				List.of(new Temperature(UUID.randomUUID(),null,PROJECT,205,195),
+						new Temperature(UUID.randomUUID(),null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,"greeting")));
 
-		uuid = UUID.randomUUID();
 		Shift shift023 =
-				new Shift(new ShiftId(uuid,d,ShiftOrder.FIRST),
-				List.of(new ProblemDetail(UUID.randomUUID(),uuid,List.of(P5,P6,P7),KILEN_FOUR,begin,end)),
+				new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(new ProblemDetail(UUID.randomUUID(),null,List.of(P5,P6,P7),KILEN_FOUR,begin,end)),
 				List.of(emp3),
-				List.of(new TotalFlow(UUID.randomUUID(),uuid,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end)),
-				List.of(new Temperature(UUID.randomUUID(),uuid,PROJECT,205,195),
-						new Temperature(UUID.randomUUID(),uuid,KILEN_FIVE,206,194)),
-				List.of(new Note(uuid,"greeting")));
+				List.of(new TotalFlow(UUID.randomUUID(),null,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end)),
+				List.of(new Temperature(UUID.randomUUID(),null,PROJECT,205,195),
+						new Temperature(UUID.randomUUID(),null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,"greeting")));
 
 		cal.set(Calendar.DAY_OF_MONTH, 30);
 		d = new Date(cal.getTime().getTime());
 
-		uuid = UUID.randomUUID();
 		Shift shift031 =
-				new Shift(new ShiftId(uuid,d,ShiftOrder.FIRST),
-				List.of(new ProblemDetail(UUID.randomUUID(),uuid,List.of(P5,P6,P7),KILEN_FOUR,begin,end)),
+				new Shift(new ShiftId(null,d,ShiftOrder.FIRST),
+				List.of(new ProblemDetail(UUID.randomUUID(),null,List.of(P5,P6,P7),KILEN_FOUR,begin,end)),
 				List.of(emp4),
-				List.of(new TotalFlow(UUID.randomUUID(),uuid,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end)),
-				List.of(new Temperature(UUID.randomUUID(),uuid,PROJECT,205,195),
-						new Temperature(UUID.randomUUID(),uuid,KILEN_FIVE,206,194)),
-				List.of(new Note(uuid,"greeting")));
+				List.of(new TotalFlow(UUID.randomUUID(),null,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end)),
+				List.of(new Temperature(UUID.randomUUID(),null,PROJECT,205,195),
+						new Temperature(UUID.randomUUID(),null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,"greeting")));
 
-		uuid = UUID.randomUUID();
 		Shift shift032 =
-				new Shift(new ShiftId(uuid,d,ShiftOrder.FIRST),
-				List.of(new ProblemDetail(UUID.randomUUID(),uuid,List.of(P5,P6,P7),KILEN_FOUR,begin,end)),
+				new Shift(new ShiftId(null,d,ShiftOrder.SECOND),
+				List.of(new ProblemDetail(UUID.randomUUID(),null,List.of(P5,P6,P7),KILEN_FOUR,begin,end)),
 				List.of(emp5),
-				List.of(new TotalFlow(UUID.randomUUID(),uuid,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end)),
-				List.of(new Temperature(UUID.randomUUID(),uuid,PROJECT,205,195),
-						new Temperature(UUID.randomUUID(),uuid,KILEN_FIVE,206,194)),
-				List.of(new Note(uuid,"greeting")));
+				List.of(new TotalFlow(UUID.randomUUID(),null,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end)),
+				List.of(new Temperature(UUID.randomUUID(),null,PROJECT,205,195),
+						new Temperature(UUID.randomUUID(),null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,"greeting")));
 
-		uuid = UUID.randomUUID();
 		Shift shift033 =
-				new Shift(new ShiftId(uuid,d,ShiftOrder.FIRST),
-				List.of(new ProblemDetail(UUID.randomUUID(),uuid,List.of(P5,P6,P7),KILEN_FOUR,begin,end)),
+				new Shift(new ShiftId(null,d,ShiftOrder.THIRD),
+				List.of(new ProblemDetail(UUID.randomUUID(),null,List.of(P5,P6,P7),KILEN_FOUR,begin,end)),
 				List.of(emp2),
-				List.of(new TotalFlow(UUID.randomUUID(),uuid,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end)),
-				List.of(new Temperature(UUID.randomUUID(),uuid,PROJECT,205,195),
-						new Temperature(UUID.randomUUID(),uuid,KILEN_FIVE,206,194)),
-				List.of(new Note(uuid,"greeting")));
+				List.of(new TotalFlow(UUID.randomUUID(),null,List.of(ATM_ONE,DRAYER_TWO),77,92,begin,end)),
+				List.of(new Temperature(UUID.randomUUID(),null,PROJECT,205,195),
+						new Temperature(UUID.randomUUID(),null,KILEN_FIVE,206,194)),
+				List.of(new Note(null,"greeting")));
 
 
 		shiftRepo.saveAll(List.of(

@@ -70,8 +70,9 @@ CREATE TABLE IF NOT EXISTS temperature (
 );
 
 CREATE TABLE IF NOT EXISTS notes (
-    note     varchar(200) PRIMARY KEY,
+    note     varchar(200) NOT NULL,
     shift_id UUID   NOT NULL,
+    PRIMARY KEY(note,shift_id),
     CONSTRAINT unique_notes_to_shift UNIQUE(note,shift_id),
     FOREIGN  KEY(shift_id) REFERENCES shift(id) ON DELETE CASCADE
 );

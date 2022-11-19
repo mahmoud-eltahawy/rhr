@@ -88,6 +88,7 @@ public class TemperatureRepo {
 					VALUES(?,?,?,?,?) ON CONFLICT(id) DO NOTHING
 					""",
 					temperature.getId(),
+					temperature.getShiftId(),
 					temperature.getMachine().getId(),
 					temperature.getMax(),
 					temperature.getMin());
@@ -96,13 +97,10 @@ public class TemperatureRepo {
 	}
 	
 	private Temperature fullFill(Temperature temp) {
-//		Optional<ShiftId> shiftId = shiftIdRepo.findById(temp.getShiftId().getId());
 		Optional<Machine> machine = machineRepo.findById(temp.getMachine().getId());
 		if( machine.isPresent()) {
-//			temp.setShiftId(shiftId.get());
 			temp.setMachine(machine.get());
-			return temp;
 		}
-		return null;
+		return temp;
 	}
 }

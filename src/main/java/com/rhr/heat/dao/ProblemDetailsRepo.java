@@ -21,30 +21,6 @@ public class ProblemDetailsRepo {
 	private final JdbcTemplate jdbcTemplate;
 	private final ProblemRepo  problemRepo;
 	private final MachineRepo machineRepo;
-
-	public void saveToShift(UUID PdId,UUID shiftId) {
-		jdbcTemplate.update("""
-				INSERT INTO shift_problem
-				(shift_id,problem_detail_id) VALUES(?,?)
-				""",shiftId,PdId);
-	}
-	
-	public List<ProblemDetail> findByShiftId(UUID id){
-		return jdbcTemplate.query("""
-				SELECT pd.* FROM problem_detail pd
-				join shift_problem sp on sp.problem_detail_id = pd.id
-				where sp.shift_id = ?
-				""", new ProblemDetailRowMapper(),id)
-				.stream().map(pd -> fullFill(pd)).collect(Collectors.toList());
-	}
-	
-	public List<ProblemDetail> findAll(){
-		return jdbcTemplate.query(
-				"SELECT * FROM problem_detail",
-				new ProblemDetailRowMapper())
-				.stream().map(pd -> fullFill(pd))
-				.collect(Collectors.toList());
-	}
 	
 	public Optional<ProblemDetail> findById(UUID id) {
 		Optional<ProblemDetail> pd  = jdbcTemplate.query(
@@ -56,6 +32,30 @@ public class ProblemDetailsRepo {
 		} else {
 			return pd;
 		}
+	}
+
+	public List<ProblemDetail> findByShiftId(UUID id){
+		return jdbcTemplate.query("""
+				SELECT pd.* FROM problem_detail pd
+				where pd.shift_id = ?
+				""", new ProblemDetailRowMapper(),id)
+				.stream().map(pd -> fullFill(pd)).collect(Collectors.toList());
+	}
+
+	public List<ProblemDetail> findByMachineId(UUID id){
+		return jdbcTemplate.query("""
+				SELECT pd.* FROM problem_detail pd
+				where pd.machine_id = ?
+				""", new ProblemDetailRowMapper(),id)
+				.stream().map(pd -> fullFill(pd)).collect(Collectors.toList());
+	}
+	
+	public List<ProblemDetail> findAll(){
+		return jdbcTemplate.query(
+				"SELECT * FROM problem_detail",
+				new ProblemDetailRowMapper())
+				.stream().map(pd -> fullFill(pd))
+				.collect(Collectors.toList());
 	}
 	
 	public int deleteById(UUID id) {
@@ -74,10 +74,11 @@ public class ProblemDetailsRepo {
 		List<Pushable> result = pd.isPushable();
 		if(result.isEmpty()) {
 			jdbcTemplate.update("""
-					INSERT INTO problem_detail(id,machine_id,
-					begin_time, end_time) VALUES(?,?,?,?)
+					INSERT INTO problem_detail(id,shift_id,machine_id,
+					begin_time, end_time) VALUES(?,?,?,?,?)
 					""",
 						pd.getId(),
+						pd.getShiftId(),
 						pd.getMachine().getId(),
 						pd.getBeginTime(),
 						pd.getEndTime());
