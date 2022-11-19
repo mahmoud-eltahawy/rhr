@@ -100,6 +100,12 @@ public class ReportController {
 		return "redirect:/report/?message=all total flow records removed";
 	}
 
+	@RequestMapping("/remove/all/note")
+	public String removeAllNote() {
+		service.removeAllNote();
+		return "redirect:/report/?message=all note records removed";
+	}
+
 	@RequestMapping("/remove/all/temp")
 	public String removeAllTemp() {
 		service.removeAllTemp();

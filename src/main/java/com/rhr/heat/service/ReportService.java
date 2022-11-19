@@ -186,6 +186,10 @@ public class ReportService {
 		return "failed";
 	}
 	
+	public void removeAllNote() {
+		diskIO.removeAllNote();
+	}
+	
 	public void removeAllFlow() {
 		diskIO.removeAllFlow();
 	}

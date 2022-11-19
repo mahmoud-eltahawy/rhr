@@ -46,6 +46,10 @@ public class DiskIO {
 		removeAll(Temperature.class.toString());
 	}
 	
+	public void removeAllNote() {
+		removeAll(Note.class.toString());
+	}
+	
 	public void removeAllFlow() {
 		removeAll(TotalFlow.class.toString());
 	}
