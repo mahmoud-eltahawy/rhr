@@ -1,5 +1,6 @@
 const jsonMap : Map<string,number[]> = new Map(Object
   .entries(JSON.parse(document.getElementById("catsContainer")!.innerText)))
+const names : string[] = JSON.parse(document.getElementById("namesContainer")!.innerText)
 
 function replaceForm(machine : string ,number: number ,fieldId: string){
   const fieldDiv = document.getElementById(fieldId)
@@ -131,6 +132,29 @@ function listMachines(uuid : string){
                     mList.push(`<option value="${k}-${n}">${k}${n?'-'+n:''}</option>`)
                   })
                 })
+                return mList;
+              })()
+            }
+          </select>
+          <button type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+`
+}
+
+function listEmployees(){
+  document.getElementById("employee-section")!.innerHTML = `
+      <div class="box-container">
+        <div class="form-container">
+          <form action="/report/emp/" method="post">
+          <select name="emp" id="emp" required>
+            ${
+              (function(){
+                const mList : string[] = []
+                  names.forEach(n =>{
+                    mList.push(`<option value="${n}">${n}</option>`)
+                  })
                 return mList;
               })()
             }

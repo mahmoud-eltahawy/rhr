@@ -12,6 +12,7 @@
 		<div th:text="${beginAt}" class="ghost" id="beginTime"></div>
 		<div id="catsContainer" th:text="${catValue}" class="ghost">[]</div>
 		<div id="problemsContainer" th:text="${problemsValue}" class="ghost">[]</div>
+		<div id="namesContainer" th:text="${unames}" class="ghost">[]</div>
 		<p th:object="${theId}" class="short-important-p">
 			Shift: <span th:text="*{shift}">order</span>
 			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -206,8 +207,8 @@
 									onclick="replaceTempForm('temp-section')">+
 							</button>
 						</div>
-						<ul th:each="temp :${temps}">
-							<div>
+						<ul>
+							<li th:each="temp :${temps}">
 								<div class="mini-button" style="display:inline-block; width:7%; margin:2%;">
 									<form th:action="@{/report/remove/temp/(id=${temp.id})}" method="post">
 										<button type="submit" style="width:100%">-</button>
@@ -224,7 +225,7 @@
 									&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 									MINIMUM : <span th:text="${temp.min}">min</span>
 								</p>
-							</div>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -241,7 +242,11 @@
 						</div>
 						<ul th:each="note :${notes}">
 							<p class="short-important-p">
-								<span><button id="note-minus-btn" class="mini-button">-</button></span>
+								<span>
+									<a th:href="@{/report/remove/note/(id=${note.id})}">
+										<button class="mini-button">-</button>
+									</a>
+								</span>
 								<span th:text="${note.note}">NOTE</span>
 							</p>
 						</ul>
@@ -249,26 +254,30 @@
 				</div>
 			</div>
 		</div>
-		<br>
 		<div>
-			<h1>
-				<button class="notsub" id="employee-section-btn">
-					EMPLOYEES SECTION
-				</button>
-				<button id="employee-plus-btn" class="mini-button">+</button>
-			</h1>
-			<br>
+			<button class="notsub" onclick="toggle('employee-section')">EMPLOYEES SECTION</button>
 			<div class="ghost top-bottom-border" id="employee-section">
+				<div>
+					<a th:href="@{/report/remove/all/emp/}">
+						<button class="mini-button">-</button>
+					</a>
+					<button class="mini-button"
+							onclick="listEmployees()">+
+					</button>
+				</div>
 				<ul>
 					<li th:each="n : ${names}">
-						<p class="short-important-p">
-							<span><button id="employee-minus-btn" class="mini-button">-</button></span>
-							<span th:text="${n}">name</span>
-						</p>
+						<a th:href="@{/report/remove/emp/(id=${n.id})}">
+							<button style="display:inline-block; width:7%; margin:2%;"
+								id="employee-minus-btn"
+									class="mini-button">-
+							</button>
+						</a>
+						<p style="display:inline-block; width:77%; margin:2%;"
+						   th:text="${n.name}" class="short-important-p">name</p>
 					</li>
 				</ul>
 			</div>
 		</div>
-		<br>
 	</body>
 </html>

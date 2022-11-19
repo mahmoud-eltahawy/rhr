@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.topLayer.Shift;
 import com.rhr.heat.service.ReportControllerDealer;
 import com.rhr.heat.service.ReportService;
@@ -67,8 +66,7 @@ public class ReportController {
 
 	@PostMapping("/emp")
 	public String employee(@ModelAttribute("emp")String emp) {
-		service.addEmployee(emp);
-		return "redirect:/report/";
+		return "redirect:/report/?message="+service.reportEmployee(emp);
 	}
 
 	@PostMapping("/temp")
@@ -84,7 +82,14 @@ public class ReportController {
 	public String note(
 			@RequestParam("note")String note) {
 		service.reportNote(note);
-		return "redirect:/report/?message=note was added successfully";
+		return "redirect:/report/?message=a note was added successfully";
+	}
+
+	@RequestMapping("/remove/note")
+	public String removeNote(
+			@RequestParam("id")UUID id) {
+		service.removeNote(id);
+		return "redirect:/report/?message=a note was removed successfully";
 	}
 
 	@RequestMapping("/remove/machine/problems")
@@ -110,6 +115,12 @@ public class ReportController {
 	public String removeAllTemp() {
 		service.removeAllTemp();
 		return "redirect:/report/?message=all temperature records removed";
+	}
+
+	@RequestMapping("/remove/all/emp")
+	public String removeAllEmp() {
+		service.removeAllEmp();
+		return "redirect:/report/?message=all employees removed";
 	}
 
 	@RequestMapping("/remove/flow")
@@ -155,11 +166,8 @@ public class ReportController {
 		return "redirect:/report/?message="+service.removeProblem(id);
 	}
 
-	@PostMapping("/remove/emp")
-	public ModelAndView removeEmployee(@ModelAttribute("emp")Employee emp) {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("reportPage");
-		mv.addObject("pushable", service.removeEmployee(emp).isPushable());
-		return mv;
+	@RequestMapping("/remove/emp")
+	public String removeEmployee(@RequestParam("id")UUID id) {
+		return "redirect:/report/?message="+service.removeEmployee(id);
 	}
 }

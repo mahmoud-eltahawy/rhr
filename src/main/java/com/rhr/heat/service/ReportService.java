@@ -114,6 +114,24 @@ public class ReportService {
 		}
 	}
 	
+	public String reportEmployee(String emp) {
+		Optional<Employee> employee = employeeRepo.findByUsername(emp);
+		if(employee.isPresent()) {
+			if(employee.get().isPushable().isEmpty()) {
+				diskIO.addElement(employee.get(), Employee.class.toString());
+				return "successfully added "+ emp;
+			} else {
+				return "failed because of "+ employee.get().isPushable().get(0);
+			}
+		} else {
+			return "try to define "+emp+"first";
+		}
+	}
+	
+	public void removeNote(UUID id) {
+		diskIO.removeElement(new Note(id), Note.class.toString());
+	}
+	
 	public String reportProblem(String category,Integer number,
 			List<String> problems,String beginTime,String endTime) {
 		ProblemDetail pd = new ProblemDetail(UUID.randomUUID());
@@ -186,6 +204,14 @@ public class ReportService {
 		return "failed";
 	}
 	
+	public String removeEmployee(UUID id) {
+		if(diskIO.removeElement(new Employee(id), Employee.class.toString()))
+		{
+			return "employee deleted sucessfully";
+		}
+		return "failed";
+	}
+	
 	public void removeAllNote() {
 		diskIO.removeAllNote();
 	}
@@ -195,6 +221,9 @@ public class ReportService {
 	}
 	public void removeAllTemp() {
 		diskIO.removeAllTemp();
+	}
+	public void removeAllEmp() {
+		diskIO.removeAllEmp();
 	}
 	
 	public String removeTemp(UUID id) {
@@ -244,54 +273,6 @@ public class ReportService {
 		}
 	}
 	
-	public Shift addEmployee(String emp) {
-//		Optional<Employee> employee = employeeRepo.findByUsername(emp);
-//		Shift oldShift = tool.getCurrentShift();
-//		if(employee.isPresent()) {
-//			oldShift.setEmployees(tool.addTo(employee.get(), oldShift.getEmployees()));
-//			tool.writeShift(oldShift);
-//		}
-//		return oldShift;
-		return null;
-	}
-	
-	
-	public Shift addTemp(Temperature temp) {
-//		Shift oldShift = tool.getCurrentShift();
-//		oldShift.setTemps(tool.addTo(temp, oldShift.getTemps()));
-//		tool.writeShift(oldShift);
-//		return oldShift;
-		return null;
-	}
-	
-	public Shift addNote(Note note) {
-//		Shift oldShift = tool.getCurrentShift();
-//		oldShift.setNotes(tool.addTo(note, oldShift.getNotes()));
-//		tool.writeShift(oldShift);
-//		return oldShift;
-		return null;
-	}
-	
-	public Shift removeTemp(Temperature temp) {
-//		Shift oldShift = tool.getCurrentShift();
-//		List<Temperature> tms = oldShift.getTemps();
-//		tms = tool.removeFrom(temp, tms);
-//		oldShift.setTemps(tms);
-//		tool.writeShift(oldShift);
-//		return oldShift;
-		return null;
-	}
-	
-	public Shift removeNote(Note note) {
-//		Shift oldShift = tool.getCurrentShift();
-//		List<Note> nts = oldShift.getNotes();
-//		nts = tool.removeFrom(note, nts);
-//		oldShift.setNotes(nts);
-//		tool.writeShift(oldShift);
-//		return oldShift;
-		return null;
-	}
-
 	
 	public Shift removeEmployee(Employee employee) {
 //		Shift oldShift = tool.getCurrentShift();

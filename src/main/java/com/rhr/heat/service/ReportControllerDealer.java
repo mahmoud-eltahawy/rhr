@@ -10,11 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.deep.service.ShiftTimer;
-import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.topLayer.Shift;
+import com.rhr.heat.model.EmployeeName;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,17 +23,20 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ReportControllerDealer {
 	private final Dealer service;
+	private final EmployeeRepo employeeRepo;
 	private final ProblemRepo problemRepo;
 	private final ShiftTimer timer;
 
 	public ModelAndView completeShift(ModelAndView mv,Shift shift) {
+		Gson gson = new Gson();
 		Map<String, Map<Integer, List<ProblemDetail>>>	cats =
 				service.getCategoryMachines(shift.getProblems());
 		mv.addObject("beginAt",new Time(timer
 				.shiftBegin(timer.currentShiftId()
 				.getShift()).getTime() + TimeUnit.HOURS.toMillis(8)));
 		mv.addObject("theId",shift.getShiftId());
-		mv.addObject("catValue",new Gson().toJson(service.getStandardCategoryNums()));
+		mv.addObject("catValue",gson.toJson(service.getStandardCategoryNums()));
+		mv.addObject("unames", gson.toJson(employeeRepo.findAllUserNames()));
 		mv.addObject("problemsValue",new Gson().toJson(problemRepo.findAllTitles()));
 		mv.addObject("pushable", shift.isPushable().isEmpty());
 		if(!cats.isEmpty()) {
@@ -44,14 +48,8 @@ public class ReportControllerDealer {
 		mv.addObject("notes",shift.getNotes());
 		mv.addObject("temps",shift.getTemps());
 		if(shift.getEmployees() != null) {
-			mv.addObject("names",shift.getEmployees().stream().map(e ->{
-				return e.getFirstName()+" "+e.getMiddleName()+" "+e.getLastName();
-			}).collect(Collectors.toList()));
-			List<Employee> ems = shift.getEmployees();
-			if(ems != null) {
-				mv.addObject("emps", ems.stream().map(e -> e.getUsername())
-					.collect(Collectors.toList()));
-			}
+			mv.addObject("names",shift.getEmployees().stream()
+					.map(e -> new EmployeeName(e)).collect(Collectors.toList()));
 		}
 		return mv;
 	}
