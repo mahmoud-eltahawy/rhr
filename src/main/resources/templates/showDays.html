@@ -22,8 +22,14 @@
 </div>
 
 <div class="top-bottom-border" th:each="ins :${week}">
-	<div>
+	<div th:unless="${ins.value.one}==null">
 		<h4 th:text="${ins.value.one.date}">date</h4>
+	</div>
+	<div th:if="${ins.value.one}==null AND ${ins.value.two}!=null">
+		<h4 th:text="${ins.value.two.date}">date</h4>
+	</div>
+	<div th:if="${ins.value.one}==null AND ${ins.value.two}==null AND ${ins.value.three}!=null">
+		<h4 th:text="${ins.value.three.date}">date</h4>
 	</div>
 	<div class="box-container">
 		<div th:unless="${ins.value.one}==null" class="inner-box" th:object="${ins.value.one}">

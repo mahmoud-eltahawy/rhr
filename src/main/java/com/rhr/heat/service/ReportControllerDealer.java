@@ -15,6 +15,7 @@ import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.deep.service.ShiftTimer;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.topLayer.Shift;
+import com.rhr.heat.enums.Pushable;
 import com.rhr.heat.model.EmployeeName;
 
 import lombok.RequiredArgsConstructor;
@@ -31,14 +32,19 @@ public class ReportControllerDealer {
 		Gson gson = new Gson();
 		Map<String, Map<Integer, List<ProblemDetail>>>	cats =
 				service.getCategoryMachines(shift.getProblems());
+
+		List<Pushable> pushables = shift.isPushable();
+		if(!timer.isTimeSuitable()) {
+			pushables.add(Pushable.TIME_DOES_NOT_COME_YET);
+		}
 		mv.addObject("beginAt",new Time(timer
 				.shiftBegin(timer.currentShiftId()
 				.getShift()).getTime() + TimeUnit.HOURS.toMillis(8)));
 		mv.addObject("theId",shift.getShiftId());
 		mv.addObject("catValue",gson.toJson(service.getStandardCategoryNums()));
 		mv.addObject("unames", gson.toJson(employeeRepo.findAllUserNames()));
-		mv.addObject("problemsValue",new Gson().toJson(problemRepo.findAllTitles()));
-		mv.addObject("pushable", shift.isPushable().isEmpty());
+		mv.addObject("problemsValue",gson.toJson(problemRepo.findAllTitles()));
+		mv.addObject("whyNot",gson.toJson(pushables));
 		if(!cats.isEmpty()) {
 			mv.addObject("cats",cats);
 		} else {

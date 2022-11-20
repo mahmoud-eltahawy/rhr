@@ -123,12 +123,15 @@ public class ShiftIdRepo {
 	public List<Pushable> save(ShiftId id) {
 		List<Pushable> result = id.isPushable();
 		if(result.isEmpty()) {
-			jdbcTemplate.update("INSERT INTO shift"
+			int cols = jdbcTemplate.update("INSERT INTO shift"
 					+ "(id,shift_order,shift_date) VALUES(?,?,?) "
 					+ "ON CONFLICT (shift_order,shift_date) DO NOTHING",
 					id.getId(),
 					id.getShift().toString(),
 					id.getDate());
+			if(cols == 0) {
+				result.add(Pushable.SHIFT_ALREADY_SAVED);
+			}
 		}
 		return result;
 	}

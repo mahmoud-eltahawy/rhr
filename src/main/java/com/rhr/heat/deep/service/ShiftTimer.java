@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Component;
 
+import com.rhr.heat.GF;
 import com.rhr.heat.entity.Identity;
 import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.enums.ShiftOrder;
@@ -17,18 +19,32 @@ import com.rhr.heat.enums.ShiftOrder;
 @Component
 public class ShiftTimer {
 	
-	public ShiftId currentShiftId() {
-			   if(workNow().after(shiftBegin(ShiftOrder.FIRST)) &
-				workNow().before(shiftBegin(ShiftOrder.SECOND))) {
-			return new ShiftId(null, new Date(workNow().getTime()), ShiftOrder.FIRST);
-		} else if(workNow().after(shiftBegin(ShiftOrder.SECOND)) &
-				workNow().before(shiftBegin(ShiftOrder.THIRD))) {
-			return new ShiftId(null, new Date(workNow().getTime()), ShiftOrder.SECOND);
-		} else if(workNow().after(shiftBegin(ShiftOrder.THIRD)) &
-				workNow().before(shiftBegin(null))) {
-			return new ShiftId(null, new Date(workNow().getTime()), ShiftOrder.THIRD);
+	public Boolean isTimeSuitable() {
+		Timestamp last15 = shiftBegin(GF.next(currentShiftId().getShift()));
+		Timestamp end = new Timestamp(last15.getTime() + TimeUnit.MINUTES.toMillis(15));
+		Timestamp begin45 = new Timestamp(last15.getTime() - TimeUnit.MINUTES.toMillis(30));
+		Timestamp now = workNow();
+		if(now.getTime() >= begin45.getTime() && now.getTime() <= end.getTime()) {
+			return true;
 		}
-		return null;
+		return false;
+	}
+	
+	public ShiftId currentShiftId() {
+		var now = workNow();
+		ShiftId id = new ShiftId(UUID.randomUUID());
+		id.setDate(new Date(workNow().getTime()));
+		
+	   if(now.after(shiftBegin(ShiftOrder.FIRST)) &
+				now.before(shiftBegin(ShiftOrder.SECOND))) {
+				   id.setShift(ShiftOrder.FIRST);
+		} else if(now.after(shiftBegin(ShiftOrder.SECOND)) &
+				now.before(shiftBegin(ShiftOrder.THIRD))) {
+				   id.setShift(ShiftOrder.SECOND);
+		} else if(now.after(shiftBegin(ShiftOrder.THIRD))) {
+				   id.setShift(ShiftOrder.THIRD);
+		}
+		return id;
 	}
 	
 	public Timestamp shiftBegin(ShiftOrder order) {

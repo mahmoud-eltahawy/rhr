@@ -14,49 +14,41 @@ import com.rhr.heat.dao.MachineRepo;
 import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.dao.topLayer.ShiftRepo;
 import com.rhr.heat.deep.service.DiskIO;
-import com.rhr.heat.deep.service.ShiftTimer;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Note;
 import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
-import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.entity.topLayer.Shift;
+import com.rhr.heat.enums.Pushable;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class ReportService {
-	private final ShiftTimer tool;
 	private final DiskIO diskIO;
 	private final ShiftRepo shiftRepo;
 	private final EmployeeRepo employeeRepo;
 	private final ProblemRepo problemRepo;
 	private final MachineRepo machineRepo;
 	
-	public void save() {
+	public String save() {
 		Shift s = getCurrentShift();
-		if(s.isPushable().isEmpty()) {
-			shiftRepo.save(s);
+		List<Pushable> result = s.isPushable();
+		if(result.isEmpty()) {
+			result.addAll(shiftRepo.save(s));
+			if(result.isEmpty()) {
+				diskIO.startNewShift();
+				return "shift saved successfully";
+			}
 		}
+		return "failed to save because of "+ result.get(0);
 	}
-	public ShiftId getTheId() {
-		return tool.currentShiftId();
-	}
-	
 	public Shift getCurrentShift() {
 		return diskIO.getCurrentShift();
-	}
-	
-	public List<String> problemsTitles(){
-		return problemRepo.findAllTitles();
-	}
-	
-	public List<String> usernames(){
-		return employeeRepo.findAllUserNames();
 	}
 	
 	public Shift saveShift() {

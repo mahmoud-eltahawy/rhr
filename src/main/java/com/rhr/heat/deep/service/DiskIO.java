@@ -307,7 +307,7 @@ public class DiskIO {
 		return true;
 	}
 	
-	private void startNewShift() {
+	public void startNewShift() {
 		try {
 			File problems =  dataFiles.get(ProblemDetail.class.toString());
 			problems.delete();  problems.createNewFile();

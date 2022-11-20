@@ -37,8 +37,7 @@ public class ReportController {
 
 	@RequestMapping("/save")
 	public String save() {
-		service.save();
-		return "redirect:/report/";
+		return "redirect:/report/?message="+service.save();
 	}
 
 	@PostMapping("/problem")
@@ -53,98 +52,9 @@ public class ReportController {
 				.reportProblem(category, number, problems, beginTime, endTime);
 	}
 
-	@PostMapping("/flow")
-	public String flow(
-			@RequestParam("machines")List<String> machines,
-			@RequestParam("max")Integer max,
-			@RequestParam("min")Integer min,
-			@RequestParam("beginTime")String beginTime,
-			@RequestParam("endTime")String endTime) {
-		return "redirect:/report/?message="
-			+service.reportTotalFlow(machines, max, min, beginTime, endTime);
-	}
-
-	@PostMapping("/emp")
-	public String employee(@ModelAttribute("emp")String emp) {
-		return "redirect:/report/?message="+service.reportEmployee(emp);
-	}
-
-	@PostMapping("/temp")
-	public String temperature(
-			@RequestParam("max")Integer max ,
-			@RequestParam("min")Integer min ,
-			@RequestParam("machine")String machine) {
-		
-		return "redirect:/report/?message="+service.reportTemperature(machine,max,min);
-	}
-
-	@PostMapping("/note")
-	public String note(
-			@RequestParam("note")String note) {
-		service.reportNote(note);
-		return "redirect:/report/?message=a note was added successfully";
-	}
-
-	@RequestMapping("/remove/note")
-	public String removeNote(
-			@RequestParam("id")UUID id) {
-		service.removeNote(id);
-		return "redirect:/report/?message=a note was removed successfully";
-	}
-
-	@RequestMapping("/remove/machine/problems")
-	public String removeMachineProblems(
-			@RequestParam("cat")String cat,
-			@RequestParam("num")Integer num) {
-		return "redirect:/report/?message="+service.removeMachineProblems(cat,num);
-	}
-
-	@RequestMapping("/remove/all/flow")
-	public String removeAllFlow() {
-		service.removeAllFlow();
-		return "redirect:/report/?message=all total flow records removed";
-	}
-
-	@RequestMapping("/remove/all/note")
-	public String removeAllNote() {
-		service.removeAllNote();
-		return "redirect:/report/?message=all note records removed";
-	}
-
-	@RequestMapping("/remove/all/temp")
-	public String removeAllTemp() {
-		service.removeAllTemp();
-		return "redirect:/report/?message=all temperature records removed";
-	}
-
-	@RequestMapping("/remove/all/emp")
-	public String removeAllEmp() {
-		service.removeAllEmp();
-		return "redirect:/report/?message=all employees removed";
-	}
-
-	@RequestMapping("/remove/flow")
-	public String removeFlow(@RequestParam("id")UUID id) {
-		return "redirect:/report/?message="+service.removeFlow(id);
-	}
-
-	@RequestMapping("/remove/temp")
-	public String removeTemp(@RequestParam("id")UUID id) {
-		return "redirect:/report/?message="+service.removeTemp(id);
-	}
-
-	@RequestMapping("/remove/flow/machine")
-	public String removeFlowMachine(
-			@RequestParam("fid")UUID flowId,
-			@RequestParam("machine")String machine) {
-		return "redirect:/report/?message="+service.removeFlowMachine(flowId,machine);
-	}
-
-	@RequestMapping("/add/flow/machines")
-	public String addFlowMachines(
-			@RequestParam("id")UUID flowId,
-			@RequestParam("machines")List<String> machines) {
-		return "redirect:/report/?message="+service.addFlowMachines(flowId,machines);
+	@PostMapping("/remove/problem")
+	public String removeProblem(@RequestParam("id")UUID id) {
+		return "redirect:/report/?message="+service.removeProblem(id);
 	}
 
 	@RequestMapping("/add/problem/problems")
@@ -161,13 +71,102 @@ public class ReportController {
 		return "redirect:/report/?message="+service.removeProblemProblem(id,title);
 	}
 
-	@PostMapping("/remove/problem")
-	public String removeProblem(@RequestParam("id")UUID id) {
-		return "redirect:/report/?message="+service.removeProblem(id);
+	@RequestMapping("/remove/machine/problems")
+	public String removeMachineProblems(
+			@RequestParam("cat")String cat,
+			@RequestParam("num")Integer num) {
+		return "redirect:/report/?message="+service.removeMachineProblems(cat,num);
+	}
+
+	@PostMapping("/flow")
+	public String flow(
+			@RequestParam("machines")List<String> machines,
+			@RequestParam("max")Integer max,
+			@RequestParam("min")Integer min,
+			@RequestParam("beginTime")String beginTime,
+			@RequestParam("endTime")String endTime) {
+		return "redirect:/report/?message="
+			+service.reportTotalFlow(machines, max, min, beginTime, endTime);
+	}
+
+	@RequestMapping("/remove/flow")
+	public String removeFlow(@RequestParam("id")UUID id) {
+		return "redirect:/report/?message="+service.removeFlow(id);
+	}
+
+	@RequestMapping("/remove/all/flow")
+	public String removeAllFlow() {
+		service.removeAllFlow();
+		return "redirect:/report/?message=all total flow records removed";
+	}
+
+	@RequestMapping("/remove/flow/machine")
+	public String removeFlowMachine(
+			@RequestParam("fid")UUID flowId,
+			@RequestParam("machine")String machine) {
+		return "redirect:/report/?message="+service.removeFlowMachine(flowId,machine);
+	}
+
+	@RequestMapping("/add/flow/machines")
+	public String addFlowMachines(
+			@RequestParam("id")UUID flowId,
+			@RequestParam("machines")List<String> machines) {
+		return "redirect:/report/?message="+service.addFlowMachines(flowId,machines);
+	}
+
+	@PostMapping("/temp")
+	public String temperature(
+			@RequestParam("max")Integer max ,
+			@RequestParam("min")Integer min ,
+			@RequestParam("machine")String machine) {
+		
+		return "redirect:/report/?message="+service.reportTemperature(machine,max,min);
+	}
+
+	@RequestMapping("/remove/temp")
+	public String removeTemp(@RequestParam("id")UUID id) {
+		return "redirect:/report/?message="+service.removeTemp(id);
+	}
+
+	@RequestMapping("/remove/all/temp")
+	public String removeAllTemp() {
+		service.removeAllTemp();
+		return "redirect:/report/?message=all temperature records removed";
+	}
+
+	@PostMapping("/note")
+	public String note(
+			@RequestParam("note")String note) {
+		service.reportNote(note);
+		return "redirect:/report/?message=a note was added successfully";
+	}
+
+	@RequestMapping("/remove/note")
+	public String removeNote(
+			@RequestParam("id")UUID id) {
+		service.removeNote(id);
+		return "redirect:/report/?message=a note was removed successfully";
+	}
+
+	@RequestMapping("/remove/all/note")
+	public String removeAllNote() {
+		service.removeAllNote();
+		return "redirect:/report/?message=all note records removed";
+	}
+
+	@PostMapping("/emp")
+	public String employee(@ModelAttribute("emp")String emp) {
+		return "redirect:/report/?message="+service.reportEmployee(emp);
 	}
 
 	@RequestMapping("/remove/emp")
 	public String removeEmployee(@RequestParam("id")UUID id) {
 		return "redirect:/report/?message="+service.removeEmployee(id);
+	}
+
+	@RequestMapping("/remove/all/emp")
+	public String removeAllEmp() {
+		service.removeAllEmp();
+		return "redirect:/report/?message=all employees removed";
 	}
 }

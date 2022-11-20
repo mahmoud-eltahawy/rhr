@@ -127,15 +127,22 @@ public class ShiftRepo {
 	public List<Pushable> save(Shift s) {
 		UUID uuid = UUID.randomUUID();
 		s.getShiftId().setId(uuid);
-		if(s.isPushable().isEmpty()) {
-			shiftIdRepo.save(s.getShiftId());
-			s.getProblems().forEach(p -> {p.setShiftId(uuid); problemDetailsRepo.save(p);});
-			s.getEmployees().forEach(e -> employeeRepo.saveToShift(e.getId(),s.getShiftId().getId()));
-			s.getTotalFlowAverage().forEach(t -> {t.setShiftId(uuid); totalFlowRepo.save(t);});
-			s.getTemps().forEach(t -> {t.setShiftId(uuid); temperatureRepo.save(t);});
-			s.getNotes().forEach(n -> {n.setId(uuid); noteRepo.save(n);});
+		List<Pushable> result = s.isPushable();
+		if(result.isEmpty()) {
+			result.addAll(shiftIdRepo.save(s.getShiftId()));
+			if(result.isEmpty()) {
+				if(s.getProblems() != null) {
+					s.getProblems().forEach(p -> {p.setShiftId(uuid); problemDetailsRepo.save(p);});
+				}
+				s.getEmployees().forEach(e -> employeeRepo.saveToShift(e.getId(),s.getShiftId().getId()));
+				s.getTotalFlowAverage().forEach(t -> {t.setShiftId(uuid); totalFlowRepo.save(t);});
+				s.getTemps().forEach(t -> {t.setShiftId(uuid); temperatureRepo.save(t);});
+				if(s.getNotes() != null) {
+					s.getNotes().forEach(n -> {n.setId(uuid); noteRepo.save(n);});
+				}
+			}
 		}
-		return s.isPushable();
+		return result;
 	}
 	
 	private Shift fullFill(ShiftId shiftId) {
