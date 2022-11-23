@@ -306,26 +306,6 @@ if(true){
   if(arr.length > 0){
     document.getElementById(arr[arr.length - 1].id.slice(0,-4) +'-btn')!.style.display = 'block'
   }
-  //show why button when it is needed
-  const saveProblems :string[] = JSON.parse(document.getElementById("whyNot")!.innerText)
-  if(saveProblems.length != 0) {
-    document.getElementById("tellWhy")!.style.display = "block";
-    document.getElementById("thisIsWhy")!.innerHTML =`
-    <ul>
-      ${
-        (function () {
-          let str = ""
-          saveProblems.forEach(s => {
-            str += `<li>${s}</li>`
-          })
-          return str
-        })()
-      }
-    </ul>
-    `
-  } else {
-    document.getElementById("save-shift-btn")!.style.display = "block"
-  }
 }
 
 

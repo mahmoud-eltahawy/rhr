@@ -25,4 +25,11 @@ public class BinderController {
 		mv.addObject("message",message);
 		return mv;
 	}
+	
+	@RequestMapping("/define")
+	public ModelAndView definitions() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("definitionsPage");
+		return mv;
+	}
 }

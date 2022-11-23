@@ -9,16 +9,10 @@
 		<script type="text/javascript" src="../static/js/reportPage.js" th:src="@{/js/reportPage.js}" async></script>
 	</head>
 	<body>
-		<div id="tellWhy" class="ghost" style="position:absolute; top:10px; right: 10px">
-			<button onclick="toggle('thisIsWhy')">why</button>
-			<div class="ghost" id="thisIsWhy"></div>
-		</div>
 		<div id="beginTime" th:text="${beginAt}" class="ghost"></div>
 		<div id="catsContainer" th:text="${catValue}" class="ghost">[]</div>
 		<div id="problemsContainer" th:text="${problemsValue}" class="ghost">[]</div>
 		<div id="namesContainer" th:text="${unames}" class="ghost">[]</div>
-		<div id="pushable" th:text="${pushable}" class="ghost"></div>
-		<div id="whyNot" th:text="${whyNot}" class="ghost"></div>
 		<p th:object="${theId}" class="short-important-p">
 			Shift: <span th:text="*{shift}">order</span>
 			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -284,11 +278,6 @@
 					</li>
 				</ul>
 			</div>
-		</div>
-		<div id="save-shift-btn" class="ghost">
-			<a th:href="@{/report/save}">
-				<button class="notsub" style="background-color:silver; color:maroon;">SAVE</button>
-			</a>
 		</div>
 	</body>
 </html>
