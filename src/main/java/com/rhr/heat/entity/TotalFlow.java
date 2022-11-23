@@ -20,10 +20,10 @@ public class TotalFlow extends Identity {
 	private Time caseBeginTime;
 	private Time caseEndTime;
 
-	public TotalFlow(UUID id, UUID shift_id, List<Machine> suspendedMachines,
+	public TotalFlow(UUID id, UUID shiftId, List<Machine> suspendedMachines,
 			Integer minFlow, Integer maxFlow,Time caseBeginTime, Time caseEndTime) {
 		super(id);
-		this.shiftId = shift_id;
+		this.shiftId = shiftId;
 		this.suspendedMachines = suspendedMachines;
 		this.minFlow = minFlow;
 		this.maxFlow = maxFlow;

@@ -249,7 +249,7 @@
 						<ul th:each="note :${notes}">
 							<p class="short-important-p">
 								<span>
-									<a th:href="@{/report/remove/note/(id=${note.id})}">
+									<a th:href="@{/report/remove/note/(note=${note.note})}">
 										<button class="mini-button">-</button>
 									</a>
 								</span>

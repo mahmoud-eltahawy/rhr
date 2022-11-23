@@ -61,6 +61,10 @@ public class ProblemDetailsRepo {
 	public int deleteById(UUID id) {
 		return jdbcTemplate.update("DELETE FROM problem_detail WHERE id = ?",id);
 	}
+	
+	public int deleteByMachineId(UUID id) {
+		return jdbcTemplate.update("DELETE FROM problem_detail WHERE machine_id = ?",id);
+	}
 
 	public List<Pushable> saveAll(List<ProblemDetail> problems) {
 		List<Pushable> result = new ArrayList<>();

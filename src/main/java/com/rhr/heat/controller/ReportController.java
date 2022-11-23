@@ -28,16 +28,11 @@ public class ReportController {
 	public ModelAndView reportPage(
 			@PathVariable(name = "message",required = false)String message) {
 		ModelAndView mv = new ModelAndView();
-		Shift shift = service.getCurrentShift();
+		Shift shift = service.currenShift();
 		mv = dealer.completeShift(mv, shift);
 		mv.addObject("message", message);
 		mv.setViewName("reportPage");
 		return mv;
-	}
-
-	@RequestMapping("/save")
-	public String save() {
-		return "redirect:/report/?message="+service.save();
 	}
 
 	@PostMapping("/problem")
@@ -143,8 +138,8 @@ public class ReportController {
 
 	@RequestMapping("/remove/note")
 	public String removeNote(
-			@RequestParam("id")UUID id) {
-		service.removeNote(id);
+			@RequestParam("note")String note) {
+		service.removeNote(note);
 		return "redirect:/report/?message=a note was removed successfully";
 	}
 

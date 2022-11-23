@@ -42,6 +42,20 @@ public class TotalFlowRepo {
 				.collect(Collectors.toList());
 	}
 	
+	public int deletByShiftId(UUID id){
+		return jdbcTemplate.update("""
+				DELETE FROM total_flow tf
+				WHERE tf.shift_id =?
+				""", new TotalFlowRowMapper(),id);
+	}
+	
+	public int deleteFromShift(UUID id,UUID shiftId){
+		return jdbcTemplate.update("""
+				DELETE FROM total_flow tf
+				WHERE tf.id =? AND tf.shift_id =? 
+				""",id,shiftId);
+	}
+	
 	public List<TotalFlow> findAll(){
 		return jdbcTemplate.query("SELECT * FROM total_flow", new TotalFlowRowMapper())
 				.stream().map(tf -> fullFill(tf)).collect(Collectors.toList());

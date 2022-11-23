@@ -35,9 +35,6 @@ public class Note extends Identity {
 	public List<Pushable> isPushable() {
 		List<Pushable> canPush = new ArrayList<>();
 		
-		if(id == null) {
-			canPush.add(Pushable.NOTE_ID_NULL);
-		}
 		if(note == null) {
 			canPush.add(Pushable.NOTE_IS_EMPTY);
 		}

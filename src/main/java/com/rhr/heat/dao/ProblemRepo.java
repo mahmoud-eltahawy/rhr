@@ -29,6 +29,14 @@ public class ProblemRepo {
 		jdbcTemplate.update("""
 					INSERT INTO problem_detail_problem
 					(problem_detail_id,problem_title) values(?,?)
+					ON CONFLICT(problem_detail_id,problem_title) DO NOTHING
+				""",PdId,title);
+	}
+
+	public void deleteFromProblemDetail(String title,UUID PdId) {
+		jdbcTemplate.update("""
+					DELETE FROM problem_detail_problem
+					WHERE problem_detail_id =? AND problem_title =?
 				""",PdId,title);
 	}
 

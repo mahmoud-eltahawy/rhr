@@ -26,7 +26,28 @@ public class EmployeeRepo{
 		jdbcTemplate.update("""
 				INSERT INTO shift_employee
 				(shift_id,employee_id) VALUES(?,?)
+				ON CONFLICT(shift_id,employee_id) DO NOTHING
 				""",shiftId,empId);
+	}
+
+	public void deleteFromShift(UUID empId,UUID shiftId) {
+		jdbcTemplate.update("""
+				DELETE FROM shift_employee 
+				WHERE shift_id =? AND employee_id =?
+				""",shiftId,empId);
+	}
+
+	public void removeFromShift(UUID empId,UUID shiftId) {
+		jdbcTemplate.update("""
+				DELETE FROM shift_employee
+				WHERE shift_id =? AND employee_id =?
+				""",shiftId,empId);
+	}
+
+	public void removeAllFromShift(UUID shiftId) {
+		jdbcTemplate
+		.update("DELETE FROM shift_employee WHERE shift_id =?",
+		shiftId);
 	}
 	
 	public List<Employee> findByShiftId(UUID id){

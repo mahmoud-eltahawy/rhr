@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -112,27 +114,24 @@ public class ShiftIdRepo {
 		return jdbcTemplate.update("DELETE FROM shift WHERE id =?", id);
 	}
 
-	public List<Pushable> saveAll(List<ShiftId> ids) {
-		List<Pushable> result = new ArrayList<>();
-		for (ShiftId shiftId : ids) {
-			result.addAll(save(shiftId));
-		}
-		return result;
+	public List<Optional<UUID>> saveAll(List<ShiftId> ids) {
+		return ids.stream().map(i -> save(i))
+			.collect(Collectors.toList());
 	}
 
-	public List<Pushable> save(ShiftId id) {
-		List<Pushable> result = id.isPushable();
-		if(result.isEmpty()) {
+	public Optional<UUID> save(ShiftId id) {
+		UUID uuid = UUID.randomUUID();
 			int cols = jdbcTemplate.update("INSERT INTO shift"
 					+ "(id,shift_order,shift_date) VALUES(?,?,?) "
 					+ "ON CONFLICT (shift_order,shift_date) DO NOTHING",
-					id.getId(),
+					uuid,
 					id.getShift().toString(),
 					id.getDate());
-			if(cols == 0) {
-				result.add(Pushable.SHIFT_ALREADY_SAVED);
-			}
+		if(cols == 0) {
+			return Optional.ofNullable(null);
+		}else {
+			return Optional.of(uuid);
 		}
-		return result;
+		
 	}
 }

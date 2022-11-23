@@ -45,9 +45,6 @@ public class ShiftId extends Identity {
 		if(shift == null) {
 			canPush.add(Pushable.SHIFT_ORDER_IS_NULL);
 		}
-		if(id == null) {
-			canPush.add(Pushable.SHIFT_ID_IS_NULL);
-		}
 		return canPush;
 	}
 }

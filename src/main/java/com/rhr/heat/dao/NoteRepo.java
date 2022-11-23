@@ -34,8 +34,8 @@ public class NoteRepo {
 		return jdbcTemplate.update("DELETE FROM notes n WHERE n.shift_id =?", id);
 	}
 	
-	public int delete(String note) {
-		return jdbcTemplate.update("DELETE FROM notes n WHERE n.note =?", note);
+	public int delete(Note note) {
+		return jdbcTemplate.update("DELETE FROM notes n WHERE n.note =? AND n.shift_id =?", note.getNote(),note.getId());
 	}
 	
 	public List<Pushable> saveAll(List<Note> notes) {

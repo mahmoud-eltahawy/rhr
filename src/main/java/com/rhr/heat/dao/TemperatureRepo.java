@@ -71,6 +71,18 @@ public class TemperatureRepo {
 		return jdbcTemplate.update("DELETE FROM temperature t WHERE t.id =?", id);
 	}
 	
+	public int deleteShiftId(UUID id){
+		return jdbcTemplate.update(
+				"DELETE FROM temperature t WHERE t.shift_id = ?"
+				,id);
+	}
+	
+	public int deleteFromShift(UUID id,UUID shiftId){
+		return jdbcTemplate.update(
+				"DELETE FROM temperature t WHERE t.id =? AND t.shift_id =?"
+				,id,shiftId);
+	}
+	
 	public List<Pushable> saveAll(List<Temperature> tmps) {
 		List<Pushable> result = new ArrayList<>();
 		for (Temperature temperature : tmps) {
@@ -85,7 +97,9 @@ public class TemperatureRepo {
 			jdbcTemplate.update("""
 					INSERT INTO temperature
 					(id,shift_id,machine_id,max_temp,min_temp)
-					VALUES(?,?,?,?,?) ON CONFLICT(id) DO NOTHING
+					VALUES(?,?,?,?,?) ON CONFLICT(shift_id,machine_id)
+					DO UPDATE SET max_temp = excluded.max_temp ,
+					min_temp = excluded.min_temp
 					""",
 					temperature.getId(),
 					temperature.getShiftId(),

@@ -11,52 +11,60 @@ import org.springframework.stereotype.Service;
 import com.rhr.heat.GF;
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.MachineRepo;
+import com.rhr.heat.dao.NoteRepo;
+import com.rhr.heat.dao.ProblemDetailsRepo;
 import com.rhr.heat.dao.ProblemRepo;
+import com.rhr.heat.dao.ShiftIdRepo;
+import com.rhr.heat.dao.TemperatureRepo;
+import com.rhr.heat.dao.TotalFlowRepo;
 import com.rhr.heat.dao.topLayer.ShiftRepo;
 import com.rhr.heat.deep.service.DiskIO;
+import com.rhr.heat.deep.service.ShiftTimer;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Note;
 import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
+import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.entity.topLayer.Shift;
-import com.rhr.heat.enums.Pushable;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class ReportService {
-	private final DiskIO diskIO;
+	private final ShiftIdRepo shiftIdRepo;
 	private final ShiftRepo shiftRepo;
+	private final TotalFlowRepo totalFlowRepo;
+	private final TemperatureRepo temperatureRepo;
 	private final EmployeeRepo employeeRepo;
+	private final ProblemDetailsRepo problemDetailsRepo;
+	private final NoteRepo noteRepo;
 	private final ProblemRepo problemRepo;
 	private final MachineRepo machineRepo;
+	private final ShiftTimer timer;
 	
-	public String save() {
-		Shift s = getCurrentShift();
-		List<Pushable> result = s.isPushable();
-		if(result.isEmpty()) {
-			result.addAll(shiftRepo.save(s));
-			if(result.isEmpty()) {
-				diskIO.startNewShift();
-				return "shift saved successfully";
+	public Shift currenShift(){
+		return shiftRepo.fullFill(getCurrentShift());
+	}
+
+	public ShiftId getCurrentShift() {
+		ShiftId newId = timer.currentShiftId();
+		Optional<ShiftId> oldId = shiftIdRepo
+			.findById(newId.getDate(), newId.getShift());
+		if(oldId.isPresent()){
+			return oldId.get();
+		} else {
+			Optional<UUID> uuid = shiftIdRepo.save(newId);
+			if(uuid.isPresent()){
+				newId.setId(uuid.get());
+				return newId;
+			} else {
+				return null;
 			}
 		}
-		return "failed to save because of "+ result.get(0);
-	}
-	public Shift getCurrentShift() {
-		return diskIO.getCurrentShift();
-	}
-	
-	public Shift saveShift() {
-		Shift oldShift = diskIO.getCurrentShift();
-		if(oldShift.isPushable().isEmpty()) {
-			shiftRepo.save(oldShift);
-		}
-		return oldShift;
 	}
 	
 	public String reportTotalFlow(List<String> smachines,
@@ -68,10 +76,11 @@ public class ReportService {
 				return "undefined machine";
 			}
 		}
-		TotalFlow tf = new TotalFlow(UUID.randomUUID(),null,machines,
-				min, max,GF.getTime(beginTime), GF.getTime(endTime));
+		TotalFlow tf = new TotalFlow(UUID.randomUUID(),getCurrentShift().getId()
+			,machines,min, max,GF.getTime(beginTime), GF.getTime(endTime));
+			
 		if(tf.isPushable().isEmpty()) {
-			diskIO.addElement(tf, TotalFlow.class.toString());
+			totalFlowRepo.save(tf);
 			return "total flow record stored successfully";
 		}
 		return "failed because of "+ tf.isPushable().get(0);
@@ -84,6 +93,7 @@ public class ReportService {
 
 	public String reportTemperature(String machine, Integer max, Integer min) {
 		Temperature temp = new Temperature(UUID.randomUUID());
+		temp.setShiftId(getCurrentShift().getId());
 		Optional<Machine> machin = parseMachine(machine);
 		if(machin.isPresent()) {
 			temp.setMachine(machin.get());
@@ -93,16 +103,16 @@ public class ReportService {
 		temp.setMax(max);
 		temp.setMin(min);
 		if(temp.isPushable().isEmpty()) {
-			diskIO.addElement(temp, Temperature.class.toString());
+			temperatureRepo.save(temp);
 			return "temperature record stored succesfully";
 		} else {
 			return "failed because of "+ temp.isPushable().get(0);
 		}
 	}
 	public void reportNote(String note) {
-		Note noteC = new Note(UUID.randomUUID(), note);
+		Note noteC = new Note(getCurrentShift().getId(), note);
 		if(noteC.isPushable().isEmpty()) {
-			diskIO.addElement(noteC, Note.class.toString());
+			noteRepo.save(noteC);
 		}
 	}
 	
@@ -110,7 +120,7 @@ public class ReportService {
 		Optional<Employee> employee = employeeRepo.findByUsername(emp);
 		if(employee.isPresent()) {
 			if(employee.get().isPushable().isEmpty()) {
-				diskIO.addElement(employee.get(), Employee.class.toString());
+				employeeRepo.saveToShift(employee.get().getId(), getCurrentShift().getId());
 				return "successfully added "+ emp;
 			} else {
 				return "failed because of "+ employee.get().isPushable().get(0);
@@ -120,13 +130,14 @@ public class ReportService {
 		}
 	}
 	
-	public void removeNote(UUID id) {
-		diskIO.removeElement(new Note(id), Note.class.toString());
+	public void removeNote(String note) {
+		noteRepo.delete(new Note(getCurrentShift().getId(), note));
 	}
 	
 	public String reportProblem(String category,Integer number,
 			List<String> problems,String beginTime,String endTime) {
 		ProblemDetail pd = new ProblemDetail(UUID.randomUUID());
+		pd.setShiftId(getCurrentShift().getId());
 		Optional<Machine> machine = machineRepo.findByTheId(category,number);
 		if(machine.isPresent()) {
 			pd.setMachine(machine.get());
@@ -150,7 +161,7 @@ public class ReportService {
 		}
 		pd.setProblems(pbs);
 		if(pd.isPushable().isEmpty()) {
-			diskIO.addElement(pd, ProblemDetail.class.toString());
+			problemDetailsRepo.save(pd);
 			return pd.getMachine().name()+" problem stored succesfully";
 		}
 		return "failed to store "+ pd.getMachine().name()
@@ -158,111 +169,97 @@ public class ReportService {
 	}
 	
 	public String removeMachineProblems(String cat, Integer num) {
-		if(diskIO.removeMachineProblems(new Machine(cat,num)))
-		{
-			return cat +" "+ num+ " all problems deleted sucessfully";
+		Optional<Machine> machine = machineRepo.findByTheId(cat, num);
+		if(machine.isPresent()){
+			problemDetailsRepo.deleteByMachineId(machine.get().getId());
+
+			return new Machine(cat, num).name() + " all problems deleted sucessfully";
+		} else {
+			return "machine problems does not exist";
 		}
-		return "failed";
 	}
 	
 	public String removeProblemProblem(UUID pdId,String title) {
-		if(diskIO.removeProblemProblem(new ProblemDetail(pdId), new Problem(title)))
-		{
+		Optional<Problem> problem = problemRepo.findByTitle(title);
+		if(problem.isPresent()){
+			problemRepo.deleteFromProblemDetail(title, pdId);
 			return "problem "+ title +" deleted sucessfully";
+		} else {
+			return "problem "+ title +" does not exist";
 		}
-		return "failed";
 	}
 	
 	public String addProblemProblems(UUID pdId,List<String> titles) {
-		if(diskIO.addProblemProblems(new ProblemDetail(pdId),
-				titles.stream().map(t -> new Problem(t))
-				.collect(Collectors.toList())))
-		{
-			String param = "";
-			for (String t : titles) {
-				param += t+" ";
+		List<Optional<Problem>> problems = titles
+			.stream().map(t -> problemRepo.findByTitle(t))
+			.collect(Collectors.toList());
+		String param = "";
+		for (Optional<Problem> p : problems) {
+			if(p.isPresent()){
+				problemRepo.saveToProblemDetail(p.get().getTitle(), pdId);
+				param += p.get().getTitle()+" ";
 			}
-			
-			return param + " added sucessfully";
 		}
-		return "failed";
+		if(param.length() == 0){
+			return "failed";
+		}
+		return param + " added sucessfully";
 	}
 	
 	public String removeProblem(UUID id) {
-		if(diskIO.removeElement(new ProblemDetail(id), ProblemDetail.class.toString()))
-		{
-			return "problem deleted sucessfully";
-		}
-		return "failed";
+		problemDetailsRepo.deleteById(id);
+		return "problem deleted sucessfully";
 	}
 	
 	public String removeEmployee(UUID id) {
-		if(diskIO.removeElement(new Employee(id), Employee.class.toString()))
-		{
-			return "employee deleted sucessfully";
-		}
-		return "failed";
+		employeeRepo.removeFromShift(id, getCurrentShift().getId());
+		return "employee deleted sucessfully";
 	}
 	
 	public void removeAllNote() {
-		diskIO.removeAllNote();
+		noteRepo.deleteByShiftId(getCurrentShift().getId());
 	}
 	
 	public void removeAllFlow() {
-		diskIO.removeAllFlow();
+		totalFlowRepo.deletByShiftId(getCurrentShift().getId());
 	}
 	public void removeAllTemp() {
-		diskIO.removeAllTemp();
+		temperatureRepo.deleteShiftId(getCurrentShift().getId());
 	}
 	public void removeAllEmp() {
-		diskIO.removeAllEmp();
+		employeeRepo.removeAllFromShift(getCurrentShift().getId());
 	}
 	
 	public String removeTemp(UUID id) {
-		if(diskIO.removeFlow(new Temperature(id)))
-		{
-			return "temperature record removed successfully";
-		} 
-		return "failed";
+		temperatureRepo.deleteFromShift(id, getCurrentShift().getId());
+		return "temperature record removed successfully";
 	}
 	
 	public String removeFlow(UUID id) {
-		if(diskIO.removeFlow(new TotalFlow(id)))
-		{
-			return "total flow record removed successfully";
-		} 
-		return "failed";
+		totalFlowRepo.deleteFromShift(id,getCurrentShift().getId());
+		return "total flow record removed successfully";
 	}
 	
 	public String removeFlowMachine(UUID flowId,String machine) {
 		Optional<Machine> theMachine = parseMachine(machine);
 		if(theMachine.isPresent()) {
-			if(diskIO.removeFlowMachine(new TotalFlow(flowId), theMachine.get()))
-			{
-				return "total flow record "+ machine +" removed successfully";
-			} 
+			machineRepo.removeFromTotalFlow(flowId, theMachine.get().getId());
+			return theMachine.get().name() + " deleted successfully";
 		}
-		return "failed";
+		return "define machine first";
 	}
 	
 	public String addFlowMachines(UUID flowId,List<String> machines) {
 		List<Optional<Machine>> theMachines = machines.stream()
 				.map(m -> parseMachine(m)).collect(Collectors.toList());
-		int count = 0;
+		String names = "";
 		for (Optional<Machine> machine : theMachines) {
 			if(machine.isPresent()) {
-				diskIO.addFlowMachine(new TotalFlow(flowId), machine.get());
-			} else {
-				count++;
-			}
+				machineRepo.saveToTotalFlow(flowId, machine.get().getId());
+				names += machine.get().name() +" ";
+			}	
 		}
-		if(count == 0) {
-			return "all added succssfully";
-		} else if(count == machines.size()) {
-			return "all machines need to be defined first";
-		} else {
-			return "some machines need to be defined first";
-		}
+		return names +" added successfully";
 	}
 	
 	

@@ -27,6 +27,13 @@ public class MachineRepo {
 				""",tfId,mId);
 	}
 	
+	public void removeFromTotalFlow(UUID tfId,UUID mId) {
+		jdbcTemplate.update("""
+					DELETE FROM total_flow_machine
+					WHERE total_flow_id =? AND machine_id =?
+				""",tfId,mId);
+	}
+	
 	public List<Machine> findFromTotalFlow(UUID tfId) {
 		return jdbcTemplate.queryForList("""
 				SELECT machine_id FROM
