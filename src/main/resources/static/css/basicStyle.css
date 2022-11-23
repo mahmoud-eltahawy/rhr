@@ -101,3 +101,12 @@ footer a {
 	border-bottom-color: whitesmoke;
 	border-radius: 6rem;
 }
+
+.short-important-p {
+	margin: 2em 10em 2em 10em;
+	padding: 1%;
+	background: #262626;
+	font-size: 1.2em;
+	border: 1px solid;
+	border-radius: 2em;
+	}

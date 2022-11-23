@@ -63,7 +63,15 @@ public class MachineRepo {
 	
 	public List<String> findAllCatagories() {
 		return jdbcTemplate.queryForList(
-				"SELECT DISTINCT m.category FROM machine m", String.class);
+				"SELECT DISTINCT m.category FROM machine m",
+				String.class);
+	}
+	
+	public List<String> findNoneHeadersCatagories() {
+		return jdbcTemplate.queryForList("""
+					SELECT DISTINCT m.category
+					FROM machine m WHERE m.num <> 0
+				""",String.class);
 	}
 	
 	public Optional<Machine> findById(UUID id) {

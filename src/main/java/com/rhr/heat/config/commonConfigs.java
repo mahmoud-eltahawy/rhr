@@ -8,12 +8,6 @@ import java.util.Map;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.rhr.heat.entity.Employee;
-import com.rhr.heat.entity.Note;
-import com.rhr.heat.entity.ProblemDetail;
-import com.rhr.heat.entity.ShiftId;
-import com.rhr.heat.entity.Temperature;
-import com.rhr.heat.entity.TotalFlow;
 
 @Configuration
 public class commonConfigs {

@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class BinderController {
-	
+
 	@RequestMapping("/")
 	public String dashboard() {
 		return "dashboard";
@@ -23,13 +23,6 @@ public class BinderController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("errorPage");
 		mv.addObject("message",message);
-		return mv;
-	}
-	
-	@RequestMapping("/define")
-	public ModelAndView definitions() {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("definitionsPage");
 		return mv;
 	}
 }

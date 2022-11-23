@@ -127,10 +127,13 @@ public class ProblemRepo {
 	public List<Pushable> save(Problem p) {
 		List<Pushable> result = p.isPushable();
 		if(result.isEmpty()) {
-			jdbcTemplate.update(
+			int n = jdbcTemplate.update(
 					"INSERT INTO problem(title,description) VALUES(?,?)",
 					p.getTitle(),
 					p.getDescription());
+			if(n == 0 ){
+				result.add(Pushable.Problem_ALREADY_SAVED);
+			}
 		}
 		return result;
 	}

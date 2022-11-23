@@ -1,11 +1,9 @@
 package com.rhr.heat.dao;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.rhr.heat.dao.rowMappers.ShiftIdRowMapper;
 import com.rhr.heat.entity.ShiftId;
-import com.rhr.heat.enums.Pushable;
 import com.rhr.heat.enums.ShiftOrder;
 
 import lombok.RequiredArgsConstructor;
