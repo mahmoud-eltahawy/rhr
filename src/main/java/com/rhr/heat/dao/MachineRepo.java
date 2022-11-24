@@ -54,6 +54,14 @@ public class MachineRepo {
 				"SELECT m.* FROM machine m WHERE m.category = ?",
 				new MachineRowMapper(), catagory);
 	}
+
+	public List<Machine> allMachinesInFlow(UUID flowId){
+		return jdbcTemplate.query("""
+			SELECT m.* FROM machine m WHERE m.id 
+			IN (SELECT machine_id FROM 
+			total_flow_machine WHERE total_flow_id =?)
+		""",new MachineRowMapper(), flowId);
+	}
 	
 	public List<Integer> findCatagoryAllNums(String category) {
 		return jdbcTemplate.queryForList(

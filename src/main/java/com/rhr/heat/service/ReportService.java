@@ -181,10 +181,14 @@ public class ReportService {
 	public String removeProblemProblem(UUID pdId,String title) {
 		Optional<Problem> problem = problemRepo.findByTitle(title);
 		if(problem.isPresent()){
-			problemRepo.deleteFromProblemDetail(title, pdId);
-			return "problem "+ title +" deleted sucessfully";
+			if(problemRepo.findProblemDetailProblems(pdId).size() != 1){
+				problemRepo.deleteFromProblemDetail(title, pdId);
+				return "problem deleted sucessfully";
+			} else {
+				return "can not delete last problem";
+			}
 		} else {
-			return "problem "+ title +" does not exist";
+			return "problem does not exist";
 		}
 	}
 	
@@ -242,8 +246,12 @@ public class ReportService {
 	public String removeFlowMachine(UUID flowId,String machine) {
 		Optional<Machine> theMachine = parseMachine(machine);
 		if(theMachine.isPresent()) {
-			machineRepo.removeFromTotalFlow(flowId, theMachine.get().getId());
-			return theMachine.get().name() + " deleted successfully";
+			if(machineRepo.allMachinesInFlow(flowId).size() != 1){
+				machineRepo.removeFromTotalFlow(flowId, theMachine.get().getId());
+				return theMachine.get().name() + " deleted successfully";
+			} else {
+				return "can not delete last machine";
+			}
 		}
 		return "define machine first";
 	}
