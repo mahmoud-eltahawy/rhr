@@ -9,22 +9,20 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.rhr.heat.GF;
+import com.rhr.heat.components.ReportComponent;
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.MachineRepo;
 import com.rhr.heat.dao.NoteRepo;
 import com.rhr.heat.dao.ProblemDetailsRepo;
 import com.rhr.heat.dao.ProblemRepo;
-import com.rhr.heat.dao.ShiftIdRepo;
 import com.rhr.heat.dao.TemperatureRepo;
 import com.rhr.heat.dao.TotalFlowRepo;
 import com.rhr.heat.dao.topLayer.ShiftRepo;
-import com.rhr.heat.deep.service.ShiftTimer;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Note;
 import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
-import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.entity.topLayer.Shift;
@@ -34,7 +32,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ReportService {
-	private final ShiftIdRepo shiftIdRepo;
+	private final ReportComponent component;
 	private final ShiftRepo shiftRepo;
 	private final TotalFlowRepo totalFlowRepo;
 	private final TemperatureRepo temperatureRepo;
@@ -43,27 +41,9 @@ public class ReportService {
 	private final NoteRepo noteRepo;
 	private final ProblemRepo problemRepo;
 	private final MachineRepo machineRepo;
-	private final ShiftTimer timer;
 	
 	public Shift currenShift(){
-		return shiftRepo.fullFill(getCurrentShift());
-	}
-
-	public ShiftId getCurrentShift() {
-		ShiftId newId = timer.currentShiftId();
-		Optional<ShiftId> oldId = shiftIdRepo
-			.findById(newId.getDate(), newId.getShift());
-		if(oldId.isPresent()){
-			return oldId.get();
-		} else {
-			Optional<UUID> uuid = shiftIdRepo.save(newId);
-			if(uuid.isPresent()){
-				newId.setId(uuid.get());
-				return newId;
-			} else {
-				return null;
-			}
-		}
+		return shiftRepo.fullFill(component.getCurrentShift());
 	}
 	
 	public String reportTotalFlow(List<String> smachines,
@@ -75,7 +55,7 @@ public class ReportService {
 				return "undefined machine";
 			}
 		}
-		TotalFlow tf = new TotalFlow(UUID.randomUUID(),getCurrentShift().getId()
+		TotalFlow tf = new TotalFlow(UUID.randomUUID(),component.getCurrentShift().getId()
 			,machines,min, max,GF.getTime(beginTime), GF.getTime(endTime));
 			
 		if(tf.isPushable().isEmpty()) {
@@ -92,7 +72,7 @@ public class ReportService {
 
 	public String reportTemperature(String machine, Integer max, Integer min) {
 		Temperature temp = new Temperature(UUID.randomUUID());
-		temp.setShiftId(getCurrentShift().getId());
+		temp.setShiftId(component.getCurrentShift().getId());
 		Optional<Machine> machin = parseMachine(machine);
 		if(machin.isPresent()) {
 			temp.setMachine(machin.get());
@@ -109,7 +89,7 @@ public class ReportService {
 		}
 	}
 	public void reportNote(String note) {
-		Note noteC = new Note(getCurrentShift().getId(), note);
+		Note noteC = new Note(component.getCurrentShift().getId(), note);
 		if(noteC.isPushable().isEmpty()) {
 			noteRepo.save(noteC);
 		}
@@ -119,7 +99,7 @@ public class ReportService {
 		Optional<Employee> employee = employeeRepo.findByUsername(emp);
 		if(employee.isPresent()) {
 			if(employee.get().isPushable().isEmpty()) {
-				employeeRepo.saveToShift(employee.get().getId(), getCurrentShift().getId());
+				employeeRepo.saveToShift(employee.get().getId(), component.getCurrentShift().getId());
 				return "successfully added "+ emp;
 			} else {
 				return "failed because of "+ employee.get().isPushable().get(0);
@@ -130,13 +110,13 @@ public class ReportService {
 	}
 	
 	public void removeNote(String note) {
-		noteRepo.delete(new Note(getCurrentShift().getId(), note));
+		noteRepo.delete(new Note(component.getCurrentShift().getId(), note));
 	}
 	
 	public String reportProblem(String category,Integer number,
 			List<String> problems,String beginTime,String endTime) {
 		ProblemDetail pd = new ProblemDetail(UUID.randomUUID());
-		pd.setShiftId(getCurrentShift().getId());
+		pd.setShiftId(component.getCurrentShift().getId());
 		Optional<Machine> machine = machineRepo.findByTheId(category,number);
 		if(machine.isPresent()) {
 			pd.setMachine(machine.get());
@@ -215,31 +195,31 @@ public class ReportService {
 	}
 	
 	public String removeEmployee(UUID id) {
-		employeeRepo.removeFromShift(id, getCurrentShift().getId());
+		employeeRepo.removeFromShift(id, component.getCurrentShift().getId());
 		return "employee deleted sucessfully";
 	}
 	
 	public void removeAllNote() {
-		noteRepo.deleteByShiftId(getCurrentShift().getId());
+		noteRepo.deleteByShiftId(component.getCurrentShift().getId());
 	}
 	
 	public void removeAllFlow() {
-		totalFlowRepo.deletByShiftId(getCurrentShift().getId());
+		totalFlowRepo.deletByShiftId(component.getCurrentShift().getId());
 	}
 	public void removeAllTemp() {
-		temperatureRepo.deleteShiftId(getCurrentShift().getId());
+		temperatureRepo.deleteShiftId(component.getCurrentShift().getId());
 	}
 	public void removeAllEmp() {
-		employeeRepo.removeAllFromShift(getCurrentShift().getId());
+		employeeRepo.removeAllFromShift(component.getCurrentShift().getId());
 	}
 	
 	public String removeTemp(UUID id) {
-		temperatureRepo.deleteFromShift(id, getCurrentShift().getId());
+		temperatureRepo.deleteFromShift(id, component.getCurrentShift().getId());
 		return "temperature record removed successfully";
 	}
 	
 	public String removeFlow(UUID id) {
-		totalFlowRepo.deleteFromShift(id,getCurrentShift().getId());
+		totalFlowRepo.deleteFromShift(id,component.getCurrentShift().getId());
 		return "total flow record removed successfully";
 	}
 	
