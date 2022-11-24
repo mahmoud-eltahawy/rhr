@@ -46,7 +46,7 @@ public class TotalFlowRepo {
 		return jdbcTemplate.update("""
 				DELETE FROM total_flow tf
 				WHERE tf.shift_id =?
-				""", new TotalFlowRowMapper(),id);
+				""",id);
 	}
 	
 	public int deleteFromShift(UUID id,UUID shiftId){

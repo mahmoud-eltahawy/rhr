@@ -94,16 +94,16 @@
 															</td>
 															<td th:id="${pd.id}+'-problems'">
 																<ol type="1">
-																	<div th:each="p : ${pd.problems}">
+																	<li th:each="p : ${pd.problems}">
 																		<a style="display:inline-block;"
 																		   th:href="@{/report/remove/problem/problem/(id=${pd.id},title=${p.title})}"
 																		   method="post">
 																			<button>-</button>
 																		</a>
-																		<li style="display:inline-block;">
+																		<span style="display:inline-block;">
 																			<span th:text="${p.title}">problem</span>
-																		</li>
-																	</div>
+																		</span>
+																	</li>
 																	<li>
 																		<button th:attr="onclick=|listProblems('${pd.id}')|" class="mini-button">+</button>
 																	</li>

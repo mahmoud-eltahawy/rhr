@@ -18,6 +18,9 @@ CREATE TABLE IF NOT EXISTS machine(
     CONSTRAINT unique_machine_identity UNIQUE(category,num)
 );
 
+CREATE INDEX IF NOT EXISTS idx_by_machine_category ON machine(category);
+CREATE INDEX IF NOT EXISTS idx_by_machine_number   ON machine(num);
+
 CREATE TABLE IF NOT EXISTS employee (
     id           UUID         PRIMARY KEY,
 	first_name   VARCHAR(40)  NOT NULL,
@@ -42,10 +45,17 @@ CREATE TABLE IF NOT EXISTS problem_detail (
     FOREIGN KEY(shift_id)   REFERENCES shift(id)   ON DELETE CASCADE
 );
 
+CREATE INDEX IF NOT EXISTS idx_by_problem_detail_shift_id   ON problem_detail(shift_id);
+CREATE INDEX IF NOT EXISTS idx_by_problem_detail_machine_id ON problem_detail(machine_id);
+CREATE INDEX IF NOT EXISTS idx_by_problem_detail_begin_time ON problem_detail(begin_time);
+CREATE INDEX IF NOT EXISTS idx_by_problem_detail_end_time   ON problem_detail(end_time);
+
 CREATE TABLE IF NOT EXISTS problem (
     title        VARCHAR(100) PRIMARY KEY,
     description  VARCHAR(255) NOT NULL
 );
+
+CREATE INDEX IF NOT EXISTS idx_by_problem_title ON problem(title);
 
 CREATE TABLE IF NOT EXISTS total_flow (
     id             UUID        PRIMARY KEY,
@@ -58,6 +68,12 @@ CREATE TABLE IF NOT EXISTS total_flow (
     FOREIGN KEY(shift_id)   REFERENCES shift(id)   ON DELETE CASCADE
 );
 
+CREATE INDEX IF NOT EXISTS idx_by_total_flow_shift_id   ON total_flow(shift_id);
+CREATE INDEX IF NOT EXISTS idx_by_total_flow_begin_time ON total_flow(begin_time);
+CREATE INDEX IF NOT EXISTS idx_by_total_flow_end_time   ON total_flow(end_time);
+CREATE INDEX IF NOT EXISTS idx_by_total_flow_min_flow   ON total_flow(min_flow);
+CREATE INDEX IF NOT EXISTS idx_by_total_flow_max_flow   ON total_flow(max_flow);
+
 CREATE TABLE IF NOT EXISTS temperature (
     id         UUID    PRIMARY KEY,
     shift_id   UUID    NOT NULL,
@@ -69,6 +85,11 @@ CREATE TABLE IF NOT EXISTS temperature (
     FOREIGN KEY(shift_id)   REFERENCES shift(id)   ON DELETE CASCADE
 );
 
+CREATE INDEX IF NOT EXISTS idx_by_temperature_shift_id   ON temperature(shift_id);
+CREATE INDEX IF NOT EXISTS idx_by_temperature_machine_id ON temperature(machine_id);
+CREATE INDEX IF NOT EXISTS idx_by_temperature_min_temp   ON temperature(min_temp);
+CREATE INDEX IF NOT EXISTS idx_by_temperature_max_temp   ON temperature(max_temp);
+
 CREATE TABLE IF NOT EXISTS notes (
     note     varchar(200) NOT NULL,
     shift_id UUID   NOT NULL,
@@ -76,6 +97,8 @@ CREATE TABLE IF NOT EXISTS notes (
     CONSTRAINT unique_notes_to_shift UNIQUE(note,shift_id),
     FOREIGN  KEY(shift_id) REFERENCES shift(id) ON DELETE CASCADE
 );
+
+CREATE INDEX IF NOT EXISTS idx_by_notes_shift_id   ON notes(shift_id);
 
 CREATE TABLE IF NOT EXISTS total_flow_machine(
     total_flow_id UUID  NOT NULL,

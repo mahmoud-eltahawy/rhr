@@ -219,7 +219,7 @@ function shiftBegin(){
 
 function shiftEnd(){
     const strTime = document.getElementById('beginTime')!.innerText
-    const newHour  = +strTime.slice(0,1) + 8
+    const newHour  = +strTime.slice(0,2) + 8
     if(newHour < 10){
       return '0'+newHour+':00'
     }
@@ -232,7 +232,7 @@ function replaceTempForm(id: string){
         <div class="form-container">
           <h1> Temperature record</h1>
           <form action="/report/temp" method="post">
-          <label name="machine" id="machine">suspended machines</label>
+          <label name="machine" id="machine">target machine</label>
           <select name="machine" id="machine" required>
             ${
               (function(){
