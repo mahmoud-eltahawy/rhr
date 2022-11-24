@@ -66,8 +66,7 @@ public class ProblemRepo {
 				ON p.title = pdp.problem_title
 				JOIN problem_detail pd
 				ON pd.id = pdp.problem_detail_id
-				JOIN shift_problem sp on sp.problem_detail_id = pd.id
-				JOIN shift s on s.id = sp.shift_id
+				JOIN shift s on s.id = pd.shift_id
 				JOIN machine m on m.id = pd.machine_id
 				WHERE p.title = ?
 				ORDER BY s.shift_date DESC OFFSET ? LIMIT ?
@@ -78,9 +77,8 @@ public class ProblemRepo {
 		return jdbcTemplate.query("""
 				SELECT s.shift_date ,s.shift_order,
 				pd.begin_time ,pd.end_time,pd.id
-				FROM problem_detail pd join shift_problem sp
-				ON sp.problem_detail_id = pd.id
-				JOIN shift s on s.id = sp.shift_id
+				FROM problem_detail pd JOIN shift s
+				on s.id = pd.shift_id
 				JOIN machine m on m.id = pd.machine_id
 				WHERE m.id = ?
 				ORDER BY s.shift_date DESC OFFSET ? LIMIT ?
