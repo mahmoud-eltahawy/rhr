@@ -1,5 +1,7 @@
-const promiseMap :Promise<Map<string,number[]>> =Promise.resolve(new Map(Object
-  .entries(JSON.parse(document.getElementById("catsContainer")!.innerText))))
+const promiseMap :Promise<Map<string,number[]>> =
+  fetch("/fetch/report/standard/categories/numbers/mapping",{method : 'GET'})
+  .then(res => {return res.json()})
+
 const names : string[] = JSON.parse(document.getElementById("namesContainer")!.innerText)
 
 function replaceForm(machine : string ,number: number ,fieldId: string){
@@ -39,7 +41,7 @@ function replaceForm(machine : string ,number: number ,fieldId: string){
 
 async function replaceButtons(catName: string ,fieldId: string){
   try{
-    const jsonMap = await promiseMap
+    const jsonMap =new Map(Object.entries(await promiseMap))
     const arr : number[] | undefined = jsonMap.get(catName)
     if(arr){
       if(arr.length === 1){
@@ -78,7 +80,7 @@ function toggle(id :string) {
 
 async function getCategoriesContainers() : Promise<Map<string,{vsize: number,catnum: {cat: string, num: number}}>>{
   try{
-    const jsonMap = await promiseMap
+    const jsonMap = new Map(Object.entries(await promiseMap))
     const mList = new Map()
     for (const [k,v] of jsonMap) {
       mList.set(`${k}-btns-container`,{vsize: v.length, catnum:{cat: k,num: 0}})
@@ -92,13 +94,12 @@ async function getCategoriesContainers() : Promise<Map<string,{vsize: number,cat
 
 async function getCategoriesNumbersContainers() :Promise<Map<string,{cat: string, num: number}>> {
   try{
-    const jsonMap = await promiseMap
+    const jsonMap =new Map(Object.entries(await promiseMap))
     const mList : Map<string,{cat: string, num: number}> = new Map()
-    for (let h of jsonMap.keys()) {
-      const inList : number[] | undefined = jsonMap.get(h)
-      if(inList){
-        for(let m of inList.keys()){
-          mList.set(`${h}-${m+1}-btns-container`,{cat : h, num: m+1})
+    for (const [k,v] of jsonMap) {
+      if(v){
+        for(let m of v){
+          mList.set(`${k}-${m+1}-btns-container`,{cat : k, num: m+1})
         }
       }
     }
@@ -134,7 +135,7 @@ function listProblems(uuid : string){
 
 async function listMachines(uuid : string){
   try{
-    const jsonMap = await promiseMap
+    const jsonMap : Map<string,number[]>  = new Map(Object.entries(await promiseMap))
     document.getElementById(uuid+"-machines")!.innerHTML = `
         <div class="box-container">
           <div class="form-container">
@@ -189,7 +190,7 @@ function listEmployees(){
 
 async function replaceFlowForm(id : string){
   try{
-    const jsonMap = await promiseMap
+    const jsonMap : Map<string,number[]> =new Map(Object.entries( await promiseMap))
     document.getElementById(id)!.innerHTML =`
         <div class="box-container">
           <div class="form-container">
@@ -253,7 +254,8 @@ function shiftEnd(){
 
 async function replaceTempForm(id: string){
   try{
-    const jsonMap = await promiseMap
+    const jsonMap: Map<string,number[]> = new Map(Object.entries(await promiseMap))
+    
     document.getElementById(id)!.innerHTML =`
         <div class="box-container">
           <div class="form-container">
@@ -316,17 +318,18 @@ function addPlusButtons(element : HTMLElement,catnum : {cat: string, num : numbe
   }
 }
 
-async function messionsOnLaunch(){
-  try{
-    const jsonMap = await promiseMap
-    //show message
+function addMessage(){
     const message : string | null = new URL(window.location.href).searchParams.get("message")
     if(message) {
       document.getElementById("messager")!.innerText = message
     } else {
       document.getElementById("messager")!.style.display = "none"
     }
-  //add buttons
+}
+async function messionsOnLaunch(){
+  try{
+    let jsonMap =new Map(Object.entries(await promiseMap))
+    //add buttons
     let btnString = ""
     for (let catName of jsonMap.keys()) {
       btnString += `<button class="cat-button"
@@ -339,13 +342,13 @@ async function messionsOnLaunch(){
       document.getElementById(arr[arr.length - 1].id.slice(0,-4) +'-btn')!.style.display = 'block'
     }
 
-    const cc = await getCategoriesContainers()
+    const cc =Object.entries(await getCategoriesContainers())
     for(const [key,value] of cc){
       if(value.vsize == 1){
         addPlusButtons(document.getElementById(key)!,value.catnum)
       }
     }
-    const cn = await getCategoriesNumbersContainers()
+    const cn =Object.entries(await getCategoriesNumbersContainers())
     for(const [key,value] of cn){
       addPlusButtons(document.getElementById(key)!,value)
     }
@@ -354,4 +357,5 @@ async function messionsOnLaunch(){
   }
 }
 
+addMessage()
 messionsOnLaunch()

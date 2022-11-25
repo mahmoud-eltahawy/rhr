@@ -41,7 +41,6 @@ public class ReportControllerDealer {
 				.shiftBegin(timer.currentShiftId()
 				.getShift()).getTime() + TimeUnit.HOURS.toMillis(8)));
 		mv.addObject("theId",shift.getShiftId());
-		mv.addObject("catValue",gson.toJson(service.getStandardCategoryNums()));
 		mv.addObject("unames", gson.toJson(employeeRepo.findAllUserNames()));
 		mv.addObject("problemsValue",gson.toJson(problemRepo.findAllTitles()));
 		mv.addObject("whyNot",gson.toJson(pushables));
