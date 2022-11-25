@@ -2,6 +2,8 @@ package com.rhr.heat;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import com.rhr.heat.enums.ShiftOrder;
@@ -39,11 +41,14 @@ public class GF {
 	}
 	
 	public static Time getTime(String str) {
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.HOUR, Integer.parseInt(str.substring(0, 2)));
-		cal.set(Calendar.MINUTE, Integer.parseInt(str.substring(3)));
-		cal.set(Calendar.SECOND, 0);
-		return new Time(cal.getTimeInMillis());
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+			System.out.println(sdf.parse(str.substring(0, 5)));
+			return new Time(sdf.parse(str.substring(0, 5)).getTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	public static ShiftOrder next(ShiftOrder order) {
 		if(order.equals(ShiftOrder.FIRST)) {

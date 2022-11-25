@@ -205,8 +205,8 @@ async function listEmployees(){
 async function replaceFlowForm(id : string){
   try{
     const jsonMap : Map<string,number[]> =new Map(Object.entries( await promiseMap))
-    const minTime = flowMinTime();
-    const maxTime = shiftEnd();   
+    const minTime = await flowMinTime();
+    const maxTime = await shiftEnd();   
     document.getElementById(id)!.innerHTML =`
         <div class="box-container">
           <div class="form-container">
@@ -245,11 +245,12 @@ async function replaceFlowForm(id : string){
 }
 
 function flowMinTime(){
-  const endTimesContainers  = document.getElementsByName('flow-end-time')
-  if(endTimesContainers[endTimesContainers.length - 1].innerText == null){
+  const endTimes : string[] = []
+  document.getElementsByName('flow-end-time').forEach((e)=> endTimes.push(e.innerText))
+  if(endTimes[endTimes.length - 1] == null){
     return shiftBegin()
   } else {
-    return endTimesContainers[endTimesContainers.length - 1].innerText.slice(0,5)
+    return endTimes[endTimes.length - 1].slice(0,5)
   }
 }
 
@@ -361,14 +362,12 @@ function addDeleteFlowRecord(){
 async function addAllPlusButtons(){
   try{
     const cc =await getCategoriesContainers()
-    console.log(cc)
     for(const [key,value] of cc){
       if(value.vsize == 1){
         addPlusButtons(document.getElementById(key)!,value.catnum)
       }
     }
     const cn =await getCategoriesNumbersContainers()
-    console.log(cn)
     for(const [key,value] of cn){
       addPlusButtons(document.getElementById(key)!,value)
     }
