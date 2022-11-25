@@ -1,16 +1,13 @@
 package com.rhr.heat.service;
 
-import java.sql.Time;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
-import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.deep.service.ShiftTimer;
 import com.rhr.heat.entity.ProblemDetail;
@@ -24,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ReportControllerDealer {
 	private final Dealer service;
-	private final EmployeeRepo employeeRepo;
 	private final ProblemRepo problemRepo;
 	private final ShiftTimer timer;
 
@@ -37,11 +33,7 @@ public class ReportControllerDealer {
 		if(!timer.isTimeSuitable()) {
 			pushables.add(Pushable.TIME_DOES_NOT_COME_YET);
 		}
-		mv.addObject("beginAt",new Time(timer
-				.shiftBegin(timer.currentShiftId()
-				.getShift()).getTime() + TimeUnit.HOURS.toMillis(8)));
 		mv.addObject("theId",shift.getShiftId());
-		mv.addObject("unames", gson.toJson(employeeRepo.findAllUserNames()));
 		mv.addObject("problemsValue",gson.toJson(problemRepo.findAllTitles()));
 		mv.addObject("whyNot",gson.toJson(pushables));
 		if(!cats.isEmpty()) {

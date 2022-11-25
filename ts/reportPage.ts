@@ -2,40 +2,48 @@ const promiseMap :Promise<Map<string,number[]>> =
   fetch("/fetch/report/standard/categories/numbers/mapping",{method : 'GET'})
   .then(res => {return res.json()})
 
-const names : string[] = JSON.parse(document.getElementById("namesContainer")!.innerText)
+const names : Promise<string[]> = fetch("/fetch/report/all/usernames",{method : 'GET'})
+  .then(res => {return res.json()})
 
-function replaceForm(machine : string ,number: number ,fieldId: string){
-  const fieldDiv = document.getElementById(fieldId)
-  if(fieldDiv){
-    fieldDiv.innerHTML = `
-      <div class="box-container">
-        <div class="form-container">
-          <h1>${number == 0? machine: machine+' '+number} PROBLEM</h1>
-          <form action="/report/problem" method="post">
-          <input type="hidden" id="category" name="category" value="${machine}">
-          <input type="hidden" id="number" name="number" value="${number}">
-          <label name="problems" id="problems">which problem</label>
-          <select multiple="multiple" name="problems" id="problems" required>
-            ${(function (){
-                let options =""
-                const problems = JSON.parse(document.getElementById("problemsContainer")!.innerText)
-                for (let p of problems){
-                  options += `<option value="${p}" >${p}</option>`
-                }
-                return options
-              })()}
-          </select>
-          <label name="beginTime" id="beginTime">Problem begin</label>
-          <input type="time" id="beginTime" name="beginTime" min="${shiftBegin()}" max="${shiftEnd()}" required>
-          <label name="endTime" id="endTime">Problem end</label>
-          <input type="time" id="endTime" name="endTime" min="${shiftBegin()}" max="${shiftEnd()}" required>
-          <button type="submit">Submit</button>
-          </form>
+
+async function replaceForm(machine : string ,number: number ,fieldId: string){
+  try{
+    const fieldDiv = document.getElementById(fieldId)
+    const begin = await shiftBegin()
+    const end = await shiftEnd()
+    if(fieldDiv){
+      fieldDiv.innerHTML = `
+        <div class="box-container">
+          <div class="form-container">
+            <h1>${number == 0? machine: machine+' '+number} PROBLEM</h1>
+            <form action="/report/problem" method="post">
+            <input type="hidden" id="category" name="category" value="${machine}">
+            <input type="hidden" id="number" name="number" value="${number}">
+            <label name="problems" id="problems">which problem</label>
+            <select multiple="multiple" name="problems" id="problems" required>
+              ${(function (){
+                  let options =""
+                  const problems = JSON.parse(document.getElementById("problemsContainer")!.innerText)
+                  for (let p of problems){
+                    options += `<option value="${p}" >${p}</option>`
+                  }
+                  return options
+                })()}
+            </select>
+            <label name="beginTime" id="beginTime">Problem begin</label>
+            <input type="time" id="beginTime" name="beginTime" min="${begin}" max="${end}" required>
+            <label name="endTime" id="endTime">Problem end</label>
+            <input type="time" id="endTime" name="endTime" min="${begin}" max="${end}" required>
+            <button type="submit">Submit</button>
+            </form>
+          </div>
         </div>
-      </div>
-  `
-  } else {
-    throw new Error(fieldDiv + " does not exist")
+    `
+    } else {
+      throw new Error(fieldDiv + " does not exist")
+    }
+  } catch (err){
+    console.log(err)
   }
 }
 
@@ -164,33 +172,40 @@ async function listMachines(uuid : string){
   }
 }
 
-function listEmployees(){
-  document.getElementById("employee-section")!.innerHTML = `
-      <div class="box-container">
-        <div class="form-container">
-          <form action="/report/emp/" method="post">
-          <select name="emp" id="emp" required>
-            ${
-              (function(){
-                const mList : string[] = []
-                  names.forEach(n =>{
-                    mList.push(`<option value="${n}">${n}</option>`)
-                  })
-                return mList;
-              })()
-            }
-          </select>
-          <button type="submit">Submit</button>
-          </form>
+async function listEmployees(){
+  try{
+    const usernames : string[] = await names
+    document.getElementById("employee-section")!.innerHTML = `
+        <div class="box-container">
+          <div class="form-container">
+            <form action="/report/emp/" method="post">
+            <select name="emp" id="emp" required>
+              ${
+                (function(){
+                  const mList : string[] = []
+                    usernames.forEach(n =>{
+                      mList.push(`<option value="${n}">${n}</option>`)
+                    })
+                  return mList;
+                })()
+              }
+            </select>
+            <button type="submit">Submit</button>
+            </form>
+          </div>
         </div>
-      </div>
-`
+    `
+  } catch (err){
+    console.log(err)
+  }
 }
 
 
 async function replaceFlowForm(id : string){
   try{
     const jsonMap : Map<string,number[]> =new Map(Object.entries( await promiseMap))
+    const minTime = flowMinTime();
+    const maxTime = shiftEnd();   
     document.getElementById(id)!.innerHTML =`
         <div class="box-container">
           <div class="form-container">
@@ -215,9 +230,9 @@ async function replaceFlowForm(id : string){
             <label name="min" id="min">minimum</label>
             <input type="number" id="min" name="min" required>
             <label name="beginTime" id="beginTime">record begin</label>
-            <input type="time" id="beginTime" name="beginTime" value="${flowMinTime()}" readonly>
+            <input type="time" id="beginTime" name="beginTime" value="${minTime}" readonly>
             <label name="endTime" id="endTime">record end</label>
-            <input type="time" id="endTime" name="endTime" min="${flowMinTime()}" max="${shiftEnd()}" required>
+            <input type="time" id="endTime" name="endTime" min="${minTime}" max="${maxTime}" required>
             <button type="submit">Submit</button>
             </form>
           </div>
@@ -229,27 +244,36 @@ async function replaceFlowForm(id : string){
 }
 
 function flowMinTime(){
-  const endTimes : string[] = []
-  document.getElementsByName('flow-end-time').forEach((e)=> endTimes.push(e.innerText))
-  if(endTimes[endTimes.length - 1] == null){
+  const endTimesContainers  = document.getElementsByName('flow-end-time')
+  if(endTimesContainers[endTimesContainers.length - 1].innerText == null){
     return shiftBegin()
   } else {
-    return endTimes[endTimes.length - 1].slice(0,5)
+    return endTimesContainers[endTimesContainers.length - 1].innerText.slice(0,5)
   }
 }
 
-function shiftBegin(){
-  const strTime = document.getElementById('beginTime')!.innerText
-  return strTime.slice(0,5)
+async function shiftBegin(){
+  try{
+    const strTime :string = await fetch("/fetch/report/current/shift/begin/time",{method : 'GET'})
+    .then(res => {return res.json()})
+    console.log(strTime)
+    return strTime.slice(0,5)
+  } catch(err){
+    console.log(err)
+  }
 }
 
-function shiftEnd(){
-    const strTime = document.getElementById('beginTime')!.innerText
-    const newHour  = +strTime.slice(0,2) + 8
-    if(newHour < 10){
-      return '0'+newHour+':00'
+async function shiftEnd(){
+  try{
+    const newHour  = await shiftBegin()
+    const newHourNum = +newHour!.slice(0,2) + 8
+    if(newHourNum < 10){
+      return '0'+newHourNum+':00'
     }
-    return newHour+':00'
+    return newHourNum+':00'
+  } catch(err){
+    console.log(err)
+  }
 }
 
 async function replaceTempForm(id: string){
