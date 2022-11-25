@@ -1,39 +1,101 @@
 const promiseMap :Promise<Map<string,number[]>> =
-  fetch("/fetch/report/standard/categories/numbers/mapping",{method : 'GET'})
-  .then(res => {return res.json()})
+  fetch("/fetch/report/standard/categories/numbers/mapping"
+  ,{method : 'GET'}).then(res => {return res.json()})
 
-const names : Promise<string[]> = fetch("/fetch/report/all/usernames",{method : 'GET'})
-  .then(res => {return res.json()})
+const names : Promise<string[]> = fetch("/fetch/report/all/usernames"
+  ,{method : 'GET'}).then(res => {return res.json()})
+
+const problemsTitles = fetch("/fetch/report/all/problems/titles"
+  ,{method : 'GET'}).then(res => {return res.json()})
 
 
+async function problemsOptions (){
+  try{
+    let options =""
+    const problems = await problemsTitles
+    for (let p of problems){
+      options += `<option value="${p}" >${p}</option>`
+    }
+    return options
+  } catch (err){
+    console.log(err)
+  }
+}
+
+async function saveProblemRequest(machine: string,number: string){
+  try{
+    const problems = document.getElementById(`${machine}-${number}-form-problems`) as HTMLInputElement
+    const begin = document.getElementById(`${machine}-${number}-form-beginTime`) as HTMLInputElement
+    const end = document.getElementById(`${machine}-${number}-form-endTime`) as HTMLInputElement
+    const formData = new FormData()
+    formData.append('category' , machine)
+    formData.append('number' , number)
+    formData.append('problems' , problems.value)
+    formData.append('beginTime' , begin.value)
+    formData.append('endTime' , end.value)
+    const pd :{
+      id: string;
+      shiftId:string;
+      problems:[{
+        title: string;
+        descripion: string;
+      }];
+      machine:{
+       id: string;
+       category: string;
+       number: number; 
+      };
+      beginTime: string;
+      endTime: string;
+    } = await fetch("/fetch/report/add/machine/problem"
+    ,{method:'POST',body: formData})
+    .then(res => res.json());
+    console.log(typeof pd)
+    console.log(`
+      the id     :  ${pd.id}
+      shift id   :  ${pd.shiftId}
+      begin time :  ${pd.beginTime}
+      end time   :  ${pd.endTime}
+      problems   :  ${pd.problems.map(p=> `${p.title} | ${p.descripion}`).toString()}
+      machine    :  ${`${pd.machine.id} | ${pd.machine.category} | ${pd.machine.number}`}
+    `)
+
+  } catch(err){
+    console.log(err)
+  }
+}
+
+const nativeContentMap : Map<string,string> = new Map()
+
+function restoreContent(fieldId: string){
+  const target = document.getElementById(fieldId)
+  const content = nativeContentMap.get(fieldId)
+  if(target && content){
+    target.innerHTML = content
+  }
+  nativeContentMap.delete(fieldId)
+}
 async function replaceForm(machine : string ,number: number ,fieldId: string){
   try{
     const fieldDiv = document.getElementById(fieldId)
     const begin = await shiftBegin()
     const end = await shiftEnd()
     if(fieldDiv){
+      nativeContentMap.set(fieldId,fieldDiv.innerHTML)
       fieldDiv.innerHTML = `
         <div class="box-container">
           <div class="form-container">
             <h1>${number == 0? machine: machine+' '+number} PROBLEM</h1>
-            <form action="/report/problem" method="post">
-            <input type="hidden" id="category" name="category" value="${machine}">
-            <input type="hidden" id="number" name="number" value="${number}">
-            <label name="problems" id="problems">which problem</label>
-            <select multiple="multiple" name="problems" id="problems" required>
-              ${(function (){
-                  let options =""
-                  const problems = JSON.parse(document.getElementById("problemsContainer")!.innerText)
-                  for (let p of problems){
-                    options += `<option value="${p}" >${p}</option>`
-                  }
-                  return options
-                })()}
+            <button onclick="restoreContent('${fieldId}')" style="width:2%; display:block; padding: 0px; color:red;">X</button>
+            <form onsubmit="saveProblemRequest('${machine}','${number}'); return false;" method="post">
+            <label >problems</label>
+            <select multiple="multiple" name="problems" id="${machine}-${number}-form-problems" required>
+              ${await problemsOptions()}
             </select>
-            <label name="beginTime" id="beginTime">Problem begin</label>
-            <input type="time" id="beginTime" name="beginTime" min="${begin}" max="${end}" required>
-            <label name="endTime" id="endTime">Problem end</label>
-            <input type="time" id="endTime" name="endTime" min="${begin}" max="${end}" required>
+            <label >Problem begin</label>
+            <input type="time" id="${machine}-${number}-form-beginTime" name="beginTime" min="${begin}" max="${end}" required>
+            <label >Problem end</label>
+            <input type="time" id="${machine}-${number}-form-endTime" name="endTime" min="${begin}" max="${end}" required>
             <button type="submit">Submit</button>
             </form>
           </div>
@@ -119,21 +181,14 @@ async function getCategoriesNumbersContainers() :Promise<Map<string,{cat: string
   }
 }
 
-function listProblems(uuid : string){
+async function listProblems(uuid : string){
   document.getElementById(uuid+"-problems")!.innerHTML = `
       <div class="box-container">
         <div class="form-container">
           <form action="/report/add/problem/problems" method="post">
           <input type="hidden" id="id" name="id" value="${uuid}">
           <select multiple="multiple" name="titles" id="titles" required>
-            ${(function (){
-                let options =""
-                const problems = JSON.parse(document.getElementById("problemsContainer")!.innerText)
-                for (let p of problems){
-                  options += `<option value="${p}" >${p}</option>`
-                }
-                return options
-              })()}
+            ${await problemsOptions()}
           </select>
           <button type="submit">Submit</button>
           </form>
@@ -394,3 +449,40 @@ addMessage()
 addDeleteFlowRecord()
 addAllPlusButtons()
 addProblemAddingButtons()
+  // const newHTML =`
+  //   <tr >
+  //     <td>
+  //       <form th:action="@{/report/remove/problem/(id={pd.id})}" method="post">
+  //         <button
+  //             type="submit"
+  //             class="mini-button"
+  //             style="width: 100%">
+  //           -
+  //         </button>
+  //       </form>
+  //     </td>
+  //     <td th:text="${begin.value}">
+  //       problem begin time
+  //     </td>
+  //     <td th:text="${end.value}">
+  //       problem end time
+  //     </td>
+  //     <td th:id="{pd.id}+'-problems'">
+  //       <ol type="1">
+  //         <li th:each="p : ${problems.value}">
+  //           <a style="display:inline-block;"
+  //             th:href="@{/report/remove/problem/problem/(id={pd.id},title={p.title})}"
+  //             method="post">
+  //             <button>-</button>
+  //           </a>
+  //           <span th:text="{p.title}" style="display:inline-block;">
+  //             problem
+  //           </span>
+  //         </li>
+  //         <li>
+  //           <button th:attr="onclick=|listProblems('{pd.id}')|" class="mini-button">+</button>
+  //         </li>
+  //       </ol>
+  //     </td>
+  //   </tr>
+  // `

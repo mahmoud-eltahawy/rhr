@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
-import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.deep.service.ShiftTimer;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.topLayer.Shift;
@@ -21,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ReportControllerDealer {
 	private final Dealer service;
-	private final ProblemRepo problemRepo;
 	private final ShiftTimer timer;
 
 	public ModelAndView completeShift(ModelAndView mv,Shift shift) {
@@ -34,7 +32,6 @@ public class ReportControllerDealer {
 			pushables.add(Pushable.TIME_DOES_NOT_COME_YET);
 		}
 		mv.addObject("theId",shift.getShiftId());
-		mv.addObject("problemsValue",gson.toJson(problemRepo.findAllTitles()));
 		mv.addObject("whyNot",gson.toJson(pushables));
 		if(!cats.isEmpty()) {
 			mv.addObject("cats",cats);

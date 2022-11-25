@@ -1,6 +1,5 @@
 package com.rhr.heat.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,7 +21,6 @@ import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Note;
 import com.rhr.heat.entity.Problem;
-import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.entity.topLayer.Shift;
@@ -113,39 +111,6 @@ public class ReportService {
 		noteRepo.delete(new Note(component.getCurrentShift().getId(), note));
 	}
 	
-	public String reportProblem(String category,Integer number,
-			List<String> problems,String beginTime,String endTime) {
-		ProblemDetail pd = new ProblemDetail(UUID.randomUUID());
-		pd.setShiftId(component.getCurrentShift().getId());
-		Optional<Machine> machine = machineRepo.findByTheId(category,number);
-		if(machine.isPresent()) {
-			pd.setMachine(machine.get());
-		} else {
-			return "unvalid machine";
-		}
-		pd.setBeginTime(GF.getTime(beginTime));
-		pd.setEndTime(GF.getTime(endTime));
-		List<Problem> pbs = new ArrayList<>();
-		for (String p : problems) {
-			Optional<Problem> pr = problemRepo.findByTitle(p);
-			if(pr.isPresent()) {
-				if(pr.get().isPushable().isEmpty()) {
-					pbs.add(pr.get());
-				} else {
-					return "failed because of "+ pr.get().isPushable().get(0);
-				}
-			} else {
-				return "define the problem "+pr.get().getTitle() +" and try again";
-			}
-		}
-		pd.setProblems(pbs);
-		if(pd.isPushable().isEmpty()) {
-			problemDetailsRepo.save(pd);
-			return pd.getMachine().name()+" problem stored succesfully";
-		}
-		return "failed to store "+ pd.getMachine().name()
-				+" problem beacause of "+ pd.isPushable().get(0);
-	}
 	
 	public String removeMachineProblems(String cat, Integer num) {
 		Optional<Machine> machine = machineRepo.findByTheId(cat, num);

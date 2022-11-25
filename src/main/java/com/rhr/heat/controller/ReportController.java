@@ -35,18 +35,6 @@ public class ReportController {
 		return mv;
 	}
 
-	@PostMapping("/problem")
-	public String problem(
-			@RequestParam("category")String category,
-			@RequestParam("number")Integer number,
-			@RequestParam("problems")List<String> problems,
-			@RequestParam("beginTime")String beginTime,
-			@RequestParam("endTime")String endTime) {
-		
-		return "redirect:/report/?message="+service
-				.reportProblem(category, number, problems, beginTime, endTime);
-	}
-
 	@PostMapping("/remove/problem")
 	public String removeProblem(@RequestParam("id")UUID id) {
 		return "redirect:/report/?message="+service.removeProblem(id);
