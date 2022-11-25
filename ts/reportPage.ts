@@ -90,10 +90,11 @@ async function getCategoriesContainers() : Promise<Map<string,{vsize: number,cat
   try{
     const jsonMap = new Map(Object.entries(await promiseMap))
     const mList = new Map()
-    for (const [k,v] of jsonMap) {
-      mList.set(`${k}-btns-container`,{vsize: v.length, catnum:{cat: k,num: 0}})
+    for (const [category,numbers] of jsonMap) {
+      mList.set(`${category}-btns-container`,
+        {vsize: numbers.length, catnum:{cat: category,num: 0}})
     }
-    return Promise.resolve(mList)
+    return mList
   } catch(err){
     console.log(err)
     return Promise.resolve(new Map<string,{vsize: number,catnum: {cat: string, num: number}}>)
@@ -254,9 +255,8 @@ function flowMinTime(){
 
 async function shiftBegin(){
   try{
-    const strTime :string = await fetch("/fetch/report/current/shift/begin/time",{method : 'GET'})
-    .then(res => {return res.json()})
-    console.log(strTime)
+    const strTime :string = await fetch("/fetch/report/current/shift/begin/time"
+      ,{method : 'GET'}).then(res => {return res.json()})
     return strTime.slice(0,5)
   } catch(err){
     console.log(err)
@@ -350,29 +350,25 @@ function addMessage(){
       document.getElementById("messager")!.style.display = "none"
     }
 }
-async function messionsOnLaunch(){
-  try{
-    let jsonMap =new Map(Object.entries(await promiseMap))
-    //add buttons
-    let btnString = ""
-    for (let catName of jsonMap.keys()) {
-      btnString += `<button class="cat-button"
-                                onclick="replaceButtons('${catName}','add-problem-field')">${catName}</button>`
-    }
-    document.getElementById("add-problem-field")!.innerHTML = btnString
-    // show last flow record delete button
-    const arr = document.getElementsByName('flow-end-time')
-    if(arr.length > 0){
-      document.getElementById(arr[arr.length - 1].id.slice(0,-4) +'-btn')!.style.display = 'block'
-    }
 
-    const cc =Object.entries(await getCategoriesContainers())
+function addDeleteFlowRecord(){
+  const arr = document.getElementsByName('flow-end-time')
+  if(arr.length > 0){
+    document.getElementById(arr[arr.length - 1].id.slice(0,-4) +'-btn')!.style.display = 'block'
+  }
+}
+
+async function addAllPlusButtons(){
+  try{
+    const cc =await getCategoriesContainers()
+    console.log(cc)
     for(const [key,value] of cc){
       if(value.vsize == 1){
         addPlusButtons(document.getElementById(key)!,value.catnum)
       }
     }
-    const cn =Object.entries(await getCategoriesNumbersContainers())
+    const cn =await getCategoriesNumbersContainers()
+    console.log(cn)
     for(const [key,value] of cn){
       addPlusButtons(document.getElementById(key)!,value)
     }
@@ -380,6 +376,22 @@ async function messionsOnLaunch(){
     console.log(err)
   }
 }
+async function addProblemAddingButtons(){
+  try{
+    let jsonMap =new Map(Object.entries(await promiseMap))
+    let btnString = ""
+    for (let catName of jsonMap.keys()) {
+      btnString += `<button class="cat-button"
+                                onclick="replaceButtons('${catName}','add-problem-field')">${catName}</button>`
+    }
+    document.getElementById("add-problem-field")!.innerHTML = btnString
+
+  } catch(err){
+    console.log(err)
+  }
+}
 
 addMessage()
-messionsOnLaunch()
+addDeleteFlowRecord()
+addAllPlusButtons()
+addProblemAddingButtons()
