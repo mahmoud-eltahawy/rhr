@@ -29,16 +29,14 @@ function elementListNewMember(machine: string,number: string, pd :{
       beginTime: string;endTime: string;}){
   document.getElementById(`${machine}-${number}-problems-list`)!
     .innerHTML += `
-      <tr>
+      <tr id="${pd.id}-member">
         <td>
-          <form action="/report/remove/problem/?id=${pd.id}" method="post">
-            <button
+            <button 
+                onclick="deleteCategoryProblem('${pd.id}','${pd.id}-member')"
                 type="submit"
                 class="mini-button"
-                style="width: 100%">
-              -
-            </button>
-          </form>
+                style="width: 100%"
+                > - </button>
         </td>
         <td>${pd.beginTime}</td>
         <td>${pd.endTime}</td>
@@ -69,6 +67,119 @@ function elementListNewMember(machine: string,number: string, pd :{
     `
 }
 
+async function deleteCategoryProblems(machine: string,number: string,fieldId: string) {
+  try{
+    const formData = new FormData()
+    formData.append('cat',machine)
+    formData.append('num', number)
+
+    const result : boolean = await fetch("/fetch/report/remove/machine/problems",
+      {method: 'POST', body: formData}).then(res => res.json())
+
+    if(result){
+      document.getElementById(fieldId)!.innerHTML = ""
+      console.log(fieldId +" should be removed")
+    }
+  } catch(err){
+    console.log(err)
+  }
+}
+
+async function deleteProblemTitle(id: string,title: string,fieldId: string) {
+  try{
+    const formData = new FormData()
+    formData.append('id',id)
+    formData.append('title', title)
+
+    const result : boolean = await fetch("/fetch/report/remove/problem/problem",
+      {method: 'POST', body: formData}).then(res => res.json())
+
+    alert(result)
+    if(result){
+      document.getElementById(fieldId)!.remove()
+      console.log(fieldId +" should be removed")
+    }
+  } catch(err){
+    console.log(err)
+  }
+}
+
+async function deleteCategoryProblem(id : string,fieldId: string) {
+  try{
+    const formData = new FormData()
+    formData.append('id',id)
+
+    const result : boolean = await fetch("/fetch/report/remove/problem",
+      {method: 'POST', body: formData}).then(res => res.json())
+
+    if(result){
+      document.getElementById(fieldId)!.innerHTML = ""
+      console.log(fieldId +" should be removed")
+    }
+  } catch(err){
+    console.log(err)
+  }
+}
+
+async function saveNewProblemProblems(id : string) {
+  try{
+    const titles = document.getElementById(id+"-titles") as HTMLSelectElement
+    const formData = new FormData()
+    formData.append('id',id)
+    formData.append('titles' , (function(){
+        const chosenProblems: string[] = []
+        for(let i = 0; i < titles.options.length; i++){
+          if(titles.options[i].selected){
+            chosenProblems.push(titles.options[i].value)
+          }
+        }
+        return chosenProblems.toString()
+      })())
+
+      const result : string[] = await fetch("/fetch/report/add/problem/problems",
+      {method: 'POST', body: formData}).then(res => res.json())
+
+      restoreContent(id+"-problems-list")
+
+     if(result.length != 0){
+        const target = document.getElementById(id+"-problems-list")
+        result.forEach(t => {
+          target!.innerHTML += `
+            <li>
+              <a style="display:inline-block;"
+                  href="/report/remove/problem/problem/(id={pd.id},title={title})}"
+                  method="post">
+                <button>-</button>
+              </a>
+              <span style="display:inline-block;">${t}</span>
+            </li>
+          `
+        })
+     }
+  } catch(err){
+    console.log(err)
+  }
+}
+
+async function listProblems(uuid : string){
+  const target = document.getElementById(uuid+"-problems-list")
+  nativeContentMap.set(uuid+"-problems-list",target!.innerHTML)
+  target!.innerHTML = `
+      <div class="box-container">
+        <div class="form-container">
+          <form onsubmit=" saveNewProblemProblems('${uuid}'); return false;" action="/report/add/problem/problems" method="post">
+          <button onclick="restoreContent('${uuid}-problems-list')" style="width:6%; display:block; padding: 0px; color:red;">X</button>
+          <input type="hidden" id="id" name="id" value="${uuid}">
+          <select multiple="multiple" name="titles" id="${uuid}-titles" required>
+            ${await problemsOptions()}
+          </select>
+          <button type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+`
+}
+
 async function saveProblemRequest(machine: string,number: string,fieldId: string){
   try{
     const problems = document.getElementById(`${machine}-${number}-form-problems`) as HTMLSelectElement
@@ -88,31 +199,9 @@ async function saveProblemRequest(machine: string,number: string,fieldId: string
       })())
     formData.append('beginTime' , begin.value)
     formData.append('endTime' , end.value)
-    const pd :{
-      id: string;
-      shiftId:string;
-      problems:[{
-        title: string;
-        descripion: string;
-      }];
-      machine:{
-       id: string;
-       category: string;
-       number: number; 
-      };
-      beginTime: string;
-      endTime: string;
-    } = await fetch("/fetch/report/add/machine/problem"
+    const pd = await fetch("/fetch/report/add/machine/problem"
     ,{method:'POST',body: formData})
     .then(res => res.json());
-    console.log(`
-      the id     :  ${pd.id}
-      shift id   :  ${pd.shiftId}
-      begin time :  ${pd.beginTime}
-      end time   :  ${pd.endTime}
-      problems   :  ${pd.problems.map(p=> `${p.title} | ${p.descripion}`).toString()}
-      machine    :  ${`${pd.machine.id} | ${pd.machine.category} | ${pd.machine.number}`}
-    `)
     restoreContent(fieldId)
     elementListNewMember(machine,number,pd)
   } catch(err){
@@ -234,22 +323,6 @@ async function getCategoriesNumbersContainers() :Promise<Map<string,{cat: string
     console.log(err)
     return Promise.resolve(new Map<string,{cat: string, num: number}>)
   }
-}
-
-async function listProblems(uuid : string){
-  document.getElementById(uuid+"-problems")!.innerHTML = `
-      <div class="box-container">
-        <div class="form-container">
-          <form action="/report/add/problem/problems" method="post">
-          <input type="hidden" id="id" name="id" value="${uuid}">
-          <select multiple="multiple" name="titles" id="titles" required>
-            ${await problemsOptions()}
-          </select>
-          <button type="submit">Submit</button>
-          </form>
-        </div>
-      </div>
-`
 }
 
 async function listMachines(uuid : string){
@@ -460,4 +533,3 @@ function addDeleteFlowRecord(){
 
 addMessage()
 addDeleteFlowRecord()
-// addAllPlusButtons()

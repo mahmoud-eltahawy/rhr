@@ -51,9 +51,7 @@
 																   '${mapin.key}',
 																   '${cat.key}-${mapin.key}-show')|"
 													>+</button>
-													<a th:href="@{/report/remove/machine/problems/(cat=${cat.key},num=${mapin.key})}">
-														<button class="mini-button">-</button>
-													</a>
+													<button th:attr="onclick=|deleteCategoryProblems('${cat.key}','${mapin.key}','${cat.key}-${mapin.key}-problems-list')|" class="mini-button">-</button>
 												</div>
 												<table>
 													<thead>
@@ -65,16 +63,13 @@
 														</tr>
 													</thead>
 													<tbody th:id="${cat.key}+'-'+${mapin.key}+'-problems-list'">
-														<tr th:each="pd : ${mapin.value}">
+														<tr th:each="pd : ${mapin.value}" th:id="${pd.id}+'-member'">
 															<td>
-																<form th:action="@{/report/remove/problem/(id=${pd.id})}" method="post">
-																	<button
-																			type="submit"
-																			class="mini-button"
-																			style="width: 100%">
-																		-
-																	</button>
-																</form>
+																<button th:attr="onclick=|deleteCategoryProblem('${pd.id}','${pd.id}-member')|"
+																		type="submit"
+																		class="mini-button"
+																		style="width: 100%"
+																> - </button>
 															</td>
 															<td th:text="${pd.beginTime}">
 																problem begin time
@@ -82,14 +77,12 @@
 															<td th:text="${pd.endTime}">
 																problem end time
 															</td>
-															<td th:id="${pd.id}+'-problems'">
-																<ol type="1">
-																	<li th:each="p : ${pd.problems}">
-																		<a style="display:inline-block;"
-																		   th:href="@{/report/remove/problem/problem/(id=${pd.id},title=${p.title})}"
-																		   method="post">
-																			<button>-</button>
-																		</a>
+															<td>
+																<ol type="1" th:id="${pd.id}+'-problems-list'">
+																	<li th:each="p : ${pd.problems}" th:id="${pd.id}+'-'+${p.title}">
+																		<button
+																			th:attr="onclick=|deleteProblemTitle('${pd.id}','${p.title}','${pd.id}-${p.title}')|"
+																			style="display:inline-block;">-</button>
 																		<span th:text="${p.title}" style="display:inline-block;">
 																			problem
 																		</span>

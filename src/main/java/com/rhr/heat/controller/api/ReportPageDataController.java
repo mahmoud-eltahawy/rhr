@@ -3,6 +3,7 @@ package com.rhr.heat.controller.api;
 import java.sql.Time;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,5 +57,31 @@ public class ReportPageDataController {
 			@RequestParam("endTime")String endTime) {
 		
 		return service.reportProblem(category, number, problems, beginTime, endTime);
+	}
+
+	@PostMapping("/remove/machine/problems")
+	public Boolean removeMachineProblems(
+			@RequestParam("cat")String cat,
+			@RequestParam("num")Integer num) {
+		return service.removeMachineProblems(cat,num);
+	}
+
+	@PostMapping("/remove/problem")
+	public Boolean removeProblem(@RequestParam("id")UUID id) {
+		return service.removeProblem(id);
+	}
+
+	@RequestMapping("/add/problem/problems")
+	public List<String> addProblemProblems(
+			@RequestParam("id")UUID id,
+			@RequestParam("titles")List<String> titles) {
+		return service.addProblemProblems(id,titles);
+	}
+
+	@RequestMapping("/remove/problem/problem")
+	public Boolean removeProblemProblem(
+			@RequestParam("id")UUID id,
+			@RequestParam("title")String title) {
+		return service.removeProblemProblem(id,title);
 	}
 }

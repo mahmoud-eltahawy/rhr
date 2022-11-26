@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,7 @@ public class ReportPageDataService {
     private final ProblemDetailsRepo problemDetailsRepo;
 	private final Dealer dealer;
     
+	//problem operations begin
 	public ProblemDetail reportProblem(String category,Integer number,
 			List<String> problems,String beginTime,String endTime) {
 		ProblemDetail pd = new ProblemDetail(UUID.randomUUID());
@@ -61,7 +63,53 @@ public class ReportPageDataService {
 		}
 		return null;
 	}
+	
+	public Boolean removeMachineProblems(String cat, Integer num) {
+		Optional<Machine> machine = machineRepo.findByTheId(cat, num);
+		if(machine.isPresent()){
+			problemDetailsRepo.deleteByMachineId(machine.get().getId());
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public Boolean removeProblem(UUID id) {
+		if(problemDetailsRepo.deleteById(id) == 1){
+			return true;
+		}
+		return false;
+	}
+	
+	public List<String> addProblemProblems(UUID pdId,List<String> titles) {
+		List<Optional<Problem>> problems = titles
+			.stream().map(t -> problemRepo.findByTitle(t))
+			.collect(Collectors.toList());
+		List<String> result = new ArrayList<>();
+		for (Optional<Problem> p : problems) {
+			if(p.isPresent()){
+				if(problemRepo.saveToProblemDetail(p.get().getTitle(), pdId) == 1){
+					result.add(p.get().getTitle());
+				};
+			}
+		}
+		return result;
+	}
+	
+	public Boolean removeProblemProblem(UUID pdId,String title) {
+		Optional<Problem> problem = problemRepo.findByTitle(title);
+		if(problem.isPresent()){
+			if(problemRepo.findProblemDetailProblems(pdId).size() != 1){
+				problemRepo.deleteFromProblemDetail(title, pdId);
+				return true;
+			}
+		}
+		return false;
+	}
+	//problem operations end
     
+
+	//fetch data begin
     public Map<String, Map<Integer, List<ProblemDetail>>> categoryNumberProblemMaping(){
         return dealer.getCategoryMachines(problemDetailsRepo
             .findByShiftId(component.getCurrentShift().getId()));
@@ -84,4 +132,5 @@ public class ReportPageDataService {
     public List<String> getAllProblemsTitles(){
 		return problemRepo.findAllTitles();
     }
+	//fetch data end
 }

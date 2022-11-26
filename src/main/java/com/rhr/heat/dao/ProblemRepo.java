@@ -25,8 +25,8 @@ import lombok.RequiredArgsConstructor;
 public class ProblemRepo {
 	private final JdbcTemplate jdbcTemplate;
 
-	public void saveToProblemDetail(String title,UUID PdId) {
-		jdbcTemplate.update("""
+	public int saveToProblemDetail(String title,UUID PdId) {
+		return jdbcTemplate.update("""
 					INSERT INTO problem_detail_problem
 					(problem_detail_id,problem_title) values(?,?)
 					ON CONFLICT(problem_detail_id,problem_title) DO NOTHING

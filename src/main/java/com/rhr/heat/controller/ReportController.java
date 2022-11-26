@@ -35,32 +35,6 @@ public class ReportController {
 		return mv;
 	}
 
-	@PostMapping("/remove/problem")
-	public String removeProblem(@RequestParam("id")UUID id) {
-		return "redirect:/report/?message="+service.removeProblem(id);
-	}
-
-	@RequestMapping("/add/problem/problems")
-	public String addProblemProblems(
-			@RequestParam("id")UUID id,
-			@RequestParam("titles")List<String> titles) {
-		return "redirect:/report/?message="+service.addProblemProblems(id,titles);
-	}
-
-	@RequestMapping("/remove/problem/problem")
-	public String removeProblemProblem(
-			@RequestParam("id")UUID id,
-			@RequestParam("title")String title) {
-		return "redirect:/report/?message="+service.removeProblemProblem(id,title);
-	}
-
-	@RequestMapping("/remove/machine/problems")
-	public String removeMachineProblems(
-			@RequestParam("cat")String cat,
-			@RequestParam("num")Integer num) {
-		return "redirect:/report/?message="+service.removeMachineProblems(cat,num);
-	}
-
 	@PostMapping("/flow")
 	public String flow(
 			@RequestParam("machines")List<String> machines,

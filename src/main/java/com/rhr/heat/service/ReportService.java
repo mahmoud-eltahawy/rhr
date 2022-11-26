@@ -12,7 +12,6 @@ import com.rhr.heat.components.ReportComponent;
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.MachineRepo;
 import com.rhr.heat.dao.NoteRepo;
-import com.rhr.heat.dao.ProblemDetailsRepo;
 import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.dao.TemperatureRepo;
 import com.rhr.heat.dao.TotalFlowRepo;
@@ -35,7 +34,6 @@ public class ReportService {
 	private final TotalFlowRepo totalFlowRepo;
 	private final TemperatureRepo temperatureRepo;
 	private final EmployeeRepo employeeRepo;
-	private final ProblemDetailsRepo problemDetailsRepo;
 	private final NoteRepo noteRepo;
 	private final ProblemRepo problemRepo;
 	private final MachineRepo machineRepo;
@@ -111,53 +109,6 @@ public class ReportService {
 		noteRepo.delete(new Note(component.getCurrentShift().getId(), note));
 	}
 	
-	
-	public String removeMachineProblems(String cat, Integer num) {
-		Optional<Machine> machine = machineRepo.findByTheId(cat, num);
-		if(machine.isPresent()){
-			problemDetailsRepo.deleteByMachineId(machine.get().getId());
-
-			return new Machine(cat, num).name() + " all problems deleted sucessfully";
-		} else {
-			return "machine problems does not exist";
-		}
-	}
-	
-	public String removeProblemProblem(UUID pdId,String title) {
-		Optional<Problem> problem = problemRepo.findByTitle(title);
-		if(problem.isPresent()){
-			if(problemRepo.findProblemDetailProblems(pdId).size() != 1){
-				problemRepo.deleteFromProblemDetail(title, pdId);
-				return "problem deleted sucessfully";
-			} else {
-				return "can not delete last problem";
-			}
-		} else {
-			return "problem does not exist";
-		}
-	}
-	
-	public String addProblemProblems(UUID pdId,List<String> titles) {
-		List<Optional<Problem>> problems = titles
-			.stream().map(t -> problemRepo.findByTitle(t))
-			.collect(Collectors.toList());
-		String param = "";
-		for (Optional<Problem> p : problems) {
-			if(p.isPresent()){
-				problemRepo.saveToProblemDetail(p.get().getTitle(), pdId);
-				param += p.get().getTitle()+" ";
-			}
-		}
-		if(param.length() == 0){
-			return "failed";
-		}
-		return param + " added sucessfully";
-	}
-	
-	public String removeProblem(UUID id) {
-		problemDetailsRepo.deleteById(id);
-		return "problem deleted sucessfully";
-	}
 	
 	public String removeEmployee(UUID id) {
 		employeeRepo.removeFromShift(id, component.getCurrentShift().getId());
