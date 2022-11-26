@@ -22,15 +22,70 @@ async function problemsOptions (){
   }
 }
 
-async function saveProblemRequest(machine: string,number: string){
+function elementListNewMember(machine: string,number: string, pd :{
+      id: string;shiftId:string;
+      problems:[{title: string; descripion: string;}];
+      machine:{id: string; category: string; number: number;};
+      beginTime: string;endTime: string;}){
+  document.getElementById(`${machine}-${number}-problems-list`)!
+    .innerHTML += `
+      <tr>
+        <td>
+          <form action="/report/remove/problem/?id=${pd.id}" method="post">
+            <button
+                type="submit"
+                class="mini-button"
+                style="width: 100%">
+              -
+            </button>
+          </form>
+        </td>
+        <td>${pd.beginTime}</td>
+        <td>${pd.endTime}</td>
+        <td id="${pd.id}-problems">
+          <ol type="1">
+            ${(function() : string{
+              let result =""
+              pd.problems.forEach(p =>{
+                result += `
+                  <li>
+                    <a style="display:inline-block;"
+                        href="/report/remove/problem/problem/?id=${pd.id}&title=${p.title}"
+                        method="post">
+                      <button>-</button>
+                    </a>
+                    <span style="display:inline-block;">${p.title}</span>
+                  </li>
+                `
+              })
+              return result
+            })()}
+            <li>
+              <button onclick="listProblems('${pd.id}')" class="mini-button">+</button>
+            </li>
+          </ol>
+        </td>
+      </tr>
+    `
+}
+
+async function saveProblemRequest(machine: string,number: string,fieldId: string){
   try{
-    const problems = document.getElementById(`${machine}-${number}-form-problems`) as HTMLInputElement
+    const problems = document.getElementById(`${machine}-${number}-form-problems`) as HTMLSelectElement
     const begin = document.getElementById(`${machine}-${number}-form-beginTime`) as HTMLInputElement
     const end = document.getElementById(`${machine}-${number}-form-endTime`) as HTMLInputElement
     const formData = new FormData()
     formData.append('category' , machine)
     formData.append('number' , number)
-    formData.append('problems' , problems.value)
+    formData.append('problems' , (function(){
+        const chosenProblems: string[] = []
+        for(let i = 0; i < problems.options.length; i++){
+          if(problems.options[i].selected){
+            chosenProblems.push(problems.options[i].value)
+          }
+        }
+        return chosenProblems.toString()
+      })())
     formData.append('beginTime' , begin.value)
     formData.append('endTime' , end.value)
     const pd :{
@@ -50,7 +105,6 @@ async function saveProblemRequest(machine: string,number: string){
     } = await fetch("/fetch/report/add/machine/problem"
     ,{method:'POST',body: formData})
     .then(res => res.json());
-    console.log(typeof pd)
     console.log(`
       the id     :  ${pd.id}
       shift id   :  ${pd.shiftId}
@@ -59,7 +113,8 @@ async function saveProblemRequest(machine: string,number: string){
       problems   :  ${pd.problems.map(p=> `${p.title} | ${p.descripion}`).toString()}
       machine    :  ${`${pd.machine.id} | ${pd.machine.category} | ${pd.machine.number}`}
     `)
-
+    restoreContent(fieldId)
+    elementListNewMember(machine,number,pd)
   } catch(err){
     console.log(err)
   }
@@ -87,7 +142,7 @@ async function replaceForm(machine : string ,number: number ,fieldId: string){
           <div class="form-container">
             <h1>${number == 0? machine: machine+' '+number} PROBLEM</h1>
             <button onclick="restoreContent('${fieldId}')" style="width:2%; display:block; padding: 0px; color:red;">X</button>
-            <form onsubmit="saveProblemRequest('${machine}','${number}'); return false;" method="post">
+            <form onsubmit="saveProblemRequest('${machine}','${number}','${fieldId}'); return false;" method="post">
             <label >problems</label>
             <select multiple="multiple" name="problems" id="${machine}-${number}-form-problems" required>
               ${await problemsOptions()}
@@ -449,40 +504,3 @@ addMessage()
 addDeleteFlowRecord()
 addAllPlusButtons()
 addProblemAddingButtons()
-  // const newHTML =`
-  //   <tr >
-  //     <td>
-  //       <form th:action="@{/report/remove/problem/(id={pd.id})}" method="post">
-  //         <button
-  //             type="submit"
-  //             class="mini-button"
-  //             style="width: 100%">
-  //           -
-  //         </button>
-  //       </form>
-  //     </td>
-  //     <td th:text="${begin.value}">
-  //       problem begin time
-  //     </td>
-  //     <td th:text="${end.value}">
-  //       problem end time
-  //     </td>
-  //     <td th:id="{pd.id}+'-problems'">
-  //       <ol type="1">
-  //         <li th:each="p : ${problems.value}">
-  //           <a style="display:inline-block;"
-  //             th:href="@{/report/remove/problem/problem/(id={pd.id},title={p.title})}"
-  //             method="post">
-  //             <button>-</button>
-  //           </a>
-  //           <span th:text="{p.title}" style="display:inline-block;">
-  //             problem
-  //           </span>
-  //         </li>
-  //         <li>
-  //           <button th:attr="onclick=|listProblems('{pd.id}')|" class="mini-button">+</button>
-  //         </li>
-  //       </ol>
-  //     </td>
-  //   </tr>
-  // `

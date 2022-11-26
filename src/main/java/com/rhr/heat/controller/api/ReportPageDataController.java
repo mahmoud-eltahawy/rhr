@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rhr.heat.entity.ProblemDetail;
-import com.rhr.heat.enums.Pushable;
 import com.rhr.heat.service.api.ReportPageDataService;
 
 import lombok.RequiredArgsConstructor;

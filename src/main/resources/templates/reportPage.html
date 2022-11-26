@@ -70,7 +70,7 @@
 															<th>problems</th>
 														</tr>
 													</thead>
-													<tbody>
+													<tbody th:id="${cat.key}+'-'+${mapin.key}+'-problems-list'">
 														<tr th:each="pd : ${mapin.value}">
 															<td>
 																<form th:action="@{/report/remove/problem/(id=${pd.id})}" method="post">
