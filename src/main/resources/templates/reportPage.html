@@ -15,8 +15,6 @@
 			Date: <span th:text="*{date}">the date</span>
 		</p>
 		<p id="messager" class="short-important-p">static message</p>
-		<button th:if="${cats}==null" class="notsub"  onclick="toggle('add-problem-field')">ADD PROBLEM</button>
-		<div id="add-problem-field" class="ghost top-bottom-border"></div>
 		<div th:unless="${cats}==null">
 			<h1><button class="notsub"  onclick="toggle('problems-section')">PROBLEMS SECTION</button></h1><br>
 			<div class="ghost top-bottom-border" id="problems-section">
@@ -39,15 +37,7 @@
 							<div class="ghost top-bottom-border" id="category" th:id="${cat.key}">
 								<ul th:each="mapin : ${cat.value}">
 									<li>
-										<div th:if="${mapin.value}==null" th:id="${cat.key}+'-'+${mapin.key}+'-header'">
-											<button class="issubsub" th:attr="onclick=|replaceForm('${cat.key}',${mapin.key},'${cat.key}-${mapin.key}-header')|">
-												<span>ADD</span>
-												<span th:text="${cat.key}">CATEGORY</span>
-												<span th:text="${mapin.key}">NUMBER</span>
-												<span>PROBLEM</span>
-											</button>
-										</div>
-										<div th:unless="${mapin.value}==null">
+										<div>
 											<h3 th:unless="${mapin.key}==0">
 												<button class="main-button" th:attr="onclick=|toggle('${cat.key}-${mapin.key}-show')|">
 													<span th:text="${cat.key}">CATEGORY</span>
@@ -55,8 +45,12 @@
 												</button>
 											</h3><br>
 											<div class="top-bottom-border" th:classappend="${mapin.key}!=0 ? 'ghost'" th:id="${cat.key}+'-'+${mapin.key}+'-show'">
-												<div th:id="${cat.key}+'-btns-container'"></div>
 												<div th:id="${cat.key}+'-'+${mapin.key}+'-btns-container'">
+													<button class="mini-button"
+														th:attr="onclick=|replaceForm('${cat.key}',
+																   '${mapin.key}',
+																   '${cat.key}-${mapin.key}-show')|"
+													>+</button>
 													<a th:href="@{/report/remove/machine/problems/(cat=${cat.key},num=${mapin.key})}">
 														<button class="mini-button">-</button>
 													</a>

@@ -442,17 +442,6 @@ function replaceNoteForm(id :string){
 `
 }
 
-function addPlusButtons(element : HTMLElement,catnum : {cat: string, num : number}){
-  if(element){
-    element.innerHTML += `
-                      <button class="mini-button"
-                          onclick="replaceForm('${catnum.cat}',
-                                '${catnum.num}','${catnum.cat}-${catnum.num}-show')">+
-                      </button>
-                      `
-  }
-}
-
 function addMessage(){
     const message : string | null = new URL(window.location.href).searchParams.get("message")
     if(message) {
@@ -469,38 +458,6 @@ function addDeleteFlowRecord(){
   }
 }
 
-async function addAllPlusButtons(){
-  try{
-    const cc =await getCategoriesContainers()
-    for(const [key,value] of cc){
-      if(value.vsize == 1){
-        addPlusButtons(document.getElementById(key)!,value.catnum)
-      }
-    }
-    const cn =await getCategoriesNumbersContainers()
-    for(const [key,value] of cn){
-      addPlusButtons(document.getElementById(key)!,value)
-    }
-  } catch(err){
-    console.log(err)
-  }
-}
-async function addProblemAddingButtons(){
-  try{
-    let jsonMap =new Map(Object.entries(await promiseMap))
-    let btnString = ""
-    for (let catName of jsonMap.keys()) {
-      btnString += `<button class="cat-button"
-                                onclick="replaceButtons('${catName}','add-problem-field')">${catName}</button>`
-    }
-    document.getElementById("add-problem-field")!.innerHTML = btnString
-
-  } catch(err){
-    console.log(err)
-  }
-}
-
 addMessage()
 addDeleteFlowRecord()
-addAllPlusButtons()
-addProblemAddingButtons()
+// addAllPlusButtons()

@@ -76,19 +76,22 @@ public class Dealer {
 		}
 		
 		Map<String,List<Integer>> standard = getStandardCategoryNums();
-		if(!result.isEmpty()) {
-			standard.keySet().forEach(category ->{
-				if(result.get(category) == null) {
-					result.put(category, null);
-				} else {
-					standard.get(category).forEach(num->{
-						if(result.get(category).get(num) ==null) {
-							result.get(category).put(num, null);
-						};
-					});	
-				}
-			});
-		}
+
+		standard.keySet().forEach(category ->{
+			if(result.get(category) == null) {
+				Map<Integer, List<ProblemDetail>> v = new HashMap<>(); 
+				standard.get(category).forEach(i -> {
+					v.put(i, null);
+				});
+				result.put(category, v);
+			} else {
+				standard.get(category).forEach(num->{
+					if(result.get(category).get(num) ==null) {
+						result.get(category).put(num, null);
+					};
+				});	
+			}
+		});
 		return result;
 	}
 }
