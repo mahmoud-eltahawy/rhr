@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rhr.heat.entity.ProblemDetail;
+import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.service.api.ReportPageDataService;
 
 import lombok.RequiredArgsConstructor;
@@ -83,5 +84,20 @@ public class ReportPageDataController {
 			@RequestParam("id")UUID id,
 			@RequestParam("title")String title) {
 		return service.removeProblemProblem(id,title);
+	}
+
+	@PostMapping("/add/flow")
+	public TotalFlow flow(
+			@RequestParam("machines")List<String> machines,
+			@RequestParam("max")Integer max,
+			@RequestParam("min")Integer min,
+			@RequestParam("beginTime")String beginTime,
+			@RequestParam("endTime")String endTime) {
+		return service.reportTotalFlow(machines, max, min, beginTime, endTime);
+	}
+
+	@RequestMapping("/remove/flow")
+	public Boolean removeFlow() {
+		return service.removeFlow();
 	}
 }

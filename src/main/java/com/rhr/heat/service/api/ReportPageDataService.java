@@ -17,10 +17,12 @@ import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.MachineRepo;
 import com.rhr.heat.dao.ProblemDetailsRepo;
 import com.rhr.heat.dao.ProblemRepo;
+import com.rhr.heat.dao.TotalFlowRepo;
 import com.rhr.heat.deep.service.ShiftTimer;
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
+import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.service.Dealer;
 
 import lombok.RequiredArgsConstructor;
@@ -34,9 +36,38 @@ public class ReportPageDataService {
     private final ReportComponent component;
     private final EmployeeRepo employeeRepo;
     private final ProblemDetailsRepo problemDetailsRepo;
+	private final TotalFlowRepo totalFlowRepo;
 	private final Dealer dealer;
     
-	//problem operations begin
+	//operations begin
+	
+	public Boolean removeFlow() {
+		if(totalFlowRepo.deleteFromShift(component.getCurrentShift().getId())==1){
+			return true;
+		};
+		return false;
+	}
+	
+	public TotalFlow reportTotalFlow(List<String> smachines,
+			Integer max,Integer min,String beginTime,String endTime) {
+		List<Machine> machines = smachines.stream()
+				.map(s -> component.parseMachine(s).orElseThrow())
+				.collect(Collectors.toList());
+		for (Machine machine : machines) {
+			if(machineRepo.findByTheId(machine.getCategory(), machine.getNumber()).isEmpty()) {
+				machines.remove(machine);
+			}
+		}
+		TotalFlow tf = new TotalFlow(UUID.randomUUID(),component.getCurrentShift().getId()
+			,machines,min, max,GF.getTime(beginTime), GF.getTime(endTime));
+			
+		if(tf.isPushable().isEmpty()) {
+			totalFlowRepo.save(tf);
+			return tf;
+		}
+		return null;
+	}
+
 	public ProblemDetail reportProblem(String category,Integer number,
 			List<String> problems,String beginTime,String endTime) {
 		ProblemDetail pd = new ProblemDetail(UUID.randomUUID());
@@ -106,8 +137,7 @@ public class ReportPageDataService {
 		}
 		return false;
 	}
-	//problem operations end
-    
+	//operations end
 
 	//fetch data begin
     public Map<String, Map<Integer, List<ProblemDetail>>> categoryNumberProblemMaping(){

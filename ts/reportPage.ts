@@ -41,17 +41,15 @@ function elementListNewMember(machine: string,number: string, pd :{
         <td>${pd.beginTime}</td>
         <td>${pd.endTime}</td>
         <td id="${pd.id}-problems">
-          <ol type="1">
+          <ol type="1" id="${pd.id}-problems-list">
             ${(function() : string{
               let result =""
               pd.problems.forEach(p =>{
                 result += `
-                  <li>
-                    <a style="display:inline-block;"
-                        href="/report/remove/problem/problem/?id=${pd.id}&title=${p.title}"
-                        method="post">
-                      <button>-</button>
-                    </a>
+                  <li id="${pd.id}-${p.title}">
+                    <button
+                    onclick="deleteProblemTitle('${pd.id}','${p.title}','${pd.id}-${p.title}')"
+                    style="display:inline-block;">-</button>
                     <span style="display:inline-block;">${p.title}</span>
                   </li>
                 `
@@ -59,7 +57,10 @@ function elementListNewMember(machine: string,number: string, pd :{
               return result
             })()}
             <li>
-              <button onclick="listProblems('${pd.id}')" class="mini-button">+</button>
+              <button 
+                onclick="listProblems('${pd.id}')"
+                class="mini-button"
+              >+</button>
             </li>
           </ol>
         </td>
@@ -78,7 +79,7 @@ async function deleteCategoryProblems(machine: string,number: string,fieldId: st
 
     if(result){
       document.getElementById(fieldId)!.innerHTML = ""
-      console.log(fieldId +" should be removed")
+      alert('problems deleted successfully')
     }
   } catch(err){
     console.log(err)
@@ -94,10 +95,9 @@ async function deleteProblemTitle(id: string,title: string,fieldId: string) {
     const result : boolean = await fetch("/fetch/report/remove/problem/problem",
       {method: 'POST', body: formData}).then(res => res.json())
 
-    alert(result)
     if(result){
       document.getElementById(fieldId)!.remove()
-      console.log(fieldId +" should be removed")
+      alert('title removed successfully')
     }
   } catch(err){
     console.log(err)
@@ -114,7 +114,19 @@ async function deleteCategoryProblem(id : string,fieldId: string) {
 
     if(result){
       document.getElementById(fieldId)!.innerHTML = ""
-      console.log(fieldId +" should be removed")
+    }
+  } catch(err){
+    console.log(err)
+  }
+}
+
+async function removeFlow(id : string){
+  try{
+    const result = await fetch("/fetch/report/remove/flow")
+      .then(res => res.json())
+    console.log(result)
+    if(result){
+      document.getElementById(id+"-record")!.remove()
     }
   } catch(err){
     console.log(err)
@@ -145,12 +157,10 @@ async function saveNewProblemProblems(id : string) {
         const target = document.getElementById(id+"-problems-list")
         result.forEach(t => {
           target!.innerHTML += `
-            <li>
-              <a style="display:inline-block;"
-                  href="/report/remove/problem/problem/(id={pd.id},title={title})}"
-                  method="post">
-                <button>-</button>
-              </a>
+            <li id="${id}-${t}">
+              <button
+              onclick="deleteProblemTitle('${id}','${t}','${id}-${t}')"
+              style="display:inline-block;">-</button>
               <span style="display:inline-block;">${t}</span>
             </li>
           `
@@ -177,7 +187,7 @@ async function listProblems(uuid : string){
           </form>
         </div>
       </div>
-`
+    `
 }
 
 async function saveProblemRequest(machine: string,number: string,fieldId: string){
@@ -204,6 +214,99 @@ async function saveProblemRequest(machine: string,number: string,fieldId: string
     .then(res => res.json());
     restoreContent(fieldId)
     elementListNewMember(machine,number,pd)
+  } catch(err){
+    console.log(err)
+  }
+}
+
+function flowListNewMember(
+  t :{
+    id:string;
+    shiftId:string;
+    suspendedMachines: [{id:string;
+                        category:string;
+                        number: number;
+                      }];
+    minFlow: number;
+    maxFlow: number;
+    caseBeginTime: string;
+    caseEndTime: string;
+  }){
+  document.getElementById("flow-records-list")!
+    .innerHTML += `
+    <tr id="${t.id}-record">
+      <td>
+        {
+        <button
+            id="${t.id}-btn"
+            onclick="removeFlow('${t.id}')"
+            type="submit"
+            class="mini-button"
+            style="width: 100%"
+        >-</button>
+        }
+      </td>
+      <td id="${t.id}+'-machines'">
+        <ul>
+          ${(function(){
+            let result = ""
+            t.suspendedMachines.forEach(m =>{
+              result += `
+              <li>
+                <span>
+                  <a href="/report/remove/flow/machine/?fid=${t.id}&machine=${m.category}-${m.number}">
+                    <button class="mini-button">-</button>
+                  </a>
+                </span>
+                <span>${m.category}-${m.number}</span>
+              </li>
+              `
+            })
+            return result
+          })()}
+          <li><button 
+            onclick="listMachines('${t.id}')"
+            class="mini-button"
+          >+</button></li>
+        </ul>
+      </td>
+      <td>${t.maxFlow}</td>
+      <td>${t.minFlow}</td>
+      <td>${t.caseBeginTime}</td>
+      <td id="${t.id}-end" name="flow-end-time">${t.caseEndTime}</td>
+    </tr>
+    `
+}
+
+async function saveFlowRequest(){
+  try{
+    console.log("save flow request")
+    const machines = document.getElementById("flow-machines-id") as HTMLSelectElement
+    const max = document.getElementById("flow-max-id") as HTMLInputElement
+    const min = document.getElementById("flow-min-id") as HTMLInputElement
+    const begin = document.getElementById("flow-beginTime-id") as HTMLInputElement
+    const end = document.getElementById("flow-endTime-id") as HTMLInputElement
+    const formData = new FormData()
+    formData.append('machines' , (function(){
+        const chosenProblems: string[] = []
+        for(let i = 0; i < machines.options.length; i++){
+          if(machines.options[i].selected){
+            chosenProblems.push(machines.options[i].value)
+          }
+        }
+        return chosenProblems.toString()
+      })())
+    formData.append('max' , max.value)
+    formData.append('min' , min.value)
+    formData.append('beginTime' , begin.value)
+    formData.append('endTime' , end.value)
+    const tf = await fetch("/fetch/report/add/flow"
+    ,{method:'POST',body: formData})
+    .then(res => res.json());
+    restoreContent("flow-section")
+    console.log(tf)
+    flowListNewMember(tf)
+    addDeleteFlowRecord()
   } catch(err){
     console.log(err)
   }
@@ -253,34 +356,6 @@ async function replaceForm(machine : string ,number: number ,fieldId: string){
   }
 }
 
-async function replaceButtons(catName: string ,fieldId: string){
-  try{
-    const jsonMap =new Map(Object.entries(await promiseMap))
-    const arr : number[] | undefined = jsonMap.get(catName)
-    if(arr){
-      if(arr.length === 1){
-          replaceForm(catName,arr[0],fieldId)
-        } else if(arr.length > 1) {
-          const fieldDiv = document.getElementById(fieldId)
-          if(fieldDiv){
-            fieldDiv.innerHTML = (function(){
-            let buttons = ""
-            for (let n of arr){
-              buttons +=`<button class="cat-button"
-                            onclick="replaceForm('${catName}','${n}','${fieldId}')">
-                            ${catName} ${n}
-                          </button>`
-            }
-            return buttons
-            })()
-          }
-      }
-    }
-  } catch(err){
-    console.log(err)
-  }
-}
-
 function toggle(id :string) {
   const x = document.getElementById(id)
   if(x){
@@ -289,39 +364,6 @@ function toggle(id :string) {
     } else {
       x.style.display = "none";
     }
-  }
-}
-
-async function getCategoriesContainers() : Promise<Map<string,{vsize: number,catnum: {cat: string, num: number}}>>{
-  try{
-    const jsonMap = new Map(Object.entries(await promiseMap))
-    const mList = new Map()
-    for (const [category,numbers] of jsonMap) {
-      mList.set(`${category}-btns-container`,
-        {vsize: numbers.length, catnum:{cat: category,num: 0}})
-    }
-    return mList
-  } catch(err){
-    console.log(err)
-    return Promise.resolve(new Map<string,{vsize: number,catnum: {cat: string, num: number}}>)
-  }
-}
-
-async function getCategoriesNumbersContainers() :Promise<Map<string,{cat: string, num: number}>> {
-  try{
-    const jsonMap =new Map(Object.entries(await promiseMap))
-    const mList : Map<string,{cat: string, num: number}> = new Map()
-    for (const [k,v] of jsonMap) {
-      if(v){
-        for(let m of v){
-          mList.set(`${k}-${m+1}-btns-container`,{cat : k, num: m+1})
-        }
-      }
-    }
-    return mList
-  } catch(err){
-    console.log(err)
-    return Promise.resolve(new Map<string,{cat: string, num: number}>)
   }
 }
 
@@ -384,19 +426,21 @@ async function listEmployees(){
   }
 }
 
-
-async function replaceFlowForm(id : string){
+async function replaceFlowForm(){
   try{
     const jsonMap : Map<string,number[]> =new Map(Object.entries( await promiseMap))
     const minTime = await flowMinTime();
-    const maxTime = await shiftEnd();   
-    document.getElementById(id)!.innerHTML =`
+    const maxTime = await shiftEnd();
+    const target  = document.getElementById("flow-section")
+    nativeContentMap.set("flow-section",target!.innerHTML)
+    target!.innerHTML =`
         <div class="box-container">
           <div class="form-container">
             <h1> Total Flow record</h1>
-            <form action="/report/flow" method="post">
-            <label name="machines" id="machines">suspended machines</label>
-            <select multiple="multiple" name="machines" id="machines" required>
+            <button onclick="restoreContent('flow-section')" style="width:2%; display:block; padding: 0px; color:red;">X</button>
+            <form onsubmit="saveFlowRequest(); return false;" method="post">
+            <label>suspended machines</label>
+            <select multiple="multiple" name="machines" id="flow-machines-id" required>
               ${
                 (function(){
                   const mList : string[] = []
@@ -409,14 +453,14 @@ async function replaceFlowForm(id : string){
                 })()
               }
             </select>
-            <label name="max" id="max">maximum</label>
-            <input type="number" id="max" name="max" required>
-            <label name="min" id="min">minimum</label>
-            <input type="number" id="min" name="min" required>
-            <label name="beginTime" id="beginTime">record begin</label>
-            <input type="time" id="beginTime" name="beginTime" value="${minTime}" readonly>
-            <label name="endTime" id="endTime">record end</label>
-            <input type="time" id="endTime" name="endTime" min="${minTime}" max="${maxTime}" required>
+            <label>maximum</label>
+            <input type="number" id="flow-max-id" name="max" required>
+            <label>minimum</label>
+            <input type="number" id="flow-min-id" name="min" required>
+            <label>record begin</label>
+            <input type="time" id="flow-beginTime-id" name="beginTime" value="${minTime}" readonly>
+            <label>record end</label>
+            <input type="time" id="flow-endTime-id" name="endTime" min="${minTime}" max="${maxTime}" required>
             <button type="submit">Submit</button>
             </form>
           </div>
@@ -526,8 +570,12 @@ function addMessage(){
 
 function addDeleteFlowRecord(){
   const arr = document.getElementsByName('flow-end-time')
-  if(arr.length > 0){
-    document.getElementById(arr[arr.length - 1].id.slice(0,-4) +'-btn')!.style.display = 'block'
+  for(let i = 0; i < arr.length; i++){
+    if(i !== arr.length - 1){
+      document.getElementById(arr[i].id.slice(0,-4) +'-btn')!.style.display = 'none'
+    } else {
+      document.getElementById(arr[i].id.slice(0,-4) +'-btn')!.style.display = 'block'
+    }
   }
 }
 

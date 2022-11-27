@@ -20,13 +20,6 @@
 			<div class="ghost top-bottom-border" id="problems-section">
 				<ul th:each="cat : ${cats}">
 					<li>
-						<div th:if="${cat.value}==null" th:id="${cat.key}+'-header'">
-							<button class="issub" th:attr="onclick=|replaceButtons('${cat.key}','${cat.key}-header')|">
-								<span>add</span>
-								<span th:text="${cat.key}">CATEGORY</span>
-								<span>problem</span>
-							</button>
-						</div>
 						<div th:unless="${cat.value}==null">
 							<h2>
 								<button onclick="toggle('category')" th:attr="onclick=|toggle('${cat.key}')|" class="issub">
@@ -88,7 +81,10 @@
 																		</span>
 																	</li>
 																	<li>
-																		<button th:attr="onclick=|listProblems('${pd.id}')|" class="mini-button">+</button>
+																		<button
+																			th:attr="onclick=|listProblems('${pd.id}')|"
+																			class="mini-button"
+																		>+</button>
 																	</li>
 																</ol>
 															</td>
@@ -116,15 +112,15 @@
 			<h1><button class="notsub" onclick="toggle('records-section')">RECORDS SECTION</button></h1><br>
 			<div class="ghost top-bottom-border" id="records-section">
 				<div>
-					<button class="issub" onclick="toggle('flow')">
+					<button class="issub" onclick="toggle('flow-section')">
 						Total Flow records
 					</button>
-					<div class="ghost top-bottom-border" id="flow">
+					<div class="ghost top-bottom-border" id="flow-section">
 						<div>
 							<a th:href="@{/report/remove/all/flow/}">
 								<button class="mini-button">-</button>
 							</a>
-							<button onclick="replaceFlowForm('flow')" class="mini-button">+</button>
+							<button onclick="replaceFlowForm()" class="mini-button">+</button>
 						</div>
 						<table>
 							<thead>
@@ -137,20 +133,16 @@
 									<th>End time</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr th:each="t : ${flow}">
+							<tbody id="flow-records-list">
+								<tr th:each="t : ${flow}" th:id="${t.id}+'-record'">
 									<td>
 										{
-										<div th:id="${t.id}+'-btn'" class="ghost">
-											<form th:action="@{/report/remove/flow/(id=${t.id})}" method="post">
-												<button
-														type="submit"
-														class="mini-button"
-														style="width: 100%">
-													-
-												</button>
-											</form>
-										</div>
+										<button th:id="${t.id}+'-btn'"
+												th:attr="onclick=|removeFlow('${t.id}')|"
+												type="submit"
+												class="mini-button"
+												style="width: 100%"
+										>-</button>
 										}
 									</td>
 									<td th:id="${t.id}+'-machines'">

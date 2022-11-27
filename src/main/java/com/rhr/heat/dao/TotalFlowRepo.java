@@ -49,11 +49,12 @@ public class TotalFlowRepo {
 				""",id);
 	}
 	
-	public int deleteFromShift(UUID id,UUID shiftId){
+	public int deleteFromShift(UUID shiftId){
 		return jdbcTemplate.update("""
-				DELETE FROM total_flow tf
-				WHERE tf.id =? AND tf.shift_id =? 
-				""",id,shiftId);
+				DELETE FROM total_flow tf 
+				WHERE tf.end_time = (SELECT MAX(tf2.end_time)
+				from total_flow tf2) AND tf.shift_id = ?
+				""",shiftId);
 	}
 	
 	public List<TotalFlow> findAll(){

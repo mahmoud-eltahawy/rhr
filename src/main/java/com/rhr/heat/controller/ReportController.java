@@ -35,22 +35,6 @@ public class ReportController {
 		return mv;
 	}
 
-	@PostMapping("/flow")
-	public String flow(
-			@RequestParam("machines")List<String> machines,
-			@RequestParam("max")Integer max,
-			@RequestParam("min")Integer min,
-			@RequestParam("beginTime")String beginTime,
-			@RequestParam("endTime")String endTime) {
-		return "redirect:/report/?message="
-			+service.reportTotalFlow(machines, max, min, beginTime, endTime);
-	}
-
-	@RequestMapping("/remove/flow")
-	public String removeFlow(@RequestParam("id")UUID id) {
-		return "redirect:/report/?message="+service.removeFlow(id);
-	}
-
 	@RequestMapping("/remove/all/flow")
 	public String removeAllFlow() {
 		service.removeAllFlow();

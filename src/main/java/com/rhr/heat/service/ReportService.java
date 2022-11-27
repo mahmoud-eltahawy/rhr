@@ -7,21 +7,17 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.rhr.heat.GF;
 import com.rhr.heat.components.ReportComponent;
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.MachineRepo;
 import com.rhr.heat.dao.NoteRepo;
-import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.dao.TemperatureRepo;
 import com.rhr.heat.dao.TotalFlowRepo;
 import com.rhr.heat.dao.topLayer.ShiftRepo;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Note;
-import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.Temperature;
-import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.entity.topLayer.Shift;
 
 import lombok.RequiredArgsConstructor;
@@ -35,41 +31,16 @@ public class ReportService {
 	private final TemperatureRepo temperatureRepo;
 	private final EmployeeRepo employeeRepo;
 	private final NoteRepo noteRepo;
-	private final ProblemRepo problemRepo;
 	private final MachineRepo machineRepo;
 	
 	public Shift currenShift(){
 		return shiftRepo.fullFill(component.getCurrentShift());
 	}
-	
-	public String reportTotalFlow(List<String> smachines,
-			Integer max,Integer min,String beginTime,String endTime) {
-		List<Machine> machines = smachines.stream()
-				.map(s -> parseMachine(s).orElseThrow()).collect(Collectors.toList());
-		for (Machine machine : machines) {
-			if(machineRepo.findByTheId(machine.getCategory(), machine.getNumber()).isEmpty()) {
-				return "undefined machine";
-			}
-		}
-		TotalFlow tf = new TotalFlow(UUID.randomUUID(),component.getCurrentShift().getId()
-			,machines,min, max,GF.getTime(beginTime), GF.getTime(endTime));
-			
-		if(tf.isPushable().isEmpty()) {
-			totalFlowRepo.save(tf);
-			return "total flow record stored successfully";
-		}
-		return "failed because of "+ tf.isPushable().get(0);
-	}
-	
-	private Optional<Machine> parseMachine(String sm) {
-		String[] arr = sm.split("-");
-		return machineRepo.findByTheId(arr[0], Integer.parseInt(arr[1]));
-	}
 
 	public String reportTemperature(String machine, Integer max, Integer min) {
 		Temperature temp = new Temperature(UUID.randomUUID());
 		temp.setShiftId(component.getCurrentShift().getId());
-		Optional<Machine> machin = parseMachine(machine);
+		Optional<Machine> machin = component.parseMachine(machine);
 		if(machin.isPresent()) {
 			temp.setMachine(machin.get());
 		} else {
@@ -134,13 +105,8 @@ public class ReportService {
 		return "temperature record removed successfully";
 	}
 	
-	public String removeFlow(UUID id) {
-		totalFlowRepo.deleteFromShift(id,component.getCurrentShift().getId());
-		return "total flow record removed successfully";
-	}
-	
 	public String removeFlowMachine(UUID flowId,String machine) {
-		Optional<Machine> theMachine = parseMachine(machine);
+		Optional<Machine> theMachine = component.parseMachine(machine);
 		if(theMachine.isPresent()) {
 			if(machineRepo.allMachinesInFlow(flowId).size() != 1){
 				machineRepo.removeFromTotalFlow(flowId, theMachine.get().getId());
@@ -154,7 +120,7 @@ public class ReportService {
 	
 	public String addFlowMachines(UUID flowId,List<String> machines) {
 		List<Optional<Machine>> theMachines = machines.stream()
-				.map(m -> parseMachine(m)).collect(Collectors.toList());
+				.map(m -> component.parseMachine(m)).collect(Collectors.toList());
 		String names = "";
 		for (Optional<Machine> machine : theMachines) {
 			if(machine.isPresent()) {
