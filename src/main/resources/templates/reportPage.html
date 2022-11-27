@@ -117,9 +117,7 @@
 					</button>
 					<div class="ghost top-bottom-border" id="flow-section">
 						<div>
-							<a th:href="@{/report/remove/all/flow/}">
-								<button class="mini-button">-</button>
-							</a>
+							<button onclick="removeAllFlow()" class="mini-button">-</button>
 							<button onclick="replaceFlowForm()" class="mini-button">+</button>
 						</div>
 						<table>
@@ -145,19 +143,22 @@
 										>-</button>
 										}
 									</td>
-									<td th:id="${t.id}+'-machines'">
-										<ul>
-											<li th:each="m : ${t.suspendedMachines}">
-												<span>
-													<a th:href="@{/report/remove/flow/machine/(fid=${t.id},machine=${m.category}+'-'+${m.number})}">
-														<button class="mini-button">-</button>
-													</a>
-												</span>
+									<td>
+										<ul th:id="${t.id}+'-machines'">
+											<li th:each="m : ${t.suspendedMachines}" th:id="${m.id}+'-machine'">
+												<button
+													th:attr="onclick=|removeFlowMachine('${t.id}','${m.id}')|"
+													class="mini-button"
+												>-</button>
 												<span th:text="${m.category}+'-'+${m.number}">
 													machine number
 												</span>
 											</li>
-											<li><button th:attr="onclick=|listMachines('${t.id}')|" class="mini-button">+</button></li>
+											<li><button
+													th:attr="onclick=|listMachines('${t.id}')|"
+													class="mini-button"
+												>+</button>
+											</li>
 										</ul>
 									</td>
 									<td th:text="${t.maxFlow}">Max flow</td>

@@ -53,8 +53,9 @@ public class TotalFlowRepo {
 		return jdbcTemplate.update("""
 				DELETE FROM total_flow tf 
 				WHERE tf.end_time = (SELECT MAX(tf2.end_time)
-				from total_flow tf2) AND tf.shift_id = ?
-				""",shiftId);
+				from total_flow tf2 WHERE tf2.shift_id = ?)
+				AND tf.shift_id =?
+				""",shiftId,shiftId);
 	}
 	
 	public List<TotalFlow> findAll(){

@@ -1,6 +1,5 @@
 package com.rhr.heat.controller;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Controller;
@@ -33,26 +32,6 @@ public class ReportController {
 		mv.addObject("message", message);
 		mv.setViewName("reportPage");
 		return mv;
-	}
-
-	@RequestMapping("/remove/all/flow")
-	public String removeAllFlow() {
-		service.removeAllFlow();
-		return "redirect:/report/?message=all total flow records removed";
-	}
-
-	@RequestMapping("/remove/flow/machine")
-	public String removeFlowMachine(
-			@RequestParam("fid")UUID flowId,
-			@RequestParam("machine")String machine) {
-		return "redirect:/report/?message="+service.removeFlowMachine(flowId,machine);
-	}
-
-	@RequestMapping("/add/flow/machines")
-	public String addFlowMachines(
-			@RequestParam("id")UUID flowId,
-			@RequestParam("machines")List<String> machines) {
-		return "redirect:/report/?message="+service.addFlowMachines(flowId,machines);
 	}
 
 	@PostMapping("/temp")

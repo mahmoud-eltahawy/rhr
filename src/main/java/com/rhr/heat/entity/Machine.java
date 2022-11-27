@@ -26,7 +26,7 @@ public class Machine {
 	
 	public String name() {
 		if(number != 0) {
-			return category+" "+number;
+			return category+"-"+number;
 		} else {
 			return category;
 		}

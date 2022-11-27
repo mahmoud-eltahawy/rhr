@@ -20,15 +20,15 @@ import lombok.RequiredArgsConstructor;
 public class MachineRepo {
 	private final JdbcTemplate jdbcTemplate;
 	
-	public void saveToTotalFlow(UUID tfId,UUID mId) {
-		jdbcTemplate.update("""
+	public int saveToTotalFlow(UUID tfId,UUID mId) {
+		return jdbcTemplate.update("""
 					INSERT INTO total_flow_machine(total_flow_id,machine_id)
 					values(?,?) ON CONFLICT(total_flow_id,machine_id) DO NOTHING
 				""",tfId,mId);
 	}
 	
-	public void removeFromTotalFlow(UUID tfId,UUID mId) {
-		jdbcTemplate.update("""
+	public int removeFromTotalFlow(UUID tfId,UUID mId) {
+		return jdbcTemplate.update("""
 					DELETE FROM total_flow_machine
 					WHERE total_flow_id =? AND machine_id =?
 				""",tfId,mId);

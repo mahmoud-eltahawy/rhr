@@ -124,9 +124,9 @@ async function removeFlow(id : string){
   try{
     const result = await fetch("/fetch/report/remove/flow")
       .then(res => res.json())
-    console.log(result)
     if(result){
       document.getElementById(id+"-record")!.remove()
+      addDeleteFlowRecord()
     }
   } catch(err){
     console.log(err)
@@ -246,7 +246,7 @@ function flowListNewMember(
         >-</button>
         }
       </td>
-      <td id="${t.id}+'-machines'">
+      <td id="${t.id}-machines">
         <ul>
           ${(function(){
             let result = ""
@@ -278,9 +278,19 @@ function flowListNewMember(
     `
 }
 
+async function removeAllFlow(){
+  try{
+    const result = await fetch("/fetch/report/remove/all/flow")
+      .then(res => res.json())
+      if(result){
+        document.getElementById("flow-records-list")!.innerHTML = ""
+      }
+  } catch(err){
+    console.log(err)
+  }
+}
 async function saveFlowRequest(){
   try{
-    console.log("save flow request")
     const machines = document.getElementById("flow-machines-id") as HTMLSelectElement
     const max = document.getElementById("flow-max-id") as HTMLInputElement
     const min = document.getElementById("flow-min-id") as HTMLInputElement
@@ -304,7 +314,6 @@ async function saveFlowRequest(){
     ,{method:'POST',body: formData})
     .then(res => res.json());
     restoreContent("flow-section")
-    console.log(tf)
     flowListNewMember(tf)
     addDeleteFlowRecord()
   } catch(err){
@@ -367,15 +376,68 @@ function toggle(id :string) {
   }
 }
 
+async function removeFlowMachine(flowId: string,machineId : string) {
+  try{
+    const formData = new FormData()
+    formData.append('flow-id',flowId)
+    formData.append('machine-id',machineId)
+    const result : boolean = await fetch("/fetch/report/remove/flow/machine",
+      {method: 'POST', body: formData}).then(res => res.json())
+
+    if(result){
+      document.getElementById(`${machineId}-machine`)!.remove()
+    }
+  } catch(err){
+    console.log()
+  }
+}
+
+async function addFlowMachines(uuid : string){
+  try{
+    const machines = document.getElementById(uuid+"-machines-options") as HTMLSelectElement
+    const formData = new FormData()
+    formData.append('id',uuid)
+    formData.append('machines', (function(){
+        const chosenMachines: string[] = []
+        for(let i = 0; i < machines.options.length; i++){
+          if(machines.options[i].selected){
+            chosenMachines.push(machines.options[i].value)
+          }
+        }
+        return chosenMachines.toString()
+    })())
+
+    const result : [{id:string; category: string; number:number;}] = await fetch("/fetch/report/add/flow/machines",
+      {method: 'POST', body: formData}).then(res => res.json())
+
+    restoreContent(uuid+"-machines")
+    const target = document.getElementById(uuid+"-machines")    
+    result.forEach(m => {
+      target!.innerHTML += `
+        <li id="${m.id}-machine">
+          <button
+            onclick="removeFlowMachine('${uuid}','${m.id}')"
+            class="mini-button"
+          >-</button>
+          <span>${m.category}-${m.number}</span>
+        </li>
+      `
+    })
+  } catch (err){
+    console.log(err)
+  }
+}
+
 async function listMachines(uuid : string){
   try{
+    const target = document.getElementById(uuid+"-machines")
     const jsonMap : Map<string,number[]>  = new Map(Object.entries(await promiseMap))
-    document.getElementById(uuid+"-machines")!.innerHTML = `
+    nativeContentMap.set(uuid+"-machines",target!.innerHTML)
+    target!.innerHTML = `
         <div class="box-container">
           <div class="form-container">
-            <form action="/report/add/flow/machines" method="post">
-            <input type="hidden" id="id" name="id" value="${uuid}">
-            <select multiple="multiple" name="machines" id="machines" required>
+            <form onsubmit="addFlowMachines('${uuid}'); return false;">
+            <select multiple="multiple" id="${uuid}-machines-options" required>
               ${
                 (function(){
                   const mList : string[] = []

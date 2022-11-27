@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.service.api.ReportPageDataService;
@@ -99,5 +100,24 @@ public class ReportPageDataController {
 	@RequestMapping("/remove/flow")
 	public Boolean removeFlow() {
 		return service.removeFlow();
+	}
+
+	@RequestMapping("/remove/all/flow")
+	public Boolean removeAllFlow() {
+		return service.removeAllFlow();
+	}
+
+	@RequestMapping("/add/flow/machines")
+	public List<Machine> addFlowMachines(
+			@RequestParam("id")UUID flowId,
+			@RequestParam("machines")List<String> machines) {
+		return service.addFlowMachines(flowId,machines);
+	}
+
+	@RequestMapping("/remove/flow/machine")
+	public Boolean removeFlowMachine(
+			@RequestParam("flow-id")UUID flowId,
+			@RequestParam("machine-id")UUID machineId) {
+		return service.removeFlowMachine(flowId, machineId);
 	}
 }

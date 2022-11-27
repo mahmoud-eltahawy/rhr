@@ -40,6 +40,37 @@ public class ReportPageDataService {
 	private final Dealer dealer;
     
 	//operations begin
+	public Boolean removeFlowMachine(UUID flowId,UUID machineId) {
+		Optional<Machine> theMachine = machineRepo.findById(machineId);
+		if(theMachine.isPresent()) {
+			if(machineRepo.allMachinesInFlow(flowId).size() != 1){
+				if(machineRepo.removeFromTotalFlow(flowId, theMachine.get().getId())==1){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public List<Machine> addFlowMachines(UUID flowId,List<String> machines) {
+		List<Optional<Machine>> theMachines = machines.stream()
+				.map(m -> component.parseMachine(m)).collect(Collectors.toList());
+		List<Machine> result = new ArrayList<>();
+		for (Optional<Machine> machine : theMachines) {
+			if(machine.isPresent()) {
+				if(machineRepo.saveToTotalFlow(flowId, machine.get().getId())==1){
+					result.add(machine.get());
+				}
+			}	
+		}
+		return result;
+	}
+	
+	public Boolean removeAllFlow() {
+		if(totalFlowRepo.deletByShiftId(component.getCurrentShift().getId()) > 0){
+			return true;
+		}
+		return false;
+	}
 	
 	public Boolean removeFlow() {
 		if(totalFlowRepo.deleteFromShift(component.getCurrentShift().getId())==1){
