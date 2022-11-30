@@ -77,10 +77,10 @@ public class TemperatureRepo {
 				,id);
 	}
 	
-	public int deleteFromShift(UUID id,UUID shiftId){
+	public int deleteFromShift(UUID machineId,UUID shiftId){
 		return jdbcTemplate.update(
-				"DELETE FROM temperature t WHERE t.id =? AND t.shift_id =?"
-				,id,shiftId);
+				"DELETE FROM temperature t WHERE t.machine_id =? AND t.shift_id =?"
+				,machineId,shiftId);
 	}
 	
 	public List<Pushable> saveAll(List<Temperature> tmps) {

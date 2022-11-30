@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.ProblemDetail;
+import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.service.api.ReportPageDataService;
 
@@ -119,5 +120,24 @@ public class ReportPageDataController {
 			@RequestParam("flow-id")UUID flowId,
 			@RequestParam("machine-id")UUID machineId) {
 		return service.removeFlowMachine(flowId, machineId);
+	}
+
+	@PostMapping("/add/temp")
+	public Temperature temperature(
+			@RequestParam("max")Integer max ,
+			@RequestParam("min")Integer min ,
+			@RequestParam("machine")String machine) {
+		
+		return service.reportTemperature(machine,max,min);
+	}
+
+	@PostMapping("/remove/temp")
+	public Boolean removeTemp(@RequestParam("id")UUID machineId) {
+		return service.removeTemp(machineId);
+	}
+
+	@RequestMapping("/remove/all/temp")
+	public Boolean removeAllTemp() {
+		return service.removeAllTemp();
 	}
 }

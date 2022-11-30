@@ -176,26 +176,27 @@
 					</button>
 					<div class="ghost top-bottom-border" id="temp-section">
 						<div>
-							<a th:href="@{/report/remove/all/temp/}">
-								<button class="mini-button">-</button>
-							</a>
+							<button
+								onclick="removeAllTemp()"
+								class="mini-button"
+							>-</button>
 							<button class="mini-button"
-									onclick="replaceTempForm('temp-section')">+
+									onclick="replaceTempForm()">+
 							</button>
 						</div>
-						<ul>
-							<li th:each="temp :${temps}">
-								<div class="mini-button" style="display:inline-block; width:7%; margin:2%;">
-									<form th:action="@{/report/remove/temp/(id=${temp.id})}" method="post">
-										<button type="submit" style="width:100%">-</button>
-									</form>
-								</div>
-								<p class="short-important-p" style="display:inline-block; width:77%; margin:2%;">
+						<ul id="temps-records-list">
+							<li th:each="temp :${temps}" th:id="${temp.machine.id}">
+								<button
+									th:attr="onclick=|removeTemp('${temp.machine.id}')|"
+									class="mini-button"
+									style="display:inline-block;width:7%; margin:2%;"
+									type="submit"
+								>-</button>
+								<p
+									class="short-important-p"
+									style="display:inline-block; width:77%; margin:2%;">
 									MACHINE :
-									<span th:object="${temp.machine}">
-										<span th:text="*{category}">category</span>
-										<span th:unless="*{number}==0" th:text="*{number}">number</span>
-									</span>
+									<span th:text="${temp.machine.name()}">machine</span>
 									&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 									MAXIMUM : <span th:text="${temp.max}">max</span>
 									&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp

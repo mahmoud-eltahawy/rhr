@@ -17,11 +17,13 @@ import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.MachineRepo;
 import com.rhr.heat.dao.ProblemDetailsRepo;
 import com.rhr.heat.dao.ProblemRepo;
+import com.rhr.heat.dao.TemperatureRepo;
 import com.rhr.heat.dao.TotalFlowRepo;
 import com.rhr.heat.deep.service.ShiftTimer;
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
+import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.service.Dealer;
 
@@ -31,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ReportPageDataService {
 	private final ShiftTimer timer;
+	private final TemperatureRepo temperatureRepo;
     private final MachineRepo machineRepo;
     private final ProblemRepo problemRepo;
     private final ReportComponent component;
@@ -40,6 +43,38 @@ public class ReportPageDataService {
 	private final Dealer dealer;
     
 	//operations begin
+	public Boolean removeAllTemp() {
+		if(temperatureRepo.deleteShiftId
+			(component.getCurrentShift().getId())>0){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public Boolean removeTemp(UUID machineId) {
+		if(temperatureRepo.deleteFromShift
+			(machineId, component.getCurrentShift().getId())==1){
+			return true;
+		}
+		return false;
+	}
+	public Temperature reportTemperature(String machine, Integer max, Integer min) {
+		Temperature temp = new Temperature(UUID.randomUUID());
+		temp.setShiftId(component.getCurrentShift().getId());
+		Optional<Machine> machin = component.parseMachine(machine);
+		if(machin.isPresent()) {
+			temp.setMachine(machin.get());
+		}
+		temp.setMax(max);
+		temp.setMin(min);
+		if(temp.isPushable().isEmpty()) {
+			temperatureRepo.save(temp);
+			return temp;
+		} else {
+			return null;
+		}
+	}
+
 	public Boolean removeFlowMachine(UUID flowId,UUID machineId) {
 		Optional<Machine> theMachine = machineRepo.findById(machineId);
 		if(theMachine.isPresent()) {

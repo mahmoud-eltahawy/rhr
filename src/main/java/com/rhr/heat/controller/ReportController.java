@@ -34,26 +34,6 @@ public class ReportController {
 		return mv;
 	}
 
-	@PostMapping("/temp")
-	public String temperature(
-			@RequestParam("max")Integer max ,
-			@RequestParam("min")Integer min ,
-			@RequestParam("machine")String machine) {
-		
-		return "redirect:/report/?message="+service.reportTemperature(machine,max,min);
-	}
-
-	@RequestMapping("/remove/temp")
-	public String removeTemp(@RequestParam("id")UUID id) {
-		return "redirect:/report/?message="+service.removeTemp(id);
-	}
-
-	@RequestMapping("/remove/all/temp")
-	public String removeAllTemp() {
-		service.removeAllTemp();
-		return "redirect:/report/?message=all temperature records removed";
-	}
-
 	@PostMapping("/note")
 	public String note(
 			@RequestParam("note")String note) {

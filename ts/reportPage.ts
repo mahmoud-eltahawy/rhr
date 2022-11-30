@@ -566,17 +566,99 @@ async function shiftEnd(){
   }
 }
 
-async function replaceTempForm(id: string){
+async function removeTemp(machineId : string){
+  try{
+    const formData = new FormData()
+    formData.append("id",machineId)
+    const result = await fetch("/fetch/report/remove/temp",
+    {method:'POST',body:formData}).then(res => res.json())
+    if(result){
+      document.getElementById(machineId)!.remove()
+    }
+  } catch(err){
+    console.log(err)
+  }
+}
+
+async function removeAllTemp(){
+  try{
+    const result = await fetch("/fetch/report/remove/all/temp")
+    if(result){
+      document.getElementById("temps-records-list")!.innerHTML = ""
+    }
+  } catch(err){
+    console.log(err)
+  }
+}
+
+function addTempMember(temp : 
+      {id:string;shiftId:string;
+       machine:{id: string;category: string;number: number;};
+       max: string;min: string;}){
+
+    const ids : string[] = []
+    const records = document.getElementById("temps-records-list")
+    for(const i of records!.getElementsByTagName("li")){
+      ids.push(i.getAttribute("id")!)
+    }
+    if(ids.includes(temp.machine.id)){
+      document.getElementById(temp.machine.id)!.remove()
+    }
+records!.innerHTML += `
+  <li id="${temp.machine.id}">
+    <button
+      onclick="removeTemp('${temp.machine.id}')"
+      class="mini-button"
+      style="display:inline-block;width:7%; margin:2%;"
+      type="submit"
+    >-</button>
+    <p
+      class="short-important-p"
+      style="display:inline-block; width:77%; margin:2%;">
+      MACHINE :
+      <span>${temp.machine.category}-${temp.machine.number}</span>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+      MAXIMUM : <span>${temp.max}</span>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+      MINIMUM : <span>${temp.min}</span>
+    </p>
+  </li>
+  `
+}
+
+async function saveTempRequest(){
+  try{
+    const machine = document.getElementById("temp-machine-id") as HTMLSelectElement
+    const max = document.getElementById("temp-max-id") as HTMLInputElement
+    const min = document.getElementById("temp-min-id") as HTMLInputElement
+    const formData = new FormData()
+    formData.append("machine",machine.value)
+    formData.append("max",max.value)
+    formData.append("min",min.value)
+
+    const temp  = await fetch("/fetch/report/add/temp"
+        ,{method: 'POST', body : formData}).then(res => res.json())
+
+    restoreContent("temp-section")
+    addTempMember(temp)
+  } catch(err) {
+    console.log(err)
+  }
+}
+
+async function replaceTempForm(){
   try{
     const jsonMap: Map<string,number[]> = new Map(Object.entries(await promiseMap))
-    
-    document.getElementById(id)!.innerHTML =`
+    const target = document.getElementById("temp-section")
+    nativeContentMap.set("temp-section",target!.innerHTML)
+    target!.innerHTML =`
         <div class="box-container">
           <div class="form-container">
             <h1> Temperature record</h1>
-            <form action="/report/temp" method="post">
+            <button onclick="restoreContent('temp-section')" style="width:2%; display:block; padding: 0px; color:red;">X</button>
+            <form onsubmit="saveTempRequest(); return false;">
             <label name="machine" id="machine">target machine</label>
-            <select name="machine" id="machine" required>
+            <select id="temp-machine-id" required>
               ${
                 (function(){
                   const mList : string[] = []
@@ -591,10 +673,10 @@ async function replaceTempForm(id: string){
                 })()
               }
             </select>
-            <label name="max" id="max">maximum</label>
-            <input type="number" id="max" name="max" required>
-            <label name="min" id="min">minimum</label>
-            <input type="number" id="min" name="min" required>
+            <label>maximum</label>
+            <input type="number" id="temp-max-id" required>
+            <label>minimum</label>
+            <input type="number" id="temp-min-id" required>
             <button type="submit">Submit</button>
             </form>
           </div>
