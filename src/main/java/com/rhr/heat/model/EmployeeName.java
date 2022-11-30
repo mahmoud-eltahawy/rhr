@@ -9,12 +9,10 @@ import lombok.Data;
 @Data
 public class EmployeeName {
 	private final UUID id;
-	private final String name;
+	private final String fullName;
 	
 	public EmployeeName(Employee employee) {
 		this.id = employee.getId();
-		this.name = employee.getFirstName()
-				+" "+employee.getMiddleName()
-				+" "+employee.getLastName();
+		this.fullName = employee.fullName();
 	}
 }

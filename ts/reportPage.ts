@@ -460,14 +460,67 @@ async function listMachines(uuid : string){
   }
 }
 
+async function removeAllEmps(){
+  try{
+    const result = await fetch("/fetch/report/remove/all/emp")
+      .then(res => res.json())
+    if(result){
+      document.getElementById("emps-records-list")!.innerHTML = ""
+    }
+  } catch(err){
+    console.log(err)
+  }
+}
+async function removeEmp(id: string) {
+  try{
+    const formData = new FormData()
+    formData.append("id",id)
+    const result = await fetch("/fetch/report/remove/emp",
+      {method: 'POST',body: formData}).then(res => res.json())
+    
+    if(result){
+      document.getElementById(`${id}-emp`)!.remove()
+    }
+  } catch(err){
+    console.log(err)
+  }
+}
+async function addEmployee(){
+  try{
+    const opts = document.getElementById("employees-options") as HTMLSelectElement
+    const formData = new FormData()
+    formData.append("emp",opts.value)
+    const user = await fetch("/fetch/report/add/emp"
+      ,{method: 'POST',body: formData}).then(res => res.json())
+
+    restoreContent('employee-section')
+    if(user){
+      document.getElementById("emps-records-list")!.innerHTML +=`
+        <li id="${user.id}+'-emp'">
+          <button style="display:inline-block; width:7%; margin:2%;"
+              onclick="removeEmp('${user.id}')"
+              class="mini-button"
+          >-</button>
+          <p style="display:inline-block; width:77%; margin:2%;"
+             class="short-important-p">${user.fullName}</p>
+        </li>
+      `
+    }
+  } catch(err){
+    console.log(err)
+  }
+}
 async function listEmployees(){
   try{
     const usernames : string[] = await names
-    document.getElementById("employee-section")!.innerHTML = `
+    const target = document.getElementById("employee-section")
+    nativeContentMap.set("employee-section",target!.innerHTML)
+    target!.innerHTML = `
         <div class="box-container">
           <div class="form-container">
-            <form action="/report/emp/" method="post">
-            <select name="emp" id="emp" required>
+            <button onclick="restoreContent('employee-section')" style="width:2%; display:block; padding: 0px; color:red;">X</button>
+            <form onsubmit="addEmployee(); return false;">
+            <select name="emp" id="employees-options" required>
               ${
                 (function(){
                   const mList : string[] = []
@@ -686,15 +739,67 @@ async function replaceTempForm(){
     console.log(err)
   }
 }
+async function removeAllNotes(){
+  try{
+    const result = await fetch("/fetch/report/remove/all/note")
+    if(result){
+      document.getElementById("notes-records-list")!.innerHTML = ""
+    }
+  } catch(err){
+    console.log(err)
+  }
+}
+async function removeNote(note : string){
+  try{
+    const formData = new FormData()
+    formData.append("note",note)
+    const result = await fetch("/fetch/report/remove/note",
+    {method:"POST",body: formData}).then(res => res.json())
+    if(result){
+      document.getElementById(`${note}-note-record`)!.remove()
+    }
+  } catch(err){
+    console.log(err)
+  }
+}
+async function saveNoteRequest(){
+  try{
+    const formData = new FormData()
+    const notEl = document.getElementById("note-text") as HTMLTextAreaElement
+    const note = notEl.value.split("\n").join("")
+    formData.append("note",note)
+    const result = await fetch("/fetch/report/add/note",
+    {method:"POST",body: formData}).then(res => res.json())
+    restoreContent('note-section')
+    if(result){
+      document.getElementById("notes-records-list")!.innerHTML += `
+        <li id="${note}-note-record">
+          <button
+            onclick="removeNote('${note}')"
+            class="mini-button"
+            style="display:inline-block;width:7%; margin:2%;"
+          >-</button>
+          <p
+            class="short-important-p"
+            style="display:inline-block; width:77%; margin:2%;">${note}</p>
+        </li>
+      `
+    }
+  } catch(err){
+    console.log(err)
+  }
+}
 
 function replaceNoteForm(id :string){
-  document.getElementById(id)!.innerHTML =`
+  const target = document.getElementById(id)
+  nativeContentMap.set("note-section",target!.innerHTML)
+  target!.innerHTML =`
       <div class="box-container">
         <div class="form-container">
-          <form action="/report/note" method="post">
-          <label for="note">NOTE</label>
-          <textarea id="note" name="note" rows="4"
-                cols="50" class="short-important-p"
+          <button onclick="restoreContent('note-section')" style="width:2%; display:block; padding: 0px; color:red;">X</button>
+          <form onsubmit="saveNoteRequest(); return false;">
+          <label>NOTE</label>
+          <textarea id="note-text" rows="4" cols="50" class="short-important-p"
                 style="width:80%; margin:5%; color:white;">...</textarea>
           <button type="submit">Submit</button>
           </form>

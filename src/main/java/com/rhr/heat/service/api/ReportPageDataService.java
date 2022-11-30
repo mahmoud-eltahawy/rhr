@@ -15,16 +15,20 @@ import com.rhr.heat.GF;
 import com.rhr.heat.components.ReportComponent;
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.MachineRepo;
+import com.rhr.heat.dao.NoteRepo;
 import com.rhr.heat.dao.ProblemDetailsRepo;
 import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.dao.TemperatureRepo;
 import com.rhr.heat.dao.TotalFlowRepo;
 import com.rhr.heat.deep.service.ShiftTimer;
+import com.rhr.heat.entity.Employee;
 import com.rhr.heat.entity.Machine;
+import com.rhr.heat.entity.Note;
 import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
+import com.rhr.heat.model.EmployeeName;
 import com.rhr.heat.service.Dealer;
 
 import lombok.RequiredArgsConstructor;
@@ -34,6 +38,7 @@ import lombok.RequiredArgsConstructor;
 public class ReportPageDataService {
 	private final ShiftTimer timer;
 	private final TemperatureRepo temperatureRepo;
+	private final NoteRepo noteRepo;
     private final MachineRepo machineRepo;
     private final ProblemRepo problemRepo;
     private final ReportComponent component;
@@ -43,6 +48,49 @@ public class ReportPageDataService {
 	private final Dealer dealer;
     
 	//operations begin
+	public Boolean removeAllEmp() {
+		if(employeeRepo.removeAllFromShift(component.getCurrentShift().getId())>0){
+			return true;
+		}
+		return false;
+	}
+	public Boolean removeEmployee(UUID id) {
+		if(employeeRepo.removeFromShift(id,component.getCurrentShift().getId())==1){
+			return true;
+		}
+		return false;
+	}
+	public EmployeeName reportEmployee(String emp) {
+		Optional<Employee> employee = employeeRepo.findByUsername(emp);
+		if(employee.isPresent()) {
+			if(employee.get().isPushable().isEmpty()) {
+				if(employeeRepo.saveToShift(employee.get().getId(), component.getCurrentShift().getId())==1){
+					return new EmployeeName(employee.get());
+				}
+			}
+		}
+		return null;
+	}
+	public Boolean removeAllNote() {
+		if(noteRepo.deleteByShiftId(component.getCurrentShift().getId()) > 0){
+			return true;
+		}
+		return false;
+	}
+	public Boolean removeNote(String note) {
+		if(noteRepo.delete(new Note(component.getCurrentShift().getId(), note))==1){
+			return true;
+		}
+		return false;
+	}
+	public Note reportNote(String note) {
+		Note noteC = new Note(component.getCurrentShift().getId(), note);
+		if(noteC.isPushable().isEmpty()) {
+			noteRepo.save(noteC);
+			return noteC;
+		}
+		return null;
+	}
 	public Boolean removeAllTemp() {
 		if(temperatureRepo.deleteShiftId
 			(component.getCurrentShift().getId())>0){

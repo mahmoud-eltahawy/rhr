@@ -22,8 +22,8 @@ import lombok.RequiredArgsConstructor;
 public class EmployeeRepo{
 	private final JdbcTemplate jdbcTemplate;
 
-	public void saveToShift(UUID empId,UUID shiftId) {
-		jdbcTemplate.update("""
+	public int saveToShift(UUID empId,UUID shiftId) {
+		return jdbcTemplate.update("""
 				INSERT INTO shift_employee
 				(shift_id,employee_id) VALUES(?,?)
 				ON CONFLICT(shift_id,employee_id) DO NOTHING
@@ -37,15 +37,15 @@ public class EmployeeRepo{
 				""",shiftId,empId);
 	}
 
-	public void removeFromShift(UUID empId,UUID shiftId) {
-		jdbcTemplate.update("""
+	public int removeFromShift(UUID empId,UUID shiftId) {
+		return jdbcTemplate.update("""
 				DELETE FROM shift_employee
 				WHERE shift_id =? AND employee_id =?
 				""",shiftId,empId);
 	}
 
-	public void removeAllFromShift(UUID shiftId) {
-		jdbcTemplate
+	public int removeAllFromShift(UUID shiftId) {
+		return jdbcTemplate
 		.update("DELETE FROM shift_employee WHERE shift_id =?",
 		shiftId);
 	}

@@ -22,27 +22,26 @@ public class ReportControllerDealer {
 	private final Dealer service;
 	private final ShiftTimer timer;
 
-	public ModelAndView completeShift(ModelAndView mv,Shift shift) {
+	public ModelAndView completeShift(ModelAndView mv, Shift shift) {
 		Gson gson = new Gson();
-		Map<String, Map<Integer, List<ProblemDetail>>>	cats =
-				service.getCategoryMachines(shift.getProblems());
+		Map<String, Map<Integer, List<ProblemDetail>>> cats = service.getCategoryMachines(shift.getProblems());
 
 		List<Pushable> pushables = shift.isPushable();
-		if(!timer.isTimeSuitable()) {
+		if (!timer.isTimeSuitable()) {
 			pushables.add(Pushable.TIME_DOES_NOT_COME_YET);
 		}
-		mv.addObject("theId",shift.getShiftId());
-		mv.addObject("whyNot",gson.toJson(pushables));
-		if(!cats.isEmpty()) {
-			mv.addObject("cats",cats);
+		mv.addObject("theId", shift.getShiftId());
+		mv.addObject("whyNot", gson.toJson(pushables));
+		if (!cats.isEmpty()) {
+			mv.addObject("cats", cats);
 		} else {
-			mv.addObject("cats",null);
+			mv.addObject("cats", null);
 		}
-		mv.addObject("flow",shift.getTotalFlowAverage());
-		mv.addObject("notes",shift.getNotes());
-		mv.addObject("temps",shift.getTemps());
-		if(shift.getEmployees() != null) {
-			mv.addObject("names",shift.getEmployees().stream()
+		mv.addObject("flow", shift.getTotalFlowAverage());
+		mv.addObject("notes", shift.getNotes());
+		mv.addObject("temps", shift.getTemps());
+		if (shift.getEmployees() != null) {
+			mv.addObject("names", shift.getEmployees().stream()
 					.map(e -> new EmployeeName(e)).collect(Collectors.toList()));
 		}
 		return mv;

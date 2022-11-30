@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rhr.heat.entity.Machine;
+import com.rhr.heat.entity.Note;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
+import com.rhr.heat.model.EmployeeName;
 import com.rhr.heat.service.api.ReportPageDataService;
 
 import lombok.RequiredArgsConstructor;
@@ -139,5 +141,36 @@ public class ReportPageDataController {
 	@RequestMapping("/remove/all/temp")
 	public Boolean removeAllTemp() {
 		return service.removeAllTemp();
+	}
+
+	@PostMapping("/add/note")
+	public Note note(@RequestParam("note")String note) {
+		return service.reportNote(note);
+	}
+
+	@RequestMapping("/remove/note")
+	public Boolean removeNote(
+			@RequestParam("note")String note) {
+		return service.removeNote(note);
+	}
+
+	@GetMapping("/remove/all/note")
+	public Boolean removeAllNote() {
+		return service.removeAllNote();
+	}
+
+	@PostMapping("/add/emp")
+	public EmployeeName employee(@RequestParam("emp")String emp) {
+		return service.reportEmployee(emp);
+	}
+
+	@PostMapping("/remove/emp")
+	public Boolean removeEmployee(@RequestParam("id")UUID id) {
+		return service.removeEmployee(id);
+	}
+
+	@GetMapping("/remove/all/emp")
+	public Boolean removeAllEmp() {
+		return service.removeAllEmp();
 	}
 }

@@ -34,6 +34,10 @@ public class Employee extends Identity {
 		this.username = username;
 		this.password = password;
 	}
+
+	public String fullName(){
+		return firstName+" "+middleName+" "+lastName;
+	}
 	
 	@Override
 	public Boolean isSameAs(Identity identity) {
