@@ -2,7 +2,6 @@ package com.rhr.heat.controller;
 
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,12 +19,10 @@ public class ReportController {
 	private final ReportControllerDealer dealer;
 
 	@RequestMapping("/")
-	public ModelAndView reportPage(
-			@PathVariable(name = "message",required = false)String message) {
+	public ModelAndView reportPage() {
 		ModelAndView mv = new ModelAndView();
 		Shift shift = service.currenShift();
 		mv = dealer.completeShift(mv, shift);
-		mv.addObject("message", message);
 		mv.setViewName("reportPage");
 		return mv;
 	}

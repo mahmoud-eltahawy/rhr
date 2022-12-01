@@ -26,7 +26,27 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ReportPageDataController {
   private final ReportPageDataService service;
-    
+
+  @GetMapping("/current/flow")
+  public List<TotalFlow> allFlow(){
+    return service.currentShiftFlow();
+  }
+
+  @GetMapping("/current/notes")
+  public List<Note> allNotes(){
+    return service.currentShiftNotes();
+  }
+
+  @GetMapping("/current/emps/names")
+  public List<EmployeeName> allEmpsNames(){
+    return service.currentShiftEmployees();
+  }
+
+  @GetMapping("/current/temps")
+  public List<Temperature> allTemps(){
+    return service.currentShiftTemperatures();
+  }
+
   @GetMapping("/categories/numbers/problems/mapping")
   public Map<String, Map<Integer,
         List<ProblemDetail>>> categoiesNumbersProblems(){
@@ -60,7 +80,7 @@ public class ReportPageDataController {
 			@RequestParam("problems")List<String> problems,
 			@RequestParam("beginTime")String beginTime,
 			@RequestParam("endTime")String endTime) {
-		
+
 		return service.reportProblem(category, number, problems, beginTime, endTime);
 	}
 
@@ -129,7 +149,7 @@ public class ReportPageDataController {
 			@RequestParam("max")Integer max ,
 			@RequestParam("min")Integer min ,
 			@RequestParam("machine")String machine) {
-		
+
 		return service.reportTemperature(machine,max,min);
 	}
 

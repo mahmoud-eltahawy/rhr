@@ -31,7 +31,7 @@ function elementListNewMember(machine: string,number: string, pd :{
     .innerHTML += `
       <tr id="${pd.id}-member">
         <td>
-            <button 
+            <button
                 onclick="deleteCategoryProblem('${pd.id}','${pd.id}-member')"
                 type="submit"
                 class="mini-button"
@@ -57,7 +57,7 @@ function elementListNewMember(machine: string,number: string, pd :{
               return result
             })()}
             <li>
-              <button 
+              <button
                 onclick="listProblems('${pd.id}')"
                 class="mini-button"
               >+</button>
@@ -219,108 +219,6 @@ async function saveProblemRequest(machine: string,number: string,fieldId: string
   }
 }
 
-function flowListNewMember(
-  t :{
-    id:string;
-    shiftId:string;
-    suspendedMachines: [{id:string;
-                        category:string;
-                        number: number;
-                      }];
-    minFlow: number;
-    maxFlow: number;
-    caseBeginTime: string;
-    caseEndTime: string;
-  }){
-  document.getElementById("flow-records-list")!
-    .innerHTML += `
-    <tr id="${t.id}-record">
-      <td>
-        {
-        <button
-            id="${t.id}-btn"
-            onclick="removeFlow('${t.id}')"
-            type="submit"
-            class="mini-button"
-            style="width: 100%"
-        >-</button>
-        }
-      </td>
-      <td id="${t.id}-machines">
-        <ul>
-          ${(function(){
-            let result = ""
-            t.suspendedMachines.forEach(m =>{
-              result += `
-              <li>
-                <span>
-                  <a href="/report/remove/flow/machine/?fid=${t.id}&machine=${m.category}-${m.number}">
-                    <button class="mini-button">-</button>
-                  </a>
-                </span>
-                <span>${m.category}-${m.number}</span>
-              </li>
-              `
-            })
-            return result
-          })()}
-          <li><button 
-            onclick="listMachines('${t.id}')"
-            class="mini-button"
-          >+</button></li>
-        </ul>
-      </td>
-      <td>${t.maxFlow}</td>
-      <td>${t.minFlow}</td>
-      <td>${t.caseBeginTime}</td>
-      <td id="${t.id}-end" name="flow-end-time">${t.caseEndTime}</td>
-    </tr>
-    `
-}
-
-async function removeAllFlow(){
-  try{
-    const result = await fetch("/fetch/report/remove/all/flow")
-      .then(res => res.json())
-      if(result){
-        document.getElementById("flow-records-list")!.innerHTML = ""
-      }
-  } catch(err){
-    console.log(err)
-  }
-}
-async function saveFlowRequest(){
-  try{
-    const machines = document.getElementById("flow-machines-id") as HTMLSelectElement
-    const max = document.getElementById("flow-max-id") as HTMLInputElement
-    const min = document.getElementById("flow-min-id") as HTMLInputElement
-    const begin = document.getElementById("flow-beginTime-id") as HTMLInputElement
-    const end = document.getElementById("flow-endTime-id") as HTMLInputElement
-    const formData = new FormData()
-    formData.append('machines' , (function(){
-        const chosenProblems: string[] = []
-        for(let i = 0; i < machines.options.length; i++){
-          if(machines.options[i].selected){
-            chosenProblems.push(machines.options[i].value)
-          }
-        }
-        return chosenProblems.toString()
-      })())
-    formData.append('max' , max.value)
-    formData.append('min' , min.value)
-    formData.append('beginTime' , begin.value)
-    formData.append('endTime' , end.value)
-    const tf = await fetch("/fetch/report/add/flow"
-    ,{method:'POST',body: formData})
-    .then(res => res.json());
-    restoreContent("flow-section")
-    flowListNewMember(tf)
-    addDeleteFlowRecord()
-  } catch(err){
-    console.log(err)
-  }
-}
-
 const nativeContentMap : Map<string,string> = new Map()
 
 function restoreContent(fieldId: string){
@@ -392,11 +290,22 @@ async function removeFlowMachine(flowId: string,machineId : string) {
   }
 }
 
-async function addFlowMachines(uuid : string){
+function flowMachineModule(flowId:string,machine: any){
+  return `
+    <li id="${machine.id}-machine">
+      <button
+        onclick="removeFlowMachine('${flowId}','${machine.id}')"
+        class="mini-button"
+      >-</button>${machine.category}${machine.number?'-'+machine.number:''}
+    </li>
+  `
+}
+
+async function addFlowMachines(flowId : string){
   try{
-    const machines = document.getElementById(uuid+"-machines-options") as HTMLSelectElement
+    const machines = document.getElementById(flowId+"-machines-options") as HTMLSelectElement
     const formData = new FormData()
-    formData.append('id',uuid)
+    formData.append('id',flowId)
     formData.append('machines', (function(){
         const chosenMachines: string[] = []
         for(let i = 0; i < machines.options.length; i++){
@@ -410,133 +319,152 @@ async function addFlowMachines(uuid : string){
     const result : [{id:string; category: string; number:number;}] = await fetch("/fetch/report/add/flow/machines",
       {method: 'POST', body: formData}).then(res => res.json())
 
-    restoreContent(uuid+"-machines")
-    const target = document.getElementById(uuid+"-machines")    
+    restoreContent(flowId+"-machines")
+    const target = document.getElementById(flowId+"-machines")
     result.forEach(m => {
-      target!.innerHTML += `
-        <li id="${m.id}-machine">
-          <button
-            onclick="removeFlowMachine('${uuid}','${m.id}')"
-            class="mini-button"
-          >-</button>
-          <span>${m.category}-${m.number}</span>
-        </li>
-      `
+      target!.innerHTML += flowMachineModule(flowId,m)
     })
   } catch (err){
     console.log(err)
   }
 }
 
-async function listMachines(uuid : string){
-  try{
-    const target = document.getElementById(uuid+"-machines")
-    const jsonMap : Map<string,number[]>  = new Map(Object.entries(await promiseMap))
-    nativeContentMap.set(uuid+"-machines",target!.innerHTML)
-    target!.innerHTML = `
-        <div class="box-container">
-          <div class="form-container">
-            <form onsubmit="addFlowMachines('${uuid}'); return false;">
-            <select multiple="multiple" id="${uuid}-machines-options" required>
-              ${
-                (function(){
-                  const mList : string[] = []
-                  jsonMap.forEach((v,k) =>{
-                    v.forEach(n =>{
-                      mList.push(`<option value="${k}-${n}">${k}${n?'-'+n:''}</option>`)
-                    })
-                  })
-                  return mList;
-                })()
-              }
-            </select>
-            <button type="submit">Submit</button>
-            </form>
-          </div>
-        </div>
-    `
-  } catch(err){
-    console.log(err)
-  }
+function flowMemberModule(flow:{
+    id:string;
+    shiftId:string;
+    suspendedMachines: [{id:string;
+                        category:string;
+                        number: number;
+                      }];
+    minFlow: number;
+    maxFlow: number;
+    caseBeginTime: string;
+    caseEndTime: string;
+  }){
+ return `
+    <tr id="${flow.id}-record">
+      <td>
+        {
+        <button
+            id="${flow.id}-btn"
+            onclick="removeFlow('${flow.id}')"
+            type="submit"
+            class="mini-button"
+            style="width: 100%"
+        >-</button>
+        }
+      </td>
+      <td id="${flow.id}-machines">
+        <ul>
+          ${(function(){
+            let result = ""
+            flow.suspendedMachines.forEach(m =>{
+              result += flowMachineModule(flow.id,m)
+            })
+            return result
+          })()}
+          <li><button
+            onclick="listMachines('${flow.id}')"
+            class="mini-button"
+          >+</button></li>
+        </ul>
+      </td>
+      <td>${flow.maxFlow}</td>
+      <td>${flow.minFlow}</td>
+      <td>${flow.caseBeginTime}</td>
+      <td id="${flow.id}-end" name="flow-end-time">${flow.caseEndTime}</td>
+    </tr>
+  `
 }
 
-async function removeAllEmps(){
+function flowListNewMember(flow:any){
+  document.getElementById("flow-records-list")!.innerHTML += flowMemberModule(flow)
+}
+
+async function removeAllFlow(){
   try{
-    const result = await fetch("/fetch/report/remove/all/emp")
+    const result = await fetch("/fetch/report/remove/all/flow")
       .then(res => res.json())
-    if(result){
-      document.getElementById("emps-records-list")!.innerHTML = ""
-    }
+      if(result){
+        document.getElementById("flow-records-list")!.innerHTML = ""
+      }
   } catch(err){
     console.log(err)
   }
 }
-async function removeEmp(id: string) {
+async function saveFlowRequest(){
   try{
+    const machines = document.getElementById("flow-machines-id") as HTMLSelectElement
+    const max = document.getElementById("flow-max-id") as HTMLInputElement
+    const min = document.getElementById("flow-min-id") as HTMLInputElement
+    const begin = document.getElementById("flow-beginTime-id") as HTMLInputElement
+    const end = document.getElementById("flow-endTime-id") as HTMLInputElement
     const formData = new FormData()
-    formData.append("id",id)
-    const result = await fetch("/fetch/report/remove/emp",
-      {method: 'POST',body: formData}).then(res => res.json())
-    
-    if(result){
-      document.getElementById(`${id}-emp`)!.remove()
-    }
+    formData.append('machines' , (function(){
+        const chosenProblems: string[] = []
+        for(let i = 0; i < machines.options.length; i++){
+          if(machines.options[i].selected){
+            chosenProblems.push(machines.options[i].value)
+          }
+        }
+        return chosenProblems.toString()
+      })())
+    formData.append('max' , max.value)
+    formData.append('min' , min.value)
+    formData.append('beginTime' , begin.value)
+    formData.append('endTime' , end.value)
+    const tf = await fetch("/fetch/report/add/flow"
+    ,{method:'POST',body: formData})
+    .then(res => res.json());
+    restoreContent("flow-section")
+    flowListNewMember(tf)
+    addDeleteFlowRecord()
   } catch(err){
     console.log(err)
   }
 }
-async function addEmployee(){
-  try{
-    const opts = document.getElementById("employees-options") as HTMLSelectElement
-    const formData = new FormData()
-    formData.append("emp",opts.value)
-    const user = await fetch("/fetch/report/add/emp"
-      ,{method: 'POST',body: formData}).then(res => res.json())
 
-    restoreContent('employee-section')
-    if(user){
-      document.getElementById("emps-records-list")!.innerHTML +=`
-        <li id="${user.id}+'-emp'">
-          <button style="display:inline-block; width:7%; margin:2%;"
-              onclick="removeEmp('${user.id}')"
-              class="mini-button"
-          >-</button>
-          <p style="display:inline-block; width:77%; margin:2%;"
-             class="short-important-p">${user.fullName}</p>
-        </li>
-      `
-    }
-  } catch(err){
-    console.log(err)
-  }
-}
-async function listEmployees(){
+async function addFlowsList(){
   try{
-    const usernames : string[] = await names
-    const target = document.getElementById("employee-section")
-    nativeContentMap.set("employee-section",target!.innerHTML)
-    target!.innerHTML = `
-        <div class="box-container">
-          <div class="form-container">
-            <button onclick="restoreContent('employee-section')" style="width:2%; display:block; padding: 0px; color:red;">X</button>
-            <form onsubmit="addEmployee(); return false;">
-            <select name="emp" id="employees-options" required>
-              ${
-                (function(){
-                  const mList : string[] = []
-                    usernames.forEach(n =>{
-                      mList.push(`<option value="${n}">${n}</option>`)
-                    })
-                  return mList;
-                })()
-              }
-            </select>
-            <button type="submit">Submit</button>
-            </form>
-          </div>
-        </div>
+    const flows :[{
+        id: string;
+        shiftId: string;
+        suspendedMachines: [{
+          id: string;
+          category: string;
+          number: number;
+        }];
+        minFlow: number;
+        maxFlow: number;
+        caseBeginTime: string;
+        caseEndTime: string;
+    }] = await fetch("/fetch/report/current/flow")
+              .then(res => res.json())
+    document.getElementById("flow-section")!.innerHTML +=`
+        <table>
+          <thead>
+            <tr>
+              <th>-</th>
+              <th>Suspended machines</th>
+              <th>Max total flow</th>
+              <th>Min total flow</th>
+              <th>Start time</th>
+              <th>End time</th>
+            </tr>
+          </thead>
+          <tbody id="flow-records-list">
+          ${(function(){
+            let lis = ""
+            for(const flow of flows){
+                  lis += flowMemberModule(flow)
+            }
+          return lis
+          })()}
+          </tbody>
+        </table>
     `
-  } catch (err){
+    addDeleteFlowRecord()
+  } catch(err){
     console.log(err)
   }
 }
@@ -586,6 +514,17 @@ async function replaceFlowForm(){
   }
 }
 
+function addDeleteFlowRecord(){
+  const arr = document.getElementsByName('flow-end-time')
+  for(let i = 0; i < arr.length; i++){
+    if(i !== arr.length - 1){
+      document.getElementById(arr[i].id.slice(0,-4) +'-btn')!.style.display = 'none'
+    } else {
+      document.getElementById(arr[i].id.slice(0,-4) +'-btn')!.style.display = 'block'
+    }
+  }
+}
+
 function flowMinTime(){
   const endTimes : string[] = []
   document.getElementsByName('flow-end-time').forEach((e)=> endTimes.push(e.innerText))
@@ -619,6 +558,143 @@ async function shiftEnd(){
   }
 }
 
+async function listMachines(uuid : string){
+  try{
+    const target = document.getElementById(uuid+"-machines")
+    const jsonMap : Map<string,number[]>  = new Map(Object.entries(await promiseMap))
+    nativeContentMap.set(uuid+"-machines",target!.innerHTML)
+    target!.innerHTML = `
+        <div class="box-container">
+          <div class="form-container">
+            <form onsubmit="addFlowMachines('${uuid}'); return false;">
+            <select multiple="multiple" id="${uuid}-machines-options" required>
+              ${
+                (function(){
+                  const mList : string[] = []
+                  jsonMap.forEach((v,k) =>{
+                    v.forEach(n =>{
+                      mList.push(`<option value="${k}-${n}">${k}${n?'-'+n:''}</option>`)
+                    })
+                  })
+                  return mList;
+                })()
+              }
+            </select>
+            <button type="submit">Submit</button>
+            </form>
+          </div>
+        </div>
+    `
+  } catch(err){
+    console.log(err)
+  }
+}
+
+async function removeAllNotes(){
+  try{
+    const result = await fetch("/fetch/report/remove/all/note")
+    if(result){
+      document.getElementById("notes-records-list")!.innerHTML = ""
+    }
+  } catch(err){
+    console.log(err)
+  }
+}
+async function removeNote(note : string){
+  try{
+    const formData = new FormData()
+    formData.append("note",note)
+    const result = await fetch("/fetch/report/remove/note",
+    {method:"POST",body: formData}).then(res => res.json())
+    if(result){
+      document.getElementById(`${note}-note-record`)!.remove()
+    }
+  } catch(err){
+    console.log(err)
+  }
+}
+async function saveNoteRequest(){
+  try{
+    const formData = new FormData()
+    const notEl = document.getElementById("note-text") as HTMLTextAreaElement
+    const note = notEl.value.split("\n").join("")
+    formData.append("note",note)
+    const result = await fetch("/fetch/report/add/note",
+    {method:"POST",body: formData}).then(res => res.json())
+    restoreContent('note-section')
+    if(result){
+      document.getElementById("notes-records-list")!.innerHTML += `
+        <li id="${note}-note-record">
+          <button
+            onclick="removeNote('${note}')"
+            class="mini-button"
+            style="display:inline-block;width:7%; margin:2%;"
+          >-</button>
+          <p
+            class="short-important-p"
+            style="display:inline-block; width:77%; margin:2%;">${note}</p>
+        </li>
+      `
+    }
+  } catch(err){
+    console.log(err)
+  }
+}
+
+function replaceNoteForm(){
+  const target = document.getElementById('note-section')
+  nativeContentMap.set("note-section",target!.innerHTML)
+  target!.innerHTML =`
+      <div class="box-container">
+        <div class="form-container">
+          <button onclick="restoreContent('note-section')" style="width:2%; display:block; padding: 0px; color:red;">X</button>
+          <form onsubmit="saveNoteRequest(); return false;">
+          <label>NOTE</label>
+          <textarea id="note-text" rows="4" cols="50" class="short-important-p"
+                style="width:80%; margin:5%; color:white;">...</textarea>
+          <button type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+`
+}
+
+async function addNotesList(){
+  try{
+    const notes :[{
+        id: string;
+        note: string;
+    }] = await fetch("/fetch/report/current/notes")
+              .then(res => res.json())
+    document.getElementById("note-section")!.innerHTML +=`
+          <ul id="notes-records-list">
+          ${(function(){
+            const lis: string[] = []
+            for(const note of notes){
+                  lis.push(`
+                    <li id="${note.note}-note-record">
+                      <button
+                        onclick="removeNote('${note.note}')"
+                        class="mini-button"
+                        style="display:inline-block;width:7%; margin:2%;"
+                      >-</button>
+                      <p
+                        class="short-important-p"
+                        style="display:inline-block; width:77%; margin:2%;"
+                      >${note.note}</p>
+                    </li>
+                  `)
+            }
+          return lis
+          })()}
+				</ul>
+    `
+  } catch(err){
+    console.log(err)
+  }
+}
+
+
 async function removeTemp(machineId : string){
   try{
     const formData = new FormData()
@@ -644,10 +720,7 @@ async function removeAllTemp(){
   }
 }
 
-function addTempMember(temp : 
-      {id:string;shiftId:string;
-       machine:{id: string;category: string;number: number;};
-       max: string;min: string;}){
+function addTempMember(temp :temp){
 
     const ids : string[] = []
     const records = document.getElementById("temps-records-list")
@@ -657,26 +730,7 @@ function addTempMember(temp :
     if(ids.includes(temp.machine.id)){
       document.getElementById(temp.machine.id)!.remove()
     }
-records!.innerHTML += `
-  <li id="${temp.machine.id}">
-    <button
-      onclick="removeTemp('${temp.machine.id}')"
-      class="mini-button"
-      style="display:inline-block;width:7%; margin:2%;"
-      type="submit"
-    >-</button>
-    <p
-      class="short-important-p"
-      style="display:inline-block; width:77%; margin:2%;">
-      MACHINE :
-      <span>${temp.machine.category}-${temp.machine.number}</span>
-      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-      MAXIMUM : <span>${temp.max}</span>
-      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-      MINIMUM : <span>${temp.min}</span>
-    </p>
-  </li>
-  `
+records!.innerHTML += temperatureModule(temp)
 }
 
 async function saveTempRequest(){
@@ -739,94 +793,171 @@ async function replaceTempForm(){
     console.log(err)
   }
 }
-async function removeAllNotes(){
+
+type temp = {
+        id: string;
+        shiftId: string;
+        machine:{
+          id: string;
+          category: string;
+          number: number;
+        };
+        max: number;
+        min: number;
+        }
+async function addTemperaturesList(){
   try{
-    const result = await fetch("/fetch/report/remove/all/note")
+    const temps :[temp] = await fetch("/fetch/report/current/temps")
+              .then(res => res.json())
+    document.getElementById("temp-section")!.innerHTML +=`
+          <ul id="temps-records-list">
+          ${(function(){
+            let lis = ""
+            for(const temp of temps){
+              lis += temperatureModule(temp)
+            }
+          return lis
+          })()}
+				</ul>
+    `
+  } catch(err){
+    console.log(err)
+  }
+}
+
+function temperatureModule(temp :temp){
+  return `
+    <li id="${temp.machine.id}">
+      <button
+        onclick="removeTemp('${temp.machine.id}')"
+        class="mini-button"
+        style="display:inline-block;width:7%; margin:2%;"
+      >-</button>
+      <p
+        class="short-important-p"
+        style="display:inline-block; width:77%; margin:2%;">
+        MACHINE : ${temp.machine.category}${temp.machine.number?'-'+temp.machine.number:''}
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+        MAXIMUM : ${temp.max}
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+        MINIMUM : ${temp.min}
+      </p>
+    </li>
+  `
+}
+
+async function removeAllEmps(){
+  try{
+    const result = await fetch("/fetch/report/remove/all/emp")
+      .then(res => res.json())
     if(result){
-      document.getElementById("notes-records-list")!.innerHTML = ""
+      document.getElementById("emps-records-list")!.innerHTML = ""
     }
   } catch(err){
     console.log(err)
   }
 }
-async function removeNote(note : string){
+async function removeEmp(id: string) {
   try{
     const formData = new FormData()
-    formData.append("note",note)
-    const result = await fetch("/fetch/report/remove/note",
-    {method:"POST",body: formData}).then(res => res.json())
+    formData.append("id",id)
+    const result = await fetch("/fetch/report/remove/emp",
+      {method: 'POST',body: formData}).then(res => res.json())
+
     if(result){
-      document.getElementById(`${note}-note-record`)!.remove()
+      document.getElementById(`${id}-emp`)!.remove()
     }
   } catch(err){
     console.log(err)
   }
 }
-async function saveNoteRequest(){
+async function addEmployee(){
   try{
+    const opts = document.getElementById("employees-options") as HTMLSelectElement
     const formData = new FormData()
-    const notEl = document.getElementById("note-text") as HTMLTextAreaElement
-    const note = notEl.value.split("\n").join("")
-    formData.append("note",note)
-    const result = await fetch("/fetch/report/add/note",
-    {method:"POST",body: formData}).then(res => res.json())
-    restoreContent('note-section')
-    if(result){
-      document.getElementById("notes-records-list")!.innerHTML += `
-        <li id="${note}-note-record">
-          <button
-            onclick="removeNote('${note}')"
-            class="mini-button"
-            style="display:inline-block;width:7%; margin:2%;"
-          >-</button>
-          <p
-            class="short-important-p"
-            style="display:inline-block; width:77%; margin:2%;">${note}</p>
-        </li>
-      `
+    formData.append("emp",opts.value)
+    const emp = await fetch("/fetch/report/add/emp"
+      ,{method: 'POST',body: formData}).then(res => res.json())
+
+    restoreContent('employee-section')
+    if(emp){
+      document.getElementById("emps-records-list")!.innerHTML += employeeModule(emp)
     }
   } catch(err){
     console.log(err)
   }
 }
 
-function replaceNoteForm(id :string){
-  const target = document.getElementById(id)
-  nativeContentMap.set("note-section",target!.innerHTML)
-  target!.innerHTML =`
-      <div class="box-container">
-        <div class="form-container">
-          <button onclick="restoreContent('note-section')" style="width:2%; display:block; padding: 0px; color:red;">X</button>
-          <form onsubmit="saveNoteRequest(); return false;">
-          <label>NOTE</label>
-          <textarea id="note-text" rows="4" cols="50" class="short-important-p"
-                style="width:80%; margin:5%; color:white;">...</textarea>
-          <button type="submit">Submit</button>
-          </form>
+function employeeModule(emp: empName){
+  return `
+  <li id="${emp.id}-emp">
+    <button style="display:inline-block; width:7%; margin:2%;"
+        onclick="removeEmp('${emp.id}')"
+        class="mini-button"
+    >-</button>
+    <p style="display:inline-block; width:77%; margin:2%;"
+        class="short-important-p">${emp.fullName}</p>
+  </li>
+  `
+}
+
+async function listEmployees(){
+  try{
+    const usernames : string[] = await names
+    const target = document.getElementById("employee-section")
+    nativeContentMap.set("employee-section",target!.innerHTML)
+    target!.innerHTML = `
+        <div class="box-container">
+          <div class="form-container">
+            <button onclick="restoreContent('employee-section')" style="width:2%; display:block; padding: 0px; color:red;">X</button>
+            <form onsubmit="addEmployee(); return false;">
+            <select name="emp" id="employees-options" required>
+              ${
+                (function(){
+                  const mList : string[] = []
+                    usernames.forEach(n =>{
+                      mList.push(`<option value="${n}">${n}</option>`)
+                    })
+                  return mList;
+                })()
+              }
+            </select>
+            <button type="submit">Submit</button>
+            </form>
+          </div>
         </div>
-      </div>
-`
-}
-
-function addMessage(){
-    const message : string | null = new URL(window.location.href).searchParams.get("message")
-    if(message) {
-      document.getElementById("messager")!.innerText = message
-    } else {
-      document.getElementById("messager")!.style.display = "none"
-    }
-}
-
-function addDeleteFlowRecord(){
-  const arr = document.getElementsByName('flow-end-time')
-  for(let i = 0; i < arr.length; i++){
-    if(i !== arr.length - 1){
-      document.getElementById(arr[i].id.slice(0,-4) +'-btn')!.style.display = 'none'
-    } else {
-      document.getElementById(arr[i].id.slice(0,-4) +'-btn')!.style.display = 'block'
-    }
+    `
+  } catch (err){
+    console.log(err)
   }
 }
 
-addMessage()
+type empName = {
+        id: string;
+        fullName: string;
+        }
+async function addEmployeesList(){
+  try{
+    const empsNames :[empName] = await fetch("/fetch/report/current/emps/names")
+              .then(res => res.json())
+    document.getElementById("employee-section")!.innerHTML +=`
+				<ul id="emps-records-list">
+          ${(function(){
+            let lis  = ""
+            for(const emp of empsNames){
+              lis += employeeModule(emp)
+            }
+          return lis
+          })()}
+				</ul>
+    `
+  } catch(err){
+    console.log(err)
+  }
+}
+
+addFlowsList()
+addTemperaturesList()
+addEmployeesList()
+addNotesList()
 addDeleteFlowRecord()

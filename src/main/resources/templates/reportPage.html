@@ -14,7 +14,6 @@
 			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 			Date: <span th:text="*{date}">the date</span>
 		</p>
-		<p id="messager" class="short-important-p">static message</p>
 		<div th:unless="${cats}==null">
 			<h1><button class="notsub"  onclick="toggle('problems-section')">PROBLEMS SECTION</button></h1><br>
 			<div class="ghost top-bottom-border" id="problems-section">
@@ -100,16 +99,9 @@
 					</li>
 				</ul>
 			</div>
-		</div><br>
-		<button th:if="${flow==null} AND ${temps==null} AND ${notes==null}"
-				class="notsub" onclick="toggle('record-section-add-field')">ADD RECORD</button>
-		<div id="record-section-add-field" class="ghost">
-			<button class="cat-button" onclick="replaceFlowForm('record-section-add-field')">total flow</button>
-			<button class="cat-button" onclick="replaceTempForm('record-section-add-field')">temperture</button>
-			<button class="cat-button" onclick="replaceNoteForm('record-section-add-field')">Note</button>
 		</div>
-		<div th:unless="${flow==null} AND ${temps==null} AND ${notes==null}">
-			<h1><button class="notsub" onclick="toggle('records-section')">RECORDS SECTION</button></h1><br>
+		<div>
+			<button class="notsub" onclick="toggle('records-section')">RECORDS SECTION</button>
 			<div class="ghost top-bottom-border" id="records-section">
 				<div>
 					<button class="issub" onclick="toggle('flow-section')">
@@ -120,60 +112,12 @@
 							<button onclick="removeAllFlow()" class="mini-button">-</button>
 							<button onclick="replaceFlowForm()" class="mini-button">+</button>
 						</div>
-						<table>
-							<thead>
-								<tr>
-									<th>-</th>
-									<th>Suspended machines</th>
-									<th>Max total flow</th>
-									<th>Min total flow</th>
-									<th>Start time</th>
-									<th>End time</th>
-								</tr>
-							</thead>
-							<tbody id="flow-records-list">
-								<tr th:each="t : ${flow}" th:id="${t.id}+'-record'">
-									<td>
-										{
-										<button th:id="${t.id}+'-btn'"
-												th:attr="onclick=|removeFlow('${t.id}')|"
-												type="submit"
-												class="mini-button"
-												style="width: 100%"
-										>-</button>
-										}
-									</td>
-									<td>
-										<ul th:id="${t.id}+'-machines'">
-											<li th:each="m : ${t.suspendedMachines}" th:id="${m.id}+'-machine'">
-												<button
-													th:attr="onclick=|removeFlowMachine('${t.id}','${m.id}')|"
-													class="mini-button"
-												>-</button>
-												<span th:text="${m.category}+'-'+${m.number}">
-													machine number
-												</span>
-											</li>
-											<li><button
-													th:attr="onclick=|listMachines('${t.id}')|"
-													class="mini-button"
-												>+</button>
-											</li>
-										</ul>
-									</td>
-									<td th:text="${t.maxFlow}">Max flow</td>
-									<td th:text="${t.minFlow}">Min flow</td>
-									<td th:text="${t.caseBeginTime}">Start time</td>
-									<td th:id="${t.id}+'-end'" name="flow-end-time" th:text="${t.caseEndTime}">End time</td>
-								</tr>
-							</tbody>
-						</table>
+							<!-- the content will be created by javascript -->
 					</div>
 				</div>
 				<div>
-					<button class="issub" onclick="toggle('temp-section')">
-						TEMPERATURE
-					</button>
+					<button class="issub" onclick="toggle('temp-section')"
+					>TEMPERATURE</button>
 					<div class="ghost top-bottom-border" id="temp-section">
 						<div>
 							<button
@@ -184,25 +128,7 @@
 									onclick="replaceTempForm()">+
 							</button>
 						</div>
-						<ul id="temps-records-list">
-							<li th:each="temp :${temps}" th:id="${temp.machine.id}">
-								<button
-									th:attr="onclick=|removeTemp('${temp.machine.id}')|"
-									class="mini-button"
-									style="display:inline-block;width:7%; margin:2%;"
-								>-</button>
-								<p
-									class="short-important-p"
-									style="display:inline-block; width:77%; margin:2%;">
-									MACHINE :
-									<span th:text="${temp.machine.name()}">machine</span>
-									&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-									MAXIMUM : <span th:text="${temp.max}">max</span>
-									&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-									MINIMUM : <span th:text="${temp.min}">min</span>
-								</p>
-							</li>
-						</ul>
+						<!-- the content will be created by javascript -->
 					</div>
 				</div>
 				<div>
@@ -211,29 +137,18 @@
 						<div>
 							<button onclick="removeAllNotes()" class="mini-button">-</button>
 							<button class="mini-button"
-									onclick="replaceNoteForm('note-section')"
+									onclick="replaceNoteForm()"
 							>+</button>
 						</div>
-						<ul id="notes-records-list">
-							<li th:each="note :${notes}" th:id="${note.note}+'-note-record'">
-								<button
-									th:attr="onclick=|removeNote('${note.note}')|"
-									class="mini-button"
-									style="display:inline-block;width:7%; margin:2%;"
-								>-</button>
-								<p
-									class="short-important-p"
-									style="display:inline-block; width:77%; margin:2%;"
-									th:text="${note.note}"
-								>Note</p>
-							</li>
-						</ul>
+						<!-- the content will be created by javascript -->
 					</div>
 				</div>
 			</div>
 		</div>
 		<div>
-			<button class="notsub" onclick="toggle('employee-section')">EMPLOYEES SECTION</button>
+			<button class="notsub"
+					onclick="toggle('employee-section')"
+			>EMPLOYEES SECTION</button>
 			<div class="ghost top-bottom-border" id="employee-section">
 				<div>
 					<button class="mini-button"
@@ -243,16 +158,7 @@
 							onclick="listEmployees()"
 					>+</button>
 				</div>
-				<ul id="emps-records-list">
-					<li th:each="n : ${names}" th:id="${n.id}+'-emp'">
-						<button style="display:inline-block; width:7%; margin:2%;"
-							    th:attr="onclick=|removeEmp('${n.id}')|"
-								class="mini-button">-
-						</button>
-						<p style="display:inline-block; width:77%; margin:2%;"
-						   th:text="${n.fullName}" class="short-important-p">name</p>
-					</li>
-				</ul>
+				<!-- the content will be created by javascript -->
 			</div>
 		</div>
 	</body>

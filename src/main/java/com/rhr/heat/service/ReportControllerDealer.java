@@ -2,7 +2,6 @@ package com.rhr.heat.service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,7 +11,6 @@ import com.rhr.heat.deep.service.ShiftTimer;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.topLayer.Shift;
 import com.rhr.heat.enums.Pushable;
-import com.rhr.heat.model.EmployeeName;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,13 +34,6 @@ public class ReportControllerDealer {
 			mv.addObject("cats", cats);
 		} else {
 			mv.addObject("cats", null);
-		}
-		mv.addObject("flow", shift.getTotalFlowAverage());
-		mv.addObject("notes", shift.getNotes());
-		mv.addObject("temps", shift.getTemps());
-		if (shift.getEmployees() != null) {
-			mv.addObject("names", shift.getEmployees().stream()
-					.map(e -> new EmployeeName(e)).collect(Collectors.toList()));
 		}
 		return mv;
 	}

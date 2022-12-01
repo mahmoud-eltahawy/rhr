@@ -46,7 +46,7 @@ public class ReportPageDataService {
     private final ProblemDetailsRepo problemDetailsRepo;
 	private final TotalFlowRepo totalFlowRepo;
 	private final Dealer dealer;
-    
+
 	//operations begin
 	public Boolean removeAllEmp() {
 		if(employeeRepo.removeAllFromShift(component.getCurrentShift().getId())>0){
@@ -143,25 +143,25 @@ public class ReportPageDataService {
 				if(machineRepo.saveToTotalFlow(flowId, machine.get().getId())==1){
 					result.add(machine.get());
 				}
-			}	
+			}
 		}
 		return result;
 	}
-	
+
 	public Boolean removeAllFlow() {
 		if(totalFlowRepo.deletByShiftId(component.getCurrentShift().getId()) > 0){
 			return true;
 		}
 		return false;
 	}
-	
+
 	public Boolean removeFlow() {
 		if(totalFlowRepo.deleteFromShift(component.getCurrentShift().getId())==1){
 			return true;
 		};
 		return false;
 	}
-	
+
 	public TotalFlow reportTotalFlow(List<String> smachines,
 			Integer max,Integer min,String beginTime,String endTime) {
 		List<Machine> machines = smachines.stream()
@@ -174,7 +174,7 @@ public class ReportPageDataService {
 		}
 		TotalFlow tf = new TotalFlow(UUID.randomUUID(),component.getCurrentShift().getId()
 			,machines,min, max,GF.getTime(beginTime), GF.getTime(endTime));
-			
+
 		if(tf.isPushable().isEmpty()) {
 			totalFlowRepo.save(tf);
 			return tf;
@@ -208,7 +208,7 @@ public class ReportPageDataService {
 		}
 		return null;
 	}
-	
+
 	public Boolean removeMachineProblems(String cat, Integer num) {
 		Optional<Machine> machine = machineRepo.findByTheId(cat, num);
 		if(machine.isPresent()){
@@ -218,14 +218,14 @@ public class ReportPageDataService {
 			return false;
 		}
 	}
-	
+
 	public Boolean removeProblem(UUID id) {
 		if(problemDetailsRepo.deleteById(id) == 1){
 			return true;
 		}
 		return false;
 	}
-	
+
 	public List<String> addProblemProblems(UUID pdId,List<String> titles) {
 		List<Optional<Problem>> problems = titles
 			.stream().map(t -> problemRepo.findByTitle(t))
@@ -240,7 +240,7 @@ public class ReportPageDataService {
 		}
 		return result;
 	}
-	
+
 	public Boolean removeProblemProblem(UUID pdId,String title) {
 		Optional<Problem> problem = problemRepo.findByTitle(title);
 		if(problem.isPresent()){
@@ -258,7 +258,7 @@ public class ReportPageDataService {
         return dealer.getCategoryMachines(problemDetailsRepo
             .findByShiftId(component.getCurrentShift().getId()));
     }
-    
+
     public Map<String, List<Integer>> standardCategoriesNumbers(){
         return dealer.getStandardCategoryNums();
     }
@@ -276,5 +276,26 @@ public class ReportPageDataService {
     public List<String> getAllProblemsTitles(){
 		return problemRepo.findAllTitles();
     }
+
+	public List<EmployeeName> currentShiftEmployees(){
+		return employeeRepo.findByShiftId(component
+			.getCurrentShift().getId()).stream()
+			.map(e -> new EmployeeName(e)).toList();
+	}
+
+	public List<Temperature> currentShiftTemperatures(){
+		return temperatureRepo
+			.findByShiftId(component.getCurrentShift().getId());
+	}
+
+	public List<Note> currentShiftNotes(){
+		return noteRepo
+			.findByShiftId(component.getCurrentShift().getId());
+	}
+
+	public List<TotalFlow> currentShiftFlow(){
+		return totalFlowRepo
+			.findByShiftId(component.getCurrentShift().getId());
+	}
 	//fetch data end
 }
