@@ -1,4 +1,4 @@
-const promiseMap :Promise<Map<string,number[]>> =
+const categoryMap :Promise<Map<string,number[]>> =
   fetch("/fetch/report/standard/categories/numbers/mapping"
   ,{method : 'GET'}).then(res => {return res.json()})
 
@@ -8,6 +8,200 @@ const names : Promise<string[]> = fetch("/fetch/report/all/usernames"
 const problemsTitles = fetch("/fetch/report/all/problems/titles"
   ,{method : 'GET'}).then(res => {return res.json()})
 
+const nativeContentMap : Map<string,string> = new Map()
+
+
+type empName = {
+  id: string;
+  fullName: string;
+}
+
+type temp = {
+  id: string;
+  shiftId: string;
+  machine:{
+    id: string;
+    category: string;
+    number: number;
+  };
+  max: number;
+  min: number;
+}
+
+type note = {
+  id: string;
+  note: string;
+}
+
+type flow = {
+  id: string;
+  shiftId: string;
+  suspendedMachines: [{
+    id: string;
+    category: string;
+    number: number;
+  }];
+  minFlow: number;
+  maxFlow: number;
+  caseBeginTime: string;
+  caseEndTime: string;
+}
+type problem = {
+  title: string;
+  description : string;
+} 
+type machine = {
+    id: string;
+    category: string;
+    number: number;
+}
+
+type ShiftId = {
+  id: string;
+  date: string;
+  shift: string;
+}
+
+type problemDetail = {
+  id: string;
+  shiftId: string;
+  problems: problem[];
+  machine: machine;
+  beginTime: string;
+  endTime: string;
+}
+type problemsMap = Map<string,Map<number,[problemDetail]>>
+
+function main(){
+  addShiftIdentity()
+  addProblemsList()
+  addFlowsList()
+  addTemperaturesList()
+  addNotesList()
+  addEmployeesList()
+}
+main()
+
+async function addShiftIdentity(){
+  try{
+    const shiftId :ShiftId = await fetch("/fetch/report/current/shift/id")
+      .then(res => res.json())
+    document.getElementById("shift-id-section")!.innerHTML =`
+        <p class="short-important-p">
+          Shift: ${shiftId.shift}
+          &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+          Date: ${shiftId.date}
+        </p>
+    `
+  } catch(err){
+    console.log(err)
+  }
+}
+
+function problemDetailsTable(category:string,mn :string,pds : [problemDetail]){
+  return `
+    <table>
+      <thead>
+        <tr>
+          <th class="mini-button">-</th>
+          <th>begin at</th>
+          <th>ended at</th>
+          <th>problems</th>
+        </tr>
+      </thead>
+      <tbody id="${category}-${mn}-problems-list">
+        ${(function(){
+          let trs = ""
+          if(pds){
+            for (const pd of pds){
+              trs += problemDetailModule(pd)
+              }
+          }
+          return trs;
+        })()}
+      </tbody>
+    </table>
+  `
+}
+
+function categoryModule(category: string, mnpd : Map<string,any>){
+  return `
+    <div class="ghost top-bottom-border" id="${category}-category-id">
+      <ul>
+        ${(function(){
+          let li = ""
+          for(const [mn,pds] of mnpd){
+            li += `
+              <li>
+                <div>
+                ${(function(){
+                  if(+mn){
+                    return `
+                      <button class="main-button"
+                        onclick="toggle('${category}-${mn}-show')"
+                        >${category} ${mn}</button>
+                    `
+                  }
+                  return ''
+                })()}
+                  <div class="top-bottom-border ${+mn?'ghost':''}" id="${category}-${mn}-show">
+                    <div id="${category}-${mn}-btns-container">
+                      <button class="mini-button"
+                        onclick="replaceForm('${category}','${mn}','${category}-${mn}-show')"
+                      >+</button>
+                      <button 
+                        onclick="deleteCategoryProblems('${category}','${mn}','${category}-${mn}-problems-list')"
+                        class="mini-button"
+                      >-</button>
+                    </div>
+                    ${problemDetailsTable(category,mn,pds)}
+                  </div>
+                </div>
+              </li>
+            `
+          }
+          return li
+        })()}
+      </ul>
+    </div>
+  `
+}
+
+function problemsListModule(problems : problemsMap){
+  return `
+    <ul>
+      ${(function(){
+        let lis = ""
+        //mnpdm => machine number to list of problem details map
+        for(const [category,mnpdm] of problems){
+          const mnpd = new Map(Object.entries(mnpdm))
+          lis += `
+            <li>
+              <div >
+                <button onclick="toggle('${category}-category-id')" class="issub">
+                  ${category} PROBLEMS
+                </button>
+                ${categoryModule(category,mnpd)}
+              </div>
+            </li>
+          `
+        }
+        return lis
+      })()}
+    </ul>
+    `
+
+}
+async function addProblemsList(){
+  try{
+    const problems :problemsMap = new Map(Object
+      .entries(await fetch("/fetch/report/categories/numbers/problems/mapping")
+      .then(res => res.json())))
+    document.getElementById("problems-section")!.innerHTML += problemsListModule(problems)
+  } catch(err){
+    console.log(err)
+  }
+}
 
 async function problemsOptions (){
   try{
@@ -22,50 +216,56 @@ async function problemsOptions (){
   }
 }
 
-function elementListNewMember(machine: string,number: string, pd :{
-      id: string;shiftId:string;
-      problems:[{title: string; descripion: string;}];
-      machine:{id: string; category: string; number: number;};
-      beginTime: string;endTime: string;}){
-  document.getElementById(`${machine}-${number}-problems-list`)!
-    .innerHTML += `
-      <tr id="${pd.id}-member">
-        <td>
-            <button
-                onclick="deleteCategoryProblem('${pd.id}','${pd.id}-member')"
-                type="submit"
-                class="mini-button"
-                style="width: 100%"
-                > - </button>
-        </td>
-        <td>${pd.beginTime}</td>
-        <td>${pd.endTime}</td>
-        <td id="${pd.id}-problems">
-          <ol type="1" id="${pd.id}-problems-list">
-            ${(function() : string{
-              let result =""
-              pd.problems.forEach(p =>{
-                result += `
-                  <li id="${pd.id}-${p.title}">
-                    <button
-                    onclick="deleteProblemTitle('${pd.id}','${p.title}','${pd.id}-${p.title}')"
-                    style="display:inline-block;">-</button>
-                    <span style="display:inline-block;">${p.title}</span>
-                  </li>
-                `
-              })
-              return result
-            })()}
-            <li>
+function problemsTitlesModule(pdId :string, problems : problem[]){
+  return `
+    <ol type="1" id="${pdId}-problems-list">
+      ${(function(){
+        let result =""
+        problems.forEach(p =>{
+          result += `
+            <li id="${pdId}-${p.title}">
               <button
-                onclick="listProblems('${pd.id}')"
-                class="mini-button"
-              >+</button>
+              onclick="deleteProblemTitle('${pdId}','${p.title}','${pdId}-${p.title}')"
+              style="display:inline-block;">-</button>
+              <span style="display:inline-block;">${p.title}</span>
             </li>
-          </ol>
-        </td>
-      </tr>
-    `
+          `
+        })
+        return result
+      })()}
+      <li>
+        <button
+          onclick="listProblems('${pdId}')"
+          class="mini-button"
+        >+</button>
+      </li>
+    </ol>
+  `
+}
+
+function problemDetailModule(pd : problemDetail){
+  return `
+    <tr id="${pd.id}-member">
+      <td>
+          <button
+              onclick="deleteCategoryProblem('${pd.id}','${pd.id}-member')"
+              type="submit"
+              class="mini-button"
+              style="width: 100%"
+              > - </button>
+      </td>
+      <td>${pd.beginTime}</td>
+      <td>${pd.endTime}</td>
+      <td id="${pd.id}-problems">
+      ${problemsTitlesModule(pd.id,pd.problems)}
+      </td>
+    </tr>
+  `
+}
+
+function ProblemsListNewMember(machine: string,number: string, pd :problemDetail){
+  document.getElementById(`${machine}-${number}-problems-list`)!
+    .innerHTML += problemDetailModule(pd)
 }
 
 async function deleteCategoryProblems(machine: string,number: string,fieldId: string) {
@@ -79,7 +279,6 @@ async function deleteCategoryProblems(machine: string,number: string,fieldId: st
 
     if(result){
       document.getElementById(fieldId)!.innerHTML = ""
-      alert('problems deleted successfully')
     }
   } catch(err){
     console.log(err)
@@ -97,7 +296,6 @@ async function deleteProblemTitle(id: string,title: string,fieldId: string) {
 
     if(result){
       document.getElementById(fieldId)!.remove()
-      alert('title removed successfully')
     }
   } catch(err){
     console.log(err)
@@ -171,10 +369,8 @@ async function saveNewProblemProblems(id : string) {
   }
 }
 
-async function listProblems(uuid : string){
-  const target = document.getElementById(uuid+"-problems-list")
-  nativeContentMap.set(uuid+"-problems-list",target!.innerHTML)
-  target!.innerHTML = `
+async function problemsListForm(uuid : string){
+  return `
       <div class="box-container">
         <div class="form-container">
           <form onsubmit=" saveNewProblemProblems('${uuid}'); return false;" action="/report/add/problem/problems" method="post">
@@ -188,6 +384,12 @@ async function listProblems(uuid : string){
         </div>
       </div>
     `
+}
+
+async function listProblems(uuid : string){
+  const target = document.getElementById(uuid+"-problems-list")
+  nativeContentMap.set(uuid+"-problems-list",target!.innerHTML)
+  target!.innerHTML = await problemsListForm(uuid)
 }
 
 async function saveProblemRequest(machine: string,number: string,fieldId: string){
@@ -213,13 +415,11 @@ async function saveProblemRequest(machine: string,number: string,fieldId: string
     ,{method:'POST',body: formData})
     .then(res => res.json());
     restoreContent(fieldId)
-    elementListNewMember(machine,number,pd)
+    ProblemsListNewMember(machine,number,pd)
   } catch(err){
     console.log(err)
   }
 }
-
-const nativeContentMap : Map<string,string> = new Map()
 
 function restoreContent(fieldId: string){
   const target = document.getElementById(fieldId)
@@ -329,18 +529,7 @@ async function addFlowMachines(flowId : string){
   }
 }
 
-function flowMemberModule(flow:{
-    id:string;
-    shiftId:string;
-    suspendedMachines: [{id:string;
-                        category:string;
-                        number: number;
-                      }];
-    minFlow: number;
-    maxFlow: number;
-    caseBeginTime: string;
-    caseEndTime: string;
-  }){
+function flowMemberModule(flow: flow){
  return `
     <tr id="${flow.id}-record">
       <td>
@@ -377,7 +566,7 @@ function flowMemberModule(flow:{
   `
 }
 
-function flowListNewMember(flow:any){
+function flowListNewMember(flow: flow){
   document.getElementById("flow-records-list")!.innerHTML += flowMemberModule(flow)
 }
 
@@ -424,23 +613,9 @@ async function saveFlowRequest(){
   }
 }
 
-async function addFlowsList(){
-  try{
-    const flows :[{
-        id: string;
-        shiftId: string;
-        suspendedMachines: [{
-          id: string;
-          category: string;
-          number: number;
-        }];
-        minFlow: number;
-        maxFlow: number;
-        caseBeginTime: string;
-        caseEndTime: string;
-    }] = await fetch("/fetch/report/current/flow")
-              .then(res => res.json())
-    document.getElementById("flow-section")!.innerHTML +=`
+
+function flowListModule(flows : flow[]){
+  return `
         <table>
           <thead>
             <tr>
@@ -463,20 +638,22 @@ async function addFlowsList(){
           </tbody>
         </table>
     `
+}
+async function addFlowsList(){
+  try{
+    const flows :flow[] = await fetch("/fetch/report/current/flow")
+              .then(res => res.json())
+    document.getElementById("flow-section")!.innerHTML += flowListModule(flows) 
     addDeleteFlowRecord()
   } catch(err){
     console.log(err)
   }
 }
 
-async function replaceFlowForm(){
-  try{
-    const jsonMap : Map<string,number[]> =new Map(Object.entries( await promiseMap))
-    const minTime = await flowMinTime();
-    const maxTime = await shiftEnd();
-    const target  = document.getElementById("flow-section")
-    nativeContentMap.set("flow-section",target!.innerHTML)
-    target!.innerHTML =`
+async function flowFormModule(jsonMap: Map<string,number[]> ){
+  const minTime = await flowMinTime();
+  const maxTime = await shiftEnd();
+  return `
         <div class="box-container">
           <div class="form-container">
             <h1> Total Flow record</h1>
@@ -509,6 +686,14 @@ async function replaceFlowForm(){
           </div>
         </div>
     `
+}
+
+async function replaceFlowForm(){
+  try{
+    const jsonMap : Map<string,number[]> =new Map(Object.entries( await categoryMap))
+    const target  = document.getElementById("flow-section")
+    nativeContentMap.set("flow-section",target!.innerHTML)
+    target!.innerHTML = await flowFormModule(jsonMap)
   } catch(err){
     console.log(err)
   }
@@ -561,7 +746,7 @@ async function shiftEnd(){
 async function listMachines(uuid : string){
   try{
     const target = document.getElementById(uuid+"-machines")
-    const jsonMap : Map<string,number[]>  = new Map(Object.entries(await promiseMap))
+    const jsonMap : Map<string,number[]>  = new Map(Object.entries(await categoryMap))
     nativeContentMap.set(uuid+"-machines",target!.innerHTML)
     target!.innerHTML = `
         <div class="box-container">
@@ -641,10 +826,7 @@ async function saveNoteRequest(){
   }
 }
 
-function replaceNoteForm(){
-  const target = document.getElementById('note-section')
-  nativeContentMap.set("note-section",target!.innerHTML)
-  target!.innerHTML =`
+const noteFormModule = `
       <div class="box-container">
         <div class="form-container">
           <button onclick="restoreContent('note-section')" style="width:2%; display:block; padding: 0px; color:red;">X</button>
@@ -657,43 +839,52 @@ function replaceNoteForm(){
         </div>
       </div>
 `
+ 
+
+function replaceNoteForm(){
+  const target = document.getElementById('note-section')
+  nativeContentMap.set("note-section",target!.innerHTML)
+  target!.innerHTML = noteFormModule
 }
 
-async function addNotesList(){
-  try{
-    const notes :[{
-        id: string;
-        note: string;
-    }] = await fetch("/fetch/report/current/notes")
-              .then(res => res.json())
-    document.getElementById("note-section")!.innerHTML +=`
+function noteModule(note : note){
+  return `
+    <li id="${note.note}-note-record">
+      <button
+        onclick="removeNote('${note.note}')"
+        class="mini-button"
+        style="display:inline-block;width:7%; margin:2%;"
+      >-</button>
+      <p
+        class="short-important-p"
+        style="display:inline-block; width:77%; margin:2%;"
+      >${note.note}</p>
+  </li>
+  `
+}
+
+function noteListModule(notes: note[]){
+  return `
           <ul id="notes-records-list">
           ${(function(){
-            const lis: string[] = []
+            let lis = ""
             for(const note of notes){
-                  lis.push(`
-                    <li id="${note.note}-note-record">
-                      <button
-                        onclick="removeNote('${note.note}')"
-                        class="mini-button"
-                        style="display:inline-block;width:7%; margin:2%;"
-                      >-</button>
-                      <p
-                        class="short-important-p"
-                        style="display:inline-block; width:77%; margin:2%;"
-                      >${note.note}</p>
-                    </li>
-                  `)
+              lis += noteModule(note)            
             }
           return lis
           })()}
 				</ul>
     `
+}
+async function addNotesList(){
+  try{
+    const notes :note[] = await fetch("/fetch/report/current/notes")
+              .then(res => res.json())
+    document.getElementById("note-section")!.innerHTML += noteListModule(notes)
   } catch(err){
     console.log(err)
   }
 }
-
 
 async function removeTemp(machineId : string){
   try{
@@ -753,12 +944,8 @@ async function saveTempRequest(){
   }
 }
 
-async function replaceTempForm(){
-  try{
-    const jsonMap: Map<string,number[]> = new Map(Object.entries(await promiseMap))
-    const target = document.getElementById("temp-section")
-    nativeContentMap.set("temp-section",target!.innerHTML)
-    target!.innerHTML =`
+function tempFormModule(jsonMap: Map<string,number[]>){
+  return `
         <div class="box-container">
           <div class="form-container">
             <h1> Temperature record</h1>
@@ -789,27 +976,22 @@ async function replaceTempForm(){
           </div>
         </div>
     `
+
+}
+
+async function replaceTempForm(){
+  try{
+    const jsonMap: Map<string,number[]> = new Map(Object.entries(await categoryMap))
+    const target = document.getElementById("temp-section")
+    nativeContentMap.set("temp-section",target!.innerHTML)
+    target!.innerHTML = tempFormModule(jsonMap)
   } catch(err){
     console.log(err)
   }
 }
 
-type temp = {
-        id: string;
-        shiftId: string;
-        machine:{
-          id: string;
-          category: string;
-          number: number;
-        };
-        max: number;
-        min: number;
-        }
-async function addTemperaturesList(){
-  try{
-    const temps :[temp] = await fetch("/fetch/report/current/temps")
-              .then(res => res.json())
-    document.getElementById("temp-section")!.innerHTML +=`
+function tempListModule(temps:[temp]){
+  return `
           <ul id="temps-records-list">
           ${(function(){
             let lis = ""
@@ -820,6 +1002,13 @@ async function addTemperaturesList(){
           })()}
 				</ul>
     `
+
+}
+async function addTemperaturesList(){
+  try{
+    const temps :[temp] = await fetch("/fetch/report/current/temps")
+              .then(res => res.json())
+    document.getElementById("temp-section")!.innerHTML += tempListModule(temps)
   } catch(err){
     console.log(err)
   }
@@ -901,12 +1090,8 @@ function employeeModule(emp: empName){
   `
 }
 
-async function listEmployees(){
-  try{
-    const usernames : string[] = await names
-    const target = document.getElementById("employee-section")
-    nativeContentMap.set("employee-section",target!.innerHTML)
-    target!.innerHTML = `
+function employeeFormModule(usernames: string[]){
+  return `
         <div class="box-container">
           <div class="form-container">
             <button onclick="restoreContent('employee-section')" style="width:2%; display:block; padding: 0px; color:red;">X</button>
@@ -927,20 +1112,21 @@ async function listEmployees(){
           </div>
         </div>
     `
+}
+
+async function listEmployees(){
+  try{
+    const usernames : string[] = await names
+    const target = document.getElementById("employee-section")
+    nativeContentMap.set("employee-section",target!.innerHTML)
+    target!.innerHTML = employeeFormModule(usernames)
   } catch (err){
     console.log(err)
   }
 }
 
-type empName = {
-        id: string;
-        fullName: string;
-        }
-async function addEmployeesList(){
-  try{
-    const empsNames :[empName] = await fetch("/fetch/report/current/emps/names")
-              .then(res => res.json())
-    document.getElementById("employee-section")!.innerHTML +=`
+function employeeListModule(empsNames: [empName]){
+  return `
 				<ul id="emps-records-list">
           ${(function(){
             let lis  = ""
@@ -951,13 +1137,14 @@ async function addEmployeesList(){
           })()}
 				</ul>
     `
+}
+async function addEmployeesList(){
+  try{
+    const empsNames :[empName] = await fetch("/fetch/report/current/emps/names")
+      .then(res => res.json())
+    document.getElementById("employee-section")!
+      .innerHTML += employeeListModule(empsNames)
   } catch(err){
     console.log(err)
   }
 }
-
-addFlowsList()
-addTemperaturesList()
-addEmployeesList()
-addNotesList()
-addDeleteFlowRecord()

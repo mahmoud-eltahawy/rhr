@@ -26,6 +26,7 @@ import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Note;
 import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
+import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.model.EmployeeName;
@@ -296,6 +297,10 @@ public class ReportPageDataService {
 	public List<TotalFlow> currentShiftFlow(){
 		return totalFlowRepo
 			.findByShiftId(component.getCurrentShift().getId());
+	}
+
+	public ShiftId currentShift(){
+		return component.getCurrentShift();
 	}
 	//fetch data end
 }

@@ -1,103 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 	<head>
 		<meta charset="UTF-8">
 		<title>shift show</title>
-		<link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
-		<link rel="stylesheet" href="../static/css/showShift.css" th:href="@{/css/showShift.css}">
-		<link rel="stylesheet" href="../static/css/reportPage.css" th:href="@{/css/reportPage.css}">
-		<script type="text/javascript" src="../static/js/reportPage.js" th:src="@{/js/reportPage.js}" async></script>
+		<link rel="stylesheet" href="/css/basicStyle.css">
+		<link rel="stylesheet" href="/css/showShift.css">
+		<link rel="stylesheet" href="/css/reportPage.css">
+		<script type="text/javascript" src="/js/reportPage.js" async></script>
 	</head>
 	<body>
-		<p th:object="${theId}" class="short-important-p">
-			Shift: <span th:text="*{shift}">order</span>
-			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-			Date: <span th:text="*{date}">the date</span>
-		</p>
-		<div th:unless="${cats}==null">
-			<h1><button class="notsub"  onclick="toggle('problems-section')">PROBLEMS SECTION</button></h1><br>
+		<div id="shift-id-section">
+		<!-- the content will be created by javascript -->
+		</div>
+		<div>
+			<button class="notsub"  onclick="toggle('problems-section')">PROBLEMS SECTION</button>
 			<div class="ghost top-bottom-border" id="problems-section">
-				<ul th:each="cat : ${cats}">
-					<li>
-						<div th:unless="${cat.value}==null">
-							<h2>
-								<button onclick="toggle('category')" th:attr="onclick=|toggle('${cat.key}')|" class="issub">
-									<span th:text="${cat.key}">CATEGORY</span>
-									<span>PROBLEMS</span>
-								</button>
-							</h2>
-							<div class="ghost top-bottom-border" id="category" th:id="${cat.key}">
-								<ul th:each="mapin : ${cat.value}">
-									<li>
-										<div>
-											<h3 th:unless="${mapin.key}==0">
-												<button class="main-button" th:attr="onclick=|toggle('${cat.key}-${mapin.key}-show')|">
-													<span th:text="${cat.key}">CATEGORY</span>
-													<span th:text="${mapin.key}">NUMBER</span>
-												</button>
-											</h3><br>
-											<div class="top-bottom-border" th:classappend="${mapin.key}!=0 ? 'ghost'" th:id="${cat.key}+'-'+${mapin.key}+'-show'">
-												<div th:id="${cat.key}+'-'+${mapin.key}+'-btns-container'">
-													<button class="mini-button"
-														th:attr="onclick=|replaceForm('${cat.key}',
-																   '${mapin.key}',
-																   '${cat.key}-${mapin.key}-show')|"
-													>+</button>
-													<button th:attr="onclick=|deleteCategoryProblems('${cat.key}','${mapin.key}','${cat.key}-${mapin.key}-problems-list')|" class="mini-button">-</button>
-												</div>
-												<table>
-													<thead>
-														<tr>
-															<th class="mini-button">-</th>
-															<th>begin at</th>
-															<th>ended at</th>
-															<th>problems</th>
-														</tr>
-													</thead>
-													<tbody th:id="${cat.key}+'-'+${mapin.key}+'-problems-list'">
-														<tr th:each="pd : ${mapin.value}" th:id="${pd.id}+'-member'">
-															<td>
-																<button th:attr="onclick=|deleteCategoryProblem('${pd.id}','${pd.id}-member')|"
-																		type="submit"
-																		class="mini-button"
-																		style="width: 100%"
-																> - </button>
-															</td>
-															<td th:text="${pd.beginTime}">
-																problem begin time
-															</td>
-															<td th:text="${pd.endTime}">
-																problem end time
-															</td>
-															<td>
-																<ol type="1" th:id="${pd.id}+'-problems-list'">
-																	<li th:each="p : ${pd.problems}" th:id="${pd.id}+'-'+${p.title}">
-																		<button
-																			th:attr="onclick=|deleteProblemTitle('${pd.id}','${p.title}','${pd.id}-${p.title}')|"
-																			style="display:inline-block;">-</button>
-																		<span th:text="${p.title}" style="display:inline-block;">
-																			problem
-																		</span>
-																	</li>
-																	<li>
-																		<button
-																			th:attr="onclick=|listProblems('${pd.id}')|"
-																			class="mini-button"
-																		>+</button>
-																	</li>
-																</ol>
-															</td>
-														</tr>
-													</tbody>
-												</table>
-											</div>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</li>
-				</ul>
+			<!-- the content will be created by javascript -->
 			</div>
 		</div>
 		<div>
@@ -112,7 +30,7 @@
 							<button onclick="removeAllFlow()" class="mini-button">-</button>
 							<button onclick="replaceFlowForm()" class="mini-button">+</button>
 						</div>
-							<!-- the content will be created by javascript -->
+						<!-- the content will be created by javascript -->
 					</div>
 				</div>
 				<div>

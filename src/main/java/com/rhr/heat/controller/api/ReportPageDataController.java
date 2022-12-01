@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Note;
 import com.rhr.heat.entity.ProblemDetail;
+import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.model.EmployeeName;
@@ -26,6 +27,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ReportPageDataController {
   private final ReportPageDataService service;
+
+  @GetMapping("/current/shift/id")
+  public ShiftId currentShift(){
+    return service.currentShift();
+  }
 
   @GetMapping("/current/flow")
   public List<TotalFlow> allFlow(){
