@@ -54,7 +54,7 @@
 		<h1>insert Machine Name</h1>
 		<form action="#" th:action="@{/show/machine}" method="post">
                 <select required="required" id="machine-id" name="machine-id">
-                    <option th:each="m: ${machines}" th:value="${m.id}" th:text="${m.category}+'-'+${m.number}">machine</option>
+                    <option th:each="m: ${machines}" th:value="${m.id}" th:text="${m.category.name}+'-'+${m.number}">machine</option>
                 </select>
                 <input type="hidden" id="page" name="page" value="0">
                 <button type="submit">Submit </button>

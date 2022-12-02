@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import com.google.gson.Gson;
+import com.rhr.heat.dao.CategoryRepo;
 import com.rhr.heat.dao.MachineRepo;
 import com.rhr.heat.entity.ProblemDetail;
 
@@ -16,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Dealer {
 	private final MachineRepo machineRepo;
-
+	private final CategoryRepo categoryRepo;
 	//inputs must be on the same category
 	public Map<Integer, List<ProblemDetail>> getMachinesProblems(List<ProblemDetail> allDetails){
 		Map<Integer, List<ProblemDetail>> mp = new HashMap<>();
@@ -40,8 +42,9 @@ public class Dealer {
 	public Map<String, List<ProblemDetail>> getCategoryProblems(List<ProblemDetail> allDetails){
 		Map<String, List<ProblemDetail>> mp = new HashMap<>();
 		if(allDetails != null) {
+			Gson gson = new Gson();
 			for (ProblemDetail pd : allDetails) {
-				String cat = pd.getMachine().getCategory();
+				String cat = gson.toJson(pd.getMachine().getCategory());
 				if(mp.get(cat) == null) {
 					List<ProblemDetail> pds = new ArrayList<>();
 					pds.add(pd);
@@ -58,9 +61,8 @@ public class Dealer {
 	
 	public Map<String,List<Integer>> getStandardCategoryNums(){
 		Map<String,List<Integer>> result = new HashMap<>();
-		
-		machineRepo.findAllCatagories().forEach(c -> {
-			result.put(c, machineRepo.findCatagoryAllNums(c));
+		categoryRepo.findAll().forEach(c -> {
+			result.put(new Gson().toJson(c), machineRepo.findCatagoryAllNums(c.getName()));
 		});
 		return result;
 	}
@@ -72,7 +74,7 @@ public class Dealer {
 		Map<String, List<ProblemDetail>> cp = getCategoryProblems(allDetails);
 		
 		for (String cat : cp.keySet()) {
-			result.put(cat, getMachinesProblems(cp.get(cat)));
+			result.put(new Gson().toJson(cat), getMachinesProblems(cp.get(cat)));
 		}
 		
 		Map<String,List<Integer>> standard = getStandardCategoryNums();

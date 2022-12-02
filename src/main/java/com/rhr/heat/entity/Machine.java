@@ -16,19 +16,19 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Machine {
 	private UUID id;
-	private String category;
+	private Category category;
 	private Integer number;
 
-	public Machine(String category, Integer number) {
+	public Machine(Category category, Integer number) {
 		this.category = category;
 		this.number = number;
 	}
 	
 	public String name() {
-		if(number != 0) {
-			return category+"-"+number;
+		if(category.getHasMachines()) {
+			return category.getName()+"-"+number;
 		} else {
-			return category;
+			return category.getName();
 		}
 	}
 	

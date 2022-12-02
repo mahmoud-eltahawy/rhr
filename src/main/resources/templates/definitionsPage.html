@@ -46,10 +46,15 @@
 		<form action="#" th:action="@{/define/category}" method="post">
             <label style="display:block;" for="name">Category Name</label>
             <input style="display:block;" type="text" id="name" name="name" required="required">
-            <label style="display:block;" for="isHeader">Header</label>
-            <select required="required" id="isHeader" name="isHeader">
-                <option value="t" >TRUE </option>
-                <option value="f" selected>FALSE</option>
+            <label style="display:block;" for="hasMachines">Has Machines</label>
+            <select required="required" id="hasMachines" name="hasMachines">
+                <option value="true" selected>YES</option>
+                <option value="false">NO</option>
+            </select>
+            <label style="display:block;" for="hasTemperature">Has Temperature</label>
+            <select required="required" id="hasTemperature" name="hasTemperature">
+                <option value="true" selected>YES</option>
+                <option value="false">NO</option>
             </select>
             <button type="submit">Submit </button>
 		</form>

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.rhr.heat.entity.Category;
 import com.rhr.heat.service.DefineService;
 
 import lombok.RequiredArgsConstructor;
@@ -19,20 +20,16 @@ public class DefineController{
 	public ModelAndView definePage() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("definitionsPage");
-		mv.addObject("cats", service.noneHeadersCategories());
+		mv.addObject("cats", service.hasMachinesCategoriesNames());
 		return mv;
 	}
 	
 	@RequestMapping("/category")
 	public String defineCategory(
         @RequestParam("name")String name,
-        @RequestParam("isHeader")Character isHeader) {
-
-        if(isHeader == 't'){
-            service.saveNewCategory(name, 0);
-        } else {
-            service.saveNewCategory(name, 1);
-        }
+        @RequestParam("hasTemperature")Boolean ht,
+        @RequestParam("hasMachines")Boolean hm) {
+		service.saveNewCategory(new Category(name, hm, ht));
 		return "redirect:/define/";
 	}
 	

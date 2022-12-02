@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MachineRepo {
 	private final JdbcTemplate jdbcTemplate;
+	private final CategoryRepo categoryRepo;
 	
 	public int saveToTotalFlow(UUID tfId,UUID mId) {
 		return jdbcTemplate.update("""
@@ -39,20 +40,22 @@ public class MachineRepo {
 				SELECT machine_id FROM
 				total_flow_machine where total_flow_id = ?
 				""",UUID.class,tfId)
-				.stream().map(uuid -> findById(uuid).orElseThrow())
+				.stream().map(uuid -> fullfill(findById(uuid).orElseThrow()))
 				.collect(Collectors.toList());
 	}
 
 	public List<Machine> findAll() {
 		return jdbcTemplate.query(
 				"SELECT m.* FROM machine m",
-				new MachineRowMapper());
+				new MachineRowMapper()).stream()
+				.map(m -> fullfill(m)).toList();
 	}
 	
 	public List<Machine> findByCatagory(String catagory) {
 		return jdbcTemplate.query(
-				"SELECT m.* FROM machine m WHERE m.category = ?",
-				new MachineRowMapper(), catagory);
+				"SELECT m.* FROM machine m WHERE m.cat_name = ?",
+				new MachineRowMapper(), catagory)
+				.stream().map(m -> fullfill(m)).toList();
 	}
 
 	public List<Machine> allMachinesInFlow(UUID flowId){
@@ -60,40 +63,40 @@ public class MachineRepo {
 			SELECT m.* FROM machine m WHERE m.id 
 			IN (SELECT machine_id FROM 
 			total_flow_machine WHERE total_flow_id =?)
-		""",new MachineRowMapper(), flowId);
+			""",new MachineRowMapper(), flowId)
+			.stream().map(m -> fullfill(m)).toList();
+
 	}
 	
 	public List<Integer> findCatagoryAllNums(String category) {
 		return jdbcTemplate.queryForList(
-				"SELECT DISTINCT m.num FROM machine m WHERE m.category = ?",
+				"SELECT DISTINCT m.num FROM machine m WHERE m.cat_name = ?",
 				Integer.class, category);
 	}
 	
-	public List<String> findAllCatagories() {
-		return jdbcTemplate.queryForList(
-				"SELECT DISTINCT m.category FROM machine m",
-				String.class);
-	}
-	
-	public List<String> findNoneHeadersCatagories() {
-		return jdbcTemplate.queryForList("""
-					SELECT DISTINCT m.category
-					FROM machine m WHERE m.num <> 0
-				""",String.class);
-	}
 	
 	public Optional<Machine> findById(UUID id) {
-		return jdbcTemplate.query(
+		Optional<Machine> machine = jdbcTemplate.query(
 				"SELECT m.* FROM machine m where m.id = ?",
 				new MachineRowMapper(), id).stream().findFirst();
+		if(machine.isPresent()){
+			return Optional.of(fullfill(machine.get()));
+		} else {
+			return machine;
+		}
 	}
 	
 	public Optional<Machine> findByTheId(String catagory,Integer num) {
-		return jdbcTemplate.query("""
+		Optional<Machine> machine = jdbcTemplate.query("""
 				SELECT m.* FROM machine m
-				WHERE m.category = ? AND m.num = ?
+				WHERE m.cat_name = ? AND m.num = ?
 				""",
 				new MachineRowMapper(), catagory, num).stream().findFirst();
+		if(machine.isPresent()){
+			return Optional.of(fullfill(machine.get()));
+		} else {
+			return machine;
+		}
 	}
 	
 	public int deleteById(UUID id) {
@@ -102,7 +105,7 @@ public class MachineRepo {
 	
 	public int deleteBytheId(String catagory,Integer num) {
 		return jdbcTemplate.update(
-				"DELETE FROM machine WHERE category = ? and num =?", catagory, num);
+				"DELETE FROM machine WHERE cat_name = ? and num =?", catagory, num);
 	}
 
 	public List<Pushable> saveAll(List<Machine> machines) {
@@ -118,13 +121,19 @@ public class MachineRepo {
 		if(result.isEmpty()) {
 			jdbcTemplate.update("""
 					INSERT INTO machine
-					(id,category, num) VALUES(?,?,?)
-					ON CONFLICT(category,num) DO NOTHING
+					(id,cat_name, num) VALUES(?,?,?)
+					ON CONFLICT(cat_name,num) DO NOTHING
 					""",
 					machine.getId(),
-					machine.getCategory(),
+					machine.getCategory().getName(),
 					machine.getNumber());
 		}
 		return result;
+	}
+
+	public Machine fullfill(Machine machine){
+		machine.setCategory(categoryRepo
+			.findByName(machine.getCategory().getName()).orElseThrow());
+		return machine;
 	}
 }

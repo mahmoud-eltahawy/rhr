@@ -169,7 +169,7 @@ public class ReportPageDataService {
 				.map(s -> component.parseMachine(s).orElseThrow())
 				.collect(Collectors.toList());
 		for (Machine machine : machines) {
-			if(machineRepo.findByTheId(machine.getCategory(), machine.getNumber()).isEmpty()) {
+			if(machineRepo.findByTheId(machine.getCategory().getName(), machine.getNumber()).isEmpty()) {
 				machines.remove(machine);
 			}
 		}

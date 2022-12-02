@@ -11,14 +11,21 @@ CREATE TABLE IF NOT EXISTS shift (
 CREATE INDEX IF NOT EXISTS idx_by_shift_order ON shift(shift_order);
 CREATE INDEX IF NOT EXISTS idx_by_shift_date  ON shift(shift_date);
 
-CREATE TABLE IF NOT EXISTS machine(
-    id       UUID        PRIMARY KEY,
-    category VARCHAR(20) NOT NULL,
-    num      INTEGER     NOT NULL,
-    CONSTRAINT unique_machine_identity UNIQUE(category,num)
+CREATE TABLE IF NOT EXISTS category(
+    cat_name        VARCHAR(30) PRIMARY KEY,
+    has_machines    BOOLEAN     NOT NULL,
+    has_temperature BOOLEAN     NOT NULL
 );
 
-CREATE INDEX IF NOT EXISTS idx_by_machine_category ON machine(category);
+CREATE TABLE IF NOT EXISTS machine(
+    id       UUID        PRIMARY KEY,
+    cat_name VARCHAR(30) NOT NULL,
+    num      INTEGER     NOT NULL,
+    CONSTRAINT unique_machine_identity UNIQUE(cat_name,num),
+    FOREIGN KEY(cat_name) REFERENCES category(cat_name) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_by_machine_category ON machine(cat_name);
 CREATE INDEX IF NOT EXISTS idx_by_machine_number   ON machine(num);
 
 CREATE TABLE IF NOT EXISTS employee (

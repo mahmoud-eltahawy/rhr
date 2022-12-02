@@ -1,6 +1,16 @@
-const categoryMap :Promise<Map<string,number[]>> =
-  fetch("/fetch/report/standard/categories/numbers/mapping"
-  ,{method : 'GET'}).then(res => {return res.json()})
+const categoryMap :Promise<Map<category,number[]>> =(async function() {
+  try{
+    const result: Map<category,number[]>= new Map()
+    const stringMap :Map<string,number[]> = new Map(Object.entries(
+      await fetch("/fetch/report/standard/categories/numbers/mapping"
+      ,{method : 'GET'}).then(res => {return res.json()})))
+    stringMap.forEach((v,k) => result.set(JSON.parse(k),v))
+    return result
+  }catch(err){
+    console.log(err)
+    return new Map()
+  }
+})()
 
 const names : Promise<string[]> = fetch("/fetch/report/all/usernames"
   ,{method : 'GET'}).then(res => {return res.json()})
@@ -19,11 +29,7 @@ type empName = {
 type temp = {
   id: string;
   shiftId: string;
-  machine:{
-    id: string;
-    category: string;
-    number: number;
-  };
+  machine:machine;
   max: number;
   min: number;
 }
@@ -32,15 +38,16 @@ type note = {
   id: string;
   note: string;
 }
+type category = {
+  name: string;
+  hasMachines: boolean;
+  hasTemperature: boolean;
+}
 
 type flow = {
   id: string;
   shiftId: string;
-  suspendedMachines: [{
-    id: string;
-    category: string;
-    number: number;
-  }];
+  suspendedMachines: [machine];
   minFlow: number;
   maxFlow: number;
   caseBeginTime: string;
@@ -49,10 +56,10 @@ type flow = {
 type problem = {
   title: string;
   description : string;
-} 
+}
 type machine = {
     id: string;
-    category: string;
+    category: category;
     number: number;
 }
 
@@ -70,7 +77,7 @@ type problemDetail = {
   beginTime: string;
   endTime: string;
 }
-type problemsMap = Map<string,Map<number,[problemDetail]>>
+type problemsMap = Map<category,Map<number,[problemDetail]>>
 
 function main(){
   addShiftIdentity()
@@ -124,9 +131,9 @@ function problemDetailsTable(category:string,mn :string,pds : [problemDetail]){
   `
 }
 
-function categoryModule(category: string, mnpd : Map<string,any>){
+function categoryModule(category: category, mnpd : Map<string,[problemDetail]>){
   return `
-    <div class="ghost top-bottom-border" id="${category}-category-id">
+    <div class="ghost top-bottom-border" id="${category.name}-category-id">
       <ul>
         ${(function(){
           let li = ""
@@ -135,26 +142,26 @@ function categoryModule(category: string, mnpd : Map<string,any>){
               <li>
                 <div>
                 ${(function(){
-                  if(+mn){
+                  if(category.hasMachines){
                     return `
                       <button class="main-button"
-                        onclick="toggle('${category}-${mn}-show')"
-                        >${category} ${mn}</button>
+                        onclick="toggle('${category.name}-${mn}-show')"
+                        >${category.name} ${mn}</button>
                     `
                   }
                   return ''
                 })()}
-                  <div class="top-bottom-border ${+mn?'ghost':''}" id="${category}-${mn}-show">
-                    <div id="${category}-${mn}-btns-container">
+                  <div class="top-bottom-border ${category.hasMachines?'ghost':''}" id="${category.name}-${mn}-show">
+                    <div id="${category.name}-${mn}-btns-container">
                       <button class="mini-button"
-                        onclick="replaceForm('${category}','${mn}','${category}-${mn}-show')"
+                        onclick="replaceForm('${category.name}','${mn}','${category.name}-${mn}-show')"
                       >+</button>
-                      <button 
-                        onclick="deleteCategoryProblems('${category}','${mn}','${category}-${mn}-problems-list')"
+                      <button
+                        onclick="deleteCategoryProblems('${category.name}','${mn}','${category.name}-${mn}-problems-list')"
                         class="mini-button"
                       >-</button>
                     </div>
-                    ${problemDetailsTable(category,mn,pds)}
+                    ${problemDetailsTable(category.name,mn,pds)}
                   </div>
                 </div>
               </li>
@@ -174,17 +181,19 @@ function problemsListModule(problems : problemsMap){
         let lis = ""
         //mnpdm => machine number to list of problem details map
         for(const [category,mnpdm] of problems){
-          const mnpd = new Map(Object.entries(mnpdm))
-          lis += `
-            <li>
-              <div >
-                <button onclick="toggle('${category}-category-id')" class="issub">
-                  ${category} PROBLEMS
-                </button>
-                ${categoryModule(category,mnpd)}
-              </div>
-            </li>
-          `
+          const mnpd  = new Map(Object.entries(mnpdm)) as Map<string,[problemDetail]>
+          if(category.name){
+            lis += `
+              <li>
+                <div >
+                  <button onclick="toggle('${category.name}-category-id')" class="issub">
+                    ${category.name} PROBLEMS
+                  </button>
+                  ${categoryModule(category,mnpd)}
+                </div>
+              </li>
+            `
+          }
         }
         return lis
       })()}
@@ -194,9 +203,19 @@ function problemsListModule(problems : problemsMap){
 }
 async function addProblemsList(){
   try{
-    const problems :problemsMap = new Map(Object
-      .entries(await fetch("/fetch/report/categories/numbers/problems/mapping")
-      .then(res => res.json())))
+    const problems :problemsMap = await (async function() {
+      try{
+        const result = new Map()
+        const stringMap = new Map(Object
+        .entries(await fetch("/fetch/report/categories/numbers/problems/mapping")
+        .then(res => res.json())))
+        stringMap.forEach((v,k) => result.set(JSON.parse(k),v))
+        return result
+      } catch(err){
+        console.log(err)
+        return new Map()
+      }
+    })()
     document.getElementById("problems-section")!.innerHTML += problemsListModule(problems)
   } catch(err){
     console.log(err)
@@ -490,13 +509,13 @@ async function removeFlowMachine(flowId: string,machineId : string) {
   }
 }
 
-function flowMachineModule(flowId:string,machine: any){
+function flowMachineModule(flowId:string,machine: machine){
   return `
     <li id="${machine.id}-machine">
       <button
         onclick="removeFlowMachine('${flowId}','${machine.id}')"
         class="mini-button"
-      >-</button>${machine.category}${machine.number?'-'+machine.number:''}
+      >-</button>${machine.category.name}${machine.number?'-'+machine.number:''}
     </li>
   `
 }
@@ -516,13 +535,13 @@ async function addFlowMachines(flowId : string){
         return chosenMachines.toString()
     })())
 
-    const result : [{id:string; category: string; number:number;}] = await fetch("/fetch/report/add/flow/machines",
+    const result : [machine] = await fetch("/fetch/report/add/flow/machines",
       {method: 'POST', body: formData}).then(res => res.json())
 
     restoreContent(flowId+"-machines")
     const target = document.getElementById(flowId+"-machines")
-    result.forEach(m => {
-      target!.innerHTML += flowMachineModule(flowId,m)
+    result.forEach(machine => {
+      target!.innerHTML += flowMachineModule(flowId,machine)
     })
   } catch (err){
     console.log(err)
@@ -543,8 +562,8 @@ function flowMemberModule(flow: flow){
         >-</button>
         }
       </td>
-      <td id="${flow.id}-machines">
-        <ul>
+      <td>
+        <ul id="${flow.id}-machines">
           ${(function(){
             let result = ""
             flow.suspendedMachines.forEach(m =>{
@@ -643,57 +662,67 @@ async function addFlowsList(){
   try{
     const flows :flow[] = await fetch("/fetch/report/current/flow")
               .then(res => res.json())
-    document.getElementById("flow-section")!.innerHTML += flowListModule(flows) 
+    document.getElementById("flow-section")!.innerHTML += flowListModule(flows)
     addDeleteFlowRecord()
   } catch(err){
     console.log(err)
   }
 }
 
-async function flowFormModule(jsonMap: Map<string,number[]> ){
-  const minTime = await flowMinTime();
-  const maxTime = await shiftEnd();
-  return `
-        <div class="box-container">
-          <div class="form-container">
-            <h1> Total Flow record</h1>
-            <button onclick="restoreContent('flow-section')" style="width:2%; display:block; padding: 0px; color:red;">X</button>
-            <form onsubmit="saveFlowRequest(); return false;" method="post">
-            <label>suspended machines</label>
-            <select multiple="multiple" name="machines" id="flow-machines-id" required>
-              ${
-                (function(){
-                  const mList : string[] = []
-                  jsonMap.forEach((v,k) =>{
-                    v.forEach(n =>{
-                      mList.push(`<option value="${k}-${n}">${k}${n?'-'+n:''}</option>`)
-                    })
-                  })
-                  return mList;
-                })()
-              }
-            </select>
-            <label>maximum</label>
-            <input type="number" id="flow-max-id" name="max" required>
-            <label>minimum</label>
-            <input type="number" id="flow-min-id" name="min" required>
-            <label>record begin</label>
-            <input type="time" id="flow-beginTime-id" name="beginTime" value="${minTime}" readonly>
-            <label>record end</label>
-            <input type="time" id="flow-endTime-id" name="endTime" min="${minTime}" max="${maxTime}" required>
-            <button type="submit">Submit</button>
-            </form>
+async function getMachinesOptions(){
+  try{
+    const jsonMap : Map<category,number[]> = await categoryMap
+    let opts = ""
+    jsonMap.forEach((numbers,category) =>{
+      numbers.forEach(number =>{
+        opts += `<option value="${category.name}-${number}">${category.name}${number?'-'+number:''}</option>`
+      })
+    })
+    return opts;
+  } catch (err){
+    console.log(err)
+    return ""
+  }
+}
+
+async function flowFormModule(){
+  try{
+    const minTime = await flowMinTime();
+    const maxTime = await shiftEnd();
+    return `
+          <div class="box-container">
+            <div class="form-container">
+              <h1> Total Flow record</h1>
+              <button onclick="restoreContent('flow-section')" style="width:2%; display:block; padding: 0px; color:red;">X</button>
+              <form onsubmit="saveFlowRequest(); return false;" method="post">
+              <label>suspended machines</label>
+              <select multiple="multiple" name="machines" id="flow-machines-id" required>
+                ${await getMachinesOptions()}
+              </select>
+              <label>maximum</label>
+              <input type="number" id="flow-max-id" name="max" required>
+              <label>minimum</label>
+              <input type="number" id="flow-min-id" name="min" required>
+              <label>record begin</label>
+              <input type="time" id="flow-beginTime-id" name="beginTime" value="${minTime}" readonly>
+              <label>record end</label>
+              <input type="time" id="flow-endTime-id" name="endTime" min="${minTime}" max="${maxTime}" required>
+              <button type="submit">Submit</button>
+              </form>
+            </div>
           </div>
-        </div>
     `
+  } catch(err){
+    console.log(err)
+    return ""
+  }
 }
 
 async function replaceFlowForm(){
   try{
-    const jsonMap : Map<string,number[]> =new Map(Object.entries( await categoryMap))
     const target  = document.getElementById("flow-section")
     nativeContentMap.set("flow-section",target!.innerHTML)
-    target!.innerHTML = await flowFormModule(jsonMap)
+    target!.innerHTML = await flowFormModule()
   } catch(err){
     console.log(err)
   }
@@ -746,24 +775,13 @@ async function shiftEnd(){
 async function listMachines(uuid : string){
   try{
     const target = document.getElementById(uuid+"-machines")
-    const jsonMap : Map<string,number[]>  = new Map(Object.entries(await categoryMap))
     nativeContentMap.set(uuid+"-machines",target!.innerHTML)
     target!.innerHTML = `
         <div class="box-container">
           <div class="form-container">
             <form onsubmit="addFlowMachines('${uuid}'); return false;">
             <select multiple="multiple" id="${uuid}-machines-options" required>
-              ${
-                (function(){
-                  const mList : string[] = []
-                  jsonMap.forEach((v,k) =>{
-                    v.forEach(n =>{
-                      mList.push(`<option value="${k}-${n}">${k}${n?'-'+n:''}</option>`)
-                    })
-                  })
-                  return mList;
-                })()
-              }
+              ${await getMachinesOptions()}
             </select>
             <button type="submit">Submit</button>
             </form>
@@ -839,7 +857,7 @@ const noteFormModule = `
         </div>
       </div>
 `
- 
+
 
 function replaceNoteForm(){
   const target = document.getElementById('note-section')
@@ -869,7 +887,7 @@ function noteListModule(notes: note[]){
           ${(function(){
             let lis = ""
             for(const note of notes){
-              lis += noteModule(note)            
+              lis += noteModule(note)
             }
           return lis
           })()}
@@ -912,16 +930,15 @@ async function removeAllTemp(){
 }
 
 function addTempMember(temp :temp){
-
-    const ids : string[] = []
-    const records = document.getElementById("temps-records-list")
-    for(const i of records!.getElementsByTagName("li")){
-      ids.push(i.getAttribute("id")!)
-    }
-    if(ids.includes(temp.machine.id)){
-      document.getElementById(temp.machine.id)!.remove()
-    }
-records!.innerHTML += temperatureModule(temp)
+  const ids : string[] = []
+  const records = document.getElementById("temps-records-list")
+  for(const i of records!.getElementsByTagName("li")){
+    ids.push(i.getAttribute("id")!)
+  }
+  if(ids.includes(temp.machine.id)){
+    document.getElementById(temp.machine.id)!.remove()
+  }
+  records!.innerHTML += temperatureModule(temp)
 }
 
 async function saveTempRequest(){
@@ -944,47 +961,51 @@ async function saveTempRequest(){
   }
 }
 
-function tempFormModule(jsonMap: Map<string,number[]>){
-  return `
-        <div class="box-container">
-          <div class="form-container">
-            <h1> Temperature record</h1>
-            <button onclick="restoreContent('temp-section')" style="width:2%; display:block; padding: 0px; color:red;">X</button>
-            <form onsubmit="saveTempRequest(); return false;">
-            <label name="machine" id="machine">target machine</label>
-            <select id="temp-machine-id" required>
-              ${
-                (function(){
-                  const mList : string[] = []
-                  jsonMap.forEach((v,k) =>{
-                    if(k == 'KILEN' || k == 'PROJECT'){
-                      v.forEach(n =>{
-                        mList.push(`<option value="${k}-${n}">${k}${n?'-'+n:''}</option>`)
-                      })
-                    }
-                  })
-                  return mList;
-                })()
-              }
-            </select>
-            <label>maximum</label>
-            <input type="number" id="temp-max-id" required>
-            <label>minimum</label>
-            <input type="number" id="temp-min-id" required>
-            <button type="submit">Submit</button>
-            </form>
+async function tempFormModule(){
+  try{
+    const jsonMap: Map<category,number[]> = await categoryMap
+    return `
+          <div class="box-container">
+            <div class="form-container">
+              <h1> Temperature record</h1>
+              <button onclick="restoreContent('temp-section')" style="width:2%; display:block; padding: 0px; color:red;">X</button>
+              <form onsubmit="saveTempRequest(); return false;">
+              <label name="machine" id="machine">target machine</label>
+              <select id="temp-machine-id" required>
+                ${
+                  (function(){
+                    let opts = ""
+                    jsonMap.forEach((numbers,category) =>{
+                      if(category.hasTemperature){
+                        numbers.forEach(number =>{
+                          opts += `<option value="${category.name}-${number}">${category.name}${number?'-'+number:''}</option>`
+                        })
+                      }
+                    })
+                    return opts;
+                  })()
+                }
+              </select>
+              <label>maximum</label>
+              <input type="number" id="temp-max-id" required>
+              <label>minimum</label>
+              <input type="number" id="temp-min-id" required>
+              <button type="submit">Submit</button>
+              </form>
+            </div>
           </div>
-        </div>
     `
-
+  } catch(err){
+    console.log(err)
+    return ""
+  }
 }
 
 async function replaceTempForm(){
   try{
-    const jsonMap: Map<string,number[]> = new Map(Object.entries(await categoryMap))
     const target = document.getElementById("temp-section")
     nativeContentMap.set("temp-section",target!.innerHTML)
-    target!.innerHTML = tempFormModule(jsonMap)
+    target!.innerHTML = await tempFormModule()
   } catch(err){
     console.log(err)
   }
@@ -1025,7 +1046,7 @@ function temperatureModule(temp :temp){
       <p
         class="short-important-p"
         style="display:inline-block; width:77%; margin:2%;">
-        MACHINE : ${temp.machine.category}${temp.machine.number?'-'+temp.machine.number:''}
+        MACHINE : ${temp.machine.category.name}${temp.machine.number?'-'+temp.machine.number:''}
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         MAXIMUM : ${temp.max}
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp

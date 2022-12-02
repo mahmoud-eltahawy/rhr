@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import com.rhr.heat.entity.Category;
 import com.rhr.heat.entity.Machine;
 
 public class MachineRowMapper implements RowMapper<Machine> {
@@ -14,7 +15,7 @@ public class MachineRowMapper implements RowMapper<Machine> {
 	public Machine mapRow(ResultSet rs, int rowNum) throws SQLException {
 		return new Machine(
 				(UUID) rs.getObject("id")
-				,rs.getString("category"),
+				,new Category(rs.getString("cat_name"),null,null) ,
 				rs.getInt("num"));
 	}
 
