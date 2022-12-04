@@ -2,8 +2,8 @@ const categoryMap :Promise<Map<category,number[]>> =(async function() {
   try{
     const result: Map<category,number[]>= new Map()
     const stringMap :Map<string,number[]> = new Map(Object.entries(
-      await fetch("/fetch/report/standard/categories/numbers/mapping"
-      ,{method : 'GET'}).then(res => {return res.json()})))
+      await fetch("/fetch/report/standard/categories/numbers/mapping")
+      .then(res => res.json())))
     stringMap.forEach((v,k) => result.set(JSON.parse(k),v))
     return result
   }catch(err){
@@ -12,11 +12,11 @@ const categoryMap :Promise<Map<category,number[]>> =(async function() {
   }
 })()
 
-const names : Promise<string[]> = fetch("/fetch/report/all/usernames"
-  ,{method : 'GET'}).then(res => {return res.json()})
+const names : Promise<string[]> = fetch("/fetch/report/all/usernames")
+.then(res => {return res.json()})
 
-const problemsTitles = fetch("/fetch/report/all/problems/titles"
-  ,{method : 'GET'}).then(res => {return res.json()})
+const problemsTitles = fetch("/fetch/report/all/problems/titles")
+.then(res => {return res.json()})
 
 const nativeContentMap : Map<string,string> = new Map()
 
@@ -89,17 +89,29 @@ function main(){
 }
 main()
 
+function fetchCurrentShiftId() {
+  return fetch("/fetch/report/current/shift/id")
+    .then(res => res.json())
+}
+
+async function getShiftIdModule(){
+  try{
+    const shiftId :ShiftId = await fetchCurrentShiftId()
+    return `
+      <p class="short-important-p">
+        Shift: ${shiftId.shift}
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+        Date: ${shiftId.date}
+      </p>
+    `
+  } catch(err){
+    console.log(err)
+    return ""
+  }
+}
 async function addShiftIdentity(){
   try{
-    const shiftId :ShiftId = await fetch("/fetch/report/current/shift/id")
-      .then(res => res.json())
-    document.getElementById("shift-id-section")!.innerHTML =`
-        <p class="short-important-p">
-          Shift: ${shiftId.shift}
-          &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-          Date: ${shiftId.date}
-        </p>
-    `
+    document.getElementById("shift-id-section")!.innerHTML = await getShiftIdModule()
   } catch(err){
     console.log(err)
   }
@@ -131,6 +143,17 @@ function problemDetailsTable(category:string,mn :string,pds : [problemDetail]){
   `
 }
 
+function addMachineHeaderButton(category: category, number: string){
+  if(category.hasMachines){
+    return `
+      <button class="main-button"
+        onclick="toggle('${category.name}-${number}-show')"
+        >${category.name} ${number}</button>
+    `
+  }
+  return ''
+}
+
 function categoryModule(category: category, mnpd : Map<string,[problemDetail]>){
   return `
     <div class="ghost top-bottom-border" id="${category.name}-category-id">
@@ -141,16 +164,7 @@ function categoryModule(category: category, mnpd : Map<string,[problemDetail]>){
             li += `
               <li>
                 <div>
-                ${(function(){
-                  if(category.hasMachines){
-                    return `
-                      <button class="main-button"
-                        onclick="toggle('${category.name}-${mn}-show')"
-                        >${category.name} ${mn}</button>
-                    `
-                  }
-                  return ''
-                })()}
+                ${addMachineHeaderButton(category,mn)}
                   <div class="top-bottom-border ${category.hasMachines?'ghost':''}" id="${category.name}-${mn}-show">
                     <div id="${category.name}-${mn}-btns-container">
                       <button class="mini-button"
@@ -174,6 +188,19 @@ function categoryModule(category: category, mnpd : Map<string,[problemDetail]>){
   `
 }
 
+function addModuleHeader(category: category, content :Map<string,[problemDetail]>){
+  return `
+    <li>
+      <div>
+        <button onclick="toggle('${category.name}-category-id')" class="issub">
+          ${category.name} PROBLEMS
+        </button>
+        ${categoryModule(category,content)}
+      </div>
+    </li>
+  `
+}
+
 function problemsListModule(problems : problemsMap){
   return `
     <ul>
@@ -181,41 +208,40 @@ function problemsListModule(problems : problemsMap){
         let lis = ""
         //mnpdm => machine number to list of problem details map
         for(const [category,mnpdm] of problems){
-          const mnpd  = new Map(Object.entries(mnpdm)) as Map<string,[problemDetail]>
+          const mnpd  = new Map(Object.entries(mnpdm))
           if(category.name){
-            lis += `
-              <li>
-                <div >
-                  <button onclick="toggle('${category.name}-category-id')" class="issub">
-                    ${category.name} PROBLEMS
-                  </button>
-                  ${categoryModule(category,mnpd)}
-                </div>
-              </li>
-            `
+            lis += addModuleHeader(category,mnpd)
           }
         }
         return lis
       })()}
     </ul>
     `
-
+}
+async function fetchCategoriesMachineNumbersMap() {
+  try{
+    return new Map(Object.entries
+        (await fetch("/fetch/report/categories/numbers/problems/mapping")
+        .then(res => res.json())))
+  } catch(err){
+    console.log(err)
+    return new Map()
+  }
+}
+async function parseKeyOfcategoriesMachineNumbersMap() {
+  try{
+    const result = new Map()
+    const stringMap = await fetchCategoriesMachineNumbersMap()
+    stringMap.forEach((v,k) => result.set(JSON.parse(k),v))
+    return result
+  } catch(err){
+    console.log(err)
+    return new Map()
+  }
 }
 async function addProblemsList(){
   try{
-    const problems :problemsMap = await (async function() {
-      try{
-        const result = new Map()
-        const stringMap = new Map(Object
-        .entries(await fetch("/fetch/report/categories/numbers/problems/mapping")
-        .then(res => res.json())))
-        stringMap.forEach((v,k) => result.set(JSON.parse(k),v))
-        return result
-      } catch(err){
-        console.log(err)
-        return new Map()
-      }
-    })()
+    const problems :problemsMap = await parseKeyOfcategoriesMachineNumbersMap()
     document.getElementById("problems-section")!.innerHTML += problemsListModule(problems)
   } catch(err){
     console.log(err)
