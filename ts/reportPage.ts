@@ -80,18 +80,18 @@ type problemDetail = {
 type problemsMap = Map<category,Map<number,[problemDetail]>>
 
 class Problem{
-  public async addProblemsList(){
+  public async addList(){
     try{
-      const problems = await this.parseKeyOfcategoriesMachineNumbersMap()
+      const problems = await this.#parseKeyOfcategoriesMachineNumbersMap()
       if(problems){
-        document.getElementById("problems-section")!.innerHTML += this.problemsListModule(problems)
+        document.getElementById("problems-section")!.innerHTML += this.#problemsListModule(problems)
       }
     } catch(err){
       console.log(err)
     }
   }
 
-  private async fetchCategoriesMachineNumbersMap():Promise<Map<string,string>| undefined> {
+  async #fetchCategoriesMachineNumbersMap():Promise<Map<string,string>| undefined> {
     try{
       return new Map(Object.entries
           (await fetch("/fetch/report/categories/numbers/problems/mapping")
@@ -101,10 +101,10 @@ class Problem{
     }
   }
 
-  private async parseKeyOfcategoriesMachineNumbersMap() {
+   async #parseKeyOfcategoriesMachineNumbersMap() {
     try{
       const result : problemsMap = new Map()
-      const stringMap = await this.fetchCategoriesMachineNumbersMap()
+      const stringMap = await this.#fetchCategoriesMachineNumbersMap()
       if(stringMap){
         stringMap.forEach((v,k) => result.set(JSON.parse(k),JSON.parse(v)))
       }
@@ -113,7 +113,7 @@ class Problem{
       console.log(err)
     }
   }
- private  problemsListModule(problems : problemsMap){
+  #problemsListModule(problems : problemsMap){
     return `
       <ul>
         ${(() =>{
@@ -121,26 +121,26 @@ class Problem{
           //mnpdm => machine number to list of problem details map
           for(const [category,mnpdm] of problems){
             const mnpd  = new Map(Object.entries(mnpdm))
-            lis += this.addModuleHeader(category,mnpd)
+            lis += this.#addModuleHeader(category,mnpd)
           }
           return lis
         })()}
       </ul>
       `
   }
-  private addModuleHeader(category: category, content :Map<string,[problemDetail]>) :string{
+  #addModuleHeader(category: category, content :Map<string,[problemDetail]>) :string{
     return `
       <li>
         <div>
           <button onclick="toggle('${category.name}-category-id')" class="issub">
             ${category.name} PROBLEMS
           </button>
-          ${this.categoryModule(category,content)}
+          ${this.#categoryModule(category,content)}
         </div>
       </li>
     `
   }
-  private categoryModule(category: category, mnpd : Map<string,[problemDetail]>){
+  #categoryModule(category: category, mnpd : Map<string,[problemDetail]>){
     return `
       <div class="ghost top-bottom-border" id="${category.name}-category-id">
         <ul>
@@ -150,7 +150,7 @@ class Problem{
               li += `
                 <li>
                   <div>
-                  ${this.addMachineHeaderButton(category,mn)}
+                  ${this.#addMachineHeaderButton(category,mn)}
                     <div class="top-bottom-border ${category.hasMachines?'ghost':''}" id="${category.name}-${mn}-show">
                       <div id="${category.name}-${mn}-btns-container">
                         <button class="mini-button"
@@ -161,7 +161,7 @@ class Problem{
                           class="mini-button"
                         >-</button>
                       </div>
-                      ${this.problemDetailsTable(category.name,mn,pds)}
+                      ${this.#problemDetailsTable(category.name,mn,pds)}
                     </div>
                   </div>
                 </li>
@@ -173,7 +173,7 @@ class Problem{
       </div>
     `
   }
-  private addMachineHeaderButton(category: category, number: string){
+  #addMachineHeaderButton(category: category, number: string){
     if(category.hasMachines){
       return `
         <button class="main-button"
@@ -183,7 +183,7 @@ class Problem{
     }
     return ''
   }
-  private problemDetailsTable(category:string,mn :string,pds : [problemDetail]){
+  #problemDetailsTable(category:string,mn :string,pds : [problemDetail]){
     return `
       <table>
         <thead>
@@ -210,48 +210,166 @@ class Problem{
   }
 }
 
+class Flow {
+  public async addList(){
+    try{
+      const flows :flow[] = await fetch("/fetch/report/current/flow")
+                .then(res => res.json())
+      document.getElementById("flow-section")!.innerHTML += this.#flowListModule(flows)
+      addDeleteFlowRecord()
+    } catch(err){
+      console.log(err)
+    }
+  }
+
+  #flowListModule(flows : flow[]){
+    return `
+          <table>
+            <thead>
+              <tr>
+                <th>-</th>
+                <th>Suspended machines</th>
+                <th>Max total flow</th>
+                <th>Min total flow</th>
+                <th>Start time</th>
+                <th>End time</th>
+              </tr>
+            </thead>
+            <tbody id="flow-records-list">
+            ${(() =>{
+              let lis = ""
+              for(const flow of flows){
+                    lis += flowMemberModule(flow)
+              }
+            return lis
+            })()}
+            </tbody>
+          </table>
+      `
+  }
+}
+
+class Temp{
+  public async addList(){
+    try{
+      const temps :[temp] = await fetch("/fetch/report/current/temps")
+                .then(res => res.json())
+      document.getElementById("temp-section")!.innerHTML += this.#tempListModule(temps)
+    } catch(err){
+      console.log(err)
+    }
+  }
+
+  #tempListModule(temps:[temp]){
+    return `
+            <ul id="temps-records-list">
+            ${(function(){
+              let lis = ""
+              for(const temp of temps){
+                lis += temperatureModule(temp)
+              }
+            return lis
+            })()}
+          </ul>
+      `
+  }
+}
+
+class Note{
+  public async addList(){
+    try{
+      const notes :note[] = await fetch("/fetch/report/current/notes")
+                .then(res => res.json())
+      document.getElementById("note-section")!.innerHTML += this.#noteListModule(notes)
+    } catch(err){
+      console.log(err)
+    }
+  }
+
+  #noteListModule(notes: note[]){
+    return "<ul id='notes-records-list'>"
+            +(function(){
+              let lis = ""
+              for(const note of notes){
+                lis += noteModule(note)
+              }
+            return lis
+            })()
+          +"</ul>"
+  }
+}
+
+class Emp{
+  public async addList(){
+    try{
+      const empsNames :[empName] = await fetch("/fetch/report/current/emps/names")
+        .then(res => res.json())
+      document.getElementById("employee-section")!
+        .innerHTML += this.#employeeListModule(empsNames)
+    } catch(err){
+      console.log(err)
+    }
+  }
+
+  #employeeListModule(empsNames: [empName]){
+    return `
+          <ul id="emps-records-list">
+            ${(function(){
+              let lis  = ""
+              for(const emp of empsNames){
+                lis += employeeModule(emp)
+              }
+            return lis
+            })()}
+          </ul>
+      `
+  }
+}
+
+class Shift{
+  public async add(){
+    try{
+      document.getElementById("shift-id-section")!.innerHTML = await this.#getModule()
+    } catch(err){
+      console.log(err)
+    }
+  }
+
+  async #getModule(){
+    try{
+      const shiftId :ShiftId = await this.#fetch()
+      return `
+        <p class="short-important-p">
+          Shift: ${shiftId.shift}
+          &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+          Date: ${shiftId.date}
+        </p>
+      `
+    } catch(err){
+      console.log(err)
+      return ""
+    }
+  }
+
+  async #fetch() {
+    try{
+      return fetch("/fetch/report/current/shift/id")
+        .then(res => res.json())
+    } catch(err){
+      console.log(err)
+    }
+  }
+}
+
 function main(){
-  addShiftIdentity()
-  new Problem().addProblemsList()
-  addFlowsList()
-  addTemperaturesList()
-  addNotesList()
-  addEmployeesList()
+  new Shift().add()
+  new Problem().addList()
+  new Flow().addList()
+  new Temp().addList()
+  new Note().addList()
+  new Emp().addList()
 }
 main()
-
-async function fetchCurrentShiftId() {
-  try{
-    return fetch("/fetch/report/current/shift/id")
-      .then(res => res.json())
-  } catch(err){
-    console.log(err)
-  }
-}
-
-async function getShiftIdModule(){
-  try{
-    const shiftId :ShiftId = await fetchCurrentShiftId()
-    return `
-      <p class="short-important-p">
-        Shift: ${shiftId.shift}
-        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-        Date: ${shiftId.date}
-      </p>
-    `
-  } catch(err){
-    console.log(err)
-    return ""
-  }
-}
-async function addShiftIdentity(){
-  try{
-    document.getElementById("shift-id-section")!.innerHTML = await getShiftIdModule()
-  } catch(err){
-    console.log(err)
-  }
-}
-
 
 async function problemsOptions (){
   try{
@@ -524,6 +642,54 @@ function toggle(id :string) {
   }
 }
 
+function flowMachineModule(flowId:string,machine: machine){
+    return `
+      <li id="${machine.id}-machine">
+        <button
+          onclick="removeFlowMachine('${flowId}','${machine.id}')"
+          class="mini-button"
+        >-</button>${machine.category.name}${machine.number?'-'+machine.number:''}
+      </li>
+    `
+  }
+
+function flowMemberModule(flow: flow){
+  return `
+      <tr id="${flow.id}-record">
+        <td>
+          {
+          <button
+              id="${flow.id}-btn"
+              onclick="removeFlow('${flow.id}')"
+              type="submit"
+              class="mini-button"
+              style="width: 100%"
+          >-</button>
+          }
+        </td>
+        <td>
+          <ul id="${flow.id}-machines">
+            ${(()=>{
+              let result = ""
+              flow.suspendedMachines.forEach(m =>{
+                result += flowMachineModule(flow.id,m)
+              })
+              return result
+            })()}
+            <li><button
+              onclick="listMachines('${flow.id}')"
+              class="mini-button"
+            >+</button></li>
+          </ul>
+        </td>
+        <td>${flow.maxFlow}</td>
+        <td>${flow.minFlow}</td>
+        <td>${flow.caseBeginTime}</td>
+        <td id="${flow.id}-end" name="flow-end-time">${flow.caseEndTime}</td>
+      </tr>
+    `
+  }
+
 async function removeFlowMachine(flowId: string,machineId : string) {
   try{
     const formData = new FormData()
@@ -538,17 +704,6 @@ async function removeFlowMachine(flowId: string,machineId : string) {
   } catch(err){
     console.log()
   }
-}
-
-function flowMachineModule(flowId:string,machine: machine){
-  return `
-    <li id="${machine.id}-machine">
-      <button
-        onclick="removeFlowMachine('${flowId}','${machine.id}')"
-        class="mini-button"
-      >-</button>${machine.category.name}${machine.number?'-'+machine.number:''}
-    </li>
-  `
 }
 
 async function addFlowMachines(flowId : string){
@@ -577,43 +732,6 @@ async function addFlowMachines(flowId : string){
   } catch (err){
     console.log(err)
   }
-}
-
-function flowMemberModule(flow: flow){
- return `
-    <tr id="${flow.id}-record">
-      <td>
-        {
-        <button
-            id="${flow.id}-btn"
-            onclick="removeFlow('${flow.id}')"
-            type="submit"
-            class="mini-button"
-            style="width: 100%"
-        >-</button>
-        }
-      </td>
-      <td>
-        <ul id="${flow.id}-machines">
-          ${(function(){
-            let result = ""
-            flow.suspendedMachines.forEach(m =>{
-              result += flowMachineModule(flow.id,m)
-            })
-            return result
-          })()}
-          <li><button
-            onclick="listMachines('${flow.id}')"
-            class="mini-button"
-          >+</button></li>
-        </ul>
-      </td>
-      <td>${flow.maxFlow}</td>
-      <td>${flow.minFlow}</td>
-      <td>${flow.caseBeginTime}</td>
-      <td id="${flow.id}-end" name="flow-end-time">${flow.caseEndTime}</td>
-    </tr>
-  `
 }
 
 function flowListNewMember(flow: flow){
@@ -657,43 +775,6 @@ async function saveFlowRequest(){
     .then(res => res.json());
     restoreContent("flow-section")
     flowListNewMember(tf)
-    addDeleteFlowRecord()
-  } catch(err){
-    console.log(err)
-  }
-}
-
-
-function flowListModule(flows : flow[]){
-  return `
-        <table>
-          <thead>
-            <tr>
-              <th>-</th>
-              <th>Suspended machines</th>
-              <th>Max total flow</th>
-              <th>Min total flow</th>
-              <th>Start time</th>
-              <th>End time</th>
-            </tr>
-          </thead>
-          <tbody id="flow-records-list">
-          ${(function(){
-            let lis = ""
-            for(const flow of flows){
-                  lis += flowMemberModule(flow)
-            }
-          return lis
-          })()}
-          </tbody>
-        </table>
-    `
-}
-async function addFlowsList(){
-  try{
-    const flows :flow[] = await fetch("/fetch/report/current/flow")
-              .then(res => res.json())
-    document.getElementById("flow-section")!.innerHTML += flowListModule(flows)
     addDeleteFlowRecord()
   } catch(err){
     console.log(err)
@@ -912,29 +993,6 @@ function noteModule(note : note){
   `
 }
 
-function noteListModule(notes: note[]){
-  return `
-          <ul id="notes-records-list">
-          ${(function(){
-            let lis = ""
-            for(const note of notes){
-              lis += noteModule(note)
-            }
-          return lis
-          })()}
-				</ul>
-    `
-}
-async function addNotesList(){
-  try{
-    const notes :note[] = await fetch("/fetch/report/current/notes")
-              .then(res => res.json())
-    document.getElementById("note-section")!.innerHTML += noteListModule(notes)
-  } catch(err){
-    console.log(err)
-  }
-}
-
 async function removeTemp(machineId : string){
   try{
     const formData = new FormData()
@@ -1041,31 +1099,6 @@ async function replaceTempForm(){
     console.log(err)
   }
 }
-
-function tempListModule(temps:[temp]){
-  return `
-          <ul id="temps-records-list">
-          ${(function(){
-            let lis = ""
-            for(const temp of temps){
-              lis += temperatureModule(temp)
-            }
-          return lis
-          })()}
-				</ul>
-    `
-
-}
-async function addTemperaturesList(){
-  try{
-    const temps :[temp] = await fetch("/fetch/report/current/temps")
-              .then(res => res.json())
-    document.getElementById("temp-section")!.innerHTML += tempListModule(temps)
-  } catch(err){
-    console.log(err)
-  }
-}
-
 function temperatureModule(temp :temp){
   return `
     <li id="${temp.machine.id}">
@@ -1173,30 +1206,6 @@ async function listEmployees(){
     nativeContentMap.set("employee-section",target!.innerHTML)
     target!.innerHTML = employeeFormModule(usernames)
   } catch (err){
-    console.log(err)
-  }
-}
-
-function employeeListModule(empsNames: [empName]){
-  return `
-				<ul id="emps-records-list">
-          ${(function(){
-            let lis  = ""
-            for(const emp of empsNames){
-              lis += employeeModule(emp)
-            }
-          return lis
-          })()}
-				</ul>
-    `
-}
-async function addEmployeesList(){
-  try{
-    const empsNames :[empName] = await fetch("/fetch/report/current/emps/names")
-      .then(res => res.json())
-    document.getElementById("employee-section")!
-      .innerHTML += employeeListModule(empsNames)
-  } catch(err){
     console.log(err)
   }
 }
