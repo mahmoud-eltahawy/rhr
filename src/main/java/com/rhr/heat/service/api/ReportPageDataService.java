@@ -255,13 +255,13 @@ public class ReportPageDataService {
 	//operations end
 
 	//fetch data begin
-    public Map<String, Map<Integer, List<ProblemDetail>>> categoryNumberProblemMaping(){
-        return dealer.getCategoryMachines(problemDetailsRepo
+    public Map<String, String> categoryNumberProblemMaping(){
+        return dealer.getStringifiedCategoryMachines(problemDetailsRepo
             .findByShiftId(component.getCurrentShift().getId()));
     }
 
-    public Map<String, List<Integer>> standardCategoriesNumbers(){
-        return dealer.getStandardCategoryNums();
+    public Map<String, String> standardCategoriesNumbers(){
+        return dealer.getStringifiedStandardCategoryNums();
     }
 
     public List<String> getAllUserNames(){

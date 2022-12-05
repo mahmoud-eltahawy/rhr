@@ -52,15 +52,14 @@ public class ReportPageDataController {
   public List<Temperature> allTemps(){
     return service.currentShiftTemperatures();
   }
-
+  // Map<Category, Map<machine number, List<Problem Details>>>
   @GetMapping("/categories/numbers/problems/mapping")
-  public Map<String, Map<Integer,
-        List<ProblemDetail>>> categoiesNumbersProblems(){
+  public Map<String, String> categoiesNumbersProblems(){
     return	service.categoryNumberProblemMaping();
   }
-
+  // Map<category,number[]>
   @GetMapping("/standard/categories/numbers/mapping")
-  public Map<String, List<Integer>> standardCategoriesNumbers(){
+  public Map<String, String> standardCategoriesNumbers(){
     return	service.standardCategoriesNumbers();
   }
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.google.gson.Gson;
 import com.rhr.heat.dao.CategoryRepo;
 import com.rhr.heat.dao.MachineRepo;
+import com.rhr.heat.entity.Category;
 import com.rhr.heat.entity.ProblemDetail;
 
 import lombok.RequiredArgsConstructor;
@@ -39,12 +40,11 @@ public class Dealer {
 		return mp;
 	}
 	
-	public Map<String, List<ProblemDetail>> getCategoryProblems(List<ProblemDetail> allDetails){
-		Map<String, List<ProblemDetail>> mp = new HashMap<>();
+	public Map<Category, List<ProblemDetail>> getCategoryProblems(List<ProblemDetail> allDetails){
+		Map<Category, List<ProblemDetail>> mp = new HashMap<>();
 		if(allDetails != null) {
-			Gson gson = new Gson();
 			for (ProblemDetail pd : allDetails) {
-				String cat = gson.toJson(pd.getMachine().getCategory());
+				Category cat = pd.getMachine().getCategory();
 				if(mp.get(cat) == null) {
 					List<ProblemDetail> pds = new ArrayList<>();
 					pds.add(pd);
@@ -59,25 +59,35 @@ public class Dealer {
 		return mp;
 	}
 	
-	public Map<String,List<Integer>> getStandardCategoryNums(){
-		Map<String,List<Integer>> result = new HashMap<>();
+	public Map<Category,List<Integer>> getStandardCategoryNums(){
+		Map<Category,List<Integer>> result = new HashMap<>();
 		categoryRepo.findAll().forEach(c -> {
-			result.put(new Gson().toJson(c), machineRepo.findCatagoryAllNums(c.getName()));
+			result.put(c, machineRepo.findCatagoryAllNums(c.getName()));
+		});
+		return result;
+	}
+
+	public Map<String,String> getStringifiedStandardCategoryNums(){
+		Gson gson = new Gson();
+		Map<String,String> result = new HashMap<>();
+		categoryRepo.findAll().forEach(c -> {
+			result.put(gson.toJson(c),
+			 gson.toJson(machineRepo.findCatagoryAllNums(c.getName())));
 		});
 		return result;
 	}
 	
-	public Map<String, Map<Integer, List<ProblemDetail>>>
+	public Map<Category, Map<Integer, List<ProblemDetail>>>
 		getCategoryMachines(List<ProblemDetail> allDetails){
 		
-		Map<String, Map<Integer, List<ProblemDetail>>> result = new HashMap<>();
-		Map<String, List<ProblemDetail>> cp = getCategoryProblems(allDetails);
+		Map<Category, Map<Integer, List<ProblemDetail>>> result = new HashMap<>();
+		Map<Category, List<ProblemDetail>> cp = getCategoryProblems(allDetails);
 		
-		for (String cat : cp.keySet()) {
-			result.put(new Gson().toJson(cat), getMachinesProblems(cp.get(cat)));
+		for (Category cat : cp.keySet()) {
+			result.put(cat, getMachinesProblems(cp.get(cat)));
 		}
 		
-		Map<String,List<Integer>> standard = getStandardCategoryNums();
+		Map<Category,List<Integer>> standard = getStandardCategoryNums();
 
 		standard.keySet().forEach(category ->{
 			if(result.get(category) == null) {
@@ -95,5 +105,41 @@ public class Dealer {
 			}
 		});
 		return result;
+	}
+	
+	public Map<String, String>
+		getStringifiedCategoryMachines(List<ProblemDetail> allDetails){
+		
+		Map<Category, Map<Integer, List<ProblemDetail>>> result = new HashMap<>();
+		Map<Category, List<ProblemDetail>> cp = getCategoryProblems(allDetails);
+		
+		for (Category cat : cp.keySet()) {
+			result.put(cat, getMachinesProblems(cp.get(cat)));
+		}
+		
+		Map<Category,List<Integer>> standard = getStandardCategoryNums();
+
+		standard.keySet().forEach(category ->{
+			if(result.get(category) == null) {
+				Map<Integer, List<ProblemDetail>> v = new HashMap<>(); 
+				standard.get(category).forEach(i -> {
+					v.put(i, null);
+				});
+				result.put(category, v);
+			} else {
+				standard.get(category).forEach(num->{
+					if(result.get(category).get(num) ==null) {
+						result.get(category).put(num, null);
+					};
+				});	
+			}
+		});
+		// Map<Category, Map<Integer, List<ProblemDetail>>> result = new HashMap<>();
+		Map<String,String> finalResult = new HashMap<>();
+		Gson gson = new Gson();
+		result.forEach((k, v) ->{
+			finalResult.put(gson.toJson(k), gson.toJson(v));
+		});
+		return finalResult;
 	}
 }

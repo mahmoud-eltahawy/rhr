@@ -1,10 +1,10 @@
 const categoryMap :Promise<Map<category,number[]>> =(async function() {
   try{
     const result: Map<category,number[]>= new Map()
-    const stringMap :Map<string,number[]> = new Map(Object.entries(
+    const stringMap :Map<string,string> = new Map(Object.entries(
       await fetch("/fetch/report/standard/categories/numbers/mapping")
       .then(res => res.json())))
-    stringMap.forEach((v,k) => result.set(JSON.parse(k),v))
+    stringMap.forEach((v,k) => result.set(JSON.parse(k),JSON.parse(v)))
     return result
   }catch(err){
     console.log(err)
@@ -89,9 +89,13 @@ function main(){
 }
 main()
 
-function fetchCurrentShiftId() {
-  return fetch("/fetch/report/current/shift/id")
-    .then(res => res.json())
+async function fetchCurrentShiftId() {
+  try{
+    return fetch("/fetch/report/current/shift/id")
+      .then(res => res.json())
+  } catch(err){
+
+  }
 }
 
 async function getShiftIdModule(){
@@ -218,7 +222,7 @@ function problemsListModule(problems : problemsMap){
     </ul>
     `
 }
-async function fetchCategoriesMachineNumbersMap() {
+async function fetchCategoriesMachineNumbersMap():Promise<Map<string,string>| null> {
   try{
     return new Map(Object.entries
         (await fetch("/fetch/report/categories/numbers/problems/mapping")
@@ -230,9 +234,12 @@ async function fetchCategoriesMachineNumbersMap() {
 }
 async function parseKeyOfcategoriesMachineNumbersMap() {
   try{
-    const result = new Map()
+    const result : problemsMap = new Map()
     const stringMap = await fetchCategoriesMachineNumbersMap()
-    stringMap.forEach((v,k) => result.set(JSON.parse(k),v))
+    if(stringMap){
+      stringMap.forEach((v,k) => result.set(JSON.parse(k),JSON.parse(v)))
+    }
+    console.log(result)
     return result
   } catch(err){
     console.log(err)

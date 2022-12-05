@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.rhr.heat.entity.Category;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.topLayer.Shift;
 
@@ -18,7 +19,7 @@ public class SearchControllerDealer {
 	private final Dealer service;
 
 	public ModelAndView completeShift(ModelAndView mv,Shift shift) {
-		Map<String, Map<Integer, List<ProblemDetail>>>	cats =
+		Map<Category, Map<Integer, List<ProblemDetail>>>	cats =
 				service.getCategoryMachines(shift.getProblems());
 		mv.addObject("theId",shift.getShiftId());
 		if(!cats.isEmpty()) {
