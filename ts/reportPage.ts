@@ -79,9 +79,140 @@ type problemDetail = {
 }
 type problemsMap = Map<category,Map<number,[problemDetail]>>
 
+class Problem{
+  public async addProblemsList(){
+    try{
+      const problems = await this.parseKeyOfcategoriesMachineNumbersMap()
+      if(problems){
+        document.getElementById("problems-section")!.innerHTML += this.problemsListModule(problems)
+      }
+    } catch(err){
+      console.log(err)
+    }
+  }
+
+  private async fetchCategoriesMachineNumbersMap():Promise<Map<string,string>| undefined> {
+    try{
+      return new Map(Object.entries
+          (await fetch("/fetch/report/categories/numbers/problems/mapping")
+          .then(res => res.json())))
+    } catch(err){
+      console.log(err)
+    }
+  }
+
+  private async parseKeyOfcategoriesMachineNumbersMap() {
+    try{
+      const result : problemsMap = new Map()
+      const stringMap = await this.fetchCategoriesMachineNumbersMap()
+      if(stringMap){
+        stringMap.forEach((v,k) => result.set(JSON.parse(k),JSON.parse(v)))
+      }
+      return result
+    } catch(err){
+      console.log(err)
+    }
+  }
+ private  problemsListModule(problems : problemsMap){
+    return `
+      <ul>
+        ${(() =>{
+          let lis = ""
+          //mnpdm => machine number to list of problem details map
+          for(const [category,mnpdm] of problems){
+            const mnpd  = new Map(Object.entries(mnpdm))
+            lis += this.addModuleHeader(category,mnpd)
+          }
+          return lis
+        })()}
+      </ul>
+      `
+  }
+  private addModuleHeader(category: category, content :Map<string,[problemDetail]>) :string{
+    return `
+      <li>
+        <div>
+          <button onclick="toggle('${category.name}-category-id')" class="issub">
+            ${category.name} PROBLEMS
+          </button>
+          ${this.categoryModule(category,content)}
+        </div>
+      </li>
+    `
+  }
+  private categoryModule(category: category, mnpd : Map<string,[problemDetail]>){
+    return `
+      <div class="ghost top-bottom-border" id="${category.name}-category-id">
+        <ul>
+          ${(()=>{
+            let li = ""
+            for(const [mn,pds] of mnpd){
+              li += `
+                <li>
+                  <div>
+                  ${this.addMachineHeaderButton(category,mn)}
+                    <div class="top-bottom-border ${category.hasMachines?'ghost':''}" id="${category.name}-${mn}-show">
+                      <div id="${category.name}-${mn}-btns-container">
+                        <button class="mini-button"
+                          onclick="replaceForm('${category.name}','${mn}','${category.name}-${mn}-show')"
+                        >+</button>
+                        <button
+                          onclick="deleteCategoryProblems('${category.name}','${mn}','${category.name}-${mn}-problems-list')"
+                          class="mini-button"
+                        >-</button>
+                      </div>
+                      ${this.problemDetailsTable(category.name,mn,pds)}
+                    </div>
+                  </div>
+                </li>
+              `
+            }
+            return li
+          })()}
+        </ul>
+      </div>
+    `
+  }
+  private addMachineHeaderButton(category: category, number: string){
+    if(category.hasMachines){
+      return `
+        <button class="main-button"
+          onclick="toggle('${category.name}-${number}-show')"
+          >${category.name} ${number}</button>
+      `
+    }
+    return ''
+  }
+  private problemDetailsTable(category:string,mn :string,pds : [problemDetail]){
+    return `
+      <table>
+        <thead>
+          <tr>
+            <th class="mini-button">-</th>
+            <th>begin at</th>
+            <th>ended at</th>
+            <th>problems</th>
+          </tr>
+        </thead>
+        <tbody id="${category}-${mn}-problems-list">
+          ${(function(){
+            let trs = ""
+            if(pds){
+              for (const pd of pds){
+                trs += problemDetailModule(pd)
+                }
+            }
+            return trs;
+          })()}
+        </tbody>
+      </table>
+    `
+  }
+}
+
 function main(){
   addShiftIdentity()
-  addProblemsList()
+  new Problem().addProblemsList()
   addFlowsList()
   addTemperaturesList()
   addNotesList()
@@ -121,136 +252,6 @@ async function addShiftIdentity(){
   }
 }
 
-function problemDetailsTable(category:string,mn :string,pds : [problemDetail]){
-  return `
-    <table>
-      <thead>
-        <tr>
-          <th class="mini-button">-</th>
-          <th>begin at</th>
-          <th>ended at</th>
-          <th>problems</th>
-        </tr>
-      </thead>
-      <tbody id="${category}-${mn}-problems-list">
-        ${(function(){
-          let trs = ""
-          if(pds){
-            for (const pd of pds){
-              trs += problemDetailModule(pd)
-              }
-          }
-          return trs;
-        })()}
-      </tbody>
-    </table>
-  `
-}
-
-function addMachineHeaderButton(category: category, number: string){
-  if(category.hasMachines){
-    return `
-      <button class="main-button"
-        onclick="toggle('${category.name}-${number}-show')"
-        >${category.name} ${number}</button>
-    `
-  }
-  return ''
-}
-
-function categoryModule(category: category, mnpd : Map<string,[problemDetail]>){
-  return `
-    <div class="ghost top-bottom-border" id="${category.name}-category-id">
-      <ul>
-        ${(function(){
-          let li = ""
-          for(const [mn,pds] of mnpd){
-            li += `
-              <li>
-                <div>
-                ${addMachineHeaderButton(category,mn)}
-                  <div class="top-bottom-border ${category.hasMachines?'ghost':''}" id="${category.name}-${mn}-show">
-                    <div id="${category.name}-${mn}-btns-container">
-                      <button class="mini-button"
-                        onclick="replaceForm('${category.name}','${mn}','${category.name}-${mn}-show')"
-                      >+</button>
-                      <button
-                        onclick="deleteCategoryProblems('${category.name}','${mn}','${category.name}-${mn}-problems-list')"
-                        class="mini-button"
-                      >-</button>
-                    </div>
-                    ${problemDetailsTable(category.name,mn,pds)}
-                  </div>
-                </div>
-              </li>
-            `
-          }
-          return li
-        })()}
-      </ul>
-    </div>
-  `
-}
-
-function addModuleHeader(category: category, content :Map<string,[problemDetail]>){
-  return `
-    <li>
-      <div>
-        <button onclick="toggle('${category.name}-category-id')" class="issub">
-          ${category.name} PROBLEMS
-        </button>
-        ${categoryModule(category,content)}
-      </div>
-    </li>
-  `
-}
-
-function problemsListModule(problems : problemsMap){
-  return `
-    <ul>
-      ${(function(){
-        let lis = ""
-        //mnpdm => machine number to list of problem details map
-        for(const [category,mnpdm] of problems){
-          const mnpd  = new Map(Object.entries(mnpdm))
-          lis += addModuleHeader(category,mnpd)
-        }
-        return lis
-      })()}
-    </ul>
-    `
-}
-async function fetchCategoriesMachineNumbersMap():Promise<Map<string,string>| undefined> {
-  try{
-    return new Map(Object.entries
-        (await fetch("/fetch/report/categories/numbers/problems/mapping")
-        .then(res => res.json())))
-  } catch(err){
-    console.log(err)
-  }
-}
-async function parseKeyOfcategoriesMachineNumbersMap() {
-  try{
-    const result : problemsMap = new Map()
-    const stringMap = await fetchCategoriesMachineNumbersMap()
-    if(stringMap){
-      stringMap.forEach((v,k) => result.set(JSON.parse(k),JSON.parse(v)))
-    }
-    return result
-  } catch(err){
-    console.log(err)
-  }
-}
-async function addProblemsList(){
-  try{
-    const problems = await parseKeyOfcategoriesMachineNumbersMap()
-    if(problems){
-      document.getElementById("problems-section")!.innerHTML += problemsListModule(problems)
-    }
-  } catch(err){
-    console.log(err)
-  }
-}
 
 async function problemsOptions (){
   try{
