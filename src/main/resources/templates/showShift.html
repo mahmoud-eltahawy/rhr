@@ -1,161 +1,56 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 	<head>
 		<meta charset="UTF-8">
 		<title>shift show</title>
-		<link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
-		<link rel="stylesheet" href="../static/css/showShift.css" th:href="@{/css/showShift.css}">
-		<script type="text/javascript" src="../static/js/showShift.js" th:src="@{/js/showShift.js}" async></script>
+		<link rel="stylesheet" href="/css/basicStyle.css">
+		<link rel="stylesheet" href="/css/showShift.css">
+		<link rel="stylesheet" href="/css/reportPage.css">
+		<script type="text/javascript" src="/js/showShift.js" async></script>
 	</head>
 	<body>
-		<p th:object="${theId}" class="short-important-p">Shift: <span th:text="*{shift}">order</span>
-		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-		Date: <span th:text="*{date}">the date</span></p><br>
-		<p th:if="${cats}==null" class="short-important-p">there is no problems through the whole shift</p>
-		<div th:unless="${cats}==null">
-			<h1><button class="notsub"  id="problems-section-btn">PROBLEMS SECTION</button></h1><br>
-			<div class="ghost top-bottom-border" id="problems-section">
-				<ul th:each="cat : ${cats}">
-					<li>
-						<p th:if="${cat.value}==null" class="short-important-p">
-							<span th:text="${cat.key}">CATEGORY</span>
-							<span>has no problems</span>
-						</p>
-						<div th:unless="${cat.value}==null">
-							<h2>
-								<button id="category-btn" th:id="${cat.key}+'-btn'" class="issub">
-									<span th:text="${cat.key}">CATEGORY</span>
-									<span>PROBLEMS</span>
-								</button>
-							</h2>
-							<div class="ghost top-bottom-border" id="category" th:id="${cat.key}">
-								<ul th:each="mapin : ${cat.value}">
-									<li>
-										<p th:if="${mapin.value}==null" class="short-important-p">
-											<span th:text="${cat.key}">CATEGORY</span>
-											<span th:text="${mapin.key}">NUMBER</span>
-											<span>has no problems</span>
-										</p>
-										<div th:unless="${mapin.value}==null">
-											<h3 th:unless="${mapin.key}==0">
-												<button id="category-number-btn" th:id="${cat.key}+'-'+${mapin.key}+'-btn'" class="issubsub">
-													<span th:text="${cat.key}">CATEGORY</span>
-													<span th:text="${mapin.key}">NUMBER</span>
-												</button>
-											</h3><br>
-											<div class="top-bottom-border" th:classappend="${mapin.key}!=0 ? 'ghost'" id="category-number" th:id="${cat.key}+'-'+${mapin.key}">
-												<table>
-													<thead>
-														<tr>
-															<th>begin at</th>
-															<th>ended at</th>
-															<th>problems</th>
-														</tr>
-													</thead>
-													<tbody>
-														<tr th:each="pd : ${mapin.value}">
-															<td th:text="${pd.beginTime}">
-																problem begin time
-															</td>
-															<td th:text="${pd.endTime}">
-																problem end time
-															</td>
-															<td>
-																<ol type="1">
-																	<li th:each="p : ${pd.problems}">
-																		<span th:text="${p.title}">problem</span>
-																	</li>
-																</ol>
-															</td>
-														</tr>
-													</tbody>
-												</table>
-											</div>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</li>
-				</ul>
-			</div>
-		</div><br>
-		<p th:if="${flow} == null AND ${temps} == null AND ${notes} == null"
-		   class="short-important-p">there is no records</p>
+		<div id="shift-id-section">
+		<!-- the content will be created by javascript -->
+		</div>
 		<div>
-			<h1><button class="notsub" id="records-section-btn">RECORDS SECTION</button></h1><br>
+			<button class="notsub"  onclick="toggles('problems-section')">PROBLEMS SECTION</button>
+			<div class="ghost top-bottom-border" id="problems-section">
+			<!-- the content will be created by javascript -->
+			</div>
+		</div>
+		<div>
+			<button class="notsub" onclick="toggles('records-section')">RECORDS SECTION</button>
 			<div class="ghost top-bottom-border" id="records-section">
-				<p th:if="${flow.isEmpty()}" class="short-important-p">there is no total flow records</p>
-				<div th:unless="${flow}==null">
-					<h2><button class="issub" id="flow-btn">Total Flow</button></h2>
-					<div class="ghost top-bottom-border" id="flow">
-						<table>
-							<thead>
-								<tr>
-									<th>Suspended machines</th>
-									<th>Max total flow</th>
-									<th>Min total flow</th>
-									<th>Start time</th>
-									<th>End time</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="t : ${flow}">
-									<td class="kilenData"><ul th:each="m : ${t.suspendedMachines}">
-										<li th:text="${m.category}+'-'+${m.number}">machine number</li>
-									</ul></td>
-									<td class="kilenData" th:text="${t.maxFlow}">Max flow</td>
-									<td class="kilenData" th:text="${t.minFlow}">Min flow</td>
-									<td class="kilenData" th:text="${t.caseBeginTime}">Start time</td>
-									<td class="kilenData" th:text="${t.caseEndTime}">End time</td>
-								</tr>
-							</tbody>
-						</table>
+				<div>
+					<button class="issub" onclick="toggles('flow-section')">
+						Total Flow records
+					</button>
+					<div class="ghost top-bottom-border" id="flow-section">
+					<!-- the content will be created by javascript -->
 					</div>
 				</div>
-				<br>
-				<p th:if="${temps}==null" class="short-important-p">there is no temperature records</p>
-				<div th:unless="${temps.isEmpty()}">
-					<h2><button class="issub" id="temp-btn">TEMPERATURE</button></h2>
-					<div class="ghost top-bottom-border" id="temp">
-						<ul th:each="temp :${temps}">
-							<p class="short-important-p">
-								MACHINE :
-								<span th:object="${temp.machine}">
-									<span th:text="*{category}">category</span>
-									<span th:unless="*{number}==0" th:text="*{number}">number</span>
-								</span>
-								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-								MAXIMUM : <span th:text="${temp.max}">max</span>
-								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-								MINIMUM : <span th:text="${temp.min}">min</span>
-							</p>
-						</ul>
+				<div>
+					<button class="issub" onclick="toggles('temp-section')"
+					>TEMPERATURE</button>
+					<div class="ghost top-bottom-border" id="temp-section">
+					<!-- the content will be created by javascript -->
 					</div>
 				</div>
-				<p th:if="${notes.isEmpty()}" class="short-important-p">there is no notes</p>
-				<div th:unless="${notes}==null">
-					<h2><button class="issub" id="note-btn">NOTE</button></h2>
-					<div class="ghost top-bottom-border" id="note">
-						<ul th:each="note :${notes}">
-							<p th:text="${note.note}" class="short-important-p">NOTE</p>
-						</ul>
+				<div>
+					<button class="issub" onclick="toggles('note-section')">NOTE</button>
+					<div class="ghost top-bottom-border" id="note-section">
+					<!-- the content will be created by javascript -->
 					</div>
 				</div>
 			</div>
 		</div>
-		<br>
-		<p th:if="${names.isEmpty()}" class="short-important-p">there is no employees</p>
-		<div th:unless="${names.isEmpty()}">
-			<h1><button class="notsub" id="emp-btn">EMPLOYEES SECTION</button></h1><br>
-			<div class="ghost top-bottom-border" id="emp">
-				<ul>
-					<li th:each="n : ${names}">
-						<p th:text="${n}" class="short-important-p">name</p>
-					</li>
-				</ul>
+		<div>
+			<button class="notsub"
+					onclick="toggles('employee-section')"
+			>EMPLOYEES SECTION</button>
+			<div class="ghost top-bottom-border" id="employee-section">
+				<!-- the content will be created by javascript -->
 			</div>
 		</div>
-		<br>
 	</body>
 </html>
