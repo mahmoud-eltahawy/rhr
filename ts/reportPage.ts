@@ -94,7 +94,7 @@ async function fetchCurrentShiftId() {
     return fetch("/fetch/report/current/shift/id")
       .then(res => res.json())
   } catch(err){
-
+    console.log(err)
   }
 }
 
@@ -213,23 +213,20 @@ function problemsListModule(problems : problemsMap){
         //mnpdm => machine number to list of problem details map
         for(const [category,mnpdm] of problems){
           const mnpd  = new Map(Object.entries(mnpdm))
-          if(category.name){
-            lis += addModuleHeader(category,mnpd)
-          }
+          lis += addModuleHeader(category,mnpd)
         }
         return lis
       })()}
     </ul>
     `
 }
-async function fetchCategoriesMachineNumbersMap():Promise<Map<string,string>| null> {
+async function fetchCategoriesMachineNumbersMap():Promise<Map<string,string>| undefined> {
   try{
     return new Map(Object.entries
         (await fetch("/fetch/report/categories/numbers/problems/mapping")
         .then(res => res.json())))
   } catch(err){
     console.log(err)
-    return new Map()
   }
 }
 async function parseKeyOfcategoriesMachineNumbersMap() {
@@ -239,17 +236,17 @@ async function parseKeyOfcategoriesMachineNumbersMap() {
     if(stringMap){
       stringMap.forEach((v,k) => result.set(JSON.parse(k),JSON.parse(v)))
     }
-    console.log(result)
     return result
   } catch(err){
     console.log(err)
-    return new Map()
   }
 }
 async function addProblemsList(){
   try{
-    const problems :problemsMap = await parseKeyOfcategoriesMachineNumbersMap()
-    document.getElementById("problems-section")!.innerHTML += problemsListModule(problems)
+    const problems = await parseKeyOfcategoriesMachineNumbersMap()
+    if(problems){
+      document.getElementById("problems-section")!.innerHTML += problemsListModule(problems)
+    }
   } catch(err){
     console.log(err)
   }
