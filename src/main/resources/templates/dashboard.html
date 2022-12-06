@@ -1,33 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>last week summary</title>
-  <link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
-  <link rel="stylesheet" href="../static/css/dashboard.css" th:href="@{/css/dashboard.css}">
+  <link rel="stylesheet" href="/css/basicStyle.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
 <div class="box-container">
 	<div class="inner-box">
-		<a href="commingSoon.html" th:href="@{/show/}"><button class="dashboard-btn">Search</button></a>
+		<a href="/search"><button class="dashboard-btn">Search</button></a>
 	</div>
 	<div class="inner-box">
-		<a href="commingSoon.html" th:href="@{/report/}"><button class="dashboard-btn">Report</button></a>
+		<a href="/report"><button class="dashboard-btn">Report</button></a>
 	</div>
 	<div class="inner-box">
-		<a href="commingSoon.html" th:href="@{/show/last/week}"><button class="dashboard-btn">Last Week</button></a>
+		<a href="/show/last/week"><button class="dashboard-btn">Last Week</button></a>
 	</div>
 	<div class="inner-box">
-		<a href="commingSoon.html" th:href="@{/define/}"><button class="dashboard-btn">Definitions</button></a>
+		<a href="/define/page"><button class="dashboard-btn">Definitions</button></a>
 	</div>
 	<div class="inner-box">
-		<a href="commingSoon.html" th:href="@{/comming}"><button class="dashboard-btn">Other</button></a>
+		<a href="/comming"><button class="dashboard-btn">Other</button></a>
 	</div>
 </div>
 <footer>
 	<p>
-		Created <i class="fa fa-heart"></i> by
-		<b th:text="#{developer.name}">developer name</b>
 		- Read the source code of the project
 		<a target="_blank" href="https://github.com/mahmoud-eltahawy/rhr">in this Github page</a>
 	</p>

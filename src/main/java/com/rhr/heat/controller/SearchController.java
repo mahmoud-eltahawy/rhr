@@ -3,7 +3,6 @@ package com.rhr.heat.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TreeMap;
-import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rhr.heat.entity.Employee;
+import com.rhr.heat.entity.Machine;
 import com.rhr.heat.model.Day;
 import com.rhr.heat.service.SearchService;
 
@@ -25,17 +25,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SearchController {
 	private final SearchService service;
-
-	@GetMapping("/")
-	public ModelAndView searchPage() {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("searchButtons");
-		mv.addObject("names", service.usernames());
-		mv.addObject("pTitles", service.problemsTitles());
-		mv.addObject("machines",service.allmachines());
-		return mv;
-	}
-
 	@GetMapping("/last/week")
 	public ModelAndView lastWeek() {
 		ModelAndView mv = new ModelAndView();
@@ -116,16 +105,17 @@ public class SearchController {
 
 	@PostMapping("/machine")
 	public ModelAndView showMachine(
-			@RequestParam("machine-id")UUID id,
+			@RequestParam("machine")String machine,
 			@RequestParam("page")Integer page) {
 		if(page < 0) {
 			page = 0;
 		}
+		Machine m = service.getMachine(machine).orElseThrow();
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("showMachines");
-		mv.addObject("machine",service.getMachine(id).get());
+		mv.addObject("machine",m);
 		mv.addObject("machineProblems",
-				service.pickLastMachineProblems(id, page));
+				service.pickLastMachineProblems(m.getId(), page));
 		mv.addObject("next",page + 1);
 		mv.addObject("prev",page - 1);
 		return mv;

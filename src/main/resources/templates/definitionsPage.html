@@ -1,70 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>search page</title>
-  <link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
-  <link rel="stylesheet" href="../static/css/searchButtons.css" th:href="@{/css/searchButtons.css}">
-  <script type="text/javascript" src="../static/js/searchButtons.js" th:src="@{/js/searchButtons.js}" async></script>
+    <meta charset="UTF-8">
+    <title>Definitions</title>
+    <link rel="stylesheet" href="/css/basicStyle.css">
+    <link rel="stylesheet" href="/css/searchButtons.css">
+    <script type="text/javascript" src="/js/definitionsPage.js" async></script>
 </head>
 <body>
-
-
-<div class="box-container">
-    <button id="problem-cont-btn"   >PROBLEM </button>
-    <button id="machine-cont-btn"   >MACHINE </button>
-    <button id="category-cont-btn"  >CATEGORY</button>
-</div>
-
-<div class="inner-box" id="action-place"><h1>what you are looking for</h1></div>
-
-<div class="ghost">
-	<div id="problem-cont">
-		<h1>Define Problem</h1>
-		<form action="#" th:action="@{/define/problem}">
-            <label style="display:block;" for="name">Name</label>
-			<input style="display:block;" type="text" id="name" name="name" required="required">
-            <label style="display:block;" for="desc">Description</label>
-            <textarea id="desc" name="desc" rows="4"
-                    cols="50" class="short-important-p"
-                    style="width:95%; margin:5%; color:white; display:block;"></textarea>
-			<button type="submit">Submit</button>
-		</form>
-	</div>
-	<div id="machine-cont">
-		<h1>Add Machine</h1>
-		<form action="#" th:action="@{/define/machine}">
-            <label style="display:block;" for="category">Category Name</label>
-            <select required="required" id="category" name="category">
-                <option th:each="cat : ${cats}" th:text="${cat}" th:value="${cat}">category</option>
-            </select>
-			<button type="submit">Submit </button>
-		</form>
-	</div>
-	<div id="category-cont">
-		<h1>Define Category</h1>
-		<form action="#" th:action="@{/define/category}" method="post">
-            <label style="display:block;" for="name">Category Name</label>
-            <input style="display:block;" type="text" id="name" name="name" required="required">
-            <label style="display:block;" for="hasMachines">Has Machines</label>
-            <select required="required" id="hasMachines" name="hasMachines">
-                <option value="true" selected>YES</option>
-                <option value="false">NO</option>
-            </select>
-            <label style="display:block;" for="hasTemperature">Has Temperature</label>
-            <select required="required" id="hasTemperature" name="hasTemperature">
-                <option value="true" selected>YES</option>
-                <option value="false">NO</option>
-            </select>
-            <button type="submit">Submit </button>
-		</form>
-	</div>
-</div>
-
+    <div class="box-container">
+        <button onclick="defineProblem()" >PROBLEM </button>
+        <button onclick="defineMachine()" >MACHINE </button>
+        <button onclick="defineCategory()">CATEGORY</button>
+    </div>
+    <div class="inner-box" id="action-place"><h1>new definition ??</h1></div>
 <footer>
 	<p>
-		Created <i class="fa fa-heart"></i> by
-		<b th:text="#{developer.name}">developer name</b>
 		- Read the source code of the project
 		<a target="_blank" href="https://github.com/mahmoud-eltahawy/rhr">in this Github page</a>
 	</p>

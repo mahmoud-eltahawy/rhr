@@ -5,6 +5,7 @@
   <title>Employee data</title>
   <link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
   <link rel="stylesheet" href="../static/css/showDays.css" th:href="@{/css/showDays.css}">
+  <script type="text/javascript" src="/js/showDays.js" async></script>
 </head>
 <body>
 <div class="box-container">
@@ -20,22 +21,22 @@
     <div th:unless="${ins.one}==null" class="inner-box" th:object="${ins.one}">
         <h5 th:text="*{shift}">one</h5>
         <h4 th:text="*{date}">date</h4>
-        <a href="#" th:href="@{/show/shift(id=*{id})}"><button class="btn-primary">Go</button></a>
+        <a href="#" th:attr="onclick=|showShift('*{id}')|"><button class="btn-primary">Go</button></a>
     </div>
     <div th:unless="${ins.two}==null" class="inner-box" th:object="${ins.two}">
         <h5 th:text="*{shift}">two</h5>
         <h4 th:text="*{date}">date</h4>
-        <a href="#" th:href="@{/show/shift(id=*{id})}"><button class="btn-primary">Go</button></a>
+        <a href="#" th:attr="onclick=|showShift('*{id}')|"><button class="btn-primary">Go</button></a>
     </div>
     <div th:unless="${ins.three}==null" class="inner-box" th:object="${ins.three}">
         <h5 th:text="*{shift}">three</h5>
         <h4 th:text="*{date}">date</h4>
-        <a href="#" th:href="@{/show/shift(id=*{id})}"><button class="btn-primary">Go</button></a>
+        <a href="#" th:attr="onclick=|showShift('*{id}')|"><button class="btn-primary">Go</button></a>
     </div>
     <div th:unless="${ins.four}==null" class="inner-box" th:object="${ins.four}">
         <h5 th:text="*{shift}">four</h5>
         <h4 th:text="*{date}">date</h4>
-        <a href="#" th:href="@{/show/shift(id=*{id})}"><button class="btn-primary">Go</button></a>
+        <a href="#" th:attr="onclick=|showShift('*{id}')|"><button class="btn-primary">Go</button></a>
     </div>
 </div>
 

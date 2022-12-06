@@ -39,9 +39,9 @@ public class SearchService {
 	private final EmployeeRepo employeeRepo;
 	private final MachineRepo machineRepo;
 	
-	
-	public Optional<Machine> getMachine(UUID id) {
-		return machineRepo.findById(id);
+	public Optional<Machine> getMachine(String machine) {
+		String[] arr = machine.split("-");
+		return machineRepo.findByTheId(arr[0], Integer.parseInt(arr[1]));
 	}
 	
 	public List<Machine> allmachines(){

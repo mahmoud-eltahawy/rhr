@@ -3,13 +3,16 @@ package com.rhr.heat.controller.api;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rhr.heat.entity.topLayer.Shift;
+import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.service.api.ShowService;
 
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ShowController {
 	private final ShowService showService;
+
+	@PostMapping("/shift/id")
+	public UUID getShiftId(
+			@RequestParam("order")String order,
+			@RequestParam("year")Integer year,
+			@RequestParam("month")Integer month,
+			@RequestParam("day")Integer day) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, year);
+		//TODO? why !!!!
+		cal.set(Calendar.MONTH, month - 1); 
+		cal.set(Calendar.DAY_OF_MONTH, day);
+		Date date = new Date(cal.getTime().getTime());
+		return showService.getShiftId(date, ShiftOrder.valueOf(order));
+	}
 
 	@GetMapping("/shift/after")
 	public List<Shift> newerShifts(@RequestParam("year")Integer year,

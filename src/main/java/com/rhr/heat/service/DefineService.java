@@ -11,7 +11,6 @@ import com.rhr.heat.dao.ProblemRepo;
 import com.rhr.heat.entity.Category;
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Problem;
-import com.rhr.heat.enums.Pushable;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,16 +37,20 @@ public class DefineService{
         return false;
     }
 
-    public Boolean addNewMachine(String catName){
-        int len = machineRepo.findByCatagory(catName).size();
+    public Integer addNewMachine(String catName){
+        Integer len = machineRepo.findByCatagory(catName).size();
         if(machineRepo.save(new Machine(UUID.randomUUID(),
                 new Category(catName), ++len)).isEmpty()){
-            return true;
+            return len;
         }
-        return false;
+        return null;
     }
 
-    public List<Pushable> addNewProblem(String name,String description){
-        return problemRepo.save(new Problem(name, description));        
+    public Boolean addNewProblem(String name,String description){
+        if(problemRepo.save(new Problem(name, description)).isEmpty()){
+            return true;
+        } else {
+            return false;
+        }
     }    
 }

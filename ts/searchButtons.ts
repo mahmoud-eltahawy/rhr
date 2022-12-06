@@ -22,9 +22,9 @@ function putShift(){
   document.getElementById("action-place")!.innerHTML = `
     <div>
       <h1>insert Date and Order</h1>
-      <form action="/show/shft">
-        <input type="date" name="date" required="required">
-        <select required="required" id="{order}" name="order">
+      <form onsubmit="searchShift(); return false;">
+        <input type="date" id="date-id" required="required">
+        <select required="required" id="order-id">
             <option value="FIRST"  selected>first shift</option>
             <option value="SECOND"         >second shift</option>
             <option value="THIRD"          >third shift</option>
@@ -33,6 +33,25 @@ function putShift(){
       </form>
     </div>
     `
+}
+async function searchShift(){
+  const date = document.getElementById("date-id") as HTMLInputElement
+  const order = document.getElementById("order-id") as HTMLSelectElement
+  const dateArr = date.value.split("-")
+  const year = dateArr[0]
+  const month = dateArr[1]
+  const day = dateArr[2]
+  const formData = new FormData()
+  formData.append("order",order.value)
+  formData.append("year",year)
+  formData.append("month",month)
+  formData.append("day",day)
+  const id = await fetch("/shift/id",
+  {method: 'POST', body:formData})
+  .then(res => res.json())
+  if(id){
+    showShift(id)
+  }
 }
 function putDay(){
   document.getElementById("action-place")!.innerHTML = `
@@ -72,7 +91,7 @@ async function putMachine(){
   	<div>
       <h1>insert Machine Name</h1>
       <form action="/show/machine" method="post">
-                  <select required="required" id="machine-id" name="machine-id">
+                  <select required="required" name="machine">
                   ${await (async ()=> {
                         const jsonMap : Map<category,number[]> = await standard
                         let opts = ""

@@ -1,8 +1,5 @@
 package com.rhr.heat.controller;
 
-import java.sql.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +11,10 @@ public class BinderController {
 	@RequestMapping("/")
 	public String dashboard() {
 		return "dashboard";
+	}
+	@RequestMapping("/search")
+	public String searchPage() {
+		return "searchButtons";
 	}
 	
 	@RequestMapping("/comming")
@@ -29,7 +30,7 @@ public class BinderController {
 		return mv;
 	}
 
-	@RequestMapping("/report/")
+	@RequestMapping("/report")
 	public String reportPage() {
 		return "reportPage";
 	}
@@ -39,13 +40,8 @@ public class BinderController {
 		return "showShift";
 	}
 	
-	@RequestMapping("/show/shft")
-	public String showShift(
-			@RequestParam("date")
-			@DateTimeFormat(pattern = "yyyy-MM-dd")
-			Date date,
-			@RequestParam("order")
-			String order) {
-		return "showShift";
+	@RequestMapping("/define/page")
+	public String definePage() {
+		return "definitionsPage";
 	}
 }

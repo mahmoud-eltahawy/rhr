@@ -20,7 +20,7 @@ public class ProblemProfileRowMapper implements RowMapper<ProblemProfile> {
 				ShiftOrder.valueOf(rs.getString("shift_order")),
 				rs.getTime("begin_time"),
 				rs.getTime("end_time"),
-				rs.getString("category")+ext);
+				rs.getString("cat_name")+ext);
 	}
 }
 

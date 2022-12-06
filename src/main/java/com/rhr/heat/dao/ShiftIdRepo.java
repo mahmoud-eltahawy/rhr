@@ -43,6 +43,12 @@ public class ShiftIdRepo {
 				new ShiftIdRowMapper(), id).stream().findFirst();
 	}
 	
+	public Optional<UUID> findIdById(Date date,ShiftOrder order) {
+		return jdbcTemplate.queryForList(
+				"SELECT s.id FROM shift s WHERE s.shift_date = ? and s.shift_order = ?",
+				UUID.class, date,order.toString()).stream().findFirst();
+	}
+	
 	public Optional<ShiftId> findById(Date date,ShiftOrder order) {
 		return jdbcTemplate.query(
 				"SELECT s.* FROM shift s WHERE s.shift_date = ? and s.shift_order = ?",

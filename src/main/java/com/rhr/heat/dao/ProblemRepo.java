@@ -61,7 +61,7 @@ public class ProblemRepo {
 	public List<ProblemProfile> findProblemsProfiles(String pr,Integer begin,Integer end){
 		return jdbcTemplate.query("""
 				SELECT s.shift_date ,s.shift_order,
-				m.category, m.num, pd.begin_time ,pd.end_time
+				m.cat_name, m.num, pd.begin_time ,pd.end_time
 				FROM problem p JOIN problem_detail_problem pdp
 				ON p.title = pdp.problem_title
 				JOIN problem_detail pd
