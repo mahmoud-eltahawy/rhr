@@ -2,7 +2,6 @@ package com.rhr.heat.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Optional;
 import java.util.TreeMap;
 import java.util.UUID;
 
@@ -16,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rhr.heat.entity.Employee;
-import com.rhr.heat.entity.topLayer.Shift;
-import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.model.Day;
-import com.rhr.heat.service.SearchControllerDealer;
 import com.rhr.heat.service.SearchService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SearchController {
 	private final SearchService service;
-	private final SearchControllerDealer dealer;
 
 	@GetMapping("/")
 	public ModelAndView searchPage() {
@@ -49,49 +44,6 @@ public class SearchController {
 		mv.addObject("next", 1);
 		mv.addObject("prev", 0);
 		mv.addObject("week",service.pickLastWeeks(0));
-		return mv;
-	}
-
-	@GetMapping("/shift")
-	public ModelAndView showShift(@RequestParam("id")UUID id) {
-		ModelAndView mv;
-		Optional<Shift> s =  service.getShift(id);
-		if(s.isPresent()) {
-			mv = new ModelAndView();
-			Shift shift =  s.get();
-			
-			mv.setViewName("showShift");
-			mv = dealer.completeShift(mv, shift);
-			
-			
-		} else {
-			mv = new ModelAndView("redirect:/myerror");
-			mv.addObject("message","this shift is not recorded");
-		}
-		return mv;
-	}
-	
-	@GetMapping("/shft")
-	public ModelAndView showShift(
-			@RequestParam("date")
-			@DateTimeFormat(pattern = "yyyy-MM-dd")
-			Date date,
-			@RequestParam("order")
-			String order) {
-		ModelAndView mv;
-		Optional<Shift> s =  service.getShift(new java.sql.Date(date.getTime()),
-				ShiftOrder.valueOf(order));
-		if(s.isPresent()) {
-			mv = new ModelAndView();
-			Shift shift =  s.get();
-			
-			mv.setViewName("showShift");
-			mv = dealer.completeShift(mv, shift);
-			
-		} else {
-			mv = new ModelAndView("redirect:/myerror");
-			mv.addObject("message","this shift is not recorded");
-		}
 		return mv;
 	}
 

@@ -1,3 +1,12 @@
+const shiftIdId = (function(){
+  const formDate = new FormData()
+  const id = localStorage.getItem("shiftIdId")
+  if(id){
+    formDate.append("id",id)
+  }
+  localStorage.removeItem("shiftIdId")
+  return formDate
+})()
 class Problems{
   public async add(){
     try{
@@ -13,8 +22,8 @@ class Problems{
   async #fetch():Promise<Map<string,string>| undefined> {
     try{
       return new Map(Object.entries
-          (await fetch("/fetch/report/categories/numbers/problems/mapping")
-          .then(res => res.json())))
+          (await fetch("/fetch/shift/categories/numbers/problems/mapping"
+          ,{method: 'POST', body:shiftIdId}).then(res => res.json())))
     } catch(err){
       console.log(err)
     }
@@ -151,8 +160,8 @@ class Problems{
 class Flows {
   public async add(){
     try{
-      const flows :flow[] = await fetch("/fetch/report/current/flow")
-                .then(res => res.json())
+      const flows :flow[] = await fetch("/fetch/shift/flow"
+          ,{method: 'POST', body:shiftIdId}).then(res => res.json())
       document.getElementById("flow-section")!.innerHTML += this.#module(flows)
     } catch(err){
       console.log(err)
@@ -213,8 +222,8 @@ class Flows {
 class Temps{
   public async add(){
     try{
-      const temps :[temp] = await fetch("/fetch/report/current/temps")
-                .then(res => res.json())
+      const temps :[temp] = await fetch("/fetch/shift/temps",
+      {method: 'POST', body: shiftIdId}).then(res => res.json())
       document.getElementById("temp-section")!.innerHTML += this.#module(temps)
     } catch(err){
       console.log(err)
@@ -254,8 +263,8 @@ class Temps{
 class Notes{
   public async add(){
     try{
-      const notes :note[] = await fetch("/fetch/report/current/notes")
-                .then(res => res.json())
+      const notes :note[] = await fetch("/fetch/shift/notes",
+      {method: 'POST', body: shiftIdId}).then(res => res.json())
       document.getElementById("note-section")!.innerHTML += this.#module(notes)
     } catch(err){
       console.log(err)
@@ -289,8 +298,8 @@ class Notes{
 class Emps{
   public async add(){
     try{
-      const empsNames :[empName] = await fetch("/fetch/report/current/emps/names")
-        .then(res => res.json())
+      const empsNames :[empName] = await fetch("/fetch/shift/emps/names",
+      {method: 'POST', body: shiftIdId}).then(res => res.json())
       document.getElementById("employee-section")!
         .innerHTML += this.#module(empsNames)
     } catch(err){
@@ -348,8 +357,8 @@ class Shifts{
 
   async #fetch() {
     try{
-      return fetch("/fetch/report/current/shift/id")
-        .then(res => res.json())
+      return fetch("/fetch/shift/id",
+      {method: 'POST', body:shiftIdId}).then(res => res.json())
     } catch(err){
       console.log(err)
     }

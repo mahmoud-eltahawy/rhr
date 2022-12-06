@@ -5,6 +5,7 @@
   <title>last week summary</title>
   <link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
   <link rel="stylesheet" href="../static/css/showDays.css" th:href="@{/css/showDays.css}">
+  <script type="text/javascript" src="/js/showDays.js" async></script>
 </head>
 <body>
 <h1>Last Week Template</h1>
@@ -34,15 +35,15 @@
 	<div class="box-container">
 		<div th:unless="${ins.value.one}==null" class="inner-box" th:object="${ins.value.one}">
 			<h5 th:text="*{shift}">one</h5>
-			<a href="#" th:href="@{/show/shift(id=*{id})}"><button class="btn-primary">Go</button></a>
+			<a href="#" th:attr="onclick=|showShift('*{id}')|"><button class="btn-primary">Go</button></a>
 		</div>
 		<div th:unless="${ins.value.two}==null" class="inner-box" th:object="${ins.value.two}">
 			<h5 th:text="*{shift}">two</h5>
-			<a href="#" th:href="@{/show/shift(id=*{id})}"><button class="btn-primary">Go</button></a>
+			<a href="#"  th:attr="onclick=|showShift('*{id}')|"><button class="btn-primary">Go</button></a>
 		</div>
 		<div th:unless="${ins.value.three}==null" class="inner-box" th:object="${ins.value.three}">
 			<h5 th:text="*{shift}">three</h5>
-			<a href="#" th:href="@{/show/shift(id=*{id})}"><button class="btn-primary">Go</button></a>
+			<a href="#"  th:attr="onclick=|showShift('*{id}')|"><button class="btn-primary">Go</button></a>
 		</div>
 	</div>
 </div>

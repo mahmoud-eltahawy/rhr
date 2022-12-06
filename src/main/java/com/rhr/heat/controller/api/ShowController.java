@@ -25,7 +25,8 @@ public class ShowController {
 			@RequestParam("day")Integer day) {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, year);
-		cal.set(Calendar.MONTH, month - 1); //why? !!!!
+		//TODO? why !!!!
+		cal.set(Calendar.MONTH, month - 1); 
 		cal.set(Calendar.DAY_OF_MONTH, day);
 		Date date = new Date(cal.getTime().getTime());
 		return showService.shiftsNewerThan(date);
