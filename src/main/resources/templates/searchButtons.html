@@ -1,78 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>search page</title>
-  <link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
-  <link rel="stylesheet" href="../static/css/searchButtons.css" th:href="@{/css/searchButtons.css}">
-  <script type="text/javascript" src="../static/js/searchButtons.js" th:src="@{/js/searchButtons.js}" async></script>
+  <link rel="stylesheet" href="/css/basicStyle.css">
+  <link rel="stylesheet" href="/css/searchButtons.css">
+  <script type="text/javascript" src="/js/searchButtons.js" async></script>
 </head>
 <body>
 
-
 <div class="box-container">
-    <button id="shift-cont-btn"   >SHIFT     </button>
-    <button id="day-cont-btn"     >DAY       </button>
-    <button id="problem-cont-btn" >PROBLEM !!</button>
-    <button id="machine-cont-btn" >MACHINE   </button>
-    <button id="employee-cont-btn">EMPLOYEE  </button>
+    <button onclick="putShift()"   >SHIFT     </button>
+    <button onclick="putDay()"     >DAY       </button>
+    <button onclick="putProblem()" >PROBLEM !!</button>
+    <button onclick="putMachine()" >MACHINE   </button>
+    <button onclick="putEmployee()">EMPLOYEE  </button>
 </div>
 
 <div class="inner-box" id="action-place"><h1>what you are looking for</h1></div>
-
-<div class="ghost">
-	<div id="shift-cont">
-		<h1>insert Date and Order</h1>
-		<form action="#" th:action="@{/show/shft}">
-			<input type="date" id="{date}" name="date" required="required">
-            <select required="required" id="{order}" name="order">
-                <option value="FIRST"  selected>first shift</option>
-                <option value="SECOND"         >second shift</option>
-                <option value="THIRD"          >third shift</option>
-            </select>
-			<button type="submit">Submit</button>
-		</form>
-	</div>
-	<div id="day-cont">
-		<h1>insert Date</h1>
-		<form action="#" th:action="@{/show/day}">
-            <input type="date" id="{date}" name="date" required="required">
-			<button type="submit">Submit </button>
-		</form>
-	</div>
-	<div id="problem-cont">
-		<h1>insert Problem Name</h1>
-		<form action="#" th:action="@{/show/problem}" method="post">
-            <select required="required" id="problem-title" name="problem-title">
-                <option th:each="t: ${pTitles}" th:value="${t}" th:text="${t}">title</option>
-            </select>
-            <input type="hidden" id="page" name="page" value="0">
-            <button type="submit">Submit </button>
-		</form>
-	</div>
-	<div id="machine-cont">
-		<h1>insert Machine Name</h1>
-		<form action="#" th:action="@{/show/machine}" method="post">
-                <select required="required" id="machine-id" name="machine-id">
-                    <option th:each="m: ${machines}" th:value="${m.id}" th:text="${m.category.name}+'-'+${m.number}">machine</option>
-                </select>
-                <input type="hidden" id="page" name="page" value="0">
-                <button type="submit">Submit </button>
-		</form>
-    </div>
-    <div id="employee-cont">
-        <h1>insert username</h1>
-        <form action="#" th:action="@{/show/emp}" method="post">
-            <select required="required" id="username" name="username">
-                <option th:each="n : ${names}" th:value="${n}" th:text="${n}"> username</option>
-            </select>
-            <input type="hidden" name="month" value="0">
-            <button type="submit">Submit </button>
-            </div>
-        </form>
-    </div>
-</div>
-
 <footer>
 	<p>
 		Created <i class="fa fa-heart"></i> by
