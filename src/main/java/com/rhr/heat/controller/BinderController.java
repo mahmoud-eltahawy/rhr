@@ -16,12 +16,10 @@ public class BinderController {
 	public String searchPage() {
 		return "searchButtons";
 	}
-	
 	@RequestMapping("/comming")
 	public String commingSoon() {
 		return "commingSoon";
 	}
-	
 	@RequestMapping("/myerror")
 	public ModelAndView error(@RequestParam("message")String message) {
 		ModelAndView mv = new ModelAndView();
@@ -29,19 +27,20 @@ public class BinderController {
 		mv.addObject("message",message);
 		return mv;
 	}
-
 	@RequestMapping("/report")
 	public String reportPage() {
 		return "reportPage";
 	}
-
 	@RequestMapping("/show/shift")
 	public String showShift() {
 		return "showShift";
 	}
-	
 	@RequestMapping("/define/page")
 	public String definePage() {
 		return "definitionsPage";
+	}
+	@RequestMapping("/show/last/week")
+	public String lastWeek() {
+		return "showDays";
 	}
 }

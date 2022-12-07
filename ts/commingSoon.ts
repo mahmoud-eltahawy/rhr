@@ -1,5 +1,5 @@
 
-const countDownDate : number = new Date("Nov 30, 2022 00:00:00").getTime()
+const countDownDate : number = new Date("Dec 30, 2022 00:00:00").getTime()
 const x : number = setInterval(function() {
   const distance : number = countDownDate - new Date().getTime()
 

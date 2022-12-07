@@ -1,69 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>last week summary</title>
-  <link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
-  <link rel="stylesheet" href="../static/css/showDays.css" th:href="@{/css/showDays.css}">
+  <link rel="stylesheet" href="/css/basicStyle.css">
+  <link rel="stylesheet" href="/css/showDays.css">
   <script type="text/javascript" src="/js/showDays.js" async></script>
+  <script type="text/javascript" src="/js/lastWeek.js" async></script>
 </head>
 <body>
-<h1>Last Week Template</h1>
-
-<div class="box-container">
-	<div class="inner-box">
-		<a href="#" th:href="@{/show/week(week=${next})}"><button class="btn-primary">Go to older</button></a>
-	</div>
-	<div class="inner-box">
-		<a href="#" th:href="@{/}"><button class="btn-primary">Go to Home</button></a>
-	</div>
-	<div class="inner-box">
-		<a href="#" th:href="@{/show/week(week=${prev})}"><button class="btn-primary">Go to newer</button></a>
-	</div>
+<div class="box-container" id="top-bar">
+	<!--content will be added by javascript-->
 </div>
 
-<div class="top-bottom-border" th:each="ins :${week}">
-	<div th:unless="${ins.value.one}==null">
-		<h4 th:text="${ins.value.one.date}">date</h4>
-	</div>
-	<div th:if="${ins.value.one}==null AND ${ins.value.two}!=null">
-		<h4 th:text="${ins.value.two.date}">date</h4>
-	</div>
-	<div th:if="${ins.value.one}==null AND ${ins.value.two}==null AND ${ins.value.three}!=null">
-		<h4 th:text="${ins.value.three.date}">date</h4>
-	</div>
-	<div class="box-container">
-		<div th:unless="${ins.value.one}==null" class="inner-box" th:object="${ins.value.one}">
-			<h5 th:text="*{shift}">one</h5>
-			<a href="#" th:attr="onclick=|showShift('*{id}')|"><button class="btn-primary">Go</button></a>
-		</div>
-		<div th:unless="${ins.value.two}==null" class="inner-box" th:object="${ins.value.two}">
-			<h5 th:text="*{shift}">two</h5>
-			<a href="#"  th:attr="onclick=|showShift('*{id}')|"><button class="btn-primary">Go</button></a>
-		</div>
-		<div th:unless="${ins.value.three}==null" class="inner-box" th:object="${ins.value.three}">
-			<h5 th:text="*{shift}">three</h5>
-			<a href="#"  th:attr="onclick=|showShift('*{id}')|"><button class="btn-primary">Go</button></a>
-		</div>
-	</div>
+<div class="top-bottom-border" id="core-content">
+	<!--content will be added by javascript-->
 </div>
 
-<div class="box-container">
-	<div class="inner-box">
-		<a href="#" th:href="@{/show/week(week=${next})}"><button class="btn-primary">Go to older</button></a>
-	</div>
-	<div class="inner-box">
-		<a href="#" th:href="@{/comming}"><button class="btn-primary">Go to Home</button></a>
-	</div>
-	<div class="inner-box">
-		<a href="#" th:href="@{/show/week(week=${prev})}"><button class="btn-primary">Go to newer</button></a>
-	</div>
+<div class="box-container" id="bottom-bar">
+	<!--content will be added by javascript-->
 </div>
 
 <footer>
 	<p>
-		Created <i class="fa fa-heart"></i> by
-		<b th:text="#{developer.name}">developer name</b>
 		- Read the source code of the project
 		<a target="_blank" href="https://github.com/mahmoud-eltahawy/rhr">in this Github page</a>
 	</p>

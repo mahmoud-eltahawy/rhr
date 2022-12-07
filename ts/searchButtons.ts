@@ -57,12 +57,21 @@ function putDay(){
   document.getElementById("action-place")!.innerHTML = `
       <div>
         <h1>insert Date</h1>
-        <form action="/show/day">
-                <input type="date" name="date" required="required">
+        <form onsubmit="searchDay(); return false;">
+                <input type="date" id="date-id" required="required">
           <button type="submit">Submit</button>
         </form>
       </div>
     `
+}
+
+function searchDay(){
+  const dateInput = document.getElementById("date-id") as HTMLInputElement
+  const arr = dateInput.value.split("-")
+  localStorage.setItem("target-date-year" ,arr[0])
+  localStorage.setItem("target-date-month",arr[1])
+  localStorage.setItem("target-date-day"  ,arr[2])
+  location.pathname = "/show/last/week"
 }
 async function putProblem(){
   document.getElementById("action-place")!.innerHTML = `
@@ -114,8 +123,8 @@ async function putEmployee(){
   document.getElementById("action-place")!.innerHTML = `
     <div>
         <h1>insert username</h1>
-        <form action="/show/emp" method="post">
-            <select required="required" id="username" name="username">
+        <form onsubmit="searchEmployee(); return false;">
+            <select required="required" id="username-id">
             ${await (async ()=> {
                   const names = await emps
                   let opts = ""
@@ -125,10 +134,15 @@ async function putEmployee(){
                   return opts;
               })()}
             </select>
-            <input type="hidden" name="month" value="0">
             <button type="submit">Submit </button>
             </div>
         </form>
     </div>
     `
+}
+
+function searchEmployee(){
+  const nameInput = document.getElementById("username-id") as HTMLSelectElement
+  localStorage.setItem("target-emp",nameInput.value)
+  location.pathname = "/show/last/week"
 }

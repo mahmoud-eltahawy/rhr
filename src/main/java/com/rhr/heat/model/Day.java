@@ -1,6 +1,7 @@
 package com.rhr.heat.model;
 
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
@@ -18,7 +19,7 @@ public class Day {
 	private ShiftId two;
 	private ShiftId three;
 	
-	public static TreeMap<Date, Day> getDays(List<ShiftId> shifts){
+	public static TreeMap<String, Day> getDays(List<ShiftId> shifts){
 		TreeMap<Date, Day> days = new TreeMap<Date,Day>(Collections.reverseOrder());
 		for (ShiftId shift : shifts) {
 			if(days.get(shift.getDate()) == null) {
@@ -43,6 +44,27 @@ public class Day {
 				days.put(shift.getDate(), day);
 			}
 		}
-		return days;
+		TreeMap<String, Day> result = new TreeMap<>(Collections.reverseOrder());
+		days.forEach((k,v) -> {
+			result.put(stringifyDate(k), v);
+		});
+		return result;
+	}
+	private static String stringifyDate(Date date){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		Integer year =  cal.get(Calendar.YEAR);
+		Integer month= cal.get(Calendar.MONTH);
+		Integer day =  cal.get(Calendar.DAY_OF_MONTH);
+		String smonth = month.toString();
+		String sday = day.toString();
+		if(smonth.length() == 1){
+			smonth = "0"+ smonth;
+		}
+		if(sday.length() == 1){
+			sday = "0"+ sday;
+		}
+		return year.toString()+":"+smonth+":"+sday;
 	}
 }
+

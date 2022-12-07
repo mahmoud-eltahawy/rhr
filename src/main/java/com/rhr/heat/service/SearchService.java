@@ -24,7 +24,6 @@ import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.topLayer.Shift;
 import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.model.Day;
-import com.rhr.heat.model.EmpSect;
 import com.rhr.heat.model.MachineProfile;
 import com.rhr.heat.model.ProblemProfile;
 
@@ -82,8 +81,12 @@ public class SearchService {
 		return mp;
 	}
 	
-	public TreeMap<Date ,Day> pickLastWeeks(Integer weekNum){
+	public TreeMap<String ,Day> pickLastWeeks(Integer weekNum){
 		return Day.getDays(shiftIdRepo.findFromTo(weekNum * 21, 21));
+	}
+	
+	public TreeMap<String ,Day> pickLastEmployeeSections(String username,Integer num){
+		return Day.getDays(employeeRepo.findHisLastShifts(username, num * 5, 5));
 	}
 	
 	public List<ProblemProfile> pickLastProblems(String problem,Integer problemNum){
@@ -94,7 +97,7 @@ public class SearchService {
 		return problemRepo.findByTitle(title).get();
 	}
 	
-	public TreeMap<Date, Day> findDay(Date date) {
+	public TreeMap<String, Day> findDay(Date date) {
 		List<ShiftId> shifts = shiftIdRepo.findAll(date);
 		if(!shifts.isEmpty()) {
 			return Day.getDays(shifts);
@@ -105,10 +108,6 @@ public class SearchService {
 	
 	public List<MachineProfile> pickLastMachineProblems(UUID id,Integer num){
 		return  problemRepo.findMachinesProfiles(id, num * 7, 7);
-	}
-	
-	public List<EmpSect> pickLastEmployeeSections(String username,Integer num){
-		return EmpSect.days(employeeRepo.findHisLastShifts(username, num * 16, 16));
 	}
 	
 	public Optional<Employee> getEmployee(String username) {

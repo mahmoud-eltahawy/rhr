@@ -2,12 +2,12 @@
 <html>
   <head>
     <title>ERROR</title>
-    <link rel="stylesheet" href="../static/css/basicStyle.css" th:href="@{/css/basicStyle.css}">
-    <link rel="stylesheet" href="../static/css/errorPage.css" th:href="@{/css/errorPage.css}">
+    <link rel="stylesheet" href="/css/basicStyle.css">
+    <link rel="stylesheet" href="/css/errorPage.css">
   </head>
   <body>
-    <h1><span th:text="${message}?:'Unexpected Error'" >Error</span><b>:(</b></h1>
-    <h1><a href="#" th:href="@{/}"><button>HOME</button></a></h1>
+    <h1>Unexpected Error :(</h1>
+    <a href="/"><button>HOME</button></a>
     <div class="loading">
       <div class="gears">
         <div class="gear one">
