@@ -9,6 +9,14 @@ import java.util.Calendar;
 import com.rhr.heat.enums.ShiftOrder;
 
 public class GF {
+	public static java.util.Date getDate(Integer year,Integer month, Integer day){
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, year);
+		//TODO:  why i should substract one !!!!
+		cal.set(Calendar.MONTH, month - 1);
+		cal.set(Calendar.DAY_OF_MONTH, day);
+		return cal.getTime();
+	}
 	public static Boolean equals(Time one,Time two) {
 		Calendar calOne = Calendar.getInstance();
 		calOne.setTimeInMillis(one.getTime());

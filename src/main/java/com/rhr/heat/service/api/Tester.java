@@ -9,7 +9,7 @@ import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.topLayer.ShiftRepo;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.enums.EmployeePosition;
-import com.rhr.heat.service.Dealer;
+import com.rhr.heat.service.ProblemDetailMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class Tester {
 	private final EmployeeRepo employeeRepo;
 	private final ShiftRepo shiftRepo;
-	private final Dealer commonService;
+	private final ProblemDetailMapper commonService;
 
 	public void insertData() {
 		Employee emp2 = new Employee(UUID.randomUUID(),"mahmoud","gamal","mohammed",EmployeePosition.worker,"mahmoud_gamal","1234");

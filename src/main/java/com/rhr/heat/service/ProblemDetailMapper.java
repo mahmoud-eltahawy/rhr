@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class Dealer {
+public class ProblemDetailMapper {
 	private final MachineRepo machineRepo;
 	private final CategoryRepo categoryRepo;
 	//inputs must be on the same category

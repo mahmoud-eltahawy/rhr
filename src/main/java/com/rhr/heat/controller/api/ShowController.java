@@ -1,7 +1,6 @@
 package com.rhr.heat.controller.api;
 
 import java.sql.Date;
-import java.util.Calendar;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.UUID;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rhr.heat.GF;
 import com.rhr.heat.entity.topLayer.Shift;
 import com.rhr.heat.enums.ShiftOrder;
 import com.rhr.heat.model.Day;
@@ -41,7 +41,7 @@ public class ShowController {
 			@RequestParam("year")Integer year,
 			@RequestParam("month")Integer month,
 			@RequestParam("day")Integer day) {
-		return service.findDay(new Date(getDate(year, month, day).getTime()));
+		return service.findDay(new Date(GF.getDate(year, month, day).getTime()));
 	}
 
 	@PostMapping("/shift/id")
@@ -50,7 +50,7 @@ public class ShowController {
 			@RequestParam("year")Integer year,
 			@RequestParam("month")Integer month,
 			@RequestParam("day")Integer day) {
-		Date date = new Date(getDate(year, month, day).getTime());
+		Date date = new Date(GF.getDate(year, month, day).getTime());
 		return service.getShiftId(date, ShiftOrder.valueOf(order));
 	}
 
@@ -58,7 +58,7 @@ public class ShowController {
 	public List<Shift> newerShifts(@RequestParam("year")Integer year,
 			@RequestParam("month")Integer month,
 			@RequestParam("day")Integer day) {
-		Date date = new Date(getDate(year, month, day).getTime());
+		Date date = new Date(GF.getDate(year, month, day).getTime());
 		return service.shiftsNewerThan(date);
 	}
 
@@ -66,7 +66,7 @@ public class ShowController {
 	public List<Shift> olderShifts(@RequestParam("year")Integer year,
 			@RequestParam("month")Integer month,
 			@RequestParam("day")Integer day) {
-		Date date = new Date(getDate(year, month, day).getTime());
+		Date date = new Date(GF.getDate(year, month, day).getTime());
 		return service.shiftsOlderThan(date);
 	}
 
@@ -74,7 +74,7 @@ public class ShowController {
 	public List<Shift> day(@RequestParam("year")Integer year,
 			@RequestParam("month")Integer month,
 			@RequestParam("day")Integer day) {
-		Date date = new Date(getDate(year, month, day).getTime());
+		Date date = new Date(GF.getDate(year, month, day).getTime());
 		return service.getDay(date);
 	}
 
@@ -83,7 +83,7 @@ public class ShowController {
 			@RequestParam("month")Integer month,
 			@RequestParam("day")Integer day,
 			@RequestParam("order")String order) {
-		Date date = new Date(getDate(year, month, day).getTime());
+		Date date = new Date(GF.getDate(year, month, day).getTime());
 		return service.getShift(date, order);
 	}
 	
@@ -95,17 +95,8 @@ public class ShowController {
 		@RequestParam("nmonth")Integer nmonth,
 		@RequestParam("oday")Integer oday,
 		@RequestParam("nday")Integer nday) {
-		Date older = new Date(getDate(oyear, omonth, oday).getTime());
-		Date newer = new Date(getDate(nyear, nmonth, nday).getTime());
+		Date older = new Date(GF.getDate(oyear, omonth, oday).getTime());
+		Date newer = new Date(GF.getDate(nyear, nmonth, nday).getTime());
 		return service.shiftsBetween(older, newer);
-	}
-
-	private java.util.Date getDate(Integer year,Integer month, Integer day){
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.YEAR, year);
-		//TODO:  why i should substract one !!!!
-		cal.set(Calendar.MONTH, month - 1);
-		cal.set(Calendar.DAY_OF_MONTH, day);
-		return cal.getTime();
 	}
 }

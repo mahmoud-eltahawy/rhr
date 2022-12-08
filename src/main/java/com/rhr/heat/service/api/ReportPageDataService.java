@@ -30,7 +30,7 @@ import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.model.EmployeeName;
-import com.rhr.heat.service.Dealer;
+import com.rhr.heat.service.ProblemDetailMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -46,7 +46,7 @@ public class ReportPageDataService {
     private final EmployeeRepo employeeRepo;
     private final ProblemDetailsRepo problemDetailsRepo;
 	private final TotalFlowRepo totalFlowRepo;
-	private final Dealer dealer;
+	private final ProblemDetailMapper dealer;
 
 	//operations begin
 	public Boolean removeAllEmp() {

@@ -35,6 +35,10 @@ public class BinderController {
 	public String definePage() {
 		return "/html/definitionsPage.html";
 	}
+	@RequestMapping("/io/page")
+	public String ioPage() {
+		return "/html/ioPage.html";
+	}
 	@RequestMapping("/show/last/week")
 	public String lastWeek() {
 		return "/html/showDays.html";
