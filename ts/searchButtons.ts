@@ -73,51 +73,6 @@ function searchDay(){
   localStorage.setItem("target-date-day"  ,arr[2])
   location.pathname = "/show/last/week"
 }
-async function putProblem(){
-  document.getElementById("action-place")!.innerHTML = `
-    <div>
-      <h1>insert Problem Name</h1>
-      <form action="/show/problem" method="post">
-              <select required="required" name="problem-title">
-              ${await (async () => {
-                let opts = ""
-                for(const t of await titles){
-                  opts += `
-                    <option value="${t}">${t}</option>
-                  `
-                }
-                return opts
-              })()}
-              </select>
-              <input type="hidden" id="page" name="page" value="0">
-              <button type="submit">Submit </button>
-      </form>
-    </div>
-    `
-}
-async function putMachine(){
-  document.getElementById("action-place")!.innerHTML = `
-  	<div>
-      <h1>insert Machine Name</h1>
-      <form action="/show/machine" method="post">
-                  <select required="required" name="machine">
-                  ${await (async ()=> {
-                        const jsonMap : Map<category,number[]> = await standard
-                        let opts = ""
-                        jsonMap.forEach((numbers,category) =>{
-                          numbers.forEach(number =>{
-                            opts += `<option value="${category.name}-${number}">${category.name}${number?'-'+number:''}</option>`
-                          })
-                        })
-                        return opts;
-                    })()}
-                  </select>
-                  <input type="hidden" id="page" name="page" value="0">
-                  <button type="submit">Submit </button>
-      </form>
-    </div>
-    `
-}
 
 async function putEmployee(){
   document.getElementById("action-place")!.innerHTML = `

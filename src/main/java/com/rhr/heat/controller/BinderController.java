@@ -2,45 +2,41 @@ package com.rhr.heat.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+
 
 @Controller
 public class BinderController {
 
 	@RequestMapping("/")
 	public String dashboard() {
-		return "dashboard";
+		return "/html/dashboard.html";
 	}
 	@RequestMapping("/search")
 	public String searchPage() {
-		return "searchButtons";
+		return "/html/searchButtons.html";
 	}
 	@RequestMapping("/comming")
 	public String commingSoon() {
-		return "commingSoon";
+		return "/html/commingSoon.html";
 	}
 	@RequestMapping("/myerror")
-	public ModelAndView error(@RequestParam("message")String message) {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("errorPage");
-		mv.addObject("message",message);
-		return mv;
+	public String error() {
+		return "/html/errorPage.html";
 	}
 	@RequestMapping("/report")
 	public String reportPage() {
-		return "reportPage";
+		return "/html/reportPage.html";
 	}
 	@RequestMapping("/show/shift")
 	public String showShift() {
-		return "showShift";
+		return "/html/showShift.html";
 	}
 	@RequestMapping("/define/page")
 	public String definePage() {
-		return "definitionsPage";
+		return "/html/definitionsPage.html";
 	}
 	@RequestMapping("/show/last/week")
 	public String lastWeek() {
-		return "showDays";
+		return "/html/showDays.html";
 	}
 }

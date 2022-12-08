@@ -4,19 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.rhr.heat.dao.rowMappers.MachineProfileRowMapper;
-import com.rhr.heat.dao.rowMappers.ProblemProfileRowMapper;
 import com.rhr.heat.dao.rowMappers.ProblemRowMapper;
-import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Problem;
 import com.rhr.heat.enums.Pushable;
-import com.rhr.heat.model.MachineProfile;
-import com.rhr.heat.model.ProblemProfile;
 
 import lombok.RequiredArgsConstructor;
 
@@ -56,53 +50,6 @@ public class ProblemRepo {
 	public List<String> findAllTitles(){
 		return jdbcTemplate.queryForList(
 				"SELECT p.title FROM problem p",String.class);
-	}
-	
-	public List<ProblemProfile> findProblemsProfiles(String pr,Integer begin,Integer end){
-		return jdbcTemplate.query("""
-				SELECT s.shift_date ,s.shift_order,
-				m.cat_name, m.num, pd.begin_time ,pd.end_time
-				FROM problem p JOIN problem_detail_problem pdp
-				ON p.title = pdp.problem_title
-				JOIN problem_detail pd
-				ON pd.id = pdp.problem_detail_id
-				JOIN shift s on s.id = pd.shift_id
-				JOIN machine m on m.id = pd.machine_id
-				WHERE p.title = ?
-				ORDER BY s.shift_date DESC OFFSET ? LIMIT ?
-				""",new ProblemProfileRowMapper(),pr,begin,end);
-	}
-	
-	public List<MachineProfile> findMachinesProfiles(UUID id,Integer begin,Integer end){
-		return jdbcTemplate.query("""
-				SELECT s.shift_date ,s.shift_order,
-				pd.begin_time ,pd.end_time,pd.id
-				FROM problem_detail pd JOIN shift s
-				on s.id = pd.shift_id
-				JOIN machine m on m.id = pd.machine_id
-				WHERE m.id = ?
-				ORDER BY s.shift_date DESC OFFSET ? LIMIT ?
-				""",new MachineProfileRowMapper(),id,begin,end)
-				.stream().map(c -> { c.setProblems(findProblemDetailProblems(c.getId()));
-					return c;
-				}).collect(Collectors.toList());
-	}
-	
-	public List<MachineProfile> findMachinesProfiles(Machine m,Integer begin,Integer end){
-		return jdbcTemplate.query("""
-				SELECT s.shift_date ,s.shift_order,
-				pd.begin_time ,pd.end_time,pd.id
-				FROM problem_detail pd JOIN shift_problem sp
-				ON sp.problem_id = pd.id
-				JOIN shift_id s ON s.id = sp.shift_id
-				JOIN machine m ON m.id = pd.machine_id
-				WHERE m.catagory = ? and m.num = ?
-				ORDER BY s.shift_date DESC OFFSET ? LIMIT ?
-				""",new MachineProfileRowMapper(),
-				m.getCategory(),m.getNumber(),begin,end)
-				.stream().map(c -> { c.setProblems(findProblemDetailProblems(c.getId()));
-					return c;
-				}).collect(Collectors.toList());
 	}
 	
 	public Optional<Problem> findByTitle(String title) {
