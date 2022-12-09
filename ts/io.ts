@@ -1,5 +1,5 @@
 async function exportEveryShift(){
-  download("AAA.json",JSON.stringify(await fetchEveryShift()))
+  download("everyShift.json",JSON.stringify(await fetchEveryShift()))
 }
 async function fetchEveryShift(){
   return fetch("/io/xall").then(res => res.json())
