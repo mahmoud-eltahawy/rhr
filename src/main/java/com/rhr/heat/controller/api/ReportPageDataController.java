@@ -1,10 +1,11 @@
 package com.rhr.heat.controller.api;
 
 import java.sql.Time;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rhr.heat.entity.Machine;
 import com.rhr.heat.entity.Note;
+import com.rhr.heat.entity.Problem;
 import com.rhr.heat.entity.ProblemDetail;
 import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.Temperature;
@@ -22,6 +24,7 @@ import com.rhr.heat.service.api.ReportPageDataService;
 
 import lombok.RequiredArgsConstructor;
 
+@CrossOrigin(origins = {"http://localhost:1420"})
 @RestController
 @RequestMapping("/fetch/report")
 @RequiredArgsConstructor
@@ -54,12 +57,12 @@ public class ReportPageDataController {
   }
   // Map<Category, Map<machine number, List<Problem Details>>>
   @GetMapping("/categories/numbers/problems/mapping")
-  public Map<String, String> categoiesNumbersProblems(){
+  public Collection<Collection<List<ProblemDetail>>> categoiesNumbersProblems(){
     return	service.categoryNumberProblemMaping();
   }
   // Map<category,number[]>
   @GetMapping("/standard/categories/numbers/mapping")
-  public Map<String, String> standardCategoriesNumbers(){
+  public List<ProblemDetail> standardCategoriesNumbers(){
     return	service.standardCategoriesNumbers();
   }
 
@@ -69,8 +72,8 @@ public class ReportPageDataController {
   }
 
   @GetMapping("/all/problems/titles")
-  public List<String> allProblemsTitles(){
-    return	service.getAllProblemsTitles();
+  public List<Problem> allProblemsTitles(){
+    return service.getAllProblems();
   }
 
   @GetMapping("/current/shift/begin/time")

@@ -2,8 +2,8 @@ package com.rhr.heat.service.api;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -255,13 +255,13 @@ public class ReportPageDataService {
 	//operations end
 
 	//fetch data begin
-    public Map<String, String> categoryNumberProblemMaping(){
-        return dealer.getStringifiedCategoryMachines(problemDetailsRepo
+    public Collection<Collection<List<ProblemDetail>>> categoryNumberProblemMaping(){
+        return dealer.getProblems(problemDetailsRepo
             .findByShiftId(component.getCurrentShift().getId()));
     }
 
-    public Map<String, String> standardCategoriesNumbers(){
-        return dealer.getStringifiedStandardCategoryNums();
+    public List<ProblemDetail> standardCategoriesNumbers(){
+        return dealer.getStandardCategoryNumbers();
     }
 
     public List<String> getAllUserNames(){
@@ -274,8 +274,8 @@ public class ReportPageDataService {
 				.getShift()).getTime() + TimeUnit.HOURS.toMillis(8));
     }
 
-    public List<String> getAllProblemsTitles(){
-		return problemRepo.findAllTitles();
+    public List<Problem> getAllProblems(){
+		return problemRepo.findAll();
     }
 
 	public List<EmployeeName> currentShiftEmployees(){

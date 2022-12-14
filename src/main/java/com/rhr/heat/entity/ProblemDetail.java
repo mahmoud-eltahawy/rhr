@@ -19,6 +19,10 @@ public class ProblemDetail extends Identity {
 	private Time beginTime;
 	private Time endTime;
 
+	public ProblemDetail(String category,Integer number){
+		this.machine = new Machine(category, number);
+	}
+
 	public ProblemDetail(UUID id, UUID shiftId, List<Problem> problems,
 			Machine machine, Time beginTime, Time endTime) {
 		super(id);

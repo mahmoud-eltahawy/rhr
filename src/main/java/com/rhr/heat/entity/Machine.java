@@ -19,6 +19,11 @@ public class Machine {
 	private Category category;
 	private Integer number;
 
+	public Machine(String category, Integer number){
+		this.category = new Category(category);
+		this.number = number;
+	}
+
 	public Machine(Category category, Integer number) {
 		this.category = category;
 		this.number = number;

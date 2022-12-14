@@ -23,6 +23,11 @@ public class CategoryRepo {
 				"SELECT c.* FROM category c",
 				new CategoryRowMapper());
 	}
+    
+	public List<String> findAllNames() {
+		return jdbcTemplate.queryForList(
+				"SELECT c.cat_name FROM category c",String.class);
+	}
 	
 	public Optional<Category> findByName(String name) {
 		return jdbcTemplate.query("""

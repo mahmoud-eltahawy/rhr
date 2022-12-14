@@ -1,14 +1,14 @@
 package com.rhr.heat.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.rhr.heat.dao.CategoryRepo;
 import com.rhr.heat.dao.MachineRepo;
 import com.rhr.heat.entity.Category;
@@ -21,44 +21,6 @@ import lombok.RequiredArgsConstructor;
 public class ProblemDetailMapper {
 	private final MachineRepo machineRepo;
 	private final CategoryRepo categoryRepo;
-	//inputs must be on the same category
-	public Map<Integer, List<ProblemDetail>> getMachinesProblems(List<ProblemDetail> allDetails){
-		Map<Integer, List<ProblemDetail>> mp = new HashMap<>();
-		if(allDetails != null) {
-			for (ProblemDetail pd : allDetails) {
-				Integer num = pd.getMachine().getNumber();
-				if(mp.get(num) == null) {
-					List<ProblemDetail> pds = new ArrayList<>();
-					pds.add(pd);
-					mp.put(num, pds);
-				} else {
-					List<ProblemDetail> pds = mp.get(num);
-					pds.add(pd);
-					mp.put(num, pds);
-				}
-			}
-		}
-		return mp;
-	}
-	
-	public Map<Category, List<ProblemDetail>> getCategoryProblems(List<ProblemDetail> allDetails){
-		Map<Category, List<ProblemDetail>> mp = new HashMap<>();
-		if(allDetails != null) {
-			for (ProblemDetail pd : allDetails) {
-				Category cat = pd.getMachine().getCategory();
-				if(mp.get(cat) == null) {
-					List<ProblemDetail> pds = new ArrayList<>();
-					pds.add(pd);
-					mp.put(cat, pds);
-				} else {
-					List<ProblemDetail> pds = mp.get(cat);
-					pds.add(pd);
-					mp.put(cat, pds);
-				}
-			}
-		}
-		return mp;
-	}
 	
 	public Map<Category,List<Integer>> getStandardCategoryNums(){
 		Map<Category,List<Integer>> result = new HashMap<>();
@@ -67,59 +29,28 @@ public class ProblemDetailMapper {
 		});
 		return result;
 	}
-
-	public Map<String,String> getStringifiedStandardCategoryNums(){
-		Gson gson = new Gson();
-		Map<String,String> result = new HashMap<>();
-		categoryRepo.findAll().forEach(c -> {
-			result.put(gson.toJson(c),
-			 gson.toJson(machineRepo.findCatagoryAllNums(c.getName())));
-		});
-		return result;
-	}
 	
-	public Map<Category, Map<Integer, List<ProblemDetail>>>
-		getCategoryMachines(List<ProblemDetail> allDetails){
-		
-		Map<Category, Map<Integer, List<ProblemDetail>>> result = new HashMap<>();
-		Map<Category, List<ProblemDetail>> cp = getCategoryProblems(allDetails);
-		
-		for (Category cat : cp.keySet()) {
-			result.put(cat, getMachinesProblems(cp.get(cat)));
-		}
-		
-		Map<Category,List<Integer>> standard = getStandardCategoryNums();
-
-		standard.keySet().forEach(category ->{
-			if(result.get(category) == null) {
-				Map<Integer, List<ProblemDetail>> v = new HashMap<>(); 
-				standard.get(category).forEach(i -> {
-					v.put(i, null);
+	public List<ProblemDetail> getStandardCategoryNumbers(){
+		List<ProblemDetail> result = new ArrayList<>();
+		categoryRepo.findAllNames().forEach(category -> {
+			machineRepo.findCatagoryAllNums(category)
+				.forEach(number -> {
+					result.add(new ProblemDetail(category, number));
 				});
-				result.put(category, v);
-			} else {
-				standard.get(category).forEach(num->{
-					if(result.get(category).get(num) ==null) {
-						result.get(category).put(num, null);
-					};
-				});	
-			}
 		});
 		return result;
 	}
-	
-	public Map<String, String>
-		getStringifiedCategoryMachines(List<ProblemDetail> allDetails){
-		Map<Category, Map<Integer, List<ProblemDetail>>> result  
-			=getCategoryMachines(allDetails);
-		Map<String,String> finalResult = new HashMap<>();
 
-		System.out.println(result);
+	public Collection<Collection<List<ProblemDetail>>> getProblems(List<ProblemDetail> allDetails){
+		allDetails.addAll(getStandardCategoryNumbers());
+		return grouper(allDetails);
+	}
 
-		Gson gson = new GsonBuilder().serializeNulls().create();
-		result.forEach((k, v) ->{
-			finalResult.put(gson.toJson(k), gson.toJson(v));
-		});
-		return finalResult;
+
+	public Collection<Collection<List<ProblemDetail>>> grouper(List<ProblemDetail> pds){
+		return pds.stream()
+		.collect(Collectors.groupingBy(p -> p.getMachine().getCategory().getName(),
+		Collectors.groupingBy(p -> p.getMachine().getNumber())))
+			.values().stream().map(m -> m.values()).toList();
 	}
 }
