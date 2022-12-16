@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.rhr.heat.GF;
 import com.rhr.heat.components.ReportComponent;
+import com.rhr.heat.dao.CategoryRepo;
 import com.rhr.heat.dao.EmployeeRepo;
 import com.rhr.heat.dao.MachineRepo;
 import com.rhr.heat.dao.NoteRepo;
@@ -30,7 +31,6 @@ import com.rhr.heat.entity.ShiftId;
 import com.rhr.heat.entity.Temperature;
 import com.rhr.heat.entity.TotalFlow;
 import com.rhr.heat.model.EmployeeName;
-import com.rhr.heat.service.ProblemDetailMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,6 +39,7 @@ import lombok.RequiredArgsConstructor;
 public class ReportPageDataService {
 	private final ShiftTimer timer;
 	private final TemperatureRepo temperatureRepo;
+	private final CategoryRepo categoryRepo;
 	private final NoteRepo noteRepo;
     private final MachineRepo machineRepo;
     private final ProblemRepo problemRepo;
@@ -46,7 +47,6 @@ public class ReportPageDataService {
     private final EmployeeRepo employeeRepo;
     private final ProblemDetailsRepo problemDetailsRepo;
 	private final TotalFlowRepo totalFlowRepo;
-	private final ProblemDetailMapper dealer;
 
 	//operations begin
 	public Boolean removeAllEmp() {
@@ -256,13 +256,24 @@ public class ReportPageDataService {
 
 	//fetch data begin
     public Collection<Collection<List<ProblemDetail>>> categoryNumberProblemMaping(){
-        return dealer.getProblems(problemDetailsRepo
-            .findByShiftId(component.getCurrentShift().getId()));
+		List<ProblemDetail> pds = problemDetailsRepo.findByShiftId(component.getCurrentShift().getId());
+		pds.addAll(getStandardCategoriesNumbers());
+		return pds.stream()
+			.collect(Collectors.groupingBy(p -> p.getMachine().getCategory().getName(),
+			Collectors.groupingBy(p -> p.getMachine().getNumber())))
+			.values().stream().map(m -> m.values()).toList();
     }
-
-    public List<ProblemDetail> standardCategoriesNumbers(){
-        return dealer.getStandardCategoryNumbers();
-    }
+	
+	public List<ProblemDetail> getStandardCategoriesNumbers(){
+		List<ProblemDetail> result = new ArrayList<>();
+		categoryRepo.findAll().forEach(category -> {
+			machineRepo.findCatagoryAllNums(category.getName())
+				.forEach(number -> {
+					result.add(new ProblemDetail(category, number));
+				});
+		});
+		return result;
+	}
 
     public List<String> getAllUserNames(){
         return employeeRepo.findAllUserNames();

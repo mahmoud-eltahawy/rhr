@@ -19,7 +19,7 @@ public class ProblemDetail extends Identity {
 	private Time beginTime;
 	private Time endTime;
 
-	public ProblemDetail(String category,Integer number){
+	public ProblemDetail(Category category,Integer number){
 		this.machine = new Machine(category, number);
 	}
 

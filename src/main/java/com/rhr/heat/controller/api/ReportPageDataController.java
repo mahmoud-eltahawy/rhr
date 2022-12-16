@@ -63,7 +63,7 @@ public class ReportPageDataController {
   // Map<category,number[]>
   @GetMapping("/standard/categories/numbers/mapping")
   public List<ProblemDetail> standardCategoriesNumbers(){
-    return	service.standardCategoriesNumbers();
+    return	service.getStandardCategoriesNumbers();
   }
 
   @GetMapping("/all/usernames")

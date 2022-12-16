@@ -6,10 +6,8 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.rhr.heat.dao.EmployeeRepo;
-import com.rhr.heat.dao.topLayer.ShiftRepo;
 import com.rhr.heat.entity.Employee;
 import com.rhr.heat.enums.EmployeePosition;
-import com.rhr.heat.service.ProblemDetailMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,8 +15,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Tester {
 	private final EmployeeRepo employeeRepo;
-	private final ShiftRepo shiftRepo;
-	private final ProblemDetailMapper commonService;
 
 	public void insertData() {
 		Employee emp2 = new Employee(UUID.randomUUID(),"mahmoud","gamal","mohammed",EmployeePosition.worker,"mahmoud_gamal","1234");
@@ -30,6 +26,6 @@ public class Tester {
 	}
 
 	public Object emp() {
-		return commonService.getCategoryMachines(shiftRepo.findLast(2).get(1).getProblems());
+		return null;
 	}
 }
